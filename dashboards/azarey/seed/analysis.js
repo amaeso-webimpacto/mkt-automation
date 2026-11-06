@@ -43,7 +43,7 @@ exports.MONTH_TEXT = {
   "2026-10": {
     contexto: "",
     analisis: {
-      resumen: "Octubre concentra la promo de fin de verano, la mid season sale y el empuje de la colección FW26. Con 8 campañas B2C y un 19 % menos de envíos que en septiembre, las campañas facturan un 58 % más (4.103 € frente a 2.589 €) porque todas salen a segmentos engaged de 60 o 90 días con exclusiones de no abridores. Los flujos firman su mejor mes del histórico (20.621 €), con Welcome Series como motor (83 % del revenue de flujos).",
+      resumen: "Octubre concentra la promo de fin de verano, la mid season sale y el empuje de la colección FW26. Con 8 campañas B2C y un 19 % menos de envíos que en septiembre, las campañas facturan un 58 % más (4.103 € frente a 2.589 €) porque todas salen a segmentos engaged de 60 o 90 días con exclusiones de no abridores. Los flujos firman su mejor mes del histórico (20.621 €), con Welcome Series como motor (83 % del revenue de flujos). En Shopify, el email aporta 6.301 € de 32.505 € de venta neta: un peso del 19,4 %, el máximo del histórico (15,5 % en mayo de 2026 y 7,2 % en octubre de 2025).",
       funciono: [
         "**La segmentación engaged es ya el estándar y funciona.** Las 8 campañas B2C salen a «D2C_Engaged 60/90 días» + «Suscriptores nuevos sin compra (<30d)», excluyendo «No abridores más de 10 envíos», «Never engaged» y «Compradores últimos 7D». OR medio 48,2 % (42,1 % en septiembre) y 0,052 €/destinatario, el doble que en septiembre (0,026 €).",
         "**«Promo fin verano 02.10» es el mejor envío del mes.** 16 pedidos, 794 €, CTR 7,1 % y CTOR 14,6 %. Una oferta concreta mueve más que la novedad: su repetición a las 48 h («Últimas 48h») mantiene OR del 50,8 % pero baja a 7 pedidos.",

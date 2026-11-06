@@ -37,3 +37,6 @@ exports.FLOWS = {
 // Perfiles tomados el día de actualización (06/11/2026). Activos = recuento de perfiles de correo
 // (perfiles activos de Klaviyo); Enviamos = destinatarios de la última campaña B2C del mes según la interfaz.
 exports.BBDD = {total:39173, activos:19187, suscritos:21935, enviamos:9526};
+
+// Facilitado a mano el 06/11/2026: ingresos atribuidos a Klaviyo en Shopify (último clic no directo) y venta neta del mes.
+exports.SHOPIFY = {rev:6300.61, ventaNeta:32505};

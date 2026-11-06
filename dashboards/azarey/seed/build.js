@@ -58,9 +58,9 @@ const docs = H.MONTHS.map(([key, label, shopifyRev, ventaNeta]) => {
 
 const octFlows = {};
 Object.entries(OCT.FLOWS).forEach(([id, d]) => { octFlows[id] = toFlowEntry(d); });
-docs.push(buildMonth(OCT_KEY, OCT_LABEL, null, null, OCT.BBDD, octCampaigns, octFlows, {
+docs.push(buildMonth(OCT_KEY, OCT_LABEL, OCT.SHOPIFY.rev, OCT.SHOPIFY.ventaNeta, OCT.BBDD, octCampaigns, octFlows, {
   klaviyo: "Conector Klaviyo-Azarey-todo, 06/11/2026 (" + SOURCE_KLAVIYO + ")",
-  shopify: "Pendiente. Venta neta: dato manual. Ingresos canal email: Shopify de Azarey, último clic no directo (sin conectar)",
+  shopify: "Dato manual facilitado el 06/11/2026: ingresos atribuidos a Klaviyo en Shopify (último clic no directo) y venta neta del mes",
   bbdd: "Klaviyo el día de actualización (06/11/2026). Activos: recuento de perfiles de correo. Enviamos: última campaña B2C del mes (27.10)"
 }));
 
