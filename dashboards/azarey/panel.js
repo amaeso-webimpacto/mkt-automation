@@ -24,6 +24,7 @@
   const HEALTH = { rpr: [2, 40], or: [0.45, 25], cr: [0.04, 25], vol: [500, 10] };
   const HEALTH_LEVELS = [[70, "good", "Excelente"], [50, "ok", "Sano"], [30, "warn", "A vigilar"], [0, "bad", "Crítico"]];
   const PRIORITY_CLASS = { alta: "bad", media: "warn", baja: "ok" };
+  const DEFAULT_FLOWS_TO_CREATE = ["Sunset de inactivos para proteger la entregabilidad", "Segunda compra a 20-30 días", "Aviso de bajada de precio para quien vio o añadió al carrito"];
   const STRATEGY_BLOCKS = [["campanas", "Campañas"], ["flujos", "Flujos"], ["segmentacion", "Segmentación"], ["captacion", "Captación"]];
 
   /* ---------- Estado ---------- */
@@ -526,7 +527,8 @@
     if (pv && pv.agg.recipients >= 500 && pv.agg.cr < 0.02) opps.push(["media", "Exprimir «Recordatorio producto visto»", fInt(pv.agg.recipients) + " envíos y conversión del " + fPct(pv.agg.cr) + ". Añadir un segundo email con escasez y producto relacionado."]);
     const ty = find("thank");
     if (ty && ty.agg.or >= 0.40) opps.push(["media", "Convertir Customer Thank You en recompra", "OR del " + fPct(ty.agg.or, 1) + ". Añadir reseña y cross-sell, y enlazar con un flujo de segunda compra a 20-30 días."]);
-    opps.push(["media", "Flujos por crear", "Sunset de inactivos para proteger la entregabilidad, segunda compra a 20-30 días y aviso de bajada de precio para quien vio o añadió al carrito."]);
+    const toCreate = (state.config && Array.isArray(state.config.flujosPorCrear)) ? state.config.flujosPorCrear : DEFAULT_FLOWS_TO_CREATE;
+    if (toCreate.length) opps.push(["media", "Flujos por crear", toCreate.join(" · ")]);
     $("flow-opps").innerHTML = opps.map(([pri, title, body]) =>
       '<article class="opp"><div class="opp__head">' + esc(title) + '<span class="badge badge--' + PRIORITY_CLASS[pri] + '">Prioridad ' + pri + '</span></div><p class="opp__body">' + esc(body) + "</p></article>").join("");
   }
