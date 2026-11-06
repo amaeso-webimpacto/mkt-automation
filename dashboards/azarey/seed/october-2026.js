@@ -34,5 +34,6 @@ exports.FLOWS = {
 "TcDTqb":[2495,0.3027,0.0396,8,670.04]
 };
 
-// Perfiles: consulta sobre el snapshot actual de Klaviyo (06/11/2026), no un cierre a 31/10.
-exports.BBDD = {total:39173, activos:null, suscritos:21935, enviamos:null};
+// Perfiles tomados el día de actualización (06/11/2026). Activos = recuento de perfiles de correo
+// (perfiles activos de Klaviyo); Enviamos = destinatarios de la última campaña B2C del mes según la interfaz.
+exports.BBDD = {total:39173, activos:19187, suscritos:21935, enviamos:9526};

@@ -60,9 +60,18 @@ const octFlows = {};
 Object.entries(OCT.FLOWS).forEach(([id, d]) => { octFlows[id] = toFlowEntry(d); });
 docs.push(buildMonth(OCT_KEY, OCT_LABEL, null, null, OCT.BBDD, octCampaigns, octFlows, {
   klaviyo: "Conector Klaviyo-Azarey-todo, 06/11/2026 (" + SOURCE_KLAVIYO + ")",
-  shopify: "Pendiente: el conector de Shopify de la sesión estaba en otra tienda",
-  bbdd: "Total y suscritos: snapshot de Klaviyo a 06/11/2026, no cierre a 31/10. Activos y Enviamos pendientes de la hoja KPI"
+  shopify: "Pendiente. Venta neta: dato manual. Ingresos canal email: Shopify de Azarey, último clic no directo (sin conectar)",
+  bbdd: "Klaviyo el día de actualización (06/11/2026). Activos: recuento de perfiles de correo. Enviamos: última campaña B2C del mes (27.10)"
 }));
+
+const CRITERIOS = {
+  b2b: "Fuera de todos los informes las campañas B2B o de mayoristas: nombre con B2B, BSB, MAYORISTA o [Seguimiento], o audiencias con MAYORISTA.",
+  ventaNeta: "Dato manual que facilita el cliente cada mes.",
+  shopify: "Ingresos del canal email en Shopify con atribución de último clic no directo.",
+  activos: "Recuento de perfiles de correo de Klaviyo (Audiencia > Segmentos; perfiles activos de facturación) el día de la actualización.",
+  enviamos: "Destinatarios de la última campaña B2C enviada en el mes.",
+  totalSuscritos: "Perfiles totales y perfiles con consentimiento de email en Klaviyo el día de la actualización."
+};
 
 const flowNames = {};
 Object.entries(H.FLOWS).forEach(([id, f]) => { flowNames[id] = { name: f.name, status: "live" }; });
@@ -74,6 +83,7 @@ const config = {
   sociedad: "D2C eCommerce",
   flujos: flowNames,
   estrategia: TXT.ESTRATEGIA,
+  criterios: CRITERIOS,
   updatedAt: "2026-11-06T00:00:00Z"
 };
 

@@ -19,8 +19,18 @@ Los porcentajes se guardan como fracción (0,35 = 35 %). Las campañas B2B se ex
 
 - Azarey: https://claude.ai/artifact/VPjVvjaBwSM4TWnRNxhyts
 
+## Criterios comunes a todos los proyectos
+
+- **B2B y mayoristas:** fuera de todos los cálculos. Nombre con B2B, BSB, MAYORISTA o [Seguimiento], o audiencias con «MAYORISTA».
+- **Venta neta:** dato manual que facilita el cliente.
+- **Ingresos del canal email en Shopify:** atribución de último clic no directo.
+- **Activos:** recuento de perfiles de correo de Klaviyo (Audiencia > Segmentos) el día de la actualización. Coincide con `active_profiles` de `list_billing_usage`.
+- **Enviamos:** destinatarios de la última campaña B2C enviada en el mes. Si el mes no tiene dato guardado, el panel lo calcula así.
+- **Total y suscritos:** perfiles totales y con consentimiento de email en Klaviyo el día de la actualización.
+
 ## Actualización mensual (pendiente de automatizar)
 
-1. Klaviyo: `get_campaign_report` y `get_flow_report` del mes, conversión «Placed Order» de Shopify, canal email. Marcar como B2B las campañas con nombre B2B/BSB/MAYORISTA/[Seguimiento] o con audiencias «MAYORISTA».
-2. Shopify: ingresos atribuidos a email y venta neta del mes.
-3. Escribir `months/<AAAA-MM>` con `ArtifactData` y redactar el análisis del mes.
+1. Klaviyo: `get_campaign_report` y `get_flow_report` del mes, conversión «Placed Order» de Shopify, canal email. Marcar las campañas B2B.
+2. Klaviyo: `list_billing_usage` (activos) y perfiles totales y suscritos el día de la actualización.
+3. Shopify de la tienda del cliente: ingresos del canal email con último clic no directo. Venta neta: la facilita el cliente.
+4. Escribir `months/<AAAA-MM>` con `ArtifactData` y redactar el análisis del mes.

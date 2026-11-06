@@ -130,8 +130,21 @@
       shopifyRev: isNum(shop.rev) ? shop.rev : null,
       ventaNeta: isNum(shop.ventaNeta) ? shop.ventaNeta : null,
       peso: isNum(shop.rev) && isNum(shop.ventaNeta) && shop.ventaNeta ? shop.rev / shop.ventaNeta : null,
-      bbdd: m.bbdd || null
+      bbdd: m.bbdd ? bbddOf(m) : null
     };
+  }
+
+  /** Destinatarios de la última campaña B2C del mes: criterio de «Enviamos» cuando no hay dato guardado. */
+  function lastCampaignRecipients(m) {
+    const list = b2cCampaigns(m).slice().sort((a, b) => a.date < b.date ? -1 : 1);
+    return list.length ? list[list.length - 1].recipients : null;
+  }
+  /** BBDD del mes con «Enviamos» calculado si falta; `enviamosCalculado` indica que no es dato guardado. */
+  function bbddOf(m) {
+    const b = Object.assign({ total: null, activos: null, suscritos: null, enviamos: null }, m.bbdd || {});
+    const calculated = !isNum(b.enviamos);
+    if (calculated) b.enviamos = lastCampaignRecipients(m);
+    return Object.assign(b, { enviamosCalculado: calculated && isNum(b.enviamos) });
   }
 
   function rangeMonths() {
@@ -238,15 +251,15 @@
   }
 
   function renderBbdd(months) {
-    const withData = months.filter((m) => m.bbdd);
+    const withData = months.filter((m) => m.bbdd).map((m) => Object.assign({}, m, { bbdd: bbddOf(m) }));
     const last = withData[withData.length - 1];
     const snap = last ? last.bbdd : {};
     const prevYear = last ? findMonth(prevYearKey(last.key)) : null;
-    const prevSnap = prevYear && prevYear.bbdd ? prevYear.bbdd : {};
+    const prevSnap = prevYear && prevYear.bbdd ? bbddOf(prevYear) : {};
     $("bbdd-asof").textContent = last ? "Cierre de " + last.label : "Sin datos";
     $("bbdd-source").textContent = last && last.fuentes && last.fuentes.bbdd ? "Fuente: " + last.fuentes.bbdd : "";
     const item = (label, key, note, navy) => kpiCard({ navy, label, value: snap[key], text: fInt(snap[key]), note, delta: deltaChip(snap[key], prevSnap[key], false, "vs año ant.") });
-    $("bbdd-kpis").innerHTML = item("BBDD total", "total", "Perfiles en la cuenta", true) + item("Activos", "activos", "Perfiles activos") + item("Suscritos email", "suscritos", "Consentimiento de email") + item("Enviamos", "enviamos", "Perfiles a los que se envía");
+    $("bbdd-kpis").innerHTML = item("BBDD total", "total", "Perfiles en la cuenta", true) + item("Activos", "activos", "Recuento de perfiles de correo") + item("Suscritos email", "suscritos", "Consentimiento de email") + item("Enviamos", "enviamos", snap.enviamosCalculado ? "Calculado: última campaña B2C del mes" : "Última campaña B2C del mes");
 
     const p = palette();
     const growth = withData.map((m, i) => {

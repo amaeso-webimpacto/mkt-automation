@@ -291,12 +291,12 @@
       <div class="card">
         <h2 class="section__title">Shopify y base de datos</h2>
         <div class="form-grid">
-          <div><label class="label" for="eShopRev">Ingresos canal email Shopify (€)</label><input id="eShopRev" class="input" type="number" step="0.01" min="0" data-field="shopify.rev"></div>
-          <div><label class="label" for="eVenta">Venta neta tienda (€)</label><input id="eVenta" class="input" type="number" step="0.01" min="0" data-field="shopify.ventaNeta"></div>
+          <div><label class="label" for="eShopRev">Ingresos canal email Shopify (€) · último clic no directo</label><input id="eShopRev" class="input" type="number" step="0.01" min="0" data-field="shopify.rev"></div>
+          <div><label class="label" for="eVenta">Venta neta tienda (€) · dato manual</label><input id="eVenta" class="input" type="number" step="0.01" min="0" data-field="shopify.ventaNeta"></div>
           <div><label class="label" for="eTotal">BBDD total</label><input id="eTotal" class="input" type="number" step="1" min="0" data-field="bbdd.total"></div>
-          <div><label class="label" for="eActivos">BBDD activos</label><input id="eActivos" class="input" type="number" step="1" min="0" data-field="bbdd.activos"></div>
+          <div><label class="label" for="eActivos">BBDD activos · recuento de perfiles de correo</label><input id="eActivos" class="input" type="number" step="1" min="0" data-field="bbdd.activos"></div>
           <div><label class="label" for="eSuscritos">BBDD suscritos email</label><input id="eSuscritos" class="input" type="number" step="1" min="0" data-field="bbdd.suscritos"></div>
-          <div><label class="label" for="eEnviamos">BBDD enviamos</label><input id="eEnviamos" class="input" type="number" step="1" min="0" data-field="bbdd.enviamos"></div>
+          <div><label class="label" for="eEnviamos">BBDD enviamos · última campaña B2C del mes</label><input id="eEnviamos" class="input" type="number" step="1" min="0" data-field="bbdd.enviamos"></div>
         </div>
         <div class="form-grid form-grid--wide">
           <div><label class="label" for="eSrcK">Fuente Klaviyo</label><input id="eSrcK" class="input" type="text" maxlength="300" data-field="fuentes.klaviyo"></div>
@@ -338,7 +338,7 @@
 </main>
 
 <footer class="foot">
-  <p data-js="footer-sources">Fuentes: Klaviyo y Shopify. Campañas B2B (mayoristas) excluidas de todos los cálculos.</p>
+  <p data-js="footer-sources">Fuentes: Klaviyo (conversión Placed Order de Shopify, canal email) y Shopify (último clic no directo). Venta neta facilitada por el cliente. Activos: recuento de perfiles de correo de Klaviyo el día de actualización. Enviamos: destinatarios de la última campaña B2C del mes. Campañas B2B y de mayoristas excluidas de todos los cálculos.</p>
 </footer>
 
 <script src="panel.js"></script>
