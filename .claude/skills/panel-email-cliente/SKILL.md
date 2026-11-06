@@ -9,6 +9,8 @@ Cada cliente tiene un artefacto llamado **«Panel Email <Cliente>»** con la lí
 
 Una conversación = un cliente. No mezclar datos, conectores ni decisiones de clientes distintos.
 
+**Si falta la carpeta `plantilla/`** junto a este fichero (por ejemplo, si se subió solo el `SKILL.md`), no improvisar el diseño: obtenerla del repositorio `amaeso-webimpacto/mkt-automation`, rama `main`, en `.claude/skills/panel-email-cliente/plantilla/` (con `add_repo` y clonado si hace falta). Si tampoco hay acceso, avisar a quien lo pide de que reinstale la skill con el zip completo.
+
 ## Paso 0 · ¿Actualizar o crear?
 
 1. Identificar el cliente y el mes. Si no se dice el mes, es el **mes anterior** al de hoy. Klaviyo atribuye con ventana de 5 días: no cerrar un mes antes del **día 5 del mes siguiente** (avisar si se pide antes).
