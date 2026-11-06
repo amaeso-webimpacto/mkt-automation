@@ -33,7 +33,7 @@ Lo normal, una vez creados los paneles, es actualizar.
 ## Datos del panel
 
 - `config/cliente`: `cliente`, `plataforma`, `tienda`, `sociedad`, `conectorKlaviyo`, `metricaPlacedOrder`, `flujos` (`id de Klaviyo → {name, status}`), `flujosPorCrear`, `estrategia` (`campanas`, `flujos`, `segmentacion`, `captacion`; líneas `título | prioridad | detalle`), `criterios`.
-- `months/<AAAA-MM>`: `key`, `label` («Oct 26»), `shopify {rev, ventaNeta}`, `bbdd {total, activos, suscritos, enviamos}`, `campaigns` (`id, name, date, recipients, or, ctr, ctor, cr, unsub, conv, rev, aov, rpr, b2b, audiences`), `flows` (`id → {r, o, c, p, rev}`), `contexto`, `analisis {resumen, funciono, corregir, acciones, propuestas}`, `fuentes {klaviyo, shopify, bbdd}`, `updatedAt`.
+- `months/<AAAA-MM>`: `key`, `label` («Oct 26»), `shopify {rev, ventaNeta}`, `bbdd {total, activos, suscritos, enviamos}`, `campaigns` (`id, name, date, recipients, or, ctr, ctor, cr, unsub, conv, rev, aov, rpr, b2b, audiences`), `flows` (`id → {r, o, c, p, rev}`), `contexto`, `analisis {resumen, funciono, corregir, acciones, propuestas}`, `fuentes {klaviyo, shopify, bbdd}`, `actualizacion {fecha, modo}` (marca de la última actualización completa del mes: `modo` es `manual` o `programada`), `updatedAt`.
 - Porcentajes como fracción (0,35 = 35 %). Lectura y escritura con `ArtifactData`, siempre leyendo antes y escribiendo con `if_version`.
 
 ## Modo B · Actualizar un mes
@@ -44,7 +44,7 @@ Lo normal, una vez creados los paneles, es actualizar.
 4. **BBDD** según los criterios.
 5. **Shopify** solo si el conector está en la tienda del cliente.
 6. **Análisis** con el contexto del mes (modo C) y voz D2C (abajo).
-7. Escribir `months/<mes>` y, si cambia, `config/cliente`.
+7. Escribir `months/<mes>` con `actualizacion: {fecha: <ahora en ISO>, modo: "manual"}` (o `"programada"` si la lanza la tarea programada) y, si cambia, `config/cliente`.
 8. **Versión estática** (modo D) y entregarla.
 9. **Resumen** para quien lo pidió: qué se ha cargado, qué falta de dato manual (venta neta y, si no está conectado, Shopify) y anomalías (campañas sin audiencia, B2B dudosas, saltos raros).
 
