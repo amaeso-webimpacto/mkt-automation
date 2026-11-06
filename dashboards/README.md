@@ -6,7 +6,7 @@ Un artefacto HTML por cliente con la línea gráfica de la sociedad que factura 
 
 - `logo_d2c.png`: logotipo D2C (del design system de D2C eCommerce).
 - `<cliente>/index.html`, `panel.css`, `panel.js`: el panel. Es el mismo para todos los clientes; solo cambian los datos.
-- `<cliente>/seed/`: histórico de partida y script `build.js` que genera los documentos de la base de datos (`seed/out/`).
+- `<cliente>/seed/`: histórico de partida, `build.js` que genera los documentos de la base de datos (`seed/out/`) y `merge-audiences.js`, que añade los segmentos de envío de `audiences.json` (extraído de Klaviyo) y marca como B2B las campañas enviadas a audiencias de mayoristas.
 
 ## Modelo de datos
 

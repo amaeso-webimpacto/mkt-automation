@@ -1,0 +1,3288 @@
+[
+ {
+  "name": "0401- REBAJAS ENERO",
+  "date": "2025-01-04",
+  "recipients": 9033,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "1401- REBAJAS ENVIO2",
+  "date": "2025-01-14",
+  "recipients": 9072,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Follow-up] 1401- REBAJAS ENVIO2",
+  "date": "2025-01-16",
+  "recipients": 831,
+  "included": [
+   "[Engaged non-openers] 1401- REBAJAS ENVIO2"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "2001- SEGUNDASREBAJAS",
+  "date": "2025-01-20",
+  "recipients": 9055,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "2401- ENVIO GRATIS",
+  "date": "2025-01-25",
+  "recipients": 9076,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "3101- REBAJAS 3",
+  "date": "2025-01-31",
+  "recipients": 9082,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Follow-up] 3101- REBAJAS 3",
+  "date": "2025-02-02",
+  "recipients": 2056,
+  "included": [
+   "[Engaged non-openers] 3101- REBAJAS 3"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "1001- SAN VALENTIN",
+  "date": "2025-02-10",
+  "recipients": 9122,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Follow-up] 1001- SAN VALENTIN",
+  "date": "2025-02-12",
+  "recipients": 1838,
+  "included": [
+   "[Engaged non-openers] 1001- SAN VALENTIN"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "2402- ultimos dias",
+  "date": "2025-02-24",
+  "recipients": 9156,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "1103- nueva coleccion azarey",
+  "date": "2025-03-12",
+  "recipients": 9350,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Follow-up] 1103- nueva coleccion azarey",
+  "date": "2025-03-14",
+  "recipients": 633,
+  "included": [
+   "[Engaged non-openers] 1103- nueva coleccion azarey"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "2203-ROSA AMADA PRIMER EMAIL",
+  "date": "2025-03-22",
+  "recipients": 9958,
+  "included": [
+   "Newsletter",
+   "RosaAmada.com"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "2503- AZAREY NEW COLLECTION",
+  "date": "2025-03-25",
+  "recipients": 9951,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Follow-up] 2503- AZAREY NEW COLLECTION",
+  "date": "2025-03-27",
+  "recipients": 822,
+  "included": [
+   "[Engaged non-openers] 2503- AZAREY NEW COLLECTION"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "0204- AZAREY BAILARINAS",
+  "date": "2025-04-02",
+  "recipients": 10290,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Follow-up] 0204- AZAREY BAILARINAS",
+  "date": "2025-04-04",
+  "recipients": 798,
+  "included": [
+   "[Engaged non-openers] 0204- AZAREY BAILARINAS"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Mayoristas Italianos",
+  "date": "2025-04-09",
+  "recipients": 319,
+  "included": [],
+  "excluded": []
+ },
+ {
+  "name": "ESPECIAL INVITADAS",
+  "date": "2025-04-10",
+  "recipients": 10709,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Follow-up] ESPECIAL INVITADAS",
+  "date": "2025-04-12",
+  "recipients": 842,
+  "included": [
+   "[Engaged non-openers] ESPECIAL INVITADAS"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Follow-up] Mayoristas Italianos",
+  "date": "2025-04-14",
+  "recipients": 3,
+  "included": [
+   "[Engaged non-openers] Mayoristas Italianos"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Campaña de correo electrónico - 15 abr 2025, 10:33",
+  "date": "2025-04-15",
+  "recipients": 10962,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Follow-up] Campaña de correo electrónico - 15 abr 2025, 10:33",
+  "date": "2025-04-17",
+  "recipients": 1593,
+  "included": [
+   "[Engaged non-openers] Campaña de correo electrónico - 15 abr 2025, 10:33"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Día de la Madre",
+  "date": "2025-04-23",
+  "recipients": 11544,
+  "included": [
+   "Newsletter",
+   "New Subscribers"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Campaña Feria de Abril",
+  "date": "2025-04-26",
+  "recipients": 11712,
+  "included": [
+   "Newsletter",
+   "New Subscribers"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Campaña Día de la Madre - Publicación IG",
+  "date": "2025-04-28",
+  "recipients": 11694,
+  "included": [
+   "Newsletter",
+   "New Subscribers"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Día de la Madre 2",
+  "date": "2025-04-30",
+  "recipients": 11979,
+  "included": [
+   "Newsletter",
+   "New Subscribers"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Invitada Perfecta",
+  "date": "2025-05-08",
+  "recipients": 12594,
+  "included": [
+   "Newsletter",
+   "New Subscribers"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Follow-up] Invitada Perfecta",
+  "date": "2025-05-10",
+  "recipients": 1123,
+  "included": [
+   "[Engaged non-openers] Invitada Perfecta"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Campaña Bailarinas Mayo",
+  "date": "2025-05-13",
+  "recipients": 12880,
+  "included": [
+   "Newsletter",
+   "New Subscribers"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Follow-up] Campaña Bailarinas Mayo",
+  "date": "2025-05-15",
+  "recipients": 1138,
+  "included": [
+   "[Engaged non-openers] Campaña Bailarinas Mayo"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Campaña Graduaciones Mayo",
+  "date": "2025-05-20",
+  "recipients": 13272,
+  "included": [
+   "Newsletter",
+   "New Subscribers"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Follow-up] Campaña Graduaciones Mayo",
+  "date": "2025-05-22",
+  "recipients": 1182,
+  "included": [
+   "[Engaged non-openers] Campaña Graduaciones Mayo"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Campaña Sandalias de Fiesta",
+  "date": "2025-05-27",
+  "recipients": 13630,
+  "included": [
+   "Newsletter",
+   "New Subscribers"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Follow-up] Campaña Sandalias de Fiesta",
+  "date": "2025-05-29",
+  "recipients": 998,
+  "included": [
+   "[Engaged non-openers] Campaña Sandalias de Fiesta"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Campaña Summer Looks",
+  "date": "2025-06-04",
+  "recipients": 14101,
+  "included": [
+   "Newsletter",
+   "New Subscribers"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Follow-up] Campaña Summer Looks",
+  "date": "2025-06-06",
+  "recipients": 1103,
+  "included": [
+   "[Engaged non-openers] Campaña Summer Looks"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Best Seller Bolsos",
+  "date": "2025-06-10",
+  "recipients": 14425,
+  "included": [
+   "Newsletter",
+   "New Subscribers"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "DESCUENTO MAYORISTA FRANCIA",
+  "date": "2025-06-12",
+  "recipients": 41,
+  "included": [
+   "MAYORISTA FRANCIA"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "DESCUENTO MAYORISTA ING",
+  "date": "2025-06-12",
+  "recipients": 211,
+  "included": [
+   "MAYORISTA INGLES"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "DESCUENTO MAYORISTA SUD",
+  "date": "2025-06-12",
+  "recipients": 27,
+  "included": [
+   "MAYORISTA SUDAMERICA"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Mid Season Favorites",
+  "date": "2025-06-12",
+  "recipients": 13191,
+  "included": [
+   "Newsletter",
+   "New Subscribers"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Follow-up] Best Seller Bolsos",
+  "date": "2025-06-12",
+  "recipients": 1364,
+  "included": [
+   "[Engaged non-openers] Best Seller Bolsos"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "DESCUENTO MAYORISTA ALEMANIA",
+  "date": "2025-06-13",
+  "recipients": 26,
+  "included": [
+   "MAYORISTA ALEMAN"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "DESCUENTO MAYORISTA ITALIA",
+  "date": "2025-06-13",
+  "recipients": 275,
+  "included": [
+   "MAYORISTA ITALIA"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "DESCUENTO MAYORISTA PORTUGAL",
+  "date": "2025-06-13",
+  "recipients": 154,
+  "included": [
+   "MAYORISTA PORTUGAL"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Follow-up] DESCUENTO MAYORISTA ING",
+  "date": "2025-06-14",
+  "recipients": 1,
+  "included": [
+   "[Engaged non-openers] DESCUENTO MAYORISTA ING"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "MID SEASON 2",
+  "date": "2025-06-15",
+  "recipients": 14361,
+  "included": [
+   "Newsletter",
+   "New Subscribers"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "MAYORISTA DESCUENTO ESPAÑA",
+  "date": "2025-06-16",
+  "recipients": 1374,
+  "included": [
+   "MAYORISTAS ESPAÑA"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "SUNSET 30",
+  "date": "2025-06-16",
+  "recipients": 9644,
+  "included": [
+   "SUNSET (2)"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Follow-up] DESCUENTO MAYORISTA ITALIA",
+  "date": "2025-06-17",
+  "recipients": 3,
+  "included": [
+   "[Engaged non-openers] DESCUENTO MAYORISTA ITALIA"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "PREREBAJAS CLIENTAS VIP",
+  "date": "2025-06-19",
+  "recipients": 8352,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Follow-up] PREREBAJAS CLIENTAS VIP",
+  "date": "2025-06-21",
+  "recipients": 1599,
+  "included": [
+   "[Engaged non-openers] PREREBAJAS CLIENTAS VIP"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Descuento REBAJAS MAYORISTAS ALEMAN 2",
+  "date": "2025-06-24",
+  "recipients": 12,
+  "included": [
+   "MAYORISTA ALEMAN"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Descuento REBAJAS MAYORISTAS ESPAÑA 2",
+  "date": "2025-06-24",
+  "recipients": 1446,
+  "included": [
+   "MAYORISTAS ESPAÑA"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Descuento REBAJAS MAYORISTAS FRANCES",
+  "date": "2025-06-24",
+  "recipients": 34,
+  "included": [
+   "MAYORISTA FRANCIA"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Descuento REBAJAS MAYORISTAS ITALIANO",
+  "date": "2025-06-24",
+  "recipients": 273,
+  "included": [
+   "MAYORISTA ITALIA"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Descuento REBAJAS MAYORISTAS PORTUGUES",
+  "date": "2025-06-24",
+  "recipients": 130,
+  "included": [
+   "MAYORISTA PORTUGAL"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Descuento REBAJAS MAYORISTAS SUDAMERICA2 (clon)",
+  "date": "2025-06-24",
+  "recipients": 17,
+  "included": [
+   "MAYORISTA SUDAMERICA"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "REBAJAS 1 MINORISTAS",
+  "date": "2025-06-24",
+  "recipients": 8581,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Follow-up] Descuento REBAJAS MAYORISTAS ALEMAN 2",
+  "date": "2025-06-26",
+  "recipients": 1,
+  "included": [
+   "[Engaged non-openers] Descuento REBAJAS MAYORISTAS ALEMAN 2"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Follow-up] Descuento REBAJAS MAYORISTAS ESPAÑA 2",
+  "date": "2025-06-26",
+  "recipients": 52,
+  "included": [
+   "[Engaged non-openers] Descuento REBAJAS MAYORISTAS ESPAÑA 2"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Follow-up] Descuento REBAJAS MAYORISTAS FRANCES",
+  "date": "2025-06-26",
+  "recipients": 1,
+  "included": [
+   "[Engaged non-openers] Descuento REBAJAS MAYORISTAS FRANCES"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Follow-up] Descuento REBAJAS MAYORISTAS ITALIANO",
+  "date": "2025-06-26",
+  "recipients": 21,
+  "included": [
+   "[Engaged non-openers] Descuento REBAJAS MAYORISTAS ITALIANO"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Follow-up] Descuento REBAJAS MAYORISTAS PORTUGUES",
+  "date": "2025-06-26",
+  "recipients": 6,
+  "included": [
+   "[Engaged non-openers] Descuento REBAJAS MAYORISTAS PORTUGUES"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Follow-up] Descuento REBAJAS MAYORISTAS SUDAMERICA2 (clon)",
+  "date": "2025-06-26",
+  "recipients": 3,
+  "included": [
+   "[Engaged non-openers] Descuento REBAJAS MAYORISTAS SUDAMERICA2 (clon)"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Follow-up] REBAJAS 1 MINORISTAS",
+  "date": "2025-06-26",
+  "recipients": 1697,
+  "included": [
+   "[Engaged non-openers] REBAJAS 1 MINORISTAS"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "REBAJAS BOLSOS 20250702",
+  "date": "2025-07-02",
+  "recipients": 8592,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Follow-up] REBAJAS BOLSOS 20250702",
+  "date": "2025-07-04",
+  "recipients": 1565,
+  "included": [
+   "[Engaged non-openers] REBAJAS BOLSOS 20250702"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "REBAJAS 3",
+  "date": "2025-07-07",
+  "recipients": 8602,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Follow-up] REBAJAS 3",
+  "date": "2025-07-09",
+  "recipients": 1366,
+  "included": [
+   "[Engaged non-openers] REBAJAS 3"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "REBAJAS 4",
+  "date": "2025-07-15",
+  "recipients": 8624,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Follow-up] REBAJAS 4",
+  "date": "2025-07-17",
+  "recipients": 2554,
+  "included": [
+   "[Engaged non-openers] REBAJAS 4"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "REBAJAS Top sandalias 21.07",
+  "date": "2025-07-21",
+  "recipients": 8622,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "REBAJAS Zapatos dorados 24.07",
+  "date": "2025-07-24",
+  "recipients": 8620,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "REBAJAS Sandalias planas 31.07",
+  "date": "2025-07-31",
+  "recipients": 8615,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "REBAJAS Cuñas y bolsos 03.08",
+  "date": "2025-08-03",
+  "recipients": 8611,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "REBAJAS Colorido 07.08",
+  "date": "2025-08-07",
+  "recipients": 8614,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "REBAJAS Eventos Verano 10.08",
+  "date": "2025-08-10",
+  "recipients": 8619,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "REBAJAS Sandalias bajas 14.08",
+  "date": "2025-08-14",
+  "recipients": 8606,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "REBAJAS Cuñas 17.08",
+  "date": "2025-08-17",
+  "recipients": 8593,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "REBAJAS Colores y trenzado 21.08",
+  "date": "2025-08-21",
+  "recipients": 8581,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "REBAJAS Dorado 24.08",
+  "date": "2025-08-24",
+  "recipients": 8560,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "REBAJAS Bailarinas 28.08",
+  "date": "2025-08-28",
+  "recipients": 8550,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "REBAJAS Favoritos mes de agosto 31.08",
+  "date": "2025-08-31",
+  "recipients": 8537,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "FW25 New in 02.09",
+  "date": "2025-09-02",
+  "recipients": 58,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "FW25 New in 02.09 (clon)",
+  "date": "2025-09-02",
+  "recipients": 8519,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "FW25 Estampados 04.09",
+  "date": "2025-09-04",
+  "recipients": 8509,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "FW25 Botines 07.09",
+  "date": "2025-09-07",
+  "recipients": 8489,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "NEW SPRING SUMMER 26 COLLECTION",
+  "date": "2025-09-10",
+  "recipients": 272,
+  "included": [
+   "MAYORISTA ITALIA"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "FW25 New in 11.09",
+  "date": "2025-09-11",
+  "recipients": 8486,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "FW25 Mix & Match 14.09",
+  "date": "2025-09-14",
+  "recipients": 8465,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "FW25 Botines y bolsos 18.09",
+  "date": "2025-09-18",
+  "recipients": 8457,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "FW25 Salones 21.09",
+  "date": "2025-09-21",
+  "recipients": 8448,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "FW25 Nueva web 25.09",
+  "date": "2025-09-25",
+  "recipients": 8476,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "FW25 Toñi Moreno y botines cowboy 28.09",
+  "date": "2025-09-28",
+  "recipients": 8466,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "FW25 Polka Dots 02.10",
+  "date": "2025-10-02",
+  "recipients": 8509,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "FW25 Black and brown 05.10",
+  "date": "2025-10-05",
+  "recipients": 8497,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "FW25 Terciopelo 09.10",
+  "date": "2025-10-09",
+  "recipients": 8557,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "FW25 Cowboy 12.10",
+  "date": "2025-10-12",
+  "recipients": 8539,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "MAYORISTA INTERNACIONAL BLACK",
+  "date": "2025-10-12",
+  "recipients": 641,
+  "included": [
+   "MAYORISTA SUDAMERICA",
+   "B2B - FRANCIA",
+   "MAYORISTA PORTUGAL",
+   "MAYORISTA ITALIA",
+   "MAYORISTA ALEMAN",
+   "MAYORISTA INGLES",
+   "MAYORISTA FRANCIA"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "MAYORISTAS BLACK",
+  "date": "2025-10-12",
+  "recipients": 1441,
+  "included": [
+   "MAYORISTAS ESPAÑA"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Seguimiento] MAYORISTA INTERNACIONAL BLACK",
+  "date": "2025-10-14",
+  "recipients": 12,
+  "included": [
+   "[Personas con interacción que no han abierto el mensaje] MAYORISTA INTERNACIONAL BLACK"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Seguimiento] MAYORISTAS BLACK",
+  "date": "2025-10-14",
+  "recipients": 14,
+  "included": [
+   "[Personas con interacción que no han abierto el mensaje] MAYORISTAS BLACK"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Lanzamiento de APP 16.10",
+  "date": "2025-10-16",
+  "recipients": 8603,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "FW25 Bailarinas texturas 19.10",
+  "date": "2025-10-19",
+  "recipients": 8610,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Campaña del 17 oct 2025, 10:52",
+  "date": "2025-10-20",
+  "recipients": 1439,
+  "included": [
+   "MAYORISTAS ESPAÑA"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Seguimiento] Campaña del 17 oct 2025, 10:52",
+  "date": "2025-10-22",
+  "recipients": 72,
+  "included": [
+   "[Personas con interacción que no han abierto el mensaje] Campaña del 17 oct 2025, 10:52"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "FW25 Botas y sneakers 23.10",
+  "date": "2025-10-23",
+  "recipients": 8627,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "FW25 Velvet glam 26.10",
+  "date": "2025-10-26",
+  "recipients": 8618,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "FW25 Black and white 28.10",
+  "date": "2025-10-28",
+  "recipients": 8691,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "FW25 Favoritos del mes 30.10",
+  "date": "2025-10-30",
+  "recipients": 8693,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Clonar FW25 Animal print 31.11",
+  "date": "2025-10-31",
+  "recipients": 8625,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "Excluir envio BF"
+  ]
+ },
+ {
+  "name": "FW25 Animal print 31.11",
+  "date": "2025-10-31",
+  "recipients": 63,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "BLACK ROSA AMADA",
+  "date": "2025-11-01",
+  "recipients": 12,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "NYREX BLACK",
+  "date": "2025-11-01",
+  "recipients": 8659,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "FW25 Geometricos 02.11",
+  "date": "2025-11-02",
+  "recipients": 8658,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Seguimiento] BLACK ROSA AMADA",
+  "date": "2025-11-03",
+  "recipients": 5,
+  "included": [
+   "[Personas con interacción que no han abierto el mensaje] BLACK ROSA AMADA"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Seguimiento] NYREX BLACK",
+  "date": "2025-11-03",
+  "recipients": 2039,
+  "included": [
+   "[Personas con interacción que no han abierto el mensaje] NYREX BLACK"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Inicio Black friday 06.11 envio 9.30am",
+  "date": "2025-11-06",
+  "recipients": 8730,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Terciopelo Black friday 09.11",
+  "date": "2025-11-09",
+  "recipients": 8775,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Bailarinas Black friday 11.11",
+  "date": "2025-11-11",
+  "recipients": 8827,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Bolsos Black friday 13.11",
+  "date": "2025-11-13",
+  "recipients": 8824,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Botas Black friday 16.11",
+  "date": "2025-11-16",
+  "recipients": 8833,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Especial marron Black friday 18.11",
+  "date": "2025-11-18",
+  "recipients": 9476,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Lanzamiento NYREX 20.11",
+  "date": "2025-11-20",
+  "recipients": 6787,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Lanzamiento Rosa Amada 23.11",
+  "date": "2025-11-23",
+  "recipients": 6749,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Terciopelo Black friday 25.11",
+  "date": "2025-11-25",
+  "recipients": 9741,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Invitada Black friday 27.11",
+  "date": "2025-11-27",
+  "recipients": 9735,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Black friday 28.11",
+  "date": "2025-11-28",
+  "recipients": 9754,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Fin Black friday 30.11",
+  "date": "2025-11-30",
+  "recipients": 9749,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Cyber monday 01.12",
+  "date": "2025-12-01",
+  "recipients": 9697,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Especial outlet 19,99€ 03.12",
+  "date": "2025-12-03",
+  "recipients": 6480,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Guía regalos 07.12 ENG",
+  "date": "2025-12-07",
+  "recipients": 1742,
+  "included": [
+   "Newsletter ENG",
+   "Newsletter IT",
+   "Newsletter PT"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Newsletters ES"
+  ]
+ },
+ {
+  "name": "Guía regalos 07.12 ES",
+  "date": "2025-12-07",
+  "recipients": 4808,
+  "included": [
+   "Newsletters ES"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Best-sellers NYREX 09.12 ENG",
+  "date": "2025-12-09",
+  "recipients": 1737,
+  "included": [
+   "Newsletter ENG",
+   "Newsletter IT",
+   "Newsletter PT"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Newsletters ES"
+  ]
+ },
+ {
+  "name": "Best-sellers NYREX 09.12 ES",
+  "date": "2025-12-09",
+  "recipients": 4813,
+  "included": [
+   "Newsletters ES"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "MAYORISTA NAVIDAD",
+  "date": "2025-12-10",
+  "recipients": 1438,
+  "included": [
+   "MAYORISTAS ESPAÑA"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Especial outlet hasta 30€ 14.12",
+  "date": "2025-12-14",
+  "recipients": 6740,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Celebrities especial OT 16.12",
+  "date": "2025-12-16",
+  "recipients": 6761,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Más vendidos diciembre - terciopelo 21.12",
+  "date": "2025-12-21",
+  "recipients": 6788,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Novedades FW25 22.12",
+  "date": "2025-12-22",
+  "recipients": 6780,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Inicio promo navidad 25.12",
+  "date": "2025-12-24",
+  "recipients": 6800,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "15% extra nyrex y rosa amada 28.12",
+  "date": "2025-12-28",
+  "recipients": 6785,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Adelantate a los reyes magos 30.12",
+  "date": "2025-12-30",
+  "recipients": 6731,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Push special prices 3 marcas 04.01",
+  "date": "2026-01-04",
+  "recipients": 6721,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Inicio rebajas enero2026 05.01",
+  "date": "2026-01-05",
+  "recipients": 6629,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "FOMO rebajas enero2026 09.01",
+  "date": "2026-01-09",
+  "recipients": 6751,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Rebajas NYREX x Rosa Amada 11.01",
+  "date": "2026-01-11",
+  "recipients": 6741,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Best-sellers rebajas enero2026 13.01",
+  "date": "2026-01-13",
+  "recipients": 6919,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Terciopelo rebajas 15.01",
+  "date": "2026-01-15",
+  "recipients": 7041,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Botines rebajas enero2026 18.01",
+  "date": "2026-01-18",
+  "recipients": 7154,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Botines NYREX 20.01",
+  "date": "2026-01-20",
+  "recipients": 7298,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Bailarinas rebajas 22.01",
+  "date": "2026-01-22",
+  "recipients": 7344,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Inicio Segundas rebajas 23.01",
+  "date": "2026-01-23",
+  "recipients": 7675,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Botines rosa amada rebajas 25.01",
+  "date": "2026-01-25",
+  "recipients": 7659,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Push Segundas rebajas 26.01 v2",
+  "date": "2026-01-26",
+  "recipients": 7894,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Últimas tallas best-sellers 28.01",
+  "date": "2026-01-28",
+  "recipients": 8137,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Más buscados Rebajas 01.02",
+  "date": "2026-01-31",
+  "recipients": 8426,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Terciopelo 2as Rebajas 03.02",
+  "date": "2026-02-03",
+  "recipients": 9038,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Push segundas rebajas 05.02",
+  "date": "2026-02-05",
+  "recipients": 9139,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Blanco y negro 2as rebajas 08.02",
+  "date": "2026-02-08",
+  "recipients": 9123,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Inspo celebrities 10.02",
+  "date": "2026-02-10",
+  "recipients": 9159,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "San Valentin 12.02",
+  "date": "2026-02-12",
+  "recipients": 9130,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Avance nueva colección 16.02",
+  "date": "2026-02-15",
+  "recipients": 8990,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Más stock remate final 17.02",
+  "date": "2026-02-17",
+  "recipients": 8827,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Launch remate final 19.02",
+  "date": "2026-02-19",
+  "recipients": 8757,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Bestsellers 2as rebajas ROSA AMADA 22.02",
+  "date": "2026-02-22",
+  "recipients": 8717,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Bestsellers 2as rebajas NYREX - tallas 24.02",
+  "date": "2026-02-24",
+  "recipients": 8691,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Remate final Mix 26.02",
+  "date": "2026-02-26",
+  "recipients": 8697,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Remate final push 01.03",
+  "date": "2026-03-01",
+  "recipients": 8689,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Nueva colección 04.03",
+  "date": "2026-03-04",
+  "recipients": 8739,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Envío gratis 06.03",
+  "date": "2026-03-06",
+  "recipients": 8722,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Día de la mujer 08.03",
+  "date": "2026-03-08",
+  "recipients": 8724,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Nueva colección 13.03",
+  "date": "2026-03-13",
+  "recipients": 8893,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Especial invitada 15.03",
+  "date": "2026-03-15",
+  "recipients": 8889,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Metalizados 17.03",
+  "date": "2026-03-17",
+  "recipients": 9064,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Rosa Amada SS26 19.03",
+  "date": "2026-03-19",
+  "recipients": 9083,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Sandalias de tacón 22.03",
+  "date": "2026-03-22",
+  "recipients": 9063,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Tul y malla 23.03",
+  "date": "2026-03-23",
+  "recipients": 9130,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Sandalias planas 25.03",
+  "date": "2026-03-25",
+  "recipients": 9145,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Nueva colección 27.03",
+  "date": "2026-03-27",
+  "recipients": 9145,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Especial invitada 29.03",
+  "date": "2026-03-29",
+  "recipients": 9118,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Nuevos modelos SS26 01.04",
+  "date": "2026-04-01",
+  "recipients": 9123,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Sandalias de tacón 05.04",
+  "date": "2026-04-05",
+  "recipients": 9100,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Sandalias SS26 07.04",
+  "date": "2026-04-07",
+  "recipients": 9105,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Especial Invitada SS26 09.04",
+  "date": "2026-04-09",
+  "recipients": 9216,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Recién llegado SS26 12.04",
+  "date": "2026-04-12",
+  "recipients": 9245,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Nuevos modelos SS26 14.04.",
+  "date": "2026-04-14",
+  "recipients": 9357,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Nuevos modelos SS26 16.04",
+  "date": "2026-04-16",
+  "recipients": 9342,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Best Sellers SS26 19.04",
+  "date": "2026-04-19",
+  "recipients": 9430,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "New in Bolsos 22.04",
+  "date": "2026-04-22",
+  "recipients": 13560,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Día Madre Sandalias 15% 24.04",
+  "date": "2026-04-24",
+  "recipients": 9552,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Invitada 15% 26.04",
+  "date": "2026-04-26",
+  "recipients": 13379,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Correo electrónico 1",
+  "date": "2026-04-27",
+  "recipients": 1752,
+  "included": [
+   "GMS",
+   "MAYORISTA ITALIA",
+   "MAYORISTA ALEMAN",
+   "MAYORISTA INGLES",
+   "MAYORISTA FRANCIA"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Correo electrónico 1",
+  "date": "2026-04-28",
+  "recipients": 1558,
+  "included": [
+   "MAYORISTAS ESPAÑA",
+   "MAYORISTA PORTUGAL"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Día Madre Rosa Amada 28.04",
+  "date": "2026-04-28",
+  "recipients": 13654,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Ultimas 48h Pormo Madre 01.05",
+  "date": "2026-05-01",
+  "recipients": 13663,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Tarjeta de regalo 03.05",
+  "date": "2026-05-03",
+  "recipients": 13648,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Eventos 05.05",
+  "date": "2026-05-05",
+  "recipients": 13689,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Especial Bodas 08.05",
+  "date": "2026-05-08",
+  "recipients": 13810,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Rosa Amada Novedades SS26 10.05",
+  "date": "2026-05-10",
+  "recipients": 13788,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "B2B 20%",
+  "date": "2026-05-14",
+  "recipients": 1416,
+  "included": [
+   "MAYORISTAS ESPAÑA"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "B2B MAYORISTA 20 INTERNACIONAL",
+  "date": "2026-05-14",
+  "recipients": 1802,
+  "included": [
+   "MAYORISTA SUDAMERICA",
+   "B2B - FRANCIA",
+   "MAYORISTA PORTUGAL",
+   "GMS",
+   "MAYORISTA ITALIA",
+   "MAYORISTA ALEMAN",
+   "MAYORISTA INGLES",
+   "MAYORISTA FRANCIA"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Mid season inicio 14.05",
+  "date": "2026-05-14",
+  "recipients": 13891,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Mid season sale 17.05",
+  "date": "2026-05-17",
+  "recipients": 10375,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Mid season sale 19.05",
+  "date": "2026-05-19",
+  "recipients": 10338,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Terciopelo 21.05",
+  "date": "2026-05-21",
+  "recipients": 10266,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "Mid season 24.05",
+  "date": "2026-05-24",
+  "recipients": 10303,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos"
+  ]
+ },
+ {
+  "name": "B2B INT ULTIMOS DIAS",
+  "date": "2026-05-25",
+  "recipients": 1796,
+  "included": [
+   "MAYORISTA SUDAMERICA",
+   "MAYORISTA PORTUGAL",
+   "GMS",
+   "MAYORISTA ITALIA",
+   "MAYORISTA ALEMAN",
+   "MAYORISTA INGLES",
+   "MAYORISTA FRANCIA"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Mid season sale 26.05",
+  "date": "2026-05-26",
+  "recipients": 10306,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "D2C_Compradores ultimas 48H"
+  ]
+ },
+ {
+  "name": "ULTIMOS DÍAS PRIMER PEDIDO",
+  "date": "2026-05-27",
+  "recipients": 1414,
+  "included": [
+   "MAYORISTAS ESPAÑA"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Mid season sale 29.05",
+  "date": "2026-05-29",
+  "recipients": 10255,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "D2C_Compradores ultimas 48H",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "[Seguimiento] ULTIMOS DÍAS PRIMER PEDIDO",
+  "date": "2026-05-29",
+  "recipients": 217,
+  "included": [
+   "[Personas con interacción que no han abierto el mensaje] ULTIMOS DÍAS PRIMER PEDIDO"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Mid season sale 31.05",
+  "date": "2026-05-31",
+  "recipients": 10269,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "D2C_Compradores ultimas 48H",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "B2B 1JUN ESPAÑA",
+  "date": "2026-06-01",
+  "recipients": 1409,
+  "included": [
+   "MAYORISTAS ESPAÑA"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "B2B INT 1JUN",
+  "date": "2026-06-01",
+  "recipients": 1788,
+  "included": [
+   "MAYORISTA SUDAMERICA",
+   "B2B - FRANCIA",
+   "MAYORISTA PORTUGAL",
+   "GMS",
+   "MAYORISTA ITALIA",
+   "MAYORISTA ALEMAN",
+   "MAYORISTA INGLES",
+   "MAYORISTA FRANCIA"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Terciopelo 03.06",
+  "date": "2026-06-03",
+  "recipients": 9458,
+  "included": [
+   "D2C_Engaged 60 días"
+  ],
+  "excluded": [
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "[Seguimiento] B2B 1JUN ESPAÑA",
+  "date": "2026-06-03",
+  "recipients": 69,
+  "included": [
+   "[Personas con interacción que no han abierto el mensaje] B2B 1JUN ESPAÑA"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Seguimiento] B2B INT 1JUN",
+  "date": "2026-06-03",
+  "recipients": 132,
+  "included": [
+   "[Personas con interacción que no han abierto el mensaje] B2B INT 1JUN"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Sandalias verano 05.06",
+  "date": "2026-06-05",
+  "recipients": 9367,
+  "included": [
+   "D2C_Engaged 60 días"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Metalizados 07.06",
+  "date": "2026-06-07",
+  "recipients": 9352,
+  "included": [
+   "D2C_Engaged 60 días"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Highlights SS26 09.06",
+  "date": "2026-06-09",
+  "recipients": 10417,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "VENTA PRIVADA - Eventos 11.06 20h",
+  "date": "2026-06-11",
+  "recipients": 9478,
+  "included": [
+   "D2C_Engaged 60 días"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "15 J ESP B2B",
+  "date": "2026-06-14",
+  "recipients": 1394,
+  "included": [
+   "MAYORISTAS ESPAÑA"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "15J INT B2B",
+  "date": "2026-06-14",
+  "recipients": 1760,
+  "included": [
+   "MAYORISTA SUDAMERICA",
+   "MAYORISTA PORTUGAL",
+   "GMS",
+   "MAYORISTA ITALIA",
+   "MAYORISTA ALEMAN",
+   "MAYORISTA INGLES",
+   "MAYORISTA FRANCIA"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Bailarinas 14.06",
+  "date": "2026-06-14",
+  "recipients": 10453,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Bolsos 16.06",
+  "date": "2026-06-16",
+  "recipients": 9457,
+  "included": [
+   "D2C_Engaged 60 días"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "[Seguimiento] 15 J ESP B2B",
+  "date": "2026-06-16",
+  "recipients": 221,
+  "included": [
+   "[Personas con interacción que no han abierto el mensaje] 15 J ESP B2B"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Seguimiento] 15J INT B2B",
+  "date": "2026-06-16",
+  "recipients": 206,
+  "included": [
+   "[Personas con interacción que no han abierto el mensaje] 15J INT B2B"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Rebajas -30% 19.06",
+  "date": "2026-06-19",
+  "recipients": 10497,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D"
+  ]
+ },
+ {
+  "name": "Rebajas cuñas rafia 21.06",
+  "date": "2026-06-21",
+  "recipients": 9679,
+  "included": [
+   "D2C_Engaged 60 días"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Email 1",
+  "date": "2026-06-22",
+  "recipients": 1572,
+  "included": [
+   "GMS",
+   "MAYORISTA INTERNACIONAL JUNIO 26"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Email 1",
+  "date": "2026-06-22",
+  "recipients": 1370,
+  "included": [
+   "MAYORISTAS ESPAÑA"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Rebajas bolsos 22.06",
+  "date": "2026-06-22",
+  "recipients": 10467,
+  "included": [
+   "Newsletter"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Rebajas sandalias evento 24.06",
+  "date": "2026-06-24",
+  "recipients": 11561,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Rebajas sandalia tipo zueco 26.06",
+  "date": "2026-06-26",
+  "recipients": 9864,
+  "included": [
+   "D2C_Engaged 60 días"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Rebajas sandalia plateadas 29.06",
+  "date": "2026-06-29",
+  "recipients": 11581,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Email 1",
+  "date": "2026-06-30",
+  "recipients": 890,
+  "included": [
+   "MAYORISTAS ESPAÑA",
+   "CONTACTO MAYORISTAS"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Rebajas sandalia doradas 01.07",
+  "date": "2026-07-01",
+  "recipients": 11559,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Rebajas sandalia terciopelo 03.07 v2",
+  "date": "2026-07-03",
+  "recipients": 11544,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Launch Flash sale yute 07.07",
+  "date": "2026-07-07",
+  "recipients": 11484,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Launch segundas rebajas 10.07",
+  "date": "2026-07-10",
+  "recipients": 11772,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Rebajas sandalia metalizada 10.07 v2",
+  "date": "2026-07-10",
+  "recipients": 89,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Rebajas sandalia plana 12.07 v2",
+  "date": "2026-07-12",
+  "recipients": 11529,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Favoritos hasta 50 15.07",
+  "date": "2026-07-15",
+  "recipients": 11723,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Rosa amada hasta 50 17.07",
+  "date": "2026-07-17",
+  "recipients": 11785,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "2as Rebajas sandalia metalizada 19.07",
+  "date": "2026-07-19",
+  "recipients": 11781,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "2as Rebajas sandalias Terciopelo 22.07",
+  "date": "2026-07-23",
+  "recipients": 11889,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Launh terceras rebajas 24.07",
+  "date": "2026-07-24",
+  "recipients": 11899,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Terceras rebajas favoritos 26.07",
+  "date": "2026-07-27",
+  "recipients": 11952,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Flash sale yute 19euros 30.07",
+  "date": "2026-07-30",
+  "recipients": 11887,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Best-sellers 3as rebajas 31.07",
+  "date": "2026-07-31",
+  "recipients": 11931,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Sandalias terceras rebajas 02.08",
+  "date": "2026-08-02",
+  "recipients": 11972,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Push Flash sale yute 19euros 04.08",
+  "date": "2026-08-04",
+  "recipients": 12015,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Push terceras rebajas 06.08",
+  "date": "2026-08-06",
+  "recipients": 12056,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Sandalias planas 09.08",
+  "date": "2026-08-09",
+  "recipients": 12167,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Launch remate final 11.08",
+  "date": "2026-08-11",
+  "recipients": 12214,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Zapatos novia 13.08",
+  "date": "2026-08-13",
+  "recipients": 12164,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Push favs rebajas 16.08",
+  "date": "2026-08-16",
+  "recipients": 12203,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Cuñas 19euros 18.08",
+  "date": "2026-08-18",
+  "recipients": 12262,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Remate final Tallas 20.08",
+  "date": "2026-08-20",
+  "recipients": 12188,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Remate final colores fin verano 22.08",
+  "date": "2026-08-23",
+  "recipients": 12128,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Favoritos hasta 70% 25.08",
+  "date": "2026-08-25",
+  "recipients": 12140,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Sandalias planas últimos días remate 27.08",
+  "date": "2026-08-27",
+  "recipients": 12236,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Últimas horas Remate final Tallas 30.08",
+  "date": "2026-08-30",
+  "recipients": 12246,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "Launch coleccion FW26 01.09",
+  "date": "2026-09-01",
+  "recipients": 12343,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)"
+  ]
+ },
+ {
+  "name": "Campaña del 3 sept 2026, 11:35",
+  "date": "2026-09-03",
+  "recipients": 1395,
+  "included": [
+   "GMS",
+   "MAYORISTA INTERNACIONAL JUNIO 26"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "NC ESPAÑA MAYORISTA",
+  "date": "2026-09-03",
+  "recipients": 1393,
+  "included": [
+   "MAYORISTA SUDAMERICA",
+   "MAYORISTAS ESPAÑA",
+   "MAYORISTA PORTUGAL"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Push nueva coleccion FW26 03.09",
+  "date": "2026-09-03",
+  "recipients": 10706,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D",
+   "D2C_Check out activo 48H"
+  ]
+ },
+ {
+  "name": "[Seguimiento] Campaña del 3 sept 2026, 11:35",
+  "date": "2026-09-05",
+  "recipients": 189,
+  "included": [
+   "[Personas con interacción que no han abierto el mensaje] Campaña del 3 sept 2026, 11:35"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Seguimiento] NC ESPAÑA MAYORISTA",
+  "date": "2026-09-05",
+  "recipients": 286,
+  "included": [
+   "[Personas con interacción que no han abierto el mensaje] NC ESPAÑA MAYORISTA"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Animal print FW26 08.09",
+  "date": "2026-09-08",
+  "recipients": 12367,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D"
+  ]
+ },
+ {
+  "name": "Back to the office 13.09",
+  "date": "2026-09-13",
+  "recipients": 12411,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D"
+  ]
+ },
+ {
+  "name": "Campaña del 14 sept 2026, 8:30",
+  "date": "2026-09-14",
+  "recipients": 690,
+  "included": [
+   "MAYORISTA SUDAMERICA",
+   "MAYORISTAS ESPAÑA"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "MAYORISTA INT 2 SEP",
+  "date": "2026-09-14",
+  "recipients": 545,
+  "included": [
+   "GMS",
+   "MAYORISTA INTERNACIONAL JUNIO 26"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Selección Bourdeos 15.09",
+  "date": "2026-09-15",
+  "recipients": 12465,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D"
+  ]
+ },
+ {
+  "name": "[Seguimiento] Campaña del 14 sept 2026, 8:30",
+  "date": "2026-09-16",
+  "recipients": 27,
+  "included": [
+   "[Personas con interacción que no han abierto el mensaje] Campaña del 14 sept 2026, 8:30"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Seguimiento] MAYORISTA INT 2 SEP",
+  "date": "2026-09-16",
+  "recipients": 23,
+  "included": [
+   "[Personas con interacción que no han abierto el mensaje] MAYORISTA INT 2 SEP"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "MAYORISTA ESP 2 SEP",
+  "date": "2026-09-17",
+  "recipients": 1395,
+  "included": [
+   "MAYORISTA SUDAMERICA",
+   "MAYORISTAS ESPAÑA",
+   "MAYORISTA PORTUGAL"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Terciopelo nueva colección 18.09",
+  "date": "2026-09-18",
+  "recipients": 8351,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D"
+  ]
+ },
+ {
+  "name": "[Seguimiento] MAYORISTA ESP 2 SEP",
+  "date": "2026-09-19",
+  "recipients": 10,
+  "included": [
+   "[Personas con interacción que no han abierto el mensaje] MAYORISTA ESP 2 SEP"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Novedades azarey FW26 22.09",
+  "date": "2026-09-23",
+  "recipients": 8333,
+  "included": [
+   "D2C_Engaged 30 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D"
+  ]
+ },
+ {
+  "name": "Especial novia septiembre 24.09",
+  "date": "2026-09-25",
+  "recipients": 8240,
+  "included": [
+   "D2C_Engaged 30 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D"
+  ]
+ },
+ {
+  "name": "SS27 INTERNACIONAL MAYORISTA",
+  "date": "2026-09-28",
+  "recipients": 1354,
+  "included": [
+   "GMS",
+   "MAYORISTA INTERNACIONAL JUNIO 26"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "SS27 NACIONAL MAYORISTA",
+  "date": "2026-09-28",
+  "recipients": 1388,
+  "included": [
+   "MAYORISTA SUDAMERICA",
+   "MAYORISTAS ESPAÑA",
+   "MAYORISTA PORTUGAL"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Encuentra tu estilo azarey FW26 29.09",
+  "date": "2026-09-29",
+  "recipients": 9633,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D"
+  ]
+ },
+ {
+  "name": "[Seguimiento] SS27 INTERNACIONAL MAYORISTA",
+  "date": "2026-09-30",
+  "recipients": 175,
+  "included": [
+   "[Personas con interacción que no han abierto el mensaje] SS27 INTERNACIONAL MAYORISTA"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Seguimiento] SS27 NACIONAL MAYORISTA",
+  "date": "2026-09-30",
+  "recipients": 215,
+  "included": [
+   "[Personas con interacción que no han abierto el mensaje] SS27 NACIONAL MAYORISTA"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Promo fin verano 02.10",
+  "date": "2026-10-02",
+  "recipients": 9681,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D"
+  ]
+ },
+ {
+  "name": "BLACK NACIONAL MAYORISTA",
+  "date": "2026-10-05",
+  "recipients": 1380,
+  "included": [
+   "MAYORISTA SUDAMERICA",
+   "MAYORISTAS ESPAÑA",
+   "MAYORISTA PORTUGAL"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Campaña del 2 oct 2026, 8:06",
+  "date": "2026-10-05",
+  "recipients": 1348,
+  "included": [
+   "AZAREY B2B FORMS",
+   "GMS",
+   "MAYORISTA INTERNACIONAL JUNIO 26"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Seguimiento] BLACK NACIONAL MAYORISTA",
+  "date": "2026-10-07",
+  "recipients": 310,
+  "included": [
+   "[Personas con interacción que no han abierto el mensaje] BLACK NACIONAL MAYORISTA"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Seguimiento] Campaña del 2 oct 2026, 8:06",
+  "date": "2026-10-07",
+  "recipients": 247,
+  "included": [
+   "[Personas con interacción que no han abierto el mensaje] Campaña del 2 oct 2026, 8:06"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Últimas 48h Promo fin verano 07.10",
+  "date": "2026-10-07",
+  "recipients": 9048,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D"
+  ]
+ },
+ {
+  "name": "B2B BLACK NYREX Y ROSA AMADA",
+  "date": "2026-10-08",
+  "recipients": 1373,
+  "included": [
+   "MAYORISTA SUDAMERICA",
+   "MAYORISTAS ESPAÑA",
+   "MAYORISTA PORTUGAL"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Botines nueva colección 09.10 (clone)",
+  "date": "2026-10-09",
+  "recipients": 9616,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D"
+  ]
+ },
+ {
+  "name": "Launch mid season sale 13.10",
+  "date": "2026-10-13",
+  "recipients": 10554,
+  "included": [
+   "D2C_Engaged 90 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D"
+  ]
+ },
+ {
+  "name": "[Seguimiento] B2B BLACK NYREX Y ROSA AMADA",
+  "date": "2026-10-13",
+  "recipients": 8,
+  "included": [
+   "[Personas con interacción que no han abierto el mensaje] B2B BLACK NYREX Y ROSA AMADA"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "Botines mid season sale 18.10",
+  "date": "2026-10-18",
+  "recipients": 9647,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D"
+  ]
+ },
+ {
+  "name": "Best-sellers mid season 20.10",
+  "date": "2026-10-20",
+  "recipients": 10635,
+  "included": [
+   "D2C_Engaged 90 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D"
+  ]
+ },
+ {
+  "name": "Últimas horas mid season 23.10",
+  "date": "2026-10-23",
+  "recipients": 10675,
+  "included": [
+   "D2C_Engaged 90 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D"
+  ]
+ },
+ {
+  "name": "Push nueva colección 27.10",
+  "date": "2026-10-27",
+  "recipients": 9537,
+  "included": [
+   "D2C_Engaged 60 días",
+   "D2C_Suscriptores nuevos sin compra (<30d)"
+  ],
+  "excluded": [
+   "No abridores más de 10 envíos",
+   "Never engaged (Email)",
+   "D2C_Compradores últimos 7D"
+  ]
+ },
+ {
+  "name": "MAYORISTA BLACK 2",
+  "date": "2026-10-30",
+  "recipients": 1356,
+  "included": [
+   "MAYORISTA SUDAMERICA",
+   "MAYORISTAS ESPAÑA",
+   "MAYORISTA PORTUGAL"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "MAYORISTA INT BLACK",
+  "date": "2026-10-30",
+  "recipients": 1313,
+  "included": [
+   "GMS",
+   "MAYORISTA INTERNACIONAL JUNIO 26"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Seguimiento] MAYORISTA BLACK 2",
+  "date": "2026-10-31",
+  "recipients": 288,
+  "included": [
+   "[Personas con interacción que no han abierto el mensaje] MAYORISTA BLACK 2"
+  ],
+  "excluded": []
+ },
+ {
+  "name": "[Seguimiento] MAYORISTA INT BLACK",
+  "date": "2026-10-31",
+  "recipients": 244,
+  "included": [
+   "[Personas con interacción que no han abierto el mensaje] MAYORISTA INT BLACK"
+  ],
+  "excluded": []
+ }
+]

@@ -12,6 +12,7 @@
   const DATE_RX = /^\d{4}-\d{2}-\d{2}$/;
   const MAX_TEXT = 4000;
   const MAX_NAME = 200;
+  const MAX_AUDIENCES = 600;
   const MIN_RELEVANT_RECIPIENTS = 1000;
   const MIN_RELEVANT_FLOW_RECIPIENTS = 200;
   const UNSUB_LIMIT = 0.003;
@@ -31,7 +32,7 @@
     fromKey: null, toKey: null, preset: "all",
     flowSel: null, tab: "general", search: "",
     analysisKey: null, editKey: null,
-    canWrite: true, db: null
+    canWrite: true, db: null, contextDrafts: {}
   };
   const charts = {};
 
@@ -62,10 +63,12 @@
     if (value >= good) return "sem sem--good";
     return value >= warn ? "sem sem--warn" : "sem sem--bad";
   }
-  function deltaChip(cur, prev, isRate, suffix) {
+  /** Variación frente a una referencia. `lowerIsBetter` invierte el color (p. ej. tasa de baja). */
+  function deltaChip(cur, prev, isRate, suffix, lowerIsBetter) {
     if (!isNum(cur) || !isNum(prev) || prev === 0) return "";
     const rel = (cur - prev) / Math.abs(prev);
-    const dir = Math.abs(rel) < 0.005 ? "flat" : rel > 0 ? "up" : "down";
+    const better = lowerIsBetter ? rel < 0 : rel > 0;
+    const dir = Math.abs(rel) < 0.005 ? "flat" : better ? "up" : "down";
     const sign = rel >= 0 ? "+" : "−";
     let txt = sign + Math.abs(rel * 100).toLocaleString("es-ES", { maximumFractionDigits: 1 }) + " %";
     if (isRate) txt += " (" + (cur - prev >= 0 ? "+" : "−") + Math.abs((cur - prev) * 100).toLocaleString("es-ES", { maximumFractionDigits: 2 }) + " pp)";
@@ -271,7 +274,7 @@
       type: "bar",
       data: { labels: withData.map((m) => m.label), datasets: [
         { type: "line", label: "Crecimiento BBDD total (%)", data: growth, borderColor: p.navy2, backgroundColor: p.navy2, borderWidth: 2, tension: .3, yAxisID: "y1", pointRadius: 3, spanGaps: true },
-        { type: "line", label: "Bajas en campañas (%)", data: unsubs, borderColor: p.rojo, backgroundColor: p.rojo, borderDash: [5, 4], borderWidth: 2, tension: .3, yAxisID: "y1", pointRadius: 3, spanGaps: true },
+        { type: "line", label: "Bajas en campañas (%)", data: unsubs, borderColor: p.apagado, backgroundColor: p.apagado, borderDash: [5, 4], borderWidth: 2, tension: .3, yAxisID: "y1", pointRadius: 3, spanGaps: true },
         { label: "Suscritos", data: withData.map((m) => m.bbdd.suscritos), backgroundColor: p.azul2, borderRadius: 4 },
         { label: "Enviamos", data: withData.map((m) => m.bbdd.enviamos), backgroundColor: p.suave, borderRadius: 4 }
       ] },
@@ -292,7 +295,7 @@
       kpiCard({ label: "Campañas B2C", value: c.n || 0, text: fInt(c.n || 0), note: fInt(c.recipients) + " envíos", delta: deltaChip(c.recipients, pc.recipients, false, "envíos " + vs) }) +
       kpiCard({ label: "Open rate campañas", value: c.or, text: fPct(c.or), delta: deltaChip(c.or, pc.or, true, vs) }) +
       kpiCard({ label: "CTR campañas", value: c.ctr, text: fPct(c.ctr), note: "CTOR " + fPct(c.ctor), delta: deltaChip(c.ctr, pc.ctr, true, vs) }) +
-      kpiCard({ label: "Tasa de baja", value: c.unsub, text: fPct(c.unsub, 3), note: c.unsub > UNSUB_LIMIT ? "Por encima del 0,3 %" : "Por debajo del 0,3 %", delta: deltaChip(c.unsub, pc.unsub, true, vs) }) +
+      kpiCard({ label: "Tasa de baja", value: c.unsub, text: fPct(c.unsub, 3), note: c.unsub > UNSUB_LIMIT ? "Por encima del 0,3 %" : "Por debajo del 0,3 %", delta: deltaChip(c.unsub, pc.unsub, true, vs, true) }) +
       kpiCard({ navy: true, label: "Revenue campañas", value: c.rev || 0, text: fEur(c.rev || 0), note: fInt(c.conv || 0) + " pedidos · AOV " + fEur(c.aov), delta: deltaChip(c.rev, pc.rev, false, vs), src: "Fuente: Klaviyo" }) +
       kpiCard({ label: "Revenue flujos", value: f.rev || 0, text: fEur(f.rev || 0), note: fInt(f.conv || 0) + " pedidos", delta: deltaChip(f.rev, pf.rev, false, vs), src: "Fuente: Klaviyo" }) +
       kpiCard({ label: "€ por destinatario (campañas)", value: c.rpr, text: isNum(c.rpr) ? c.rpr.toLocaleString("es-ES", { maximumFractionDigits: 3 }) + " €" : "—", delta: deltaChip(c.rpr, pc.rpr, false, vs), src: "Fuente: Klaviyo" }) +
@@ -373,14 +376,14 @@
       kpiCard({ label: "Open rate", value: c.or, text: fPct(c.or), note: fInt(c.recipients) + " envíos", delta: deltaChip(c.or, pc.or, true, vs) }) +
       kpiCard({ label: "CTR", value: c.ctr, text: fPct(c.ctr), note: "CTOR " + fPct(c.ctor), delta: deltaChip(c.ctr, pc.ctr, true, vs) }) +
       kpiCard({ label: "Conversión", value: c.cr, text: fPct(c.cr, 3), note: fInt(c.conv) + " pedidos", delta: deltaChip(c.cr, pc.cr, true, vs) }) +
-      kpiCard({ label: "Tasa de baja", value: c.unsub, text: fPct(c.unsub, 3), delta: deltaChip(c.unsub, pc.unsub, true, vs) }) +
+      kpiCard({ label: "Tasa de baja", value: c.unsub, text: fPct(c.unsub, 3), delta: deltaChip(c.unsub, pc.unsub, true, vs, true) }) +
       kpiCard({ navy: true, label: "Revenue", value: c.rev, text: fEur(c.rev), note: "AOV " + fEur(c.aov), delta: deltaChip(c.rev, pc.rev, false, vs), src: "Fuente: Klaviyo" }) +
       kpiCard({ label: "€ por destinatario", value: c.rpr, text: c.rpr.toLocaleString("es-ES", { maximumFractionDigits: 3 }) + " €", delta: deltaChip(c.rpr, pc.rpr, false, vs) });
 
     const camps = t.camps.slice().sort((a, b) => a.date < b.date ? -1 : 1);
     const top = camps.filter((x) => x.rev > 0).sort((a, b) => b.rev - a.rev).slice(0, 4);
     $("top-camps").innerHTML = top.length ? top.map((x, i) =>
-      '<article class="top"><span class="top__rank">' + (i + 1) + '</span><h3 class="top__name">' + esc(x.name) + '</h3><span class="top__date">' + esc(x.date) + '</span><dl class="top__stats">' +
+      '<article class="top"><span class="top__rank">' + (i + 1) + '</span><h3 class="top__name">' + esc(x.name) + '</h3><span class="top__date">' + esc(x.date) + "</span>" + audienceLine(x) + '<dl class="top__stats">' +
       stat("Revenue", fEur(x.rev)) + stat("Pedidos", fInt(x.conv)) + stat("€/dest.", (x.rpr || 0).toLocaleString("es-ES", { maximumFractionDigits: 3 })) +
       stat("OR", fPct(x.or, 1)) + stat("CTOR", fPct(x.ctor, 1)) + stat("Bajas", fPct(x.unsub, 2)) + "</dl></article>").join("") : '<p class="note">Sin revenue en el periodo.</p>';
 
@@ -401,6 +404,13 @@
       options: baseOptions(p, { plugins: Object.assign(baseOptions(p).plugins, { legend: { display: false }, tooltip: Object.assign({}, baseOptions(p).plugins.tooltip, { callbacks: { label: tooltipEur } }) }), scales: { x: axis(p, { grid: { display: false }, ticks: tickOpts }), y: axis(p, { beginAtZero: true, ticks: { color: p.apagado, callback: eurTick } }) } })
     });
     renderCampaignTable(camps);
+  }
+  function audienceLine(c) {
+    const aud = c.audiences || {};
+    const inc = aud.included || [];
+    if (!inc.length) return '<p class="top__aud">Segmento de envío sin registrar</p>';
+    const exc = aud.excluded || [];
+    return '<p class="top__aud"><b>Enviado a:</b> ' + esc(inc.join(" + ")) + (exc.length ? "<br><b>Excluye:</b> " + esc(exc.join(", ")) : "") + "</p>";
   }
   const stat = (l, v) => '<div class="top__stat"><dt>' + esc(l) + "</dt><dd>" + esc(v) + "</dd></div>";
 
@@ -602,8 +612,7 @@
     const mini = (v, l, d) => '<div class="mini"><div class="mini__v">' + esc(v) + '</div><div class="mini__l">' + esc(l) + "</div>" + (d || "") + "</div>";
     const c = s.camp || {};
     $("analysis-view").innerHTML =
-      '<section class="section"><h2 class="section__title"><span class="tag">01</span>Contexto de ' + esc(m.label) + '</h2><div class="card context">' +
-      (m.contexto ? '<p class="context__text">' + rich(m.contexto) + "</p>" : '<p class="context__empty">Sin contexto. Añade aquí lo que pasó en el mes y no se ve en los datos (supresiones, incidencias, cambios de plantilla, promociones fuera de email).</p>') + "</div></section>" +
+      '<section class="section"><h2 class="section__title"><span class="tag">01</span>Contexto de ' + esc(m.label) + "</h2>" + contextBlock(m) + "</section>" +
       '<section class="section"><h2 class="section__title"><span class="tag">02</span>Resumen de ' + esc(m.label) + '</h2><div class="card highlight card--navy"><p>' + (a.resumen ? rich(a.resumen) : "Sin resumen todavía.") + "</p></div>" +
       '<div class="analysis-kpis">' +
       mini(fInt(c.n || 0), "Campañas B2C") +
@@ -611,12 +620,37 @@
       mini(fEur(s.campRev), "Revenue campañas", ps ? deltaChip(s.campRev, ps.campRev, false, "vs mes ant.") : "") +
       mini(fEur(s.flowRev), "Revenue flujos", ps ? deltaChip(s.flowRev, ps.flowRev, false, "vs mes ant.") : "") +
       mini(fEur(s.klaviyoRev), "Revenue Klaviyo", pys ? deltaChip(s.klaviyoRev, pys.klaviyoRev, false, "vs año ant.") : "") +
-      mini(fPct(c.unsub, 3), "Tasa de baja") + "</div></section>" +
+      mini(fPct(c.unsub, 3), "Tasa de baja", ps && ps.camp ? deltaChip(c.unsub, ps.camp.unsub, true, "vs mes ant.", true) : "") + "</div></section>" +
       '<section class="section"><div class="grid-2"><div class="card"><h3 class="card__title">Lo que ha funcionado</h3>' + listHtml(a.funciono, "list--good") + '</div><div class="card"><h3 class="card__title">Lo que hay que corregir</h3>' + listHtml(a.corregir, "list--warn") + "</div></div></section>" +
       '<section class="section"><h2 class="section__title"><span class="tag">03</span>Acciones realizadas en ' + esc(m.label) + '</h2><div class="card">' + listHtml(a.acciones) + "</div></section>" +
       '<section class="section"><h2 class="section__title"><span class="tag">04</span>Propuestas de newsletters</h2>' + proposalsHtml(a.propuestas) + "</section>";
     renderRecommendations();
     renderStrategy();
+  }
+
+  /** Contexto del mes: textarea editable si el visitante puede guardar, texto si no. Conserva lo que se esté escribiendo. */
+  function contextBlock(m) {
+    const placeholder = "Lo que pasó en el mes y no se ve en los datos: supresiones, incidencias, cambios de plantilla, promociones fuera de email…";
+    if (!(state.canWrite && state.db)) {
+      return '<div class="card context">' + (m.contexto ? '<p class="context__text">' + rich(m.contexto) + "</p>" : '<p class="context__empty">Sin contexto para este mes.</p>') + "</div>";
+    }
+    const draft = Object.prototype.hasOwnProperty.call(state.contextDrafts, m.key) ? state.contextDrafts[m.key] : (m.contexto || "");
+    return '<form class="card context context-form" data-js="context-form"><label class="sr-only" for="ctxText">Contexto de ' + esc(m.label) + "</label>" +
+      '<textarea id="ctxText" class="input textarea" rows="5" maxlength="' + MAX_TEXT + '" data-js="context-text" placeholder="' + esc(placeholder) + '">' + esc(draft) + "</textarea>" +
+      '<div class="form__actions"><button class="btn" type="submit">Guardar contexto</button><span class="form__msg" data-js="context-msg" role="status"></span></div></form>';
+  }
+
+  async function saveContext(event) {
+    event.preventDefault();
+    if (!state.db || !state.canWrite) return;
+    const key = state.analysisKey;
+    const text = $("context-text").value.trim().slice(0, MAX_TEXT);
+    setMsg("context-msg", "Guardando…");
+    try {
+      await state.db.doc(MONTHS_COLLECTION + "/" + key).update({ contexto: text, updatedAt: new Date().toISOString() });
+      delete state.contextDrafts[key];
+      setMsg("context-msg", "Guardado.", "ok");
+    } catch (err) { handleWriteError(err, "context-msg"); }
   }
 
   function li(html, tag) {
@@ -702,15 +736,17 @@
   /* ---------- Render: editar datos ---------- */
   function numInput(col, value, step, extra) {
     const v = isNum(value) ? value : "";
-    return '<input class="input input--num" type="number" min="0" step="' + step + '" data-col="' + col + '" value="' + esc(v) + '"' + (extra || "") + ' aria-label="' + esc(col) + '">';
+    return '<input class="input input--num" type="number" min="0" step="any" data-step="' + step + '" data-col="' + col + '" value="' + esc(v) + '"' + (extra || "") + ' aria-label="' + esc(col) + '">';
   }
   const pctValue = (v) => isNum(v) ? +(v * 100).toFixed(4) : "";
 
   function campaignRow(c) {
-    return '<tr data-id="' + esc(c.id || "") + '">' +
-      '<td><input type="checkbox" data-col="b2b"' + (c.b2b ? " checked" : "") + ' aria-label="B2B"></td>' +
+    const inc = (c.audiences && c.audiences.included) || [];
+    return '<tr data-id="' + esc(c.id || "") + '"' + (c.b2b ? ' class="is-b2b"' : "") + ">" +
+      '<td><select class="input input--type" data-col="b2b" aria-label="Tipo de campaña"><option value="b2c"' + (c.b2b ? "" : " selected") + '>B2C · se incluye</option><option value="b2b"' + (c.b2b ? " selected" : "") + ">B2B · se excluye</option></select></td>" +
       '<td><input class="input input--name" type="text" maxlength="' + MAX_NAME + '" data-col="name" value="' + esc(c.name || "") + '" aria-label="Nombre de campaña" required></td>' +
       '<td><input class="input input--date" type="date" data-col="date" value="' + esc(c.date || "") + '" aria-label="Fecha" required></td>' +
+      '<td><input class="input input--aud" type="text" maxlength="' + MAX_AUDIENCES + '" data-col="included" value="' + esc(inc.join(" | ")) + '" aria-label="Segmentos de envío"></td>' +
       "<td>" + numInput("recipients", c.recipients, "1") + "</td>" +
       "<td>" + numInput("or", pctValue(c.or), "0.01", ' max="100"') + "</td>" +
       "<td>" + numInput("ctr", pctValue(c.ctr), "0.01", ' max="100"') + "</td>" +
@@ -750,14 +786,20 @@
   }
   const PCT_COLS = ["or", "ctr", "ctor", "cr", "unsub"];
 
-  function readCampaignRows(monthKey) {
+  function readCampaignRows(base) {
+    const monthKey = base.key;
+    const previous = {};
+    (base.campaigns || []).forEach((c) => { previous[c.id] = c; });
     return Array.from($("edit-campaigns").querySelectorAll("tr")).map((tr, i) => {
       const get = (col) => tr.querySelector('[data-col="' + col + '"]');
       const name = get("name").value.trim().slice(0, MAX_NAME);
       const date = get("date").value;
       if (!name) throw new Error("La campaña de la fila " + (i + 1) + " no tiene nombre.");
       if (!DATE_RX.test(date) || date.slice(0, 7) !== monthKey) throw new Error("La fecha de «" + name + "» debe estar dentro de " + monthKey + ".");
-      const c = { id: tr.dataset.id || "n" + Date.now().toString(36) + i, name, date, b2b: get("b2b").checked };
+      const prev = previous[tr.dataset.id] || {};
+      const included = get("included").value.split("|").map((s) => s.trim()).filter(Boolean).slice(0, 20);
+      const c = { id: tr.dataset.id || "n" + Date.now().toString(36) + i, name, date, b2b: get("b2b").value === "b2b",
+        audiences: { included, excluded: (prev.audiences && prev.audiences.excluded) || [] } };
       ["recipients", "conv", "rev"].concat(PCT_COLS).forEach((col) => { c[col] = readNumber(get(col), { pct: PCT_COLS.includes(col), max: PCT_COLS.includes(col) ? 100 : null }) || 0; });
       c.aov = c.conv ? +(c.rev / c.conv).toFixed(2) : 0;
       c.rpr = c.recipients ? +(c.rev / c.recipients).toFixed(5) : 0;
@@ -783,7 +825,7 @@
       const value = el.type === "number" ? readNumber(el) : el.value.trim().slice(0, 300);
       setPath(doc, el.dataset.field, value);
     });
-    doc.campaigns = readCampaignRows(doc.key);
+    doc.campaigns = readCampaignRows(base);
     doc.flows = readFlowRows();
     doc.updatedAt = new Date().toISOString();
     return doc;
@@ -818,7 +860,6 @@
     const form = $("analysis-form");
     const field = (f) => form.querySelector('[data-field="' + f + '"]').value;
     const payload = {
-      contexto: field("contexto").trim().slice(0, MAX_TEXT),
       analisis: {
         resumen: field("analisis.resumen").trim().slice(0, MAX_TEXT),
         funciono: linesOf(field("analisis.funciono")), corregir: linesOf(field("analisis.corregir")),
@@ -999,6 +1040,9 @@
     $("flows-none").addEventListener("click", () => { state.flowSel = new Set(); populateFilters(); render(); });
     $("camp-search").addEventListener("input", (e) => { state.search = e.target.value; renderCampaignTable(periodTotals(rangeMonths()).camps.slice().sort((a, b) => a.date < b.date ? -1 : 1)); });
     $("analysis-month").addEventListener("change", (e) => { state.analysisKey = e.target.value; toggleForm("analysis", false); renderAnalysis(); });
+    $("analysis-view").addEventListener("submit", (e) => { if (e.target.matches('[data-js="context-form"]')) saveContext(e); });
+    $("analysis-view").addEventListener("input", (e) => { if (e.target.matches('[data-js="context-text"]')) state.contextDrafts[state.analysisKey] = e.target.value; });
+    $("edit-campaigns").addEventListener("change", (e) => { if (e.target.dataset.col === "b2b") e.target.closest("tr").classList.toggle("is-b2b", e.target.value === "b2b"); });
     $("analysis-edit").addEventListener("click", () => toggleForm("analysis", true));
     $("analysis-cancel").addEventListener("click", () => toggleForm("analysis", false));
     $("analysis-form").addEventListener("submit", saveAnalysis);
@@ -1042,7 +1086,10 @@
     const [db, user] = await Promise.all([window.claude.use("db"), window.claude.use("user")]);
     if (!db) { showStatus("No se puede acceder a los datos del panel en esta vista. Inicia sesión en claude.ai con una cuenta con acceso."); return; }
     state.db = db;
-    if (user) { const can = await user.can("data.write"); state.canWrite = can !== false; }
+    if (user) {
+      const can = await user.can("data.write");
+      state.canWrite = can !== false || (await user.isOwner()) || (await user.canEdit());
+    }
     const timer = setTimeout(() => showStatus("Los datos están tardando en cargar. Si no aparecen, recarga la página."), LOAD_TIMEOUT_MS);
     const onError = () => { clearTimeout(timer); showStatus("Se ha perdido la conexión con los datos del panel. Recarga la página."); };
     db.doc(CONFIG_DOC).onSnapshot((snap) => {
