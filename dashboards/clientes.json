@@ -1,0 +1,16 @@
+{
+  "_descripcion": "Registro de paneles de email marketing. Una entrada por cliente. La automatización mensual actualiza las entradas con activo=true y plataforma=klaviyo.",
+  "clientes": [
+    {
+      "slug": "azarey",
+      "nombre": "Azarey",
+      "sociedad": "D2C eCommerce",
+      "plataforma": "klaviyo",
+      "conectorKlaviyo": "Klaviyo-Azarey-todo",
+      "metricaPlacedOrder": "UF7N6J",
+      "tienda": "shopify",
+      "artefacto": "https://claude.ai/artifact/VPjVvjaBwSM4TWnRNxhyts",
+      "activo": true
+    }
+  ]
+}

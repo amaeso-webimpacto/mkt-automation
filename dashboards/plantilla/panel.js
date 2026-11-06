@@ -915,6 +915,7 @@
   /* ---------- Controles ---------- */
   function populateSelect(name, selectedKey) {
     const el = $(name);
+    if (!el) return;
     el.innerHTML = state.months.map((m) => '<option value="' + esc(m.key) + '"' + (m.key === selectedKey ? " selected" : "") + ">" + esc(m.label) + "</option>").join("");
   }
 
@@ -977,8 +978,8 @@
   function applyWriteAccess() {
     const can = state.canWrite && !!state.db;
     document.querySelectorAll('[data-js="analysis-edit"], [data-js="strategy-edit"], [data-js="add-campaign"], [data-js="add-month-form"]').forEach((el) => { el.hidden = !can; });
-    $("edit-readonly").hidden = can;
-    $("month-form").querySelectorAll("input, button, textarea, select").forEach((el) => { el.disabled = !can; });
+    if ($("edit-readonly")) $("edit-readonly").hidden = can;
+    if ($("month-form")) $("month-form").querySelectorAll("input, button, textarea, select").forEach((el) => { el.disabled = !can; });
   }
 
   /* ---------- Render principal ---------- */
@@ -1079,11 +1080,34 @@
     render();
   }
 
+  /** Datos incrustados por la versión estática (build-static.js); null en el panel con base de datos. */
+  function readEmbeddedData() {
+    const el = document.getElementById("panel-data");
+    if (!el) return null;
+    try { return JSON.parse(el.textContent); } catch (e) { return null; }
+  }
+
+  /** Versión estática: solo lectura, sin pestaña de edición, con los datos del HTML. */
+  function startStatic(data) {
+    state.canWrite = false;
+    state.config = data.config || { flujos: {}, estrategia: {} };
+    const tab = document.querySelector('[data-tab="datos"]');
+    if (tab) tab.remove();
+    const panel = document.querySelector('[data-panel="datos"]');
+    if (panel) panel.remove();
+    if (state.tab === "datos") state.tab = "general";
+    if (data.generatedAt) $("footer-sources").textContent += " Versión estática generada el " + data.generatedAt + ".";
+    onMonths({ docs: (data.months || []).map((m) => ({ data: () => m })), metadata: { fromCache: false } });
+    applyWriteAccess();
+  }
+
   async function init() {
     bindEvents();
     const hashTab = (location.hash || "").slice(1);
     if (document.querySelector('[data-tab="' + hashTab + '"]')) state.tab = hashTab;
     document.querySelectorAll("[data-tab]").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.tab === state.tab)));
+    const embedded = readEmbeddedData();
+    if (embedded) { startStatic(embedded); return; }
     if (!window.claude || typeof window.claude.use !== "function") { showStatus("Este panel necesita abrirse desde claude.ai para leer sus datos."); return; }
     const [db, user] = await Promise.all([window.claude.use("db"), window.claude.use("user")]);
     if (!db) { showStatus("No se puede acceder a los datos del panel en esta vista. Inicia sesión en claude.ai con una cuenta con acceso."); return; }
