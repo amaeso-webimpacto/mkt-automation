@@ -4,11 +4,10 @@ Un artefacto HTML por cliente con la línea gráfica de la sociedad que factura 
 
 ## Estructura
 
-- `plantilla/`: el panel común a todos los clientes (`index.html` con `{{CLIENTE}}`, `panel.css`, `panel.js`, `logo_d2c.png`), `nuevo-cliente.js` para dar de alta un cliente y `build-static.js` para la versión estática de Google Sites.
-- `<cliente>/index.html`: la plantilla con el nombre del cliente. Se publica con los `panel.*` y el logo de `plantilla/`.
-- `<cliente>/seed/`: histórico de partida, `build.js` que genera los documentos de la base de datos (`seed/out/`) y `merge-audiences.js`, que añade los segmentos de envío de `audiences.json` (extraído de Klaviyo) y marca como B2B las campañas enviadas a audiencias de mayoristas. Solo sirve para la carga inicial: después, la fuente de verdad es la base de datos del artefacto.
-- `clientes.json`: registro de paneles que usa la actualización mensual.
-- El proceso completo (crear, actualizar, contexto, versión estática) está en la skill `.claude/skills/panel-email-cliente/SKILL.md`.
+- `.claude/skills/panel-email-cliente/`: la skill con todo el proceso (`SKILL.md`) y la plantilla común del panel (`plantilla/`: `index.html` con `{{CLIENTE}}`, `panel.css`, `panel.js`, `logo_d2c.png`, `nuevo-cliente.js` y `build-static.js` para la versión de Google Sites). Es la única copia del diseño.
+- `<cliente>/index.html`: la plantilla con el nombre del cliente. Se publica con los `panel.*` y el logo de la plantilla.
+- `<cliente>/seed/`: carga inicial del histórico (`build.js`, `merge-audiences.js`, `audiences.json`). Después, la fuente de verdad es la base de datos del artefacto.
+- Cada panel guarda en `config/cliente` su conector de Klaviyo y su métrica de conversión, así que no hace falta un registro aparte: los paneles se localizan por su título «Panel Email <Cliente>».
 
 ## Modelo de datos
 
