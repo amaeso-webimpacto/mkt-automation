@@ -1,0 +1,344 @@
+<title>Panel Email Azarey</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&family=Titillium+Web:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="panel.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+
+<header class="hero">
+  <div class="hero__inner">
+    <div class="hero__brand">
+      <img class="hero__logo" src="logo_d2c.png" alt="D2C eCommerce" height="26">
+      <span class="hero__client" data-js="client-name">Azarey</span>
+    </div>
+    <h1 class="hero__title">Panel de email marketing</h1>
+    <p class="hero__meta" data-js="hero-meta">Cargando datos…</p>
+  </div>
+  <span class="hero__watermark" aria-hidden="true">D2C</span>
+</header>
+
+<main class="page">
+  <div class="status" data-js="status" role="status" hidden></div>
+
+  <nav class="tabs" aria-label="Secciones del panel" data-js="tabs">
+    <button class="tabs__btn" type="button" data-tab="general" aria-selected="true">General</button>
+    <button class="tabs__btn" type="button" data-tab="campanas" aria-selected="false">Campañas</button>
+    <button class="tabs__btn" type="button" data-tab="flujos" aria-selected="false">Flujos</button>
+    <button class="tabs__btn" type="button" data-tab="interanual" aria-selected="false">Vs año anterior</button>
+    <button class="tabs__btn" type="button" data-tab="analisis" aria-selected="false">Análisis y contexto</button>
+    <button class="tabs__btn" type="button" data-tab="datos" aria-selected="false">Editar datos</button>
+  </nav>
+
+  <section class="filters card" aria-label="Filtros" data-js="filters">
+    <div class="filters__group">
+      <label class="label" for="monthFrom">Mes desde</label>
+      <select id="monthFrom" class="input" data-js="month-from"></select>
+    </div>
+    <div class="filters__group">
+      <label class="label" for="monthTo">Mes hasta</label>
+      <select id="monthTo" class="input" data-js="month-to"></select>
+    </div>
+    <div class="filters__group">
+      <span class="label" id="presetLabel">Rango rápido</span>
+      <div class="chips" role="group" aria-labelledby="presetLabel" data-js="presets">
+        <button class="chip" type="button" data-preset="1">Último mes</button>
+        <button class="chip" type="button" data-preset="3">Últimos 3 m</button>
+        <button class="chip" type="button" data-preset="6">Últimos 6 m</button>
+        <button class="chip" type="button" data-preset="12">Últimos 12 m</button>
+        <button class="chip is-active" type="button" data-preset="all">Todo</button>
+      </div>
+    </div>
+    <div class="filters__group">
+      <span class="label">Flujos</span>
+      <details class="multi" data-js="flow-picker">
+        <summary class="input multi__btn" data-js="flow-picker-label">Todos los flujos</summary>
+        <div class="multi__panel">
+          <div class="multi__actions">
+            <button type="button" class="link" data-js="flows-all">Todos</button>
+            <button type="button" class="link" data-js="flows-none">Ninguno</button>
+          </div>
+          <div data-js="flow-options"></div>
+        </div>
+      </details>
+    </div>
+    <p class="filters__info" data-js="filter-info"></p>
+  </section>
+
+  <div class="empty card" data-js="empty" hidden>
+    <h2 class="section__title">Sin datos todavía</h2>
+    <p>El panel lee los meses guardados en su base de datos. Cuando se cargue el primer mes desde los conectores, o se añada a mano en «Editar datos», aparecerán aquí los KPIs y gráficos.</p>
+  </div>
+
+  <!-- GENERAL -->
+  <div class="panel" data-panel="general">
+    <section class="section">
+      <div class="highlight card card--navy" data-js="summary"></div>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title"><span class="tag">01</span>Visión global del canal <span class="pill" data-js="global-period"></span></h2>
+      <p class="section__sub">Ingresos que Shopify atribuye a email (último clic no directo) sobre la venta neta de la tienda.</p>
+      <div class="kpis kpis--3" data-js="global-kpis"></div>
+      <div class="card chart-card"><h3 class="chart-card__title">Ingresos canal email, venta neta y peso de venta por mes</h3><div class="chart chart--tall"><canvas data-chart="globalEvolution" role="img" aria-label="Evolución mensual de ingresos de email en Shopify, venta neta y peso de venta"></canvas></div></div>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title"><span class="tag">02</span>Base de datos <span class="pill" data-js="bbdd-asof"></span></h2>
+      <p class="section__sub" data-js="bbdd-source"></p>
+      <div class="kpis kpis--4" data-js="bbdd-kpis"></div>
+      <div class="card chart-card"><h3 class="chart-card__title">Suscritos y enviamos (barras), crecimiento de la BBDD y bajas en campañas (líneas)</h3><div class="chart chart--tall"><canvas data-chart="bbddEvolution" role="img" aria-label="Evolución de la base de datos"></canvas></div></div>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title"><span class="tag">03</span>KPIs del periodo <span class="pill" data-js="kpi-period"></span></h2>
+      <div class="kpis kpis--4" data-js="period-kpis"></div>
+      <div class="grid-2">
+        <div class="card chart-card"><h3 class="chart-card__title">Destinatarios, campañas y open rate por mes</h3><div class="chart"><canvas data-chart="sendsEvolution" role="img" aria-label="Destinatarios, campañas y open rate por mes"></canvas></div></div>
+        <div class="card chart-card"><h3 class="chart-card__title">Revenue, pedidos y AOV de campañas por mes</h3><div class="chart"><canvas data-chart="revenueEvolution" role="img" aria-label="Revenue, pedidos y AOV de campañas por mes"></canvas></div></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title"><span class="tag">04</span>Histórico completo del canal <span class="pill" data-js="hist-range"></span></h2>
+      <p class="section__sub">Esta sección muestra siempre todo el histórico, sin aplicar el filtro de meses.</p>
+      <div class="grid-2">
+        <div class="card chart-card"><h3 class="chart-card__title">Revenue Klaviyo: campañas y flujos</h3><div class="chart"><canvas data-chart="histRevenue" role="img" aria-label="Revenue de campañas y flujos por mes"></canvas></div></div>
+        <div class="card chart-card"><h3 class="chart-card__title">Emails enviados: campañas y flujos</h3><div class="chart"><canvas data-chart="histVolume" role="img" aria-label="Volumen de envío por mes"></canvas></div></div>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table class="table">
+            <caption class="sr-only">Tabla histórica mensual</caption>
+            <thead><tr>
+              <th scope="col">Mes</th><th scope="col" class="num">BBDD total</th><th scope="col" class="num">Activos</th><th scope="col" class="num">Suscritos</th>
+              <th scope="col" class="num">Envíos</th><th scope="col" class="num">OR</th><th scope="col" class="num">CTR</th>
+              <th scope="col" class="num">Rev. flujos</th><th scope="col" class="num">Rev. campañas</th><th scope="col" class="num">Rev. Klaviyo</th>
+              <th scope="col" class="num">Canal Shopify</th><th scope="col" class="num">Venta neta</th><th scope="col" class="num">Peso</th>
+            </tr></thead>
+            <tbody data-js="hist-table"></tbody>
+          </table>
+        </div>
+        <p class="note">Envíos, OR y CTR combinan campañas B2C y flujos (Klaviyo). Rev. Klaviyo es la atribución de Klaviyo; canal Shopify y peso son la atribución de último clic no directo de Shopify.</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- CAMPAÑAS -->
+  <div class="panel" data-panel="campanas" hidden>
+    <section class="section">
+      <h2 class="section__title"><span class="tag">01</span>Campañas B2C <span class="pill" data-js="camp-count"></span></h2>
+      <p class="section__sub" data-js="camp-b2b-note"></p>
+      <div class="kpis kpis--3" data-js="camp-kpis"></div>
+    </section>
+    <section class="section">
+      <h2 class="section__title"><span class="tag">02</span>Mejores campañas del periodo</h2>
+      <p class="section__sub">Las cuatro con más revenue atribuido.</p>
+      <div class="tops" data-js="top-camps"></div>
+    </section>
+    <section class="section">
+      <div class="card chart-card"><h3 class="chart-card__title">Open rate y CTR por campaña</h3><div class="chart chart--tall"><canvas data-chart="campOrCtr" role="img" aria-label="Open rate y CTR por campaña"></canvas></div></div>
+      <div class="card chart-card"><h3 class="chart-card__title">Revenue por campaña</h3><div class="chart chart--tall"><canvas data-chart="campRevenue" role="img" aria-label="Revenue por campaña"></canvas></div></div>
+    </section>
+    <section class="section">
+      <h2 class="section__title"><span class="tag">03</span>Detalle por campaña</h2>
+      <div class="card">
+        <div class="search">
+          <label class="sr-only" for="campSearch">Buscar campaña</label>
+          <input id="campSearch" class="input search__input" type="search" placeholder="Filtrar por nombre: rebajas, nyrex, terciopelo…" data-js="camp-search">
+          <span class="search__count" data-js="camp-search-count"></span>
+        </div>
+        <div class="table-wrap table-wrap--scroll">
+          <table class="table">
+            <caption class="sr-only">Detalle de campañas B2C del periodo</caption>
+            <thead><tr><th scope="col">Campaña</th><th scope="col">Envío</th><th scope="col" class="num">Dest.</th><th scope="col" class="num">OR</th><th scope="col" class="num">CTR</th><th scope="col" class="num">CTOR</th><th scope="col" class="num">CR</th><th scope="col" class="num">Bajas</th><th scope="col" class="num">Pedidos</th><th scope="col" class="num">Revenue</th><th scope="col" class="num">AOV</th><th scope="col" class="num">€/dest.</th></tr></thead>
+            <tbody data-js="camp-table"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- FLUJOS -->
+  <div class="panel" data-panel="flujos" hidden>
+    <section class="section">
+      <h2 class="section__title"><span class="tag">01</span>Flujos automatizados <span class="pill" data-js="flow-count"></span></h2>
+      <div class="kpis kpis--3" data-js="flow-kpis"></div>
+      <div class="card chart-card"><h3 class="chart-card__title">Revenue de flujos y open rate ponderado por mes</h3><div class="chart chart--tall"><canvas data-chart="flowMonthly" role="img" aria-label="Revenue y open rate de flujos por mes"></canvas></div></div>
+      <div class="grid-2">
+        <div class="card chart-card"><h3 class="chart-card__title">Revenue por flujo</h3><div class="chart"><canvas data-chart="flowRevenue" role="img" aria-label="Revenue por flujo"></canvas></div></div>
+        <div class="card chart-card"><h3 class="chart-card__title">Revenue por destinatario</h3><div class="chart"><canvas data-chart="flowRpr" role="img" aria-label="Revenue por destinatario por flujo"></canvas></div></div>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table class="table">
+            <caption class="sr-only">Detalle por flujo en el periodo</caption>
+            <thead><tr><th scope="col">Flujo</th><th scope="col" class="num">Meses</th><th scope="col" class="num">Dest.</th><th scope="col" class="num">OR</th><th scope="col" class="num">CTR</th><th scope="col" class="num">CR</th><th scope="col" class="num">Pedidos</th><th scope="col" class="num">Revenue</th><th scope="col" class="num">AOV</th><th scope="col" class="num">€/dest.</th></tr></thead>
+            <tbody data-js="flow-table"></tbody>
+          </table>
+        </div>
+        <p class="note">Suma de los meses seleccionados; OR, CTR y CR ponderados por destinatarios.</p>
+      </div>
+    </section>
+    <section class="section">
+      <h2 class="section__title"><span class="tag">02</span>Salud de flujos <span class="pill" data-js="health-period"></span></h2>
+      <details class="explain">
+        <summary>Cómo se calcula la puntuación (0-100)</summary>
+        <p>Revenue por destinatario hasta 40 puntos (objetivo 2 €), open rate hasta 25 (objetivo 45 %), conversión hasta 25 (objetivo 4 %) y volumen hasta 10 (objetivo 500 envíos). Excelente desde 70, sano de 50 a 69, a vigilar de 30 a 49 y crítico por debajo de 30.</p>
+      </details>
+      <div class="health" data-js="flow-health"></div>
+    </section>
+    <section class="section">
+      <h2 class="section__title"><span class="tag">03</span>Oportunidades en los flujos</h2>
+      <div class="opps" data-js="flow-opps"></div>
+    </section>
+  </div>
+
+  <!-- INTERANUAL -->
+  <div class="panel" data-panel="interanual" hidden>
+    <section class="section">
+      <h2 class="section__title"><span class="tag">01</span>Periodo seleccionado frente al mismo periodo del año anterior <span class="pill" data-js="yoy-range"></span></h2>
+      <p class="section__sub" data-js="yoy-sub"></p>
+      <div class="kpis kpis--3" data-js="yoy-cards"></div>
+      <div class="card chart-card"><h3 class="chart-card__title">Revenue Klaviyo (campañas y flujos) mes a mes</h3><div class="chart chart--tall"><canvas data-chart="yoyChart" role="img" aria-label="Revenue Klaviyo del periodo frente al año anterior"></canvas></div></div>
+    </section>
+  </div>
+
+  <!-- ANÁLISIS -->
+  <div class="panel" data-panel="analisis" hidden>
+    <section class="section">
+      <div class="toolbar">
+        <div class="filters__group">
+          <label class="label" for="analysisMonth">Mes analizado</label>
+          <select id="analysisMonth" class="input" data-js="analysis-month"></select>
+        </div>
+        <button class="btn btn--ghost" type="button" data-js="analysis-edit">Editar análisis y contexto</button>
+      </div>
+    </section>
+    <div data-js="analysis-view"></div>
+    <form class="card form" data-js="analysis-form" hidden>
+      <h2 class="section__title">Editar <span data-js="analysis-form-month"></span></h2>
+      <p class="section__sub">Una idea por línea. Usa **texto** para negrita. En propuestas: título | cuándo | descripción.</p>
+      <label class="label" for="fContexto">Contexto del mes (lo que pasó y no se ve en los datos)</label>
+      <textarea id="fContexto" class="input textarea" rows="4" data-field="contexto" placeholder="Ej.: suprimimos 6.000 contactos por inactividad; cambio de plantilla; incidencia con el feed…"></textarea>
+      <label class="label" for="fResumen">Resumen ejecutivo</label>
+      <textarea id="fResumen" class="input textarea" rows="4" data-field="analisis.resumen"></textarea>
+      <label class="label" for="fFunciono">Lo que ha funcionado</label>
+      <textarea id="fFunciono" class="input textarea" rows="6" data-field="analisis.funciono" data-list="true"></textarea>
+      <label class="label" for="fCorregir">Lo que hay que corregir</label>
+      <textarea id="fCorregir" class="input textarea" rows="6" data-field="analisis.corregir" data-list="true"></textarea>
+      <label class="label" for="fAcciones">Acciones realizadas en el mes</label>
+      <textarea id="fAcciones" class="input textarea" rows="4" data-field="analisis.acciones" data-list="true"></textarea>
+      <label class="label" for="fPropuestas">Propuestas de newsletters</label>
+      <textarea id="fPropuestas" class="input textarea" rows="6" data-field="analisis.propuestas" data-list="true"></textarea>
+      <div class="form__actions">
+        <button class="btn" type="submit">Guardar</button>
+        <button class="btn btn--ghost" type="button" data-js="analysis-cancel">Cancelar</button>
+        <span class="form__msg" data-js="analysis-msg" role="status"></span>
+      </div>
+    </form>
+    <section class="section">
+      <h2 class="section__title"><span class="tag">R</span>Recomendaciones calculadas</h2>
+      <p class="section__sub">Se recalculan con el filtro de meses y con el histórico completo.</p>
+      <div class="grid-2">
+        <div class="card"><h3 class="card__title">Según el periodo <span class="muted" data-js="reco-period-label"></span></h3><ul class="list" data-js="reco-period"></ul></div>
+        <div class="card"><h3 class="card__title">Según la tendencia histórica</h3><ul class="list" data-js="reco-trend"></ul></div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="toolbar">
+        <h2 class="section__title"><span class="tag">E</span>Marco estratégico permanente</h2>
+        <button class="btn btn--ghost" type="button" data-js="strategy-edit">Editar marco</button>
+      </div>
+      <p class="section__sub">Prioridades que se mantienen de un mes a otro.</p>
+      <div class="grid-4" data-js="strategy-view"></div>
+      <form class="card form" data-js="strategy-form" hidden>
+        <p class="section__sub">Una recomendación por línea: título | prioridad (alta, media, baja) | detalle.</p>
+        <label class="label" for="sCampanas">Campañas</label>
+        <textarea id="sCampanas" class="input textarea" rows="5" data-field="campanas"></textarea>
+        <label class="label" for="sFlujos">Flujos</label>
+        <textarea id="sFlujos" class="input textarea" rows="5" data-field="flujos"></textarea>
+        <label class="label" for="sSegmentacion">Segmentación</label>
+        <textarea id="sSegmentacion" class="input textarea" rows="5" data-field="segmentacion"></textarea>
+        <label class="label" for="sCaptacion">Captación</label>
+        <textarea id="sCaptacion" class="input textarea" rows="4" data-field="captacion"></textarea>
+        <div class="form__actions">
+          <button class="btn" type="submit">Guardar</button>
+          <button class="btn btn--ghost" type="button" data-js="strategy-cancel">Cancelar</button>
+          <span class="form__msg" data-js="strategy-msg" role="status"></span>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <!-- EDITAR DATOS -->
+  <div class="panel" data-panel="datos" hidden>
+    <section class="section">
+      <div class="toolbar">
+        <div class="filters__group">
+          <label class="label" for="editMonth">Mes a editar</label>
+          <select id="editMonth" class="input" data-js="edit-month"></select>
+        </div>
+        <form class="toolbar__add" data-js="add-month-form">
+          <label class="label" for="newMonth">Añadir mes</label>
+          <input id="newMonth" class="input" type="month" data-js="new-month" required>
+          <button class="btn btn--ghost" type="submit">Crear mes vacío</button>
+        </form>
+      </div>
+      <p class="section__sub" data-js="edit-readonly" hidden>Solo lectura: tu nivel de acceso a este panel no permite guardar cambios.</p>
+    </section>
+    <form class="form" data-js="month-form">
+      <div class="card">
+        <h2 class="section__title">Shopify y base de datos</h2>
+        <div class="form-grid">
+          <div><label class="label" for="eShopRev">Ingresos canal email Shopify (€)</label><input id="eShopRev" class="input" type="number" step="0.01" min="0" data-field="shopify.rev"></div>
+          <div><label class="label" for="eVenta">Venta neta tienda (€)</label><input id="eVenta" class="input" type="number" step="0.01" min="0" data-field="shopify.ventaNeta"></div>
+          <div><label class="label" for="eTotal">BBDD total</label><input id="eTotal" class="input" type="number" step="1" min="0" data-field="bbdd.total"></div>
+          <div><label class="label" for="eActivos">BBDD activos</label><input id="eActivos" class="input" type="number" step="1" min="0" data-field="bbdd.activos"></div>
+          <div><label class="label" for="eSuscritos">BBDD suscritos email</label><input id="eSuscritos" class="input" type="number" step="1" min="0" data-field="bbdd.suscritos"></div>
+          <div><label class="label" for="eEnviamos">BBDD enviamos</label><input id="eEnviamos" class="input" type="number" step="1" min="0" data-field="bbdd.enviamos"></div>
+        </div>
+        <div class="form-grid form-grid--wide">
+          <div><label class="label" for="eSrcK">Fuente Klaviyo</label><input id="eSrcK" class="input" type="text" maxlength="300" data-field="fuentes.klaviyo"></div>
+          <div><label class="label" for="eSrcS">Fuente Shopify</label><input id="eSrcS" class="input" type="text" maxlength="300" data-field="fuentes.shopify"></div>
+          <div><label class="label" for="eSrcB">Fuente BBDD</label><input id="eSrcB" class="input" type="text" maxlength="300" data-field="fuentes.bbdd"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="toolbar">
+          <h2 class="section__title">Campañas del mes</h2>
+          <button class="btn btn--ghost" type="button" data-js="add-campaign">Añadir campaña</button>
+        </div>
+        <p class="section__sub">Porcentajes en %. Marca «B2B» para excluir una campaña de todos los cálculos.</p>
+        <div class="table-wrap table-wrap--scroll">
+          <table class="table table--edit">
+            <caption class="sr-only">Campañas editables del mes</caption>
+            <thead><tr><th scope="col">B2B</th><th scope="col">Campaña</th><th scope="col">Fecha</th><th scope="col">Dest.</th><th scope="col">OR %</th><th scope="col">CTR %</th><th scope="col">CTOR %</th><th scope="col">CR %</th><th scope="col">Bajas %</th><th scope="col">Pedidos</th><th scope="col">Revenue €</th><th scope="col"><span class="sr-only">Quitar</span></th></tr></thead>
+            <tbody data-js="edit-campaigns"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <h2 class="section__title">Flujos del mes</h2>
+        <div class="table-wrap">
+          <table class="table table--edit">
+            <caption class="sr-only">Flujos editables del mes</caption>
+            <thead><tr><th scope="col">Flujo</th><th scope="col">Dest.</th><th scope="col">OR %</th><th scope="col">CTR %</th><th scope="col">Pedidos</th><th scope="col">Revenue €</th></tr></thead>
+            <tbody data-js="edit-flows"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="form__actions form__actions--sticky">
+        <button class="btn" type="submit">Guardar mes</button>
+        <button class="btn btn--ghost" type="button" data-js="month-reset">Descartar cambios</button>
+        <span class="form__msg" data-js="month-msg" role="status"></span>
+      </div>
+    </form>
+  </div>
+</main>
+
+<footer class="foot">
+  <p data-js="footer-sources">Fuentes: Klaviyo y Shopify. Campañas B2B (mayoristas) excluidas de todos los cálculos.</p>
+</footer>
+
+<script src="panel.js"></script>
