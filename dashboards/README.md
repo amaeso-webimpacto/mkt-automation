@@ -4,7 +4,7 @@ Un artefacto HTML por cliente con la línea gráfica de la sociedad que factura 
 
 ## Estructura
 
-- `.claude/skills/panel-email-cliente/`: la skill con todo el proceso (`SKILL.md`) y la plantilla común del panel (`plantilla/`: `index.html` con `{{CLIENTE}}`, `panel.css`, `panel.js`, `logo_d2c.png`, `nuevo-cliente.js` y `build-static.js` para la versión de Google Sites). Es la única copia del diseño.
+- `.claude/skills/panel-email-cliente/`: la skill con todo el proceso (`SKILL.md`, con versión e historial), las instrucciones por plataforma (`plataformas/klaviyo.md`, `plataformas/icommkt.md`) y la plantilla común del panel (`plantilla/`: `index.html` con `{{CLIENTE}}`, `panel.css`, `panel.js`, `logo_d2c.png`, `nuevo-cliente.js` y `build-static.js` para la versión de Google Sites). Es la única copia del diseño.
 - `<cliente>/index.html`: la plantilla con el nombre del cliente. Se publica con los `panel.*` y el logo de la plantilla.
 - `<cliente>/seed/`: carga inicial del histórico (`build.js`, `merge-audiences.js`, `audiences.json`). Después, la fuente de verdad es la base de datos del artefacto.
 - Cada panel guarda en `config/cliente` su conector de Klaviyo y su métrica de conversión, así que no hace falta un registro aparte: los paneles se localizan por su título «Panel Email <Cliente>».

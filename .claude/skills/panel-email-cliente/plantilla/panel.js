@@ -105,6 +105,8 @@
     return { recipients: r, or: opens / r, ctr: clicks / r, ctor: opens ? clicks / opens : 0, cr: conv / r, conv, rev, aov: conv ? rev / conv : 0, rpr: rev / r, months: entries.length };
   }
 
+  /** Nombre de la plataforma de email del cliente (config/cliente.plataforma). */
+  const plat = () => (state.config && state.config.plataforma) || "Klaviyo";
   const flowIds = () => Object.keys((state.config && state.config.flujos) || {});
   const flowName = (id) => (state.config && state.config.flujos[id] && state.config.flujos[id].name) || id;
   const selectedFlowIds = () => flowIds().filter((id) => !state.flowSel || state.flowSel.has(id));
@@ -208,7 +210,7 @@
     const contexto = last.contexto;
     $("summary").innerHTML =
       '<span class="highlight__eyebrow">Resumen · ' + esc(rangeLabel(months)) + "</span>" +
-      "<p><strong>" + fInt(t.camp ? t.camp.n : 0) + " campañas B2C</strong> y <strong>" + fInt(t.flows ? t.flows.recipients + (t.camp ? t.camp.recipients : 0) : 0) + " emails</strong> enviados. Revenue atribuido por Klaviyo: <strong>" + fEur(klaviyo) + "</strong>, el " + fPct(flowShare, 0) + " desde flujos." +
+      "<p><strong>" + fInt(t.camp ? t.camp.n : 0) + " campañas B2C</strong> y <strong>" + fInt(t.flows ? t.flows.recipients + (t.camp ? t.camp.recipients : 0) : 0) + " emails</strong> enviados. Revenue atribuido por " + esc(plat()) + ": <strong>" + fEur(klaviyo) + "</strong>, el " + fPct(flowShare, 0) + " desde flujos." +
       (t.peso != null ? " Peso del email en la venta neta según Shopify: <strong>" + fPct(t.peso) + "</strong>." : "") + "</p>" +
       (resumen ? "<p><strong>" + esc(last.label) + ":</strong> " + rich(resumen) + "</p>" : "") +
       (contexto ? "<p><strong>Contexto:</strong> " + rich(contexto) + "</p>" : "");
@@ -297,10 +299,10 @@
       kpiCard({ label: "Open rate campañas", value: c.or, text: fPct(c.or), delta: deltaChip(c.or, pc.or, true, vs) }) +
       kpiCard({ label: "CTR campañas", value: c.ctr, text: fPct(c.ctr), note: "CTOR " + fPct(c.ctor), delta: deltaChip(c.ctr, pc.ctr, true, vs) }) +
       kpiCard({ label: "Tasa de baja", value: c.unsub, text: fPct(c.unsub, 3), note: c.unsub > UNSUB_LIMIT ? "Por encima del 0,3 %" : "Por debajo del 0,3 %", delta: deltaChip(c.unsub, pc.unsub, true, vs, true) }) +
-      kpiCard({ navy: true, label: "Revenue campañas", value: c.rev || 0, text: fEur(c.rev || 0), note: fInt(c.conv || 0) + " pedidos · AOV " + fEur(c.aov), delta: deltaChip(c.rev, pc.rev, false, vs), src: "Fuente: Klaviyo" }) +
-      kpiCard({ label: "Revenue flujos", value: f.rev || 0, text: fEur(f.rev || 0), note: fInt(f.conv || 0) + " pedidos", delta: deltaChip(f.rev, pf.rev, false, vs), src: "Fuente: Klaviyo" }) +
-      kpiCard({ label: "€ por destinatario (campañas)", value: c.rpr, text: isNum(c.rpr) ? c.rpr.toLocaleString("es-ES", { maximumFractionDigits: 3 }) + " €" : "—", delta: deltaChip(c.rpr, pc.rpr, false, vs), src: "Fuente: Klaviyo" }) +
-      kpiCard({ label: "€ por destinatario (flujos)", value: f.rpr, text: fEur2(f.rpr), delta: deltaChip(f.rpr, pf.rpr, false, vs), src: "Fuente: Klaviyo" });
+      kpiCard({ navy: true, label: "Revenue campañas", value: c.rev || 0, text: fEur(c.rev || 0), note: fInt(c.conv || 0) + " pedidos · AOV " + fEur(c.aov), delta: deltaChip(c.rev, pc.rev, false, vs), src: "Fuente: " + plat() }) +
+      kpiCard({ label: "Revenue flujos", value: f.rev || 0, text: fEur(f.rev || 0), note: fInt(f.conv || 0) + " pedidos", delta: deltaChip(f.rev, pf.rev, false, vs), src: "Fuente: " + plat() }) +
+      kpiCard({ label: "€ por destinatario (campañas)", value: c.rpr, text: isNum(c.rpr) ? c.rpr.toLocaleString("es-ES", { maximumFractionDigits: 3 }) + " €" : "—", delta: deltaChip(c.rpr, pc.rpr, false, vs), src: "Fuente: " + plat() }) +
+      kpiCard({ label: "€ por destinatario (flujos)", value: f.rpr, text: fEur2(f.rpr), delta: deltaChip(f.rpr, pf.rpr, false, vs), src: "Fuente: " + plat() });
 
     const p = palette();
     const rows = months.map(monthSummary);
@@ -378,7 +380,7 @@
       kpiCard({ label: "CTR", value: c.ctr, text: fPct(c.ctr), note: "CTOR " + fPct(c.ctor), delta: deltaChip(c.ctr, pc.ctr, true, vs) }) +
       kpiCard({ label: "Conversión", value: c.cr, text: fPct(c.cr, 3), note: fInt(c.conv) + " pedidos", delta: deltaChip(c.cr, pc.cr, true, vs) }) +
       kpiCard({ label: "Tasa de baja", value: c.unsub, text: fPct(c.unsub, 3), delta: deltaChip(c.unsub, pc.unsub, true, vs, true) }) +
-      kpiCard({ navy: true, label: "Revenue", value: c.rev, text: fEur(c.rev), note: "AOV " + fEur(c.aov), delta: deltaChip(c.rev, pc.rev, false, vs), src: "Fuente: Klaviyo" }) +
+      kpiCard({ navy: true, label: "Revenue", value: c.rev, text: fEur(c.rev), note: "AOV " + fEur(c.aov), delta: deltaChip(c.rev, pc.rev, false, vs), src: "Fuente: " + plat() }) +
       kpiCard({ label: "€ por destinatario", value: c.rpr, text: c.rpr.toLocaleString("es-ES", { maximumFractionDigits: 3 }) + " €", delta: deltaChip(c.rpr, pc.rpr, false, vs) });
 
     const camps = t.camps.slice().sort((a, b) => a.date < b.date ? -1 : 1);
@@ -474,7 +476,7 @@
     const vs = "vs año ant.";
     const best = list.slice().sort((a, b) => b.agg.rev - a.agg.rev)[0];
     $("flow-kpis").innerHTML =
-      kpiCard({ navy: true, label: "Revenue flujos", value: all.rev, text: fEur(all.rev), note: fInt(all.conv) + " pedidos", delta: deltaChip(all.rev, pv.rev, false, vs), src: "Fuente: Klaviyo" }) +
+      kpiCard({ navy: true, label: "Revenue flujos", value: all.rev, text: fEur(all.rev), note: fInt(all.conv) + " pedidos", delta: deltaChip(all.rev, pv.rev, false, vs), src: "Fuente: " + plat() }) +
       kpiCard({ label: "Envíos de flujos", value: all.recipients, text: fInt(all.recipients), delta: deltaChip(all.recipients, pv.recipients, false, vs) }) +
       kpiCard({ label: "Open rate ponderado", value: all.or, text: fPct(all.or), delta: deltaChip(all.or, pv.or, true, vs) }) +
       kpiCard({ label: "Conversión", value: all.cr, text: fPct(all.cr), delta: deltaChip(all.cr, pv.cr, true, vs) }) +
@@ -567,7 +569,7 @@
     const card = (label, c, pv, fmt, isRate, navy) => kpiCard({ navy, label, value: c, text: fmt(c), delta: deltaChip(c, pv, isRate), note: "Año anterior: " + fmt(pv) });
     const g = (t, k) => t.camp ? t.camp[k] : null;
     $("yoy-cards").innerHTML =
-      card("Revenue Klaviyo total", klav(cur), klav(prev), fEur, false, true) +
+      card("Revenue " + plat() + " total", klav(cur), klav(prev), fEur, false, true) +
       card("Revenue campañas", g(cur, "rev"), g(prev, "rev"), fEur) +
       card("Revenue flujos", cur.flows && cur.flows.rev, prev.flows && prev.flows.rev, fEur) +
       card("Emails enviados", sends(cur), sends(prev), fInt) +
@@ -621,7 +623,7 @@
       mini(fPct(c.or, 1), "Open rate", ps && ps.camp ? deltaChip(c.or, ps.camp.or, true, "vs mes ant.") : "") +
       mini(fEur(s.campRev), "Revenue campañas", ps ? deltaChip(s.campRev, ps.campRev, false, "vs mes ant.") : "") +
       mini(fEur(s.flowRev), "Revenue flujos", ps ? deltaChip(s.flowRev, ps.flowRev, false, "vs mes ant.") : "") +
-      mini(fEur(s.klaviyoRev), "Revenue Klaviyo", pys ? deltaChip(s.klaviyoRev, pys.klaviyoRev, false, "vs año ant.") : "") +
+      mini(fEur(s.klaviyoRev), "Revenue " + plat(), pys ? deltaChip(s.klaviyoRev, pys.klaviyoRev, false, "vs año ant.") : "") +
       mini(fPct(c.unsub, 3), "Tasa de baja", ps && ps.camp ? deltaChip(c.unsub, ps.camp.unsub, true, "vs mes ant.", true) : "") + "</div></section>" +
       '<section class="section"><div class="grid-2"><div class="card"><h3 class="card__title">Lo que ha funcionado</h3>' + listHtml(a.funciono, "list--good") + '</div><div class="card"><h3 class="card__title">Lo que hay que corregir</h3>' + listHtml(a.corregir, "list--warn") + "</div></div></section>" +
       '<section class="section"><h2 class="section__title"><span class="tag">03</span>Acciones realizadas en ' + esc(m.label) + '</h2><div class="card">' + listHtml(a.acciones) + "</div></section>" +
@@ -991,8 +993,10 @@
     if (!hasData) return;
     const months = rangeMonths();
     const all = state.months;
-    $("hero-meta").textContent = "Datos de " + all[0].label + " a " + all[all.length - 1].label + " · " + ((state.config && state.config.plataforma) || "Klaviyo") + " y " + ((state.config && state.config.tienda) || "Shopify");
+    $("hero-meta").textContent = "Datos de " + all[0].label + " a " + all[all.length - 1].label + " · " + plat() + " y " + ((state.config && state.config.tienda) || "Shopify");
     if (state.config && state.config.cliente) $("client-name").textContent = state.config.cliente;
+    document.querySelectorAll("[data-platform]").forEach((el) => { el.textContent = plat(); });
+    if (state.config && state.config.notaFuentes && !state.static) $("footer-sources").textContent = state.config.notaFuentes;
     const t = periodTotals(months);
     $("filter-info").textContent = months.length + (months.length === 1 ? " mes" : " meses") + " · " + (t.camp ? t.camp.n : 0) + " campañas B2C · " + flowsWithAgg(months).length + " flujos con datos";
     const views = {
@@ -1089,7 +1093,9 @@
 
   /** Versión estática: solo lectura, sin pestaña de edición, con los datos del HTML. */
   function startStatic(data) {
+    state.static = true;
     state.canWrite = false;
+    if (data.config && data.config.notaFuentes) $("footer-sources").textContent = data.config.notaFuentes;
     state.config = data.config || { flujos: {}, estrategia: {} };
     const tab = document.querySelector('[data-tab="datos"]');
     if (tab) tab.remove();

@@ -103,7 +103,7 @@
       <h2 class="section__title"><span class="tag">04</span>Histórico completo del canal <span class="pill" data-js="hist-range"></span></h2>
       <p class="section__sub">Esta sección muestra siempre todo el histórico, sin aplicar el filtro de meses.</p>
       <div class="grid-2">
-        <div class="card chart-card"><h3 class="chart-card__title">Revenue Klaviyo: campañas y flujos</h3><div class="chart"><canvas data-chart="histRevenue" role="img" aria-label="Revenue de campañas y flujos por mes"></canvas></div></div>
+        <div class="card chart-card"><h3 class="chart-card__title">Revenue <span data-platform>Klaviyo</span>: campañas y flujos</h3><div class="chart"><canvas data-chart="histRevenue" role="img" aria-label="Revenue de campañas y flujos por mes"></canvas></div></div>
         <div class="card chart-card"><h3 class="chart-card__title">Emails enviados: campañas y flujos</h3><div class="chart"><canvas data-chart="histVolume" role="img" aria-label="Volumen de envío por mes"></canvas></div></div>
       </div>
       <div class="card">
@@ -113,13 +113,13 @@
             <thead><tr>
               <th scope="col">Mes</th><th scope="col" class="num">BBDD total</th><th scope="col" class="num">Activos</th><th scope="col" class="num">Suscritos</th>
               <th scope="col" class="num">Envíos</th><th scope="col" class="num">OR</th><th scope="col" class="num">CTR</th>
-              <th scope="col" class="num">Rev. flujos</th><th scope="col" class="num">Rev. campañas</th><th scope="col" class="num">Rev. Klaviyo</th>
+              <th scope="col" class="num">Rev. flujos</th><th scope="col" class="num">Rev. campañas</th><th scope="col" class="num">Rev. <span data-platform>Klaviyo</span></th>
               <th scope="col" class="num">Canal Shopify</th><th scope="col" class="num">Venta neta</th><th scope="col" class="num">Peso</th>
             </tr></thead>
             <tbody data-js="hist-table"></tbody>
           </table>
         </div>
-        <p class="note">Envíos, OR y CTR combinan campañas B2C y flujos (Klaviyo). Rev. Klaviyo es la atribución de Klaviyo; canal Shopify y peso son la atribución de último clic no directo de Shopify.</p>
+        <p class="note">Envíos, OR y CTR combinan campañas B2C y flujos (<span data-platform>Klaviyo</span>). Rev. <span data-platform>Klaviyo</span> es la atribución de la plataforma; canal Shopify y peso son la atribución de último clic no directo de Shopify.</p>
       </div>
     </section>
   </div>
@@ -200,7 +200,7 @@
       <h2 class="section__title"><span class="tag">01</span>Periodo seleccionado frente al mismo periodo del año anterior <span class="pill" data-js="yoy-range"></span></h2>
       <p class="section__sub" data-js="yoy-sub"></p>
       <div class="kpis kpis--3" data-js="yoy-cards"></div>
-      <div class="card chart-card"><h3 class="chart-card__title">Revenue Klaviyo (campañas y flujos) mes a mes</h3><div class="chart chart--tall"><canvas data-chart="yoyChart" role="img" aria-label="Revenue Klaviyo del periodo frente al año anterior"></canvas></div></div>
+      <div class="card chart-card"><h3 class="chart-card__title">Revenue <span data-platform>Klaviyo</span> (campañas y flujos) mes a mes</h3><div class="chart chart--tall"><canvas data-chart="yoyChart" role="img" aria-label="Revenue de la plataforma de email del periodo frente al año anterior"></canvas></div></div>
     </section>
   </div>
 
@@ -297,7 +297,7 @@
           <div><label class="label" for="eEnviamos">BBDD enviamos · última campaña B2C del mes</label><input id="eEnviamos" class="input" type="number" step="any" min="0" data-field="bbdd.enviamos"></div>
         </div>
         <div class="form-grid form-grid--wide">
-          <div><label class="label" for="eSrcK">Fuente Klaviyo</label><input id="eSrcK" class="input" type="text" maxlength="300" data-field="fuentes.klaviyo"></div>
+          <div><label class="label" for="eSrcK">Fuente <span data-platform>Klaviyo</span></label><input id="eSrcK" class="input" type="text" maxlength="300" data-field="fuentes.klaviyo"></div>
           <div><label class="label" for="eSrcS">Fuente Shopify</label><input id="eSrcS" class="input" type="text" maxlength="300" data-field="fuentes.shopify"></div>
           <div><label class="label" for="eSrcB">Fuente BBDD</label><input id="eSrcB" class="input" type="text" maxlength="300" data-field="fuentes.bbdd"></div>
         </div>
@@ -336,7 +336,7 @@
 </main>
 
 <footer class="foot">
-  <p data-js="footer-sources">Fuentes: Klaviyo (conversión Placed Order de Shopify, canal email) y Shopify (último clic no directo). Venta neta facilitada por el cliente. Activos: recuento de perfiles de correo de Klaviyo el día de actualización. Enviamos: destinatarios de la última campaña B2C del mes. Campañas B2B y de mayoristas excluidas de todos los cálculos.</p>
+  <p data-js="footer-sources">Fuentes: plataforma de email del cliente y Shopify (último clic no directo). Venta neta facilitada por el cliente. Campañas B2B y de mayoristas excluidas de todos los cálculos.</p>
 </footer>
 
 <script src="panel.js"></script>
