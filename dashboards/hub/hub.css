@@ -1,0 +1,30 @@
+/* Listado de paneles de email · se apoya en los tokens y componentes de panel.css. */
+.hub-table td { vertical-align: top; }
+.hub-link { color: var(--azul); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+.hub-link:hover { color: var(--azul-2); }
+.hub-note { display: block; color: var(--apagado); font-size: 12px; max-width: 360px; }
+.hub-actions { white-space: nowrap; text-align: right; }
+.hub-actions .link { margin-left: var(--space-1); color: var(--azul); }
+.hub-table .badge { white-space: nowrap; }
+.empty-row { margin: var(--space-2) 0 0; color: var(--texto-2); }
+
+.avisos { display: grid; gap: var(--space-2); grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
+.aviso { display: grid; gap: var(--space-1); align-content: start; padding: var(--space-2); border-radius: var(--radius-md); background: var(--ambar-fondo); border-left: 4px solid var(--ambar); }
+.aviso--previsto { background: var(--tarjeta); border-left-color: var(--azul-suave); box-shadow: var(--sombra); }
+.aviso__title { margin: 0; font-size: 15px; font-weight: 700; }
+.aviso__list { margin: 0; padding: 0; list-style: none; display: grid; gap: var(--space-1); }
+.aviso__item { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-2); }
+.aviso__item .hub-note { color: var(--texto-2); }
+.aviso .link { color: var(--azul); }
+
+.hub-dialog {
+  width: min(640px, calc(100vw - 32px));
+  border: 0;
+  border-radius: var(--radius-md);
+  padding: var(--space-2);
+  background: var(--tarjeta);
+  color: var(--texto);
+  box-shadow: var(--sombra);
+}
+.hub-dialog::backdrop { background: rgba(1, 26, 79, 0.45); }
+.hub-dialog .textarea { font-size: 13px; }

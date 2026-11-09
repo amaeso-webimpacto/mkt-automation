@@ -16,11 +16,26 @@ Un artefacto HTML por cliente con la línea gráfica de la sociedad que factura 
 
 Los porcentajes se guardan como fracción (0,35 = 35 %). Las campañas B2B se excluyen de todos los cálculos con el campo `b2b`.
 
+## Listado de paneles
+
+«Paneles Email» (https://claude.ai/artifact/Tstgau5tAfbTJ3Fauz7cQc), código en `hub/` (`index.html`, `hub.js` para la interfaz, `hub-peticiones.js` para la validación y las peticiones a las sesiones, `hub.css`). Reutiliza `panel.css` y el logo de la plantilla. Guarda en su base de datos un documento por panel en `paneles/<id>` (`cliente`, `url`, `plataforma`, `estado`, `alta`, `ultimaPeticion`, `ultimaActualizacion`, `pendientesManual`) y su propio enlace en `config/hub`. Nada de cifras.
+
+- **Actualizar:** con el conector Claude Code Remote, abre una sesión nueva de Claude Code a nombre de quien pulsa, en el entorno que elija, con este repositorio en `main` y la skill en modo B para ese cliente y mes.
+- **Crear panel nuevo:** pide cliente, plataforma, sociedad (solo D2C eCommerce tiene plantilla), conector, mes desde el que cargar y, si lo hay, el histórico anterior (artefacto o hoja de Google). Crea la fila `paneles/nuevo-<slug>` en estado «creando» y lanza una sesión en modo A, que le pone el enlace al publicar el panel.
+- **Añadir panel existente:** nombre, enlace del artefacto y plataforma; el id del documento es el del artefacto.
+- **Datos para meter a mano:** un aviso por cliente con `pendientesManual`, que deja la sesión al terminar (paso 8 del modo B y paso 7 del modo A). El equipo marca cada dato como hecho. Mientras un panel no tenga esa lista, el aviso muestra lo previsto por su plataforma (`MANUAL_POR_PLATAFORMA` en `hub-peticiones.js`): si cambian los datos manuales en `SKILL.md` o `plataformas/`, actualizarlo también allí.
+- Sin conector, la página deja copiar la petición para pegarla en Claude Code.
+- Publicar con `hub/index.html`, `files` `{"panel.css", "logo_d2c.png"}` desde la plantilla y `{"hub.css", "hub.js", "hub-peticiones.js"}` desde `hub/`, sin pasar `capabilities` en las republicaciones.
+
 ## Paneles publicados
 
-- Azarey: https://claude.ai/artifact/VPjVvjaBwSM4TWnRNxhyts
+- Azarey (Klaviyo): https://claude.ai/artifact/VPjVvjaBwSM4TWnRNxhyts
+- Genuins (iCommkt): https://claude.ai/artifact/CHaBWwxiDWyx67mC8tm3Nz
+- Macami (Klaviyo): https://claude.ai/artifact/64FYJRydhPvqKYL1ZXZjeL
 
 ## Criterios comunes a todos los proyectos
+
+Lo propio de cada plataforma (activos, suscritos, enviamos, flujos, revenue) está en `.claude/skills/panel-email-cliente/plataformas/`. Lo de abajo es el caso Klaviyo; en iCommkt los ingresos salen solo de Shopify, suscritos es el segmento Masterdata_total y enviamos la suma de los segmentos de la última newsletter.
 
 - **B2B y mayoristas:** fuera de todos los cálculos. Nombre con B2B, BSB, MAYORISTA o [Seguimiento], o audiencias con «MAYORISTA».
 - **Venta neta:** dato manual que facilita el cliente.

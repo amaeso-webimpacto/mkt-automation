@@ -24,11 +24,19 @@ Cada cliente tiene un artefacto llamado **«Panel Email <Cliente>»** con la lí
 
 Lo normal, una vez creados los paneles, es actualizar.
 
+**Listado «Paneles Email»** (https://claude.ai/artifact/Tstgau5tAfbTJ3Fauz7cQc): reúne el enlace de cada panel, su botón «Actualizar» (sesión de Claude Code con esta skill en modo B y el mes elegido), el formulario «Crear panel nuevo» (sesión en modo A) y un aviso por cliente con los datos que hay que meter a mano. Cada sesión trabaja con un solo cliente. El código está en `dashboards/hub/` del repositorio.
+
 ## Criterios comunes (iguales en todas las plataformas)
 
 | Dato | Criterio |
 |---|---|
 | Campañas B2B / mayoristas | Fuera de todo cálculo (`b2b: true`). Nombre con B2B, BSB, MAYORISTA o [Seguimiento], **o** alguna audiencia, lista o segmento de envío con «MAYORISTA» o «B2B». Mirar siempre las audiencias, no solo el nombre. |
+| Ingresos canal email (Shopify) | Atribución **último clic no directo**. En clientes iCommkt es la **única** fuente de ingresos del canal (la plataforma no da revenue). Antes de usar el conector de Shopify, `get-shop-info` y confirmar que la tienda es la del cliente; si no, no usar esos datos y dejarlo como dato manual. |
+| Venta neta | **Siempre dato manual** que facilita el cliente. |
+| BBDD enviamos | Destinatarios de la **última campaña B2C** enviada en el mes. Si se envía por idiomas o segmentos (iCommkt), la **suma** de todas sus versiones. |
+| BBDD total, suscritos y activos | El día de la actualización. Cómo se obtienen depende de la plataforma (`plataformas/`): en iCommkt, suscritos = segmento(s) Masterdata_total y activos = contactos activos de iCommkt. |
+| Flujos | De la plataforma de email. En clientes iCommkt también salen de Shopify: cargar ambos, con la herramienta en el nombre del flujo. |
+| Segmento de envío | Audiencias, listas o segmentos incluidos y excluidos de cada campaña, guardados en `audiences`. |
 | Ingresos canal email (Shopify) | Atribución **último clic no directo**. Antes de usar el conector de Shopify, `get-shop-info` y confirmar que la tienda es la del cliente; si no, no usar esos datos y dejarlo como dato manual. |
 | Reparto Shopify campañas / flujos | Si Shopify da el reparto real, se guarda en `shopify.revCampanas` y `shopify.revFlujos`. Si no (lo normal en Klaviyo), el panel lo **estima en proporción a la atribución de la plataforma**: Shopify campañas = canal Shopify × revenue de campañas ÷ (campañas + flujos) de la plataforma, y lo mismo para flujos, mes a mes. Se muestra marcado como estimado. Ejemplo: plataforma 10.000 € (2.000 campañas, 8.000 flujos) y Shopify 5.000 € → 1.000 € campañas y 4.000 € flujos. No guardar la estimación en la base de datos: la calcula el panel. |
 | Venta neta | **Siempre dato manual** que facilita el cliente. |
@@ -51,6 +59,7 @@ Lo normal, una vez creados los paneles, es actualizar.
 5. Escribir `months/<mes>` con `actualizacion: {fecha: <ahora en ISO>, modo: "manual"}` (o `"programada"` si la lanza la tarea programada) y, si cambia, `config/cliente`.
 6. **Versión estática** (modo D) y entregarla.
 7. **Resumen** para quien lo pidió: qué se ha cargado, qué falta de dato manual y anomalías (campañas sin audiencia, B2B dudosas, saltos raros).
+8. **Si la petición viene del listado «Paneles Email»** (lo indica y trae su enlace), dejar el resultado allí: `ArtifactData update` de `paneles/<id>`, leyendo antes y con `if_version`, con `ultimaActualizacion {fecha, mes, estado, nota}` (`estado`: `ok`, `incompleta` o `error`) y `pendientesManual` (lista `{dato, mes, detalle}` de lo que el equipo tiene que meter a mano en «Editar datos» porque sigue vacío tras la carga: venta neta, ingresos de Shopify si el conector no es de su tienda y lo que su fichero de plataforma marque como manual; `[]` si no falta nada). El listado muestra esa lista como aviso del cliente. Sin cifras ni datos personales: el listado es común a todos los clientes.
 
 ## Modo A · Crear el panel de un cliente nuevo
 
@@ -64,6 +73,7 @@ Pedir solo lo que falte: nombre, sociedad que factura, plataforma, conector, des
 4. Cargar `config/cliente` (con `plataforma`, `conector` y `notaFuentes`) y los meses con `ArtifactData batch` (máximo 50 escrituras por lote).
 5. Redactar el análisis del último mes y comprobar con un `list` de `months` usando `as_level: "view"`.
 6. Dar el enlace y recordar que es privado hasta que se comparta desde «Compartir».
+7. **Si la petición viene del listado «Paneles Email»**, el cliente ya tiene allí una fila `paneles/nuevo-<slug>` en estado «creando»: actualizarla con `url` (enlace del panel), `estado: "creado"`, `ultimaActualizacion` y `pendientesManual` como en el paso 8 del modo B. Si no se puede crear, `estado: "error"` y el motivo en `ultimaActualizacion.nota`. Si la petición no viene del listado, añadir allí el panel desde «Añadir panel existente».
 
 Plataformas sin conector: mismo panel; los datos del mes se cargan desde la exportación que pase el equipo o a mano en «Editar datos».
 
