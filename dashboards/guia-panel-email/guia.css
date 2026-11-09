@@ -104,6 +104,8 @@ strong { color: var(--texto); font-weight: 600; }
 code, .mono { font-family: var(--f-dato); font-size: 0.86em; color: var(--texto); background: var(--fondo-2); padding: 1px 6px; border-radius: var(--r-sm); overflow-wrap: anywhere; }
 
 a { color: var(--rojo); text-underline-offset: 3px; }
+h3 a { color: var(--texto); text-decoration-color: var(--linea); }
+h3 a:hover { text-decoration-color: var(--rojo); }
 a:focus-visible, summary:focus-visible { outline: 3px solid var(--rojo); outline-offset: 3px; border-radius: var(--r-sm); }
 
 /* Cabecera */
