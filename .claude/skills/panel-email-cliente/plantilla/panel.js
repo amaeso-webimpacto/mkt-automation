@@ -14,6 +14,7 @@
   const MAX_NAME = 200;
   const MAX_AUDIENCES = 600;
   const MIN_RELEVANT_RECIPIENTS = 1000;
+  const TOP_CAMPAIGNS = 4;
   const MIN_RELEVANT_FLOW_RECIPIENTS = 200;
   const UNSUB_LIMIT = 0.003;
   const CADENCE = { high: 16, low: 8 };
@@ -409,11 +410,7 @@
       kpiCard({ label: "€ por destinatario", value: c.rpr, text: c.rpr.toLocaleString("es-ES", { maximumFractionDigits: 3 }) + " €", delta: deltaChip(c.rpr, pc.rpr, false, vs) });
 
     const camps = t.camps.slice().sort((a, b) => a.date < b.date ? -1 : 1);
-    const top = camps.filter((x) => x.rev > 0).sort((a, b) => b.rev - a.rev).slice(0, 4);
-    $("top-camps").innerHTML = top.length ? top.map((x, i) =>
-      '<article class="top"><span class="top__rank">' + (i + 1) + '</span><h3 class="top__name">' + esc(x.name) + '</h3><span class="top__date">' + esc(x.date) + "</span>" + audienceLine(x) + '<dl class="top__stats">' +
-      stat("Revenue", fEur(x.rev)) + stat("Pedidos", fInt(x.conv)) + stat("€/dest.", (x.rpr || 0).toLocaleString("es-ES", { maximumFractionDigits: 3 })) +
-      stat("OR", fPct(x.or, 1)) + stat("CTOR", fPct(x.ctor, 1)) + stat("Bajas", fPct(x.unsub, 2)) + "</dl></article>").join("") : '<p class="note">Sin revenue en el periodo.</p>';
+    $("top-camps").innerHTML = topCampsHtml(camps);
 
     const p = palette();
     const labels = camps.map((x) => x.name + " · " + x.date.slice(5));
@@ -433,6 +430,45 @@
     });
     renderCampaignTable(camps);
   }
+  /** Las cuatro campañas B2C con más revenue de la lista, como tarjetas. */
+  function topCampsHtml(camps) {
+    const top = camps.filter((x) => x.rev > 0).sort((a, b) => b.rev - a.rev).slice(0, TOP_CAMPAIGNS);
+    if (!top.length) return '<p class="note">Sin campañas con revenue en el periodo.</p>';
+    return top.map((x, i) =>
+      '<article class="top"><span class="top__rank">' + (i + 1) + '</span><h3 class="top__name">' + esc(x.name) + '</h3><span class="top__date">' + esc(x.date) + "</span>" + audienceLine(x) + subjectLine(x) + '<dl class="top__stats">' +
+      stat("Revenue", fEur(x.rev)) + stat("Pedidos", fInt(x.conv)) + stat("€/dest.", (x.rpr || 0).toLocaleString("es-ES", { maximumFractionDigits: 3 })) +
+      stat("OR", fPct(x.or, 1)) + stat("CTOR", fPct(x.ctor, 1)) + stat("Bajas", fPct(x.unsub, 2)) + "</dl></article>").join("");
+  }
+
+  function subjectLine(c) {
+    return c.subject ? '<p class="top__aud"><b>Asunto:</b> ' + esc(c.subject) + "</p>" : '<p class="top__aud">Asunto sin registrar</p>';
+  }
+
+  /**
+   * Periodo con el que comparar el rango: el mismo periodo del año anterior si hay datos de todos sus meses;
+   * si no, los meses inmediatamente anteriores con la misma duración.
+   */
+  function comparisonPeriod(months) {
+    const sameMonthsLastYear = yoyMonths(months);
+    if (sameMonthsLastYear.length) return { kind: "Año anterior", months: sameMonthsLastYear };
+    const first = state.months.indexOf(months[0]);
+    const prev = first >= months.length ? state.months.slice(first - months.length, first) : [];
+    return prev.length ? { kind: "Periodo anterior", months: prev } : { kind: "", months: [] };
+  }
+
+  function renderYoyTops(months) {
+    const cmp = comparisonPeriod(months);
+    $("yoy-tops-cur-title").textContent = "Periodo seleccionado · " + rangeLabel(months);
+    $("yoy-tops-cur").innerHTML = topCampsHtml([].concat(...months.map(b2cCampaigns)));
+    if (!cmp.months.length) {
+      $("yoy-tops-prev-title").textContent = "Sin periodo con el que comparar";
+      $("yoy-tops-prev").innerHTML = '<p class="note">No hay meses anteriores con datos.</p>';
+      return;
+    }
+    $("yoy-tops-prev-title").textContent = cmp.kind + " · " + rangeLabel(cmp.months);
+    $("yoy-tops-prev").innerHTML = topCampsHtml([].concat(...cmp.months.map(b2cCampaigns)));
+  }
+
   function audienceLine(c) {
     const aud = c.audiences || {};
     const inc = aud.included || [];
@@ -762,6 +798,7 @@
     return '<tr data-id="' + esc(c.id || "") + '"' + (c.b2b ? ' class="is-b2b"' : "") + ">" +
       '<td class="check-cell"><input type="checkbox" class="check" data-col="include"' + (c.b2b ? "" : " checked") + ' aria-label="Incluir «' + esc(c.name || "campaña nueva") + '» en los cálculos"></td>' +
       '<td><input class="input input--name" type="text" maxlength="' + MAX_NAME + '" data-col="name" value="' + esc(c.name || "") + '" aria-label="Nombre de campaña" required></td>' +
+      '<td><input class="input input--aud" type="text" maxlength="300" data-col="subject" value="' + esc(c.subject || "") + '" aria-label="Asunto"></td>' +
       '<td><input class="input input--date" type="date" data-col="date" value="' + esc(c.date || "") + '" aria-label="Fecha" required></td>' +
       '<td><input class="input input--aud" type="text" maxlength="' + MAX_AUDIENCES + '" data-col="included" value="' + esc(inc.join(" | ")) + '" aria-label="Segmentos de envío"></td>' +
       "<td>" + numInput("recipients", c.recipients, "1") + "</td>" +
@@ -782,8 +819,9 @@
     const form = $("month-form");
     form.querySelectorAll("[data-field]").forEach((el) => {
       const v = getPath(m, el.dataset.field);
-      el.value = v == null ? "" : v;
+      el.value = Array.isArray(v) ? v.join("\n") : (v == null ? "" : v);
     });
+    fillStrategyForm();
     $("edit-campaigns").innerHTML = (m.campaigns || []).slice().sort((a, b) => a.date < b.date ? -1 : 1).map(campaignRow).join("");
     $("edit-flows").innerHTML = flowIds().map((id) => {
       const d = (m.flows || {})[id] || {};
@@ -816,6 +854,7 @@
       const prev = previous[tr.dataset.id] || {};
       const included = get("included").value.split("|").map((s) => s.trim()).filter(Boolean).slice(0, 20);
       const c = { id: tr.dataset.id || "n" + Date.now().toString(36) + i, name, date, b2b: !get("include").checked,
+        subject: get("subject").value.trim().slice(0, 300),
         audiences: { included, excluded: (prev.audiences && prev.audiences.excluded) || [] } };
       ["recipients", "conv", "rev"].concat(PCT_COLS).forEach((col) => { c[col] = readNumber(get(col), { pct: PCT_COLS.includes(col), max: PCT_COLS.includes(col) ? 100 : null }) || 0; });
       c.aov = c.conv ? +(c.rev / c.conv).toFixed(2) : 0;
@@ -839,7 +878,10 @@
     const base = findMonth(state.editKey);
     const doc = JSON.parse(JSON.stringify(base));
     $("month-form").querySelectorAll("[data-field]").forEach((el) => {
-      const value = el.type === "number" ? readNumber(el) : el.value.trim().slice(0, el.tagName === "TEXTAREA" ? MAX_TEXT : 300);
+      let value;
+      if (el.type === "number") value = readNumber(el);
+      else if (el.dataset.list) value = linesOf(el.value);
+      else value = el.value.trim().slice(0, el.tagName === "TEXTAREA" ? MAX_TEXT : 300);
       setPath(doc, el.dataset.field, value);
     });
     doc.campaigns = readCampaignRows(base);
@@ -871,27 +913,6 @@
     }
   }
 
-  async function saveAnalysis(event) {
-    event.preventDefault();
-    if (!state.db || !state.canWrite) return;
-    const form = $("analysis-form");
-    const field = (f) => form.querySelector('[data-field="' + f + '"]').value;
-    const payload = {
-      analisis: {
-        resumen: field("analisis.resumen").trim().slice(0, MAX_TEXT),
-        funciono: linesOf(field("analisis.funciono")), corregir: linesOf(field("analisis.corregir")),
-        acciones: linesOf(field("analisis.acciones")), propuestas: linesOf(field("analisis.propuestas"))
-      },
-      updatedAt: new Date().toISOString()
-    };
-    setMsg("analysis-msg", "Guardando…");
-    try {
-      await state.db.doc(MONTHS_COLLECTION + "/" + state.analysisKey).update(payload);
-      setMsg("analysis-msg", "Guardado.", "ok");
-      toggleForm("analysis", false);
-    } catch (err) { handleWriteError(err, "analysis-msg"); }
-  }
-
   async function saveStrategy(event) {
     event.preventDefault();
     if (!state.db || !state.canWrite) return;
@@ -902,7 +923,6 @@
     try {
       await state.db.doc(CONFIG_DOC).update({ estrategia, updatedAt: new Date().toISOString() });
       setMsg("strategy-msg", "Guardado.", "ok");
-      toggleForm("strategy", false);
     } catch (err) { handleWriteError(err, "strategy-msg"); }
   }
 
@@ -961,29 +981,6 @@
     $("flow-picker-label").textContent = n === total ? "Todos los flujos" : n + " de " + total + " flujos";
   }
 
-  function toggleForm(kind, open) {
-    const form = $(kind + "-form");
-    form.hidden = !open;
-    if (kind === "analysis") {
-      $("analysis-view").hidden = open;
-      if (open) fillAnalysisForm();
-    } else {
-      $("strategy-view").hidden = open;
-      if (open) fillStrategyForm();
-    }
-  }
-
-  function fillAnalysisForm() {
-    const m = findMonth(state.analysisKey);
-    const form = $("analysis-form");
-    $("analysis-form-month").textContent = m.label;
-    form.querySelectorAll("[data-field]").forEach((el) => {
-      const v = getPath(m, el.dataset.field);
-      el.value = Array.isArray(v) ? v.join("\n") : (v || "");
-    });
-    setMsg("analysis-msg", "");
-  }
-
   function fillStrategyForm() {
     const est = (state.config && state.config.estrategia) || {};
     $("strategy-form").querySelectorAll("[data-field]").forEach((el) => { el.value = (est[el.dataset.field] || []).join("\n"); });
@@ -992,7 +989,8 @@
 
   function applyWriteAccess() {
     const can = state.canWrite && !!state.db;
-    document.querySelectorAll('[data-js="analysis-edit"], [data-js="strategy-edit"], [data-js="add-campaign"], [data-js="add-month-form"]').forEach((el) => { el.hidden = !can; });
+    document.querySelectorAll('[data-js="add-campaign"], [data-js="add-month-form"]').forEach((el) => { el.hidden = !can; });
+    if ($("strategy-form")) $("strategy-form").querySelectorAll("textarea, button").forEach((el) => { el.disabled = !can; });
     if ($("edit-readonly")) $("edit-readonly").hidden = can;
     if ($("month-form")) $("month-form").querySelectorAll("input, button, textarea, select").forEach((el) => { el.disabled = !can; });
   }
@@ -1016,7 +1014,7 @@
       general: () => { renderSummary(months); renderGlobal(months); renderBbdd(months); renderPeriodKpis(months); renderHistory(); },
       campanas: () => renderCampaigns(months),
       flujos: () => renderFlows(months),
-      interanual: () => renderYoy(months),
+      interanual: () => { renderYoy(months); renderYoyTops(months); },
       analisis: () => renderAnalysis(),
       datos: () => renderEditor()
     };
@@ -1059,13 +1057,8 @@
     $("flows-all").addEventListener("click", () => { state.flowSel = null; populateFilters(); render(); });
     $("flows-none").addEventListener("click", () => { state.flowSel = new Set(); populateFilters(); render(); });
     $("camp-search").addEventListener("input", (e) => { state.search = e.target.value; renderCampaignTable(periodTotals(rangeMonths()).camps.slice().sort((a, b) => a.date < b.date ? -1 : 1)); });
-    $("analysis-month").addEventListener("change", (e) => { state.analysisKey = e.target.value; toggleForm("analysis", false); renderAnalysis(); });
+    $("analysis-month").addEventListener("change", (e) => { state.analysisKey = e.target.value; renderAnalysis(); });
     $("edit-campaigns").addEventListener("change", (e) => { if (e.target.dataset.col === "include") e.target.closest("tr").classList.toggle("is-b2b", !e.target.checked); });
-    $("analysis-edit").addEventListener("click", () => toggleForm("analysis", true));
-    $("analysis-cancel").addEventListener("click", () => toggleForm("analysis", false));
-    $("analysis-form").addEventListener("submit", saveAnalysis);
-    $("strategy-edit").addEventListener("click", () => toggleForm("strategy", true));
-    $("strategy-cancel").addEventListener("click", () => toggleForm("strategy", false));
     $("strategy-form").addEventListener("submit", saveStrategy);
     $("edit-month").addEventListener("change", (e) => { state.editKey = e.target.value; renderEditor(); });
     $("month-form").addEventListener("submit", saveMonth);
