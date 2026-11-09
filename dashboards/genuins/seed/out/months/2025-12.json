@@ -1,0 +1,374 @@
+{
+ "key": "2025-12",
+ "label": "Dic 25",
+ "shopify": {
+  "rev": null,
+  "ventaNeta": null
+ },
+ "bbdd": {
+  "total": null,
+  "activos": 130559,
+  "suscritos": null,
+  "enviamos": 22906
+ },
+ "campaigns": [
+  {
+   "id": "c0",
+   "name": "Guía de regalos 02.12",
+   "date": "2025-12-02",
+   "recipients": 32232,
+   "or": 0.40342,
+   "ctr": 0.00292,
+   "ctor": 0.00723,
+   "cr": 0.00016,
+   "unsub": 0.00357,
+   "conv": 5,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c1",
+   "name": "Tentaciones 04.12",
+   "date": "2025-12-04",
+   "recipients": 32159,
+   "or": 0.42019,
+   "ctr": 0.00271,
+   "ctor": 0.00644,
+   "cr": 0.00034,
+   "unsub": 0.00392,
+   "conv": 11,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c2",
+   "name": "Asun selection 07.12",
+   "date": "2025-12-07",
+   "recipients": 32025,
+   "or": 0.41814,
+   "ctr": 0.0044,
+   "ctor": 0.01053,
+   "cr": 0.00034,
+   "unsub": 0.0024,
+   "conv": 11,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c3",
+   "name": "Barefoot 09.12",
+   "date": "2025-12-09",
+   "recipients": 31995,
+   "or": 0.40784,
+   "ctr": 0.00275,
+   "ctor": 0.00674,
+   "cr": 0.00047,
+   "unsub": 0.00338,
+   "conv": 15,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c4",
+   "name": "Cosas sencillas 11.12",
+   "date": "2025-12-11",
+   "recipients": 30453,
+   "or": 0.40837,
+   "ctr": 0.00427,
+   "ctor": 0.01045,
+   "cr": 0.00053,
+   "unsub": 0.0023,
+   "conv": 16,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c5",
+   "name": "Para él 14.12",
+   "date": "2025-12-14",
+   "recipients": 31916,
+   "or": 0.4097,
+   "ctr": 0.00332,
+   "ctor": 0.00811,
+   "cr": 0.00025,
+   "unsub": 0.00313,
+   "conv": 8,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c6",
+   "name": "Fuencarral premios tienda 15.12",
+   "date": "2025-12-15",
+   "recipients": 23083,
+   "or": 0.41009,
+   "ctr": 0.00195,
+   "ctor": 0.00475,
+   "cr": 0.00013,
+   "unsub": 0.00234,
+   "conv": 3,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c7",
+   "name": "Para ella 16.12",
+   "date": "2025-12-16",
+   "recipients": 31844,
+   "or": 0.39533,
+   "ctr": 0.00286,
+   "ctor": 0.00723,
+   "cr": 0.00082,
+   "unsub": 0.00248,
+   "conv": 26,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c8",
+   "name": "PUSH Fuencarral premios tienda 18.12",
+   "date": "2025-12-18",
+   "recipients": 23034,
+   "or": 0.39659,
+   "ctr": 0.00165,
+   "ctor": 0.00416,
+   "cr": 0.00026,
+   "unsub": 0.00213,
+   "conv": 6,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c9",
+   "name": "Top 6 productos 21.12",
+   "date": "2025-12-21",
+   "recipients": 31765,
+   "or": 0.39562,
+   "ctr": 0.00346,
+   "ctor": 0.00875,
+   "cr": 0.00019,
+   "unsub": 0.00176,
+   "conv": 6,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c10",
+   "name": "Favoritos equipo 23.12",
+   "date": "2025-12-23",
+   "recipients": 31707,
+   "or": 0.39379,
+   "ctr": 0.00186,
+   "ctor": 0.00473,
+   "cr": 0.00028,
+   "unsub": 0.00183,
+   "conv": 9,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c11",
+   "name": "Feliz Navidad 25.12",
+   "date": "2025-12-25",
+   "recipients": 30204,
+   "or": 0.39746,
+   "ctr": 0.00166,
+   "ctor": 0.00416,
+   "cr": 0.0001,
+   "unsub": 0.00146,
+   "conv": 3,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c12",
+   "name": "Just in time 28.12",
+   "date": "2025-12-28",
+   "recipients": 31612,
+   "or": 0.39536,
+   "ctr": 0.00282,
+   "ctor": 0.00712,
+   "cr": 0.00041,
+   "unsub": 0.00297,
+   "conv": 13,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c13",
+   "name": "Sorteo Joyas 30.12",
+   "date": "2025-12-30",
+   "recipients": 22892,
+   "or": 0.39241,
+   "ctr": 0.00328,
+   "ctor": 0.00835,
+   "cr": 0.00109,
+   "unsub": 0.00179,
+   "conv": 25,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "ES"
+    ],
+    "excluded": []
+   }
+  }
+ ],
+ "flows": {},
+ "contexto": "",
+ "analisis": {
+  "resumen": "",
+  "funciono": [],
+  "corregir": [],
+  "acciones": [],
+  "propuestas": []
+ },
+ "fuentes": {
+  "klaviyo": "iCommkt (envíos por idioma agrupados por newsletter; tasas sobre efectivos; sin revenue)",
+  "shopify": "Pendiente: conector de Shopify no conectado a la tienda de Genuins",
+  "bbdd": "iCommkt: activos a cierre de mes; total de octubre a 09/11/2026. Suscritos (Masterdata_total): manual. Enviamos: suma de los segmentos de la última newsletter B2C."
+ },
+ "actualizacion": {
+  "fecha": "2026-11-09T12:00:00Z",
+  "modo": "manual"
+ },
+ "updatedAt": "2026-11-09T12:00:00Z"
+}

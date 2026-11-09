@@ -1,0 +1,405 @@
+{
+ "key": "2025-11",
+ "label": "Nov 25",
+ "shopify": {
+  "rev": null,
+  "ventaNeta": null
+ },
+ "bbdd": {
+  "total": null,
+  "activos": 130828,
+  "suscritos": null,
+  "enviamos": 32350
+ },
+ "campaigns": [
+  {
+   "id": "c0",
+   "name": "Fast fashion 02.11",
+   "date": "2025-11-02",
+   "recipients": 32682,
+   "or": 0.40322,
+   "ctr": 0.00337,
+   "ctor": 0.00835,
+   "cr": 0.00076,
+   "unsub": 0.00214,
+   "conv": 25,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c1",
+   "name": "Galbano 04.11",
+   "date": "2025-11-04",
+   "recipients": 32626,
+   "or": 0.39898,
+   "ctr": 0.0053,
+   "ctor": 0.01329,
+   "cr": 0.00009,
+   "unsub": 0.00202,
+   "conv": 3,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c2",
+   "name": "Taller saludable 06.11",
+   "date": "2025-11-06",
+   "recipients": 1354,
+   "or": 0.37592,
+   "ctr": 0.00369,
+   "ctor": 0.00982,
+   "cr": 0.00074,
+   "unsub": 0.00148,
+   "conv": 1,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c3",
+   "name": "Soltlero 09.11",
+   "date": "2025-11-09",
+   "recipients": 32706,
+   "or": 0.40956,
+   "ctr": 0.0104,
+   "ctor": 0.02538,
+   "cr": 0.00089,
+   "unsub": 0.00156,
+   "conv": 29,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c4",
+   "name": "Regalo 11.11",
+   "date": "2025-11-11",
+   "recipients": 32721,
+   "or": 0.4131,
+   "ctr": 0.01601,
+   "ctor": 0.03877,
+   "cr": 0.00431,
+   "unsub": 0.0015,
+   "conv": 141,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "ES",
+     "FR",
+     "DE",
+     "EN"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c5",
+   "name": "Tongue Hype 13.11",
+   "date": "2025-11-13",
+   "recipients": 31229,
+   "or": 0.40664,
+   "ctr": 0.00516,
+   "ctor": 0.01268,
+   "cr": 0.00038,
+   "unsub": 0.00192,
+   "conv": 12,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c6",
+   "name": "Tongue ya disponible 16.11",
+   "date": "2025-11-16",
+   "recipients": 32722,
+   "or": 0.41568,
+   "ctr": 0.0052,
+   "ctor": 0.0125,
+   "cr": 0.00018,
+   "unsub": 0.00211,
+   "conv": 6,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c7",
+   "name": "Wool 18.11",
+   "date": "2025-11-18",
+   "recipients": 32711,
+   "or": 0.4032,
+   "ctr": 0.00773,
+   "ctor": 0.01918,
+   "cr": 0.00021,
+   "unsub": 0.00257,
+   "conv": 7,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c8",
+   "name": "Tiendas 20.11",
+   "date": "2025-11-20",
+   "recipients": 31093,
+   "or": 0.40102,
+   "ctr": 0.00457,
+   "ctor": 0.01139,
+   "cr": 0,
+   "unsub": 0.00209,
+   "conv": 0,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c9",
+   "name": "Pre-black APP 22.11",
+   "date": "2025-11-22",
+   "recipients": 32558,
+   "or": 0.41388,
+   "ctr": 0.00651,
+   "ctor": 0.01573,
+   "cr": 0.00157,
+   "unsub": 0.00246,
+   "conv": 51,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c10",
+   "name": "Pregunta 23.11",
+   "date": "2025-11-23",
+   "recipients": 32519,
+   "or": 0.39795,
+   "ctr": 0.00483,
+   "ctor": 0.01213,
+   "cr": 0.00049,
+   "unsub": 0.00289,
+   "conv": 16,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c11",
+   "name": "Inspo 25.11",
+   "date": "2025-11-25",
+   "recipients": 32500,
+   "or": 0.38889,
+   "ctr": 0.00271,
+   "ctor": 0.00696,
+   "cr": 0.00055,
+   "unsub": 0.00283,
+   "conv": 18,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c12",
+   "name": "BLACK FRIDAY En tiendas físicas 26.11",
+   "date": "2025-11-26",
+   "recipients": 32446,
+   "or": 0.41774,
+   "ctr": 0.00558,
+   "ctor": 0.01335,
+   "cr": 0.0008,
+   "unsub": 0.0033,
+   "conv": 26,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c13",
+   "name": "¡BLACK FRIDAY empieza ya! 27.11",
+   "date": "2025-11-27",
+   "recipients": 32384,
+   "or": 0.42098,
+   "ctr": 0.00862,
+   "ctor": 0.02047,
+   "cr": 0.00164,
+   "unsub": 0.00333,
+   "conv": 53,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c14",
+   "name": "¡TODA LA WEB AL 25%! 28.11",
+   "date": "2025-11-28",
+   "recipients": 32306,
+   "or": 0.40426,
+   "ctr": 0.00876,
+   "ctor": 0.02167,
+   "cr": 0.00405,
+   "unsub": 0.00356,
+   "conv": 131,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  }
+ ],
+ "flows": {},
+ "contexto": "",
+ "analisis": {
+  "resumen": "",
+  "funciono": [],
+  "corregir": [],
+  "acciones": [],
+  "propuestas": []
+ },
+ "fuentes": {
+  "klaviyo": "iCommkt (envíos por idioma agrupados por newsletter; tasas sobre efectivos; sin revenue)",
+  "shopify": "Pendiente: conector de Shopify no conectado a la tienda de Genuins",
+  "bbdd": "iCommkt: activos a cierre de mes; total de octubre a 09/11/2026. Suscritos (Masterdata_total): manual. Enviamos: suma de los segmentos de la última newsletter B2C."
+ },
+ "actualizacion": {
+  "fecha": "2026-11-09T12:00:00Z",
+  "modo": "manual"
+ },
+ "updatedAt": "2026-11-09T12:00:00Z"
+}

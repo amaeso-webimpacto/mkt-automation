@@ -214,7 +214,7 @@
     const contexto = last.contexto;
     $("summary").innerHTML =
       '<span class="highlight__eyebrow">Resumen · ' + esc(rangeLabel(months)) + "</span>" +
-      "<p><strong>" + fInt(t.camp ? t.camp.n : 0) + " campañas B2C</strong> y <strong>" + fInt(t.flows ? t.flows.recipients + (t.camp ? t.camp.recipients : 0) : 0) + " emails</strong> enviados." + (isNum(klaviyo) ? " Revenue atribuido por " + esc(plat()) + ": <strong>" + fEur(klaviyo) + "</strong>, el " + fPct(flowShare, 0) + " desde flujos." : " " + esc(plat()) + " no atribuye revenue: los ingresos del canal salen de Shopify.") +
+      "<p><strong>" + fInt(t.camp ? t.camp.n : 0) + " campañas B2C</strong> y <strong>" + fInt((t.flows ? t.flows.recipients : 0) + (t.camp ? t.camp.recipients : 0)) + " emails</strong> enviados." + (isNum(klaviyo) ? " Revenue atribuido por " + esc(plat()) + ": <strong>" + fEur(klaviyo) + "</strong>, el " + fPct(flowShare, 0) + " desde flujos." : " " + esc(plat()) + " no atribuye revenue: los ingresos del canal salen de Shopify.") +
       (t.peso != null ? " Peso del email en la venta neta según Shopify: <strong>" + fPct(t.peso) + "</strong>." : "") + "</p>" +
       (resumen ? "<p><strong>" + esc(last.label) + ":</strong> " + rich(resumen) + "</p>" : "") +
       (contexto ? "<p><strong>Contexto:</strong> " + rich(contexto) + "</p>" : "");

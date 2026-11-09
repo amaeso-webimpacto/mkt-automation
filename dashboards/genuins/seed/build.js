@@ -19,16 +19,23 @@ const round = (v, d) => +v.toFixed(d);
 const ratio = (num, den) => den ? round(num / den, 5) : 0;
 
 /** Nombre de la newsletter sin el sufijo de idioma ni espacios sobrantes. */
-function baseName(send) {
-  return String(send.name || send.newsletter || "").trim().replace(LANG_SUFFIX_RX, "").trim();
+const VARIANT_SUFFIX_RX = /[\s-]+(?:copia|v\d+|tarde|mañana)$/i;
+/** Nombre del envío sin espacios repetidos ni sufijos de variante («-copia», «v2», «Tarde»). */
+function cleanName(send) {
+  let name = String(send.name || send.newsletter || "").replace(/\s+/g, " ").trim();
+  while (VARIANT_SUFFIX_RX.test(name)) name = name.replace(VARIANT_SUFFIX_RX, "").trim();
+  return name;
 }
-const languageOf = (send) => ((String(send.name || "").trim().match(LANG_SUFFIX_RX) || [])[1] || "?").toUpperCase();
+function baseName(send) {
+  return cleanName(send).replace(LANG_SUFFIX_RX, "").trim();
+}
+const languageOf = (send) => ((cleanName(send).match(LANG_SUFFIX_RX) || [])[1] || "?").toUpperCase();
 const dateOf = (send) => String(send.scheduled_at || send.sent_at || "").slice(0, 10);
 
 /** Agrupa los envíos de un mes por newsletter (nombre base + fecha). */
 function groupSends(sends) {
   const groups = new Map();
-  sends.filter((s) => typeof s.effective === "number").forEach((s) => {
+  sends.filter((s) => s.effective > 0).forEach((s) => {
     const key = baseName(s) + "|" + dateOf(s);
     if (!groups.has(key)) groups.set(key, { name: baseName(s), date: dateOf(s), parts: [] });
     groups.get(key).parts.push(s);

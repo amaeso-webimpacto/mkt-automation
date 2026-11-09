@@ -1,0 +1,276 @@
+{
+ "key": "2026-10",
+ "label": "Oct 26",
+ "shopify": {
+  "rev": null,
+  "ventaNeta": null
+ },
+ "bbdd": {
+  "total": 194767,
+  "activos": 136762,
+  "suscritos": null,
+  "enviamos": 33859
+ },
+ "campaigns": [
+  {
+   "id": "c0",
+   "name": "Venta privada - Final 04.10",
+   "date": "2026-10-04",
+   "recipients": 31883,
+   "or": 0.39237,
+   "ctr": 0.00919,
+   "ctor": 0.02342,
+   "cr": 0.00125,
+   "unsub": 0.00207,
+   "conv": 40,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c1",
+   "name": "Riva Velour - Otoño 06.10",
+   "date": "2026-10-06",
+   "recipients": 31835,
+   "or": 0.40116,
+   "ctr": 0.00437,
+   "ctor": 0.01088,
+   "cr": 0.0006,
+   "unsub": 0.00195,
+   "conv": 19,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c2",
+   "name": "Zuecos Piel FW26 09.10",
+   "date": "2026-10-09",
+   "recipients": 31808,
+   "or": 0.40006,
+   "ctr": 0.00594,
+   "ctor": 0.01485,
+   "cr": 0.0005,
+   "unsub": 0.00192,
+   "conv": 16,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c3",
+   "name": "Colección FW26 Compromiso marca 14.10",
+   "date": "2026-10-14",
+   "recipients": 31779,
+   "or": 0.4042,
+   "ctr": 0.00837,
+   "ctor": 0.02071,
+   "cr": 0.0006,
+   "unsub": 0.00167,
+   "conv": 19,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c4",
+   "name": "Animal print 17.10",
+   "date": "2026-10-17",
+   "recipients": 31758,
+   "or": 0.39707,
+   "ctr": 0.00353,
+   "ctor": 0.00888,
+   "cr": 0.00082,
+   "unsub": 0.00151,
+   "conv": 26,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c5",
+   "name": "Riva Vegan Greige 21.10",
+   "date": "2026-10-21",
+   "recipients": 31760,
+   "or": 0.40189,
+   "ctr": 0.00368,
+   "ctor": 0.00917,
+   "cr": 0.00038,
+   "unsub": 0.00214,
+   "conv": 12,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c6",
+   "name": "Mid Season 30% 23.10",
+   "date": "2026-10-23",
+   "recipients": 33992,
+   "or": 0.36956,
+   "ctr": 0.01047,
+   "ctor": 0.02834,
+   "cr": 0.00121,
+   "unsub": 0.00174,
+   "conv": 41,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c7",
+   "name": "Mid Season 30% 2 25.10",
+   "date": "2026-10-25",
+   "recipients": 31739,
+   "or": 0.38741,
+   "ctr": 0.00422,
+   "ctor": 0.0109,
+   "cr": 0.00186,
+   "unsub": 0.00173,
+   "conv": 59,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c8",
+   "name": "Mid Season 30% tallas 28.10",
+   "date": "2026-10-28",
+   "recipients": 33824,
+   "or": 0.35226,
+   "ctr": 0.00701,
+   "ctor": 0.01989,
+   "cr": 0.00035,
+   "unsub": 0.00157,
+   "conv": 12,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  }
+ ],
+ "flows": {},
+ "contexto": "",
+ "analisis": {
+  "resumen": "Octubre cierra con 9 newsletters en cuatro idiomas y 290.378 emails efectivos, un 9 % menos que septiembre (320.314). La apertura se mantiene en el 38,9 % (40,6 % en septiembre) y las bajas bajan al 0,18 %, pero el clic cae al 0,63 % (0,95 % en septiembre) y las compras que iCommkt atribuye pasan de 315 a 244. Las tres newsletters de Mid Season 30 % concentran 112 de esas compras. Los ingresos del canal están pendientes de Shopify.",
+  "funciono": [
+   "**La promoción es lo que convierte.** Mid Season 30 % (23.10, 25.10 y 28.10) suma 112 compras de 244, el 46 % del mes, con el 34 % de los envíos.",
+   "**Venta privada Final del 04.10 abre el mes con 40 compras** y un CTR del 0,92 %, el segundo mejor de octubre.",
+   "**Mid Season 30 % del 23.10 tiene el mejor CTR del mes**, un 1,05 %, con 41 compras.",
+   "**Las bajas siguen bajando:** 0,18 % en octubre frente al 0,22 % de septiembre y el 0,29 % de julio."
+  ],
+  "corregir": [
+   "**El clic de las newsletters de producto es bajo.** Animal print (0,35 %), Riva Vegan Greige (0,37 %) y Riva Velour (0,44 %) quedan por debajo de la mitad del CTR de las promocionales.",
+   "**El tercer envío de Mid Season en seis días abre peor.** El del 28.10 se queda en un 35,2 % de apertura, el más bajo del mes, y 12 compras.",
+   "**New collection zuecos temporada (23.10) aparece en iCommkt con 0 enviados** en sus cuatro idiomas. Hay que comprobar en la plataforma si se canceló o si se envió con otro nombre.",
+   "**Faltan los datos de Shopify, la venta neta, los suscritos de Masterdata_total y los flujos**, así que no se puede medir todavía el peso del canal en la venta."
+  ],
+  "acciones": [
+   "**Newsletters del mes enviadas en ES, ENG, DE y FR** desde las campañas «Oct 2026» de cada idioma."
+  ],
+  "propuestas": [
+   "Black Friday con aviso previo | Noviembre | En noviembre de 2025 «¡TODA LA WEB AL 25%!» (131 compras) y «Regalo 11.11» (141) fueron las newsletters con más compras. Repetir el esquema de aviso previo y oferta abierta a toda la web.",
+   "Producto con incentivo o selección | Noviembre | Las newsletters de producto sin oferta tienen un CTR por debajo del 0,45 %. Probar a añadirles un bloque de tallas disponibles o un beneficio (envío, regalo) y comparar el clic.",
+   "Limitar la secuencia promocional a dos envíos | Próxima promoción | En Mid Season, el tercer envío abrió 3,5 puntos por debajo del segundo. Probar a cerrar con un recordatorio solo a quienes abrieron y no compraron."
+  ]
+ },
+ "fuentes": {
+  "klaviyo": "iCommkt (envíos por idioma agrupados por newsletter; tasas sobre efectivos; sin revenue)",
+  "shopify": "Pendiente: conector de Shopify no conectado a la tienda de Genuins",
+  "bbdd": "iCommkt: activos a cierre de mes; total de octubre a 09/11/2026. Suscritos (Masterdata_total): manual. Enviamos: suma de los segmentos de la última newsletter B2C."
+ },
+ "actualizacion": {
+  "fecha": "2026-11-09T12:00:00Z",
+  "modo": "manual"
+ },
+ "updatedAt": "2026-11-09T12:00:00Z"
+}

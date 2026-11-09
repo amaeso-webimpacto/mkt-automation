@@ -1,0 +1,512 @@
+{
+ "key": "2026-07",
+ "label": "Jul 26",
+ "shopify": {
+  "rev": null,
+  "ventaNeta": null
+ },
+ "bbdd": {
+  "total": null,
+  "activos": 136092,
+  "suscritos": null,
+  "enviamos": 32249
+ },
+ "campaigns": [
+  {
+   "id": "c0",
+   "name": "Rebajas Charm 02.07",
+   "date": "2026-07-02",
+   "recipients": 32510,
+   "or": 0.39206,
+   "ctr": 0.00969,
+   "ctor": 0.02471,
+   "cr": 0.00394,
+   "unsub": 0.00289,
+   "conv": 128,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c1",
+   "name": "Rebajas Inspiración 05.07",
+   "date": "2026-07-05",
+   "recipients": 32230,
+   "or": 0.40931,
+   "ctr": 0.00794,
+   "ctor": 0.01941,
+   "cr": 0.00425,
+   "unsub": 0.00341,
+   "conv": 137,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c2",
+   "name": "Los piel 08.07",
+   "date": "2026-07-08",
+   "recipients": 33080,
+   "or": 0.40967,
+   "ctr": 0.01581,
+   "ctor": 0.03859,
+   "cr": 0.00384,
+   "unsub": 0.00272,
+   "conv": 127,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c3",
+   "name": "Clásicos rebajados 10.07 DE-",
+   "date": "2026-07-10",
+   "recipients": 2766,
+   "or": 0.37455,
+   "ctr": 0.03543,
+   "ctor": 0.09459,
+   "cr": 0.01591,
+   "unsub": 0.00325,
+   "conv": 44,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "?"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c4",
+   "name": "Clásicos rebajados 10.07 FR-",
+   "date": "2026-07-10",
+   "recipients": 2185,
+   "or": 0.4,
+   "ctr": 0.02426,
+   "ctor": 0.06064,
+   "cr": 0.00686,
+   "unsub": 0.0087,
+   "conv": 15,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "?"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c5",
+   "name": "Clásicos rebajados 10.07 ENG-",
+   "date": "2026-07-10",
+   "recipients": 4686,
+   "or": 0.38711,
+   "ctr": 0.01024,
+   "ctor": 0.02646,
+   "cr": 0.00405,
+   "unsub": 0.00235,
+   "conv": 19,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "?"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c6",
+   "name": "Clásicos rebajados 10.07 ES-",
+   "date": "2026-07-10",
+   "recipients": 23481,
+   "or": 0.41459,
+   "ctr": 0.01729,
+   "ctor": 0.04171,
+   "cr": 0.00307,
+   "unsub": 0.00277,
+   "conv": 72,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "?"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c7",
+   "name": "Best sellers 12.07",
+   "date": "2026-07-12",
+   "recipients": 33339,
+   "or": 0.41417,
+   "ctr": 0.00882,
+   "ctor": 0.02129,
+   "cr": 0.00324,
+   "unsub": 0.0036,
+   "conv": 108,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c8",
+   "name": "Segundas rebajas 14.07",
+   "date": "2026-07-14",
+   "recipients": 33342,
+   "or": 0.38501,
+   "ctr": 0.01578,
+   "ctor": 0.04098,
+   "cr": 0.00384,
+   "unsub": 0.00252,
+   "conv": 128,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c9",
+   "name": "Segundas rebajas 2 17.07",
+   "date": "2026-07-17",
+   "recipients": 9615,
+   "or": 0.37899,
+   "ctr": 0.01862,
+   "ctor": 0.04912,
+   "cr": 0.00302,
+   "unsub": 0.00406,
+   "conv": 29,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c10",
+   "name": "Envío gratis 17.07",
+   "date": "2026-07-17",
+   "recipients": 23604,
+   "or": 0.39752,
+   "ctr": 0.01038,
+   "ctor": 0.02611,
+   "cr": 0.00352,
+   "unsub": 0.0022,
+   "conv": 83,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c11",
+   "name": "Segundas rebajas 3 19.07",
+   "date": "2026-07-19",
+   "recipients": 9431,
+   "or": 0.37907,
+   "ctr": 0.0176,
+   "ctor": 0.04643,
+   "cr": 0.00382,
+   "unsub": 0.00403,
+   "conv": 36,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c12",
+   "name": "Envío gratis últimas horas 19.07",
+   "date": "2026-07-19",
+   "recipients": 23000,
+   "or": 0.40287,
+   "ctr": 0.00739,
+   "ctor": 0.01835,
+   "cr": 0.00417,
+   "unsub": 0.00204,
+   "conv": 96,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c13",
+   "name": "Prepara Genuins Day 22.07",
+   "date": "2026-07-22",
+   "recipients": 32450,
+   "or": 0.39704,
+   "ctr": 0.01686,
+   "ctor": 0.04246,
+   "cr": 0.00619,
+   "unsub": 0.0028,
+   "conv": 201,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c14",
+   "name": "Genuins Day 1 23.07",
+   "date": "2026-07-23",
+   "recipients": 33726,
+   "or": 0.38413,
+   "ctr": 0.01945,
+   "ctor": 0.05064,
+   "cr": 0.00756,
+   "unsub": 0.00273,
+   "conv": 255,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c15",
+   "name": "Genuins Day 3 24.07",
+   "date": "2026-07-24",
+   "recipients": 32109,
+   "or": 0.43181,
+   "ctr": 0.00813,
+   "ctor": 0.01882,
+   "cr": 0.00361,
+   "unsub": 0.00287,
+   "conv": 116,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c16",
+   "name": "Genuins Day 2 24.07",
+   "date": "2026-07-24",
+   "recipients": 31855,
+   "or": 0.406,
+   "ctr": 0.01118,
+   "ctor": 0.02753,
+   "cr": 0.00383,
+   "unsub": 0.00229,
+   "conv": 122,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c17",
+   "name": "Sostenibilidad 26.07",
+   "date": "2026-07-26",
+   "recipients": 31717,
+   "or": 0.40388,
+   "ctr": 0.00489,
+   "ctor": 0.0121,
+   "cr": 0.00189,
+   "unsub": 0.00344,
+   "conv": 60,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c18",
+   "name": "Market Elche 28.07",
+   "date": "2026-07-28",
+   "recipients": 1482,
+   "or": 0.46221,
+   "ctr": 0.01215,
+   "ctor": 0.02628,
+   "cr": 0.00202,
+   "unsub": 0.0027,
+   "conv": 3,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c19",
+   "name": "Segundas rebajas 30.07",
+   "date": "2026-07-30",
+   "recipients": 32240,
+   "or": 0.39606,
+   "ctr": 0.01278,
+   "ctor": 0.03227,
+   "cr": 0.00254,
+   "unsub": 0.00257,
+   "conv": 82,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "ENG",
+     "FR",
+     "ES"
+    ],
+    "excluded": []
+   }
+  }
+ ],
+ "flows": {},
+ "contexto": "",
+ "analisis": {
+  "resumen": "",
+  "funciono": [],
+  "corregir": [],
+  "acciones": [],
+  "propuestas": []
+ },
+ "fuentes": {
+  "klaviyo": "iCommkt (envíos por idioma agrupados por newsletter; tasas sobre efectivos; sin revenue)",
+  "shopify": "Pendiente: conector de Shopify no conectado a la tienda de Genuins",
+  "bbdd": "iCommkt: activos a cierre de mes; total de octubre a 09/11/2026. Suscritos (Masterdata_total): manual. Enviamos: suma de los segmentos de la última newsletter B2C."
+ },
+ "actualizacion": {
+  "fecha": "2026-11-09T12:00:00Z",
+  "modo": "manual"
+ },
+ "updatedAt": "2026-11-09T12:00:00Z"
+}
