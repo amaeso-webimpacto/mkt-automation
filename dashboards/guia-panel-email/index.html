@@ -63,6 +63,25 @@
   <section class="seccion" id="mes" aria-labelledby="t2">
     <h2 id="t2"><span class="chip-num">02</span>El mes, paso a paso</h2>
     <p class="seccion__sub">Un mes se cierra <strong>a partir del día 5 del mes siguiente</strong>, cuando termina la ventana de atribución de 5 días. Antes de esa fecha las cifras todavía se mueven.</p>
+    <h3>Tres formas de actualizar</h3>
+    <div class="piezas">
+      <article class="pieza">
+        <span class="pieza__tipo">Forma 1 · A demanda</span>
+        <h3>Pedírselo a la skill</h3>
+        <p>En una conversación nueva de Claude, escribe con tus palabras: «actualiza el panel de email de Cliente Ejemplo con octubre». La skill se activa sola.</p>
+      </article>
+      <article class="pieza">
+        <span class="pieza__tipo">Forma 2 · Automática</span>
+        <h3>Tarea programada</h3>
+        <p>Pide «programa la actualización mensual del panel de Cliente Ejemplo» (skill <strong>programar-panel-email</strong>). Se crea una tarea por cliente a tu nombre: por defecto el día 7 a las 19:xx, hora de Madrid, actualiza el mes anterior y envía un correo con el resumen y el enlace a la versión HTML. Funciona con Klaviyo e iCommkt; HubSpot y Connectif todavía no.</p>
+      </article>
+      <article class="pieza">
+        <span class="pieza__tipo">Forma 3 · Guiada</span>
+        <h3>Paso a paso desde el hub</h3>
+        <p>El hub genera la petición ya redactada con el panel y el mes. Es la forma 1 con el texto preparado, y la más segura porque lleva el enlace del panel y deja el resultado en el hub.</p>
+      </article>
+    </div>
+    <p>Con cualquiera de las tres, los datos manuales (venta neta y lo pendiente) siguen siendo del equipo. El paso a paso de la forma 3 es este:</p>
     <ol class="flujo">
       <li class="es-equipo"><h3>Abre el hub</h3><p>Elige el mes en «Mes a actualizar» (por defecto, el anterior).</p><span class="flujo__quien">Equipo</span></li>
       <li class="es-equipo"><h3>Copia la petición</h3><p>Botón «Petición de actualización» del cliente y «Copiar petición».</p><span class="flujo__quien">Equipo</span></li>
@@ -72,10 +91,6 @@
       <li class="es-equipo"><h3>Completa y revisa</h3><p>En «Editar datos»: venta neta, lo pendiente y el contexto del mes.</p><span class="flujo__quien">Equipo</span></li>
     </ol>
     <p class="leyenda" aria-hidden="true"><span><i class="es-equipo"></i>Lo hace el equipo</span><span><i></i>Lo hace Claude</span></p>
-    <div class="nota">
-      <p class="nota__titulo">En piloto automático</p>
-      <p>Con la skill <strong>programar-panel-email</strong> («programa la actualización mensual del panel de Cliente Ejemplo») cada persona deja una tarea programada por cliente a su nombre. Por defecto se lanza el día 7 a las 19:xx, hora de Madrid, actualiza el mes anterior y envía un correo con el resumen y el enlace a la versión HTML. Funciona con Klaviyo e iCommkt; HubSpot y Connectif todavía no. Los datos manuales siguen siendo del equipo.</p>
-    </div>
     <div class="nota">
       <p class="nota__titulo">Antes de enseñárselo al cliente</p>
       <p>Si has escrito el contexto después de la actualización, pide a Claude «pasa el contexto de octubre al análisis» para que lo incorpore. Si el panel va a Google Sites, pide también la versión estática (apartado 08).</p>
