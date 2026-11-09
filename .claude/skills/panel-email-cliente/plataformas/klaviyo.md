@@ -20,6 +20,10 @@ Cada resultado trae `campaign_details.attributes` con `name`, `send_time` y `aud
 
 Mapeo: `recipients → recipients`, `open_rate → or`, `click_rate → ctr`, `click_to_open_rate → ctor`, `conversion_rate → cr`, `unsubscribe_rate → unsub`, `conversions → conv`, `conversion_value → rev`, `average_order_value → aov`, `revenue_per_recipient → rpr`.
 
+## Asunto de cada campaña
+
+`get_campaign_report` no trae el asunto. Sacarlo con `get_campaign_messages`: `filter: equals(status,"sent")`, `include: ["campaign","campaign-variations"]`, `fields_campaign_message: ["definition","created"]`, `page_size: 100`, paginando hasta el final (no admite `tool_version`). El asunto está en cada variación: `relationships["campaign-variations"].data[].attributes.definition.details.subject` (preview en `details.preview_text`). La fecha de envío, en `definition.send_options.send_time` o, si está vacía, la más temprana de `send_options.send_times`. Con test A/B y asuntos distintos, guardar el de la primera variación. Cruzar con las campañas del mes por nombre y fecha (±2 días) y guardarlo en `subject`. Las respuestas son grandes: procesarlas con un script, no leerlas enteras.
+
 ## Reparto de Shopify
 
 Shopify no separa campañas y flujos: el panel reparte el canal Shopify en proporción a la atribución de Klaviyo de cada mes (ver criterio en `SKILL.md`). No hace falta cargar `shopify.revCampanas` ni `shopify.revFlujos`.
