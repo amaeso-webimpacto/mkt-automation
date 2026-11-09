@@ -18,9 +18,12 @@ Los porcentajes se guardan como fracción (0,35 = 35 %). Las campañas B2B se ex
 
 ## Paneles publicados
 
-- Azarey: https://claude.ai/artifact/VPjVvjaBwSM4TWnRNxhyts
+- Azarey (Klaviyo): https://claude.ai/artifact/VPjVvjaBwSM4TWnRNxhyts
+- Genuins (iCommkt): https://claude.ai/artifact/CHaBWwxiDWyx67mC8tm3Nz
 
 ## Criterios comunes a todos los proyectos
+
+Lo propio de cada plataforma (activos, suscritos, enviamos, flujos, revenue) está en `.claude/skills/panel-email-cliente/plataformas/`. Lo de abajo es el caso Klaviyo; en iCommkt los ingresos salen solo de Shopify, suscritos es el segmento Masterdata_total y enviamos la suma de los segmentos de la última newsletter.
 
 - **B2B y mayoristas:** fuera de todos los cálculos. Nombre con B2B, BSB, MAYORISTA o [Seguimiento], o audiencias con «MAYORISTA».
 - **Venta neta:** dato manual que facilita el cliente.

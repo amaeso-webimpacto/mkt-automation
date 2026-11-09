@@ -7,7 +7,7 @@ description: Actualiza cada mes, crea si aún no existe, o exporta en HTML está
 
 | Versión | Fecha | Creadora | Contacto |
 |---|---|---|---|
-| 1.1.0 | 07/11/2026 | Ana I. Maeso | amaeso@webimpacto.es |
+| 1.2.0 | 09/11/2026 | Ana I. Maeso | amaeso@webimpacto.es |
 
 Cada cliente tiene un artefacto llamado **«Panel Email <Cliente>»** con la línea gráfica de la sociedad que factura. Hoy solo existe la plantilla de **D2C eCommerce**: si el cliente factura con Webimpacto u otra sociedad, avisar y no continuar sin su plantilla. Los datos viven en la base de datos del artefacto (`db`); el diseño es el mismo para todos y está en `plantilla/` dentro de esta skill.
 
@@ -29,17 +29,18 @@ Lo normal, una vez creados los paneles, es actualizar.
 | Dato | Criterio |
 |---|---|
 | Campañas B2B / mayoristas | Fuera de todo cálculo (`b2b: true`). Nombre con B2B, BSB, MAYORISTA o [Seguimiento], **o** alguna audiencia, lista o segmento de envío con «MAYORISTA» o «B2B». Mirar siempre las audiencias, no solo el nombre. |
-| Ingresos canal email (Shopify) | Atribución **último clic no directo**. Antes de usar el conector de Shopify, `get-shop-info` y confirmar que la tienda es la del cliente; si no, no usar esos datos y dejarlo como dato manual. |
+| Ingresos canal email (Shopify) | Atribución **último clic no directo**. En clientes iCommkt es la **única** fuente de ingresos del canal (la plataforma no da revenue). Antes de usar el conector de Shopify, `get-shop-info` y confirmar que la tienda es la del cliente; si no, no usar esos datos y dejarlo como dato manual. |
 | Venta neta | **Siempre dato manual** que facilita el cliente. |
-| BBDD enviamos | Destinatarios de la **última campaña B2C** enviada en el mes. |
-| BBDD total, suscritos y activos | El día de la actualización. Cómo se obtienen depende de la plataforma (`plataformas/`). |
+| BBDD enviamos | Destinatarios de la **última campaña B2C** enviada en el mes. Si se envía por idiomas o segmentos (iCommkt), la **suma** de todas sus versiones. |
+| BBDD total, suscritos y activos | El día de la actualización. Cómo se obtienen depende de la plataforma (`plataformas/`): en iCommkt, suscritos = segmento(s) Masterdata_total y activos = contactos activos de iCommkt. |
+| Flujos | De la plataforma de email. En clientes iCommkt también salen de Shopify: cargar ambos, con la herramienta en el nombre del flujo. |
 | Segmento de envío | Audiencias, listas o segmentos incluidos y excluidos de cada campaña, guardados en `audiences`. |
 
 ## Datos del panel
 
 - `config/cliente`: `cliente`, `plataforma` (se muestra en el panel: «Klaviyo», «iCommkt»…), `tienda`, `sociedad`, `conector`, datos propios de la plataforma (por ejemplo `metricaPlacedOrder` en Klaviyo), `flujos` (`id → {name, status}`), `flujosPorCrear`, `estrategia` (`campanas`, `flujos`, `segmentacion`, `captacion`; líneas `título | prioridad | detalle`), `criterios`, `notaFuentes` (texto del pie del panel con las fuentes y criterios de ese cliente).
 - `months/<AAAA-MM>`: `key`, `label` («Oct 26»), `shopify {rev, ventaNeta}`, `bbdd {total, activos, suscritos, enviamos}`, `campaigns` (`id, name, date, recipients, or, ctr, ctor, cr, unsub, conv, rev, aov, rpr, b2b, audiences`), `flows` (`id → {r, o, c, p, rev}`), `contexto`, `analisis {resumen, funciono, corregir, acciones, propuestas}`, `fuentes {klaviyo, shopify, bbdd}` (`fuentes.klaviyo` guarda la fuente de la plataforma de email, sea cual sea), `actualizacion {fecha, modo}` (`manual` o `programada`), `updatedAt`.
-- Porcentajes como fracción (0,35 = 35 %). Un dato que la plataforma no da se guarda como `null`, nunca como 0. Lectura y escritura con `ArtifactData`, siempre leyendo antes y escribiendo con `if_version`.
+- Porcentajes como fracción (0,35 = 35 %). Un dato que la plataforma no da se guarda como `null`, nunca como 0: el panel lo muestra como «—» (por ejemplo, el revenue de campañas y flujos en iCommkt). Lectura y escritura con `ArtifactData`, siempre leyendo antes y escribiendo con `if_version`.
 
 ## Modo B · Actualizar un mes
 
@@ -87,5 +88,6 @@ El equipo escribe el contexto en «Análisis y contexto». Al actualizar, o cuan
 
 | Versión | Fecha | Cambios |
 |---|---|---|
+| 1.2.0 | 09/11/2026 | iCommkt verificado en parte con Genuins: newsletter por idiomas como fila del panel, tasas recalculadas desde recuentos, ingresos solo de Shopify, suscritos de Masterdata_total, enviamos como suma de segmentos y flujos de Shopify e iCommkt. El panel trata el revenue `null` como no disponible en lugar de 0 € y deja de afirmar una causa fija en la estacionalidad. |
 | 1.1.0 | 07/11/2026 | Instrucciones por plataforma en `plataformas/` (Klaviyo e iCommkt). El panel muestra la plataforma de cada cliente y el pie de fuentes se configura por cliente (`notaFuentes`). Bloque de versión y autoría. |
 | 1.0.0 | 06/11/2026 | Primera versión: panel D2C con base de datos, criterios comunes, actualización mensual, contexto y versión estática. Basada en Klaviyo (Azarey). |
