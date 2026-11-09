@@ -170,7 +170,7 @@ body {
 .table-wrap { overflow-x: auto; border-radius: 8px; }
 .table-wrap--scroll { max-height: 560px; overflow-y: auto; }
 .table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
-.table th { position: sticky; top: 0; background: var(--azul); color: #FFFFFF; text-align: left; font-weight: 600; padding: 8px 10px; white-space: nowrap; }
+.table th { position: sticky; top: 0; z-index: 1; background: var(--azul); color: #FFFFFF; text-align: left; font-weight: 600; padding: 8px 10px; white-space: nowrap; }
 .table td { padding: 8px 10px; border-bottom: 1px solid var(--linea); }
 .table tbody tr:nth-child(even) td { background: var(--fondo-2); }
 .table .num { text-align: right; }
@@ -185,7 +185,8 @@ body {
 .table--edit .input--name { min-width: 220px; }
 .table--edit .input--num { min-width: 80px; text-align: right; }
 .table--edit .input--date { min-width: 130px; }
-.table--edit .input--type { min-width: 150px; }
+.table--edit .check-cell { text-align: center; }
+.table--edit .check { width: 18px; height: 18px; accent-color: var(--azul-2); cursor: pointer; }
 .table--edit .input--aud { min-width: 260px; }
 .table--edit tr.is-b2b td { opacity: .6; }
 .table--edit tr.is-b2b td:first-child { opacity: 1; }

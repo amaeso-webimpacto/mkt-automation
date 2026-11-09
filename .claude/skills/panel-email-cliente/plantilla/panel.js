@@ -760,7 +760,7 @@
   function campaignRow(c) {
     const inc = (c.audiences && c.audiences.included) || [];
     return '<tr data-id="' + esc(c.id || "") + '"' + (c.b2b ? ' class="is-b2b"' : "") + ">" +
-      '<td><select class="input input--type" data-col="b2b" aria-label="Tipo de campaña"><option value="b2c"' + (c.b2b ? "" : " selected") + '>B2C · se incluye</option><option value="b2b"' + (c.b2b ? " selected" : "") + ">B2B · se excluye</option></select></td>" +
+      '<td class="check-cell"><input type="checkbox" class="check" data-col="include"' + (c.b2b ? "" : " checked") + ' aria-label="Incluir «' + esc(c.name || "campaña nueva") + '» en los cálculos"></td>' +
       '<td><input class="input input--name" type="text" maxlength="' + MAX_NAME + '" data-col="name" value="' + esc(c.name || "") + '" aria-label="Nombre de campaña" required></td>' +
       '<td><input class="input input--date" type="date" data-col="date" value="' + esc(c.date || "") + '" aria-label="Fecha" required></td>' +
       '<td><input class="input input--aud" type="text" maxlength="' + MAX_AUDIENCES + '" data-col="included" value="' + esc(inc.join(" | ")) + '" aria-label="Segmentos de envío"></td>' +
@@ -815,7 +815,7 @@
       if (!DATE_RX.test(date) || date.slice(0, 7) !== monthKey) throw new Error("La fecha de «" + name + "» debe estar dentro de " + monthKey + ".");
       const prev = previous[tr.dataset.id] || {};
       const included = get("included").value.split("|").map((s) => s.trim()).filter(Boolean).slice(0, 20);
-      const c = { id: tr.dataset.id || "n" + Date.now().toString(36) + i, name, date, b2b: get("b2b").value === "b2b",
+      const c = { id: tr.dataset.id || "n" + Date.now().toString(36) + i, name, date, b2b: !get("include").checked,
         audiences: { included, excluded: (prev.audiences && prev.audiences.excluded) || [] } };
       ["recipients", "conv", "rev"].concat(PCT_COLS).forEach((col) => { c[col] = readNumber(get(col), { pct: PCT_COLS.includes(col), max: PCT_COLS.includes(col) ? 100 : null }) || 0; });
       c.aov = c.conv ? +(c.rev / c.conv).toFixed(2) : 0;
@@ -1060,7 +1060,7 @@
     $("flows-none").addEventListener("click", () => { state.flowSel = new Set(); populateFilters(); render(); });
     $("camp-search").addEventListener("input", (e) => { state.search = e.target.value; renderCampaignTable(periodTotals(rangeMonths()).camps.slice().sort((a, b) => a.date < b.date ? -1 : 1)); });
     $("analysis-month").addEventListener("change", (e) => { state.analysisKey = e.target.value; toggleForm("analysis", false); renderAnalysis(); });
-    $("edit-campaigns").addEventListener("change", (e) => { if (e.target.dataset.col === "b2b") e.target.closest("tr").classList.toggle("is-b2b", e.target.value === "b2b"); });
+    $("edit-campaigns").addEventListener("change", (e) => { if (e.target.dataset.col === "include") e.target.closest("tr").classList.toggle("is-b2b", !e.target.checked); });
     $("analysis-edit").addEventListener("click", () => toggleForm("analysis", true));
     $("analysis-cancel").addEventListener("click", () => toggleForm("analysis", false));
     $("analysis-form").addEventListener("submit", saveAnalysis);

@@ -7,7 +7,7 @@ description: Actualiza cada mes, crea si aún no existe, o exporta en HTML está
 
 | Versión | Fecha | Creadora | Contacto |
 |---|---|---|---|
-| 1.2.0 | 09/11/2026 | Ana I. Maeso | amaeso@webimpacto.es |
+| 1.2.1 | 09/11/2026 | Ana I. Maeso | amaeso@webimpacto.es |
 
 Cada cliente tiene un artefacto llamado **«Panel Email <Cliente>»** con la línea gráfica de la sociedad que factura. Hoy solo existe la plantilla de **D2C eCommerce**: si el cliente factura con Webimpacto u otra sociedad, avisar y no continuar sin su plantilla. Los datos viven en la base de datos del artefacto (`db`); el diseño es el mismo para todos y está en `plantilla/` dentro de esta skill.
 
@@ -88,6 +88,7 @@ El equipo escribe el contexto en «Editar datos» (es el único sitio donde se e
 
 | Versión | Fecha | Cambios |
 |---|---|---|
+| 1.2.1 | 09/11/2026 | En «Editar datos», cada campaña tiene una casilla «Incluir» (desmarcada = B2B, fuera de los cálculos). La cabecera de las tablas ya no queda por debajo de los campos al desplazarse. |
 | 1.2.0 | 09/11/2026 | Reparto de los ingresos de Shopify entre campañas y flujos en proporción a la atribución de la plataforma (o real si Shopify lo da). Norma explícita: cada panel solo con datos de su cliente. El contexto del mes se edita solo en «Editar datos». |
 | 1.1.0 | 07/11/2026 | Instrucciones por plataforma en `plataformas/` (Klaviyo e iCommkt). El panel muestra la plataforma de cada cliente y el pie de fuentes se configura por cliente (`notaFuentes`). Bloque de versión y autoría. |
 | 1.0.0 | 06/11/2026 | Primera versión: panel D2C con base de datos, criterios comunes, actualización mensual, contexto y versión estática. Basada en Klaviyo (Azarey). |
