@@ -14,6 +14,7 @@
   const MAX_NAME = 200;
   const MAX_AUDIENCES = 600;
   const MIN_RELEVANT_RECIPIENTS = 1000;
+  const TOP_CAMPAIGNS = 4;
   const MIN_RELEVANT_FLOW_RECIPIENTS = 200;
   const UNSUB_LIMIT = 0.003;
   const CADENCE = { high: 16, low: 8 };
@@ -33,7 +34,7 @@
     fromKey: null, toKey: null, preset: "all",
     flowSel: null, tab: "general", search: "",
     analysisKey: null, editKey: null,
-    canWrite: true, db: null, contextDrafts: {}
+    canWrite: true, db: null
   };
   const charts = {};
 
@@ -111,6 +112,7 @@
 
   /** Nombre de la plataforma de email del cliente (config/cliente.plataforma). */
   const plat = () => (state.config && state.config.plataforma) || "Klaviyo";
+  const splitNote = (t) => t.shopifySplitEstimated ? "Estimado: reparto proporcional a la atribución de " + plat() : "Reparto de Shopify";
   const flowIds = () => Object.keys((state.config && state.config.flujos) || {});
   const flowName = (id) => (state.config && state.config.flujos[id] && state.config.flujos[id].name) || id;
   const selectedFlowIds = () => flowIds().filter((id) => !state.flowSel || state.flowSel.has(id));
@@ -127,14 +129,28 @@
     return selectedFlowIds().map((id) => ({ id, name: flowName(id), agg: flowAggFor(months, id) })).filter((x) => x.agg);
   }
 
+  /**
+   * Ingresos de Shopify (último clic no directo) repartidos entre campañas y flujos.
+   * Si el mes trae el reparto real (shopify.revCampanas / revFlujos) se usa; si no, se estima
+   * en proporción a la atribución de la plataforma de email (campañas y flujos sobre su total).
+   */
+  function shopifySplit(shop, campRev, flowRev) {
+    if (isNum(shop.revCampanas) && isNum(shop.revFlujos)) return { camp: shop.revCampanas, flow: shop.revFlujos, estimated: false };
+    const total = campRev + flowRev;
+    if (!isNum(shop.rev) || !total) return { camp: null, flow: null, estimated: false };
+    return { camp: shop.rev * campRev / total, flow: shop.rev * flowRev / total, estimated: true };
+  }
+
   function monthSummary(m) {
     const camp = aggregateCampaigns(b2cCampaigns(m));
     const flows = flowsAggFor([m], flowIds());
     const campRev = camp ? camp.rev : null;
     const flowRev = flows ? flows.rev : null;
     const shop = m.shopify || {};
+    const split = shopifySplit(shop, campRev, flowRev);
     return {
       key: m.key, label: m.label || labelForKey(m.key), camp, flows,
+      shopifyCamp: split.camp, shopifyFlow: split.flow, shopifySplitEstimated: split.estimated,
       campSends: camp ? camp.recipients : 0, flowSends: flows ? flows.recipients : 0,
       campRev, flowRev, klaviyoRev: addKnown(campRev, flowRev),
       shopifyRev: isNum(shop.rev) ? shop.rev : null,
@@ -174,7 +190,13 @@
     const withShop = months.filter((m) => m.shopify && isNum(m.shopify.rev));
     const shopifyRev = withShop.length ? sum(withShop, (m) => m.shopify.rev) : null;
     const ventaNeta = withShop.length ? sum(withShop, (m) => m.shopify.ventaNeta || 0) : null;
-    return { camps, camp, flows, shopifyRev, ventaNeta, peso: shopifyRev != null && ventaNeta ? shopifyRev / ventaNeta : null, shopMonths: withShop.length };
+    const splits = months.map(monthSummary).filter((r) => r.shopifyCamp != null);
+    return {
+      camps, camp, flows, shopifyRev, ventaNeta, peso: shopifyRev != null && ventaNeta ? shopifyRev / ventaNeta : null, shopMonths: withShop.length,
+      shopifyCamp: splits.length ? sum(splits, (r) => r.shopifyCamp) : null,
+      shopifyFlow: splits.length ? sum(splits, (r) => r.shopifyFlow) : null,
+      shopifySplitEstimated: splits.some((r) => r.shopifySplitEstimated)
+    };
   }
 
   /* ---------- Gráficos ---------- */
@@ -243,6 +265,8 @@
     $("global-period").textContent = rangeLabel(months);
     $("global-kpis").innerHTML =
       kpiCard({ navy: true, label: "Ingresos canal email (Shopify)", value: t.shopifyRev, text: fEur(t.shopifyRev), note: partial, delta: deltaChip(t.shopifyRev, prev.shopifyRev, false, "vs año ant."), src: "Fuente: Shopify" }) +
+      kpiCard({ label: "Campañas · Shopify", value: t.shopifyCamp, text: fEur(t.shopifyCamp), note: splitNote(t), delta: deltaChip(t.shopifyCamp, prev.shopifyCamp, false, "vs año ant."), src: "Fuente: Shopify" }) +
+      kpiCard({ label: "Flujos · Shopify", value: t.shopifyFlow, text: fEur(t.shopifyFlow), note: splitNote(t), delta: deltaChip(t.shopifyFlow, prev.shopifyFlow, false, "vs año ant."), src: "Fuente: Shopify" }) +
       kpiCard({ label: "Venta neta", value: t.ventaNeta, text: fEur(t.ventaNeta), note: "Facturación de la tienda", delta: deltaChip(t.ventaNeta, prev.ventaNeta, false, "vs año ant."), src: "Fuente: Shopify" }) +
       kpiCard({ label: "Peso de venta del email", value: t.peso, text: fPct(t.peso), note: "Canal email sobre venta neta", delta: deltaChip(t.peso, prev.peso, true, "vs año ant."), src: "Fuente: Shopify" });
 
@@ -252,10 +276,11 @@
       type: "bar",
       data: { labels: rows.map((r) => r.label), datasets: [
         { type: "line", label: "Peso de venta (%)", data: rows.map((r) => r.peso == null ? null : +(r.peso * 100).toFixed(2)), borderColor: p.navy2, backgroundColor: p.navy2, borderWidth: 2, tension: .3, yAxisID: "y1", pointRadius: 3, spanGaps: true, order: 1 },
-        { label: "Ingresos canal email (€)", data: rows.map((r) => r.shopifyRev), backgroundColor: p.azul2, borderRadius: 4, order: 2 },
-        { label: "Venta neta (€)", data: rows.map((r) => r.ventaNeta), backgroundColor: p.suave, borderRadius: 4, order: 3 }
+        { label: "Email · flujos (€)", data: rows.map((r) => r.shopifyFlow), backgroundColor: p.navy2, stack: "email", order: 2 },
+        { label: "Email · campañas (€)", data: rows.map((r) => r.shopifyCamp), backgroundColor: p.azul2, borderRadius: 4, stack: "email", order: 2 },
+        { label: "Venta neta (€)", data: rows.map((r) => r.ventaNeta), backgroundColor: p.suave, borderRadius: 4, stack: "venta", order: 3 }
       ] },
-      options: baseOptions(p, { scales: { x: axis(p, { grid: { display: false } }), y: axis(p, { ticks: { color: p.apagado, callback: eurTick } }), y1: axis(p, { position: "right", grid: { display: false }, ticks: { color: p.apagado, callback: (v) => v + " %" } }) },
+      options: baseOptions(p, { scales: { x: axis(p, { stacked: true, grid: { display: false } }), y: axis(p, { stacked: true, ticks: { color: p.apagado, callback: eurTick } }), y1: axis(p, { position: "right", grid: { display: false }, ticks: { color: p.apagado, callback: (v) => v + " %" } }) },
         plugins: Object.assign(baseOptions(p).plugins, { tooltip: Object.assign({}, baseOptions(p).plugins.tooltip, { callbacks: { label: (c) => c.dataset.yAxisID === "y1" ? c.dataset.label + ": " + (c.parsed.y == null ? "—" : c.parsed.y.toLocaleString("es-ES") + " %") : tooltipEur(c) } }) }) })
     });
   }
@@ -359,7 +384,7 @@
       return "<tr><td>" + esc(r.label) + '</td><td class="num">' + fInt(b.total) + '</td><td class="num">' + fInt(b.activos) + '</td><td class="num">' + fInt(b.suscritos) +
         '</td><td class="num">' + fInt(sends) + '</td><td class="num">' + fPct(sends ? opens / sends : null) + '</td><td class="num">' + fPct(sends ? clicks / sends : null) +
         '</td><td class="num">' + fEur(r.flowRev) + '</td><td class="num">' + fEur(r.campRev) + '</td><td class="num"><strong>' + fEur(r.klaviyoRev) +
-        '</strong></td><td class="num">' + fEur(r.shopifyRev) + '</td><td class="num">' + fEur(r.ventaNeta) + '</td><td class="num">' + fPct(r.peso) + "</td></tr>";
+        '</strong></td><td class="num">' + fEur(r.shopifyRev) + '</td><td class="num">' + fEur(r.shopifyCamp) + '</td><td class="num">' + fEur(r.shopifyFlow) + '</td><td class="num">' + fEur(r.ventaNeta) + '</td><td class="num">' + fPct(r.peso) + "</td></tr>";
     }).join("");
   }
 
@@ -385,15 +410,11 @@
       kpiCard({ label: "Conversión", value: c.cr, text: fPct(c.cr, 3), note: fInt(c.conv) + " pedidos", delta: deltaChip(c.cr, pc.cr, true, vs) }) +
       kpiCard({ label: "Tasa de baja", value: c.unsub, text: fPct(c.unsub, 3), delta: deltaChip(c.unsub, pc.unsub, true, vs, true) }) +
       kpiCard({ navy: true, label: "Revenue", value: c.rev, text: fEur(c.rev), note: "AOV " + fEur(c.aov), delta: deltaChip(c.rev, pc.rev, false, vs), src: "Fuente: " + plat() }) +
-      kpiCard({ label: "€ por destinatario", value: c.rpr, text: fRpr(c.rpr), delta: deltaChip(c.rpr, pc.rpr, false, vs) });
+      kpiCard({ label: "Revenue · Shopify", value: t.shopifyCamp, text: fEur(t.shopifyCamp), note: splitNote(t), delta: deltaChip(t.shopifyCamp, prev.shopifyCamp, false, vs), src: "Fuente: Shopify" }) +
+      kpiCard({ label: "€ por destinatario", value: c.rpr, text: c.rpr.toLocaleString("es-ES", { maximumFractionDigits: 3 }) + " €", delta: deltaChip(c.rpr, pc.rpr, false, vs) });
 
     const camps = t.camps.slice().sort((a, b) => a.date < b.date ? -1 : 1);
-    const byRev = camps.filter((x) => x.rev > 0).sort((a, b) => b.rev - a.rev);
-    const top = (byRev.length ? byRev : camps.filter((x) => x.conv > 0).sort((a, b) => b.conv - a.conv)).slice(0, 4);
-    $("top-camps").innerHTML = top.length ? top.map((x, i) =>
-      '<article class="top"><span class="top__rank">' + (i + 1) + '</span><h3 class="top__name">' + esc(x.name) + '</h3><span class="top__date">' + esc(x.date) + "</span>" + audienceLine(x) + '<dl class="top__stats">' +
-      stat("Revenue", fEur(x.rev)) + stat("Pedidos", fInt(x.conv)) + stat("€/dest.", fRpr(x.rpr)) +
-      stat("OR", fPct(x.or, 1)) + stat("CTOR", fPct(x.ctor, 1)) + stat("Bajas", fPct(x.unsub, 2)) + "</dl></article>").join("") : '<p class="note">Sin revenue ni pedidos atribuidos en el periodo.</p>';
+    $("top-camps").innerHTML = topCampsHtml(camps);
 
     const p = palette();
     const labels = camps.map((x) => x.name + " · " + x.date.slice(5));
@@ -413,6 +434,45 @@
     });
     renderCampaignTable(camps);
   }
+  /** Las cuatro campañas B2C con más revenue de la lista, como tarjetas. */
+  function topCampsHtml(camps) {
+    const top = camps.filter((x) => x.rev > 0).sort((a, b) => b.rev - a.rev).slice(0, TOP_CAMPAIGNS);
+    if (!top.length) return '<p class="note">Sin campañas con revenue en el periodo.</p>';
+    return top.map((x, i) =>
+      '<article class="top"><span class="top__rank">' + (i + 1) + '</span><h3 class="top__name">' + esc(x.name) + '</h3><span class="top__date">' + esc(x.date) + "</span>" + audienceLine(x) + subjectLine(x) + '<dl class="top__stats">' +
+      stat("Revenue", fEur(x.rev)) + stat("Pedidos", fInt(x.conv)) + stat("€/dest.", (x.rpr || 0).toLocaleString("es-ES", { maximumFractionDigits: 3 })) +
+      stat("OR", fPct(x.or, 1)) + stat("CTOR", fPct(x.ctor, 1)) + stat("Bajas", fPct(x.unsub, 2)) + "</dl></article>").join("");
+  }
+
+  function subjectLine(c) {
+    return c.subject ? '<p class="top__aud"><b>Asunto:</b> ' + esc(c.subject) + "</p>" : '<p class="top__aud">Asunto sin registrar</p>';
+  }
+
+  /**
+   * Periodo con el que comparar el rango: el mismo periodo del año anterior si hay datos de todos sus meses;
+   * si no, los meses inmediatamente anteriores con la misma duración.
+   */
+  function comparisonPeriod(months) {
+    const sameMonthsLastYear = yoyMonths(months);
+    if (sameMonthsLastYear.length) return { kind: "Año anterior", months: sameMonthsLastYear };
+    const first = state.months.indexOf(months[0]);
+    const prev = first >= months.length ? state.months.slice(first - months.length, first) : [];
+    return prev.length ? { kind: "Periodo anterior", months: prev } : { kind: "", months: [] };
+  }
+
+  function renderYoyTops(months) {
+    const cmp = comparisonPeriod(months);
+    $("yoy-tops-cur-title").textContent = "Periodo seleccionado · " + rangeLabel(months);
+    $("yoy-tops-cur").innerHTML = topCampsHtml([].concat(...months.map(b2cCampaigns)));
+    if (!cmp.months.length) {
+      $("yoy-tops-prev-title").textContent = "Sin periodo con el que comparar";
+      $("yoy-tops-prev").innerHTML = '<p class="note">No hay meses anteriores con datos.</p>';
+      return;
+    }
+    $("yoy-tops-prev-title").textContent = cmp.kind + " · " + rangeLabel(cmp.months);
+    $("yoy-tops-prev").innerHTML = topCampsHtml([].concat(...cmp.months.map(b2cCampaigns)));
+  }
+
   function audienceLine(c) {
     const aud = c.audiences || {};
     const inc = aud.included || [];
@@ -480,8 +540,11 @@
     const pv = prev || {};
     const vs = "vs año ant.";
     const best = list.slice().sort((a, b) => b.agg.rev - a.agg.rev)[0];
+    const shopT = periodTotals(months);
+    const shopPrev = periodTotals(yoyMonths(months));
     $("flow-kpis").innerHTML =
       kpiCard({ navy: true, label: "Revenue flujos", value: all.rev, text: fEur(all.rev), note: fInt(all.conv) + " pedidos", delta: deltaChip(all.rev, pv.rev, false, vs), src: "Fuente: " + plat() }) +
+      kpiCard({ label: "Revenue flujos · Shopify", value: shopT.shopifyFlow, text: fEur(shopT.shopifyFlow), note: splitNote(shopT) + (state.flowSel ? " (todos los flujos)" : ""), delta: deltaChip(shopT.shopifyFlow, shopPrev.shopifyFlow, false, vs), src: "Fuente: Shopify" }) +
       kpiCard({ label: "Envíos de flujos", value: all.recipients, text: fInt(all.recipients), delta: deltaChip(all.recipients, pv.recipients, false, vs) }) +
       kpiCard({ label: "Open rate ponderado", value: all.or, text: fPct(all.or), delta: deltaChip(all.or, pv.or, true, vs) }) +
       kpiCard({ label: "Conversión", value: all.cr, text: fPct(all.cr), delta: deltaChip(all.cr, pv.cr, true, vs) }) +
@@ -581,6 +644,8 @@
       card("Open rate campañas", g(cur, "or"), g(prev, "or"), (v) => fPct(v), true) +
       card("CTR campañas", g(cur, "ctr"), g(prev, "ctr"), (v) => fPct(v), true) +
       card("Ingresos canal email (Shopify)", cur.shopifyRev, prev.shopifyRev, fEur) +
+      card("Campañas · Shopify", cur.shopifyCamp, prev.shopifyCamp, fEur) +
+      card("Flujos · Shopify", cur.shopifyFlow, prev.shopifyFlow, fEur) +
       card("Venta neta", cur.ventaNeta, prev.ventaNeta, fEur) +
       card("Peso de venta", cur.peso, prev.peso, (v) => fPct(v), true);
     const p = palette();
@@ -638,28 +703,11 @@
   }
 
   /** Contexto del mes: textarea editable si el visitante puede guardar, texto si no. Conserva lo que se esté escribiendo. */
+  /** Contexto del mes en modo lectura: se escribe en «Editar datos». */
   function contextBlock(m) {
-    const placeholder = "Lo que pasó en el mes y no se ve en los datos: supresiones, incidencias, cambios de plantilla, promociones fuera de email…";
-    if (!(state.canWrite && state.db)) {
-      return '<div class="card context">' + (m.contexto ? '<p class="context__text">' + rich(m.contexto) + "</p>" : '<p class="context__empty">Sin contexto para este mes.</p>') + "</div>";
-    }
-    const draft = Object.prototype.hasOwnProperty.call(state.contextDrafts, m.key) ? state.contextDrafts[m.key] : (m.contexto || "");
-    return '<form class="card context context-form" data-js="context-form"><label class="sr-only" for="ctxText">Contexto de ' + esc(m.label) + "</label>" +
-      '<textarea id="ctxText" class="input textarea" rows="5" maxlength="' + MAX_TEXT + '" data-js="context-text" placeholder="' + esc(placeholder) + '">' + esc(draft) + "</textarea>" +
-      '<div class="form__actions"><button class="btn" type="submit">Guardar contexto</button><span class="form__msg" data-js="context-msg" role="status"></span></div></form>';
-  }
-
-  async function saveContext(event) {
-    event.preventDefault();
-    if (!state.db || !state.canWrite) return;
-    const key = state.analysisKey;
-    const text = $("context-text").value.trim().slice(0, MAX_TEXT);
-    setMsg("context-msg", "Guardando…");
-    try {
-      await state.db.doc(MONTHS_COLLECTION + "/" + key).update({ contexto: text, updatedAt: new Date().toISOString() });
-      delete state.contextDrafts[key];
-      setMsg("context-msg", "Guardado.", "ok");
-    } catch (err) { handleWriteError(err, "context-msg"); }
+    return '<div class="card context">' + (m.contexto
+      ? '<p class="context__text">' + rich(m.contexto) + "</p>"
+      : '<p class="context__empty">Sin contexto para este mes. Se escribe en «Editar datos».</p>') + "</div>";
   }
 
   function li(html, tag) {
@@ -752,8 +800,9 @@
   function campaignRow(c) {
     const inc = (c.audiences && c.audiences.included) || [];
     return '<tr data-id="' + esc(c.id || "") + '"' + (c.b2b ? ' class="is-b2b"' : "") + ">" +
-      '<td><select class="input input--type" data-col="b2b" aria-label="Tipo de campaña"><option value="b2c"' + (c.b2b ? "" : " selected") + '>B2C · se incluye</option><option value="b2b"' + (c.b2b ? " selected" : "") + ">B2B · se excluye</option></select></td>" +
+      '<td class="check-cell"><input type="checkbox" class="check" data-col="include"' + (c.b2b ? "" : " checked") + ' aria-label="Incluir «' + esc(c.name || "campaña nueva") + '» en los cálculos"></td>' +
       '<td><input class="input input--name" type="text" maxlength="' + MAX_NAME + '" data-col="name" value="' + esc(c.name || "") + '" aria-label="Nombre de campaña" required></td>' +
+      '<td><input class="input input--aud" type="text" maxlength="300" data-col="subject" value="' + esc(c.subject || "") + '" aria-label="Asunto"></td>' +
       '<td><input class="input input--date" type="date" data-col="date" value="' + esc(c.date || "") + '" aria-label="Fecha" required></td>' +
       '<td><input class="input input--aud" type="text" maxlength="' + MAX_AUDIENCES + '" data-col="included" value="' + esc(inc.join(" | ")) + '" aria-label="Segmentos de envío"></td>' +
       "<td>" + numInput("recipients", c.recipients, "1") + "</td>" +
@@ -774,8 +823,9 @@
     const form = $("month-form");
     form.querySelectorAll("[data-field]").forEach((el) => {
       const v = getPath(m, el.dataset.field);
-      el.value = v == null ? "" : v;
+      el.value = Array.isArray(v) ? v.join("\n") : (v == null ? "" : v);
     });
+    fillStrategyForm();
     $("edit-campaigns").innerHTML = (m.campaigns || []).slice().sort((a, b) => a.date < b.date ? -1 : 1).map(campaignRow).join("");
     $("edit-flows").innerHTML = flowIds().map((id) => {
       const d = (m.flows || {})[id] || {};
@@ -807,7 +857,8 @@
       if (!DATE_RX.test(date) || date.slice(0, 7) !== monthKey) throw new Error("La fecha de «" + name + "» debe estar dentro de " + monthKey + ".");
       const prev = previous[tr.dataset.id] || {};
       const included = get("included").value.split("|").map((s) => s.trim()).filter(Boolean).slice(0, 20);
-      const c = { id: tr.dataset.id || "n" + Date.now().toString(36) + i, name, date, b2b: get("b2b").value === "b2b",
+      const c = { id: tr.dataset.id || "n" + Date.now().toString(36) + i, name, date, b2b: !get("include").checked,
+        subject: get("subject").value.trim().slice(0, 300),
         audiences: { included, excluded: (prev.audiences && prev.audiences.excluded) || [] } };
       ["recipients", "conv"].concat(PCT_COLS).forEach((col) => { c[col] = readNumber(get(col), { pct: PCT_COLS.includes(col), max: PCT_COLS.includes(col) ? 100 : null }) || 0; });
       c.rev = readNumber(get("rev"));
@@ -832,7 +883,10 @@
     const base = findMonth(state.editKey);
     const doc = JSON.parse(JSON.stringify(base));
     $("month-form").querySelectorAll("[data-field]").forEach((el) => {
-      const value = el.type === "number" ? readNumber(el) : el.value.trim().slice(0, 300);
+      let value;
+      if (el.type === "number") value = readNumber(el);
+      else if (el.dataset.list) value = linesOf(el.value);
+      else value = el.value.trim().slice(0, el.tagName === "TEXTAREA" ? MAX_TEXT : 300);
       setPath(doc, el.dataset.field, value);
     });
     doc.campaigns = readCampaignRows(base);
@@ -864,27 +918,6 @@
     }
   }
 
-  async function saveAnalysis(event) {
-    event.preventDefault();
-    if (!state.db || !state.canWrite) return;
-    const form = $("analysis-form");
-    const field = (f) => form.querySelector('[data-field="' + f + '"]').value;
-    const payload = {
-      analisis: {
-        resumen: field("analisis.resumen").trim().slice(0, MAX_TEXT),
-        funciono: linesOf(field("analisis.funciono")), corregir: linesOf(field("analisis.corregir")),
-        acciones: linesOf(field("analisis.acciones")), propuestas: linesOf(field("analisis.propuestas"))
-      },
-      updatedAt: new Date().toISOString()
-    };
-    setMsg("analysis-msg", "Guardando…");
-    try {
-      await state.db.doc(MONTHS_COLLECTION + "/" + state.analysisKey).update(payload);
-      setMsg("analysis-msg", "Guardado.", "ok");
-      toggleForm("analysis", false);
-    } catch (err) { handleWriteError(err, "analysis-msg"); }
-  }
-
   async function saveStrategy(event) {
     event.preventDefault();
     if (!state.db || !state.canWrite) return;
@@ -895,7 +928,6 @@
     try {
       await state.db.doc(CONFIG_DOC).update({ estrategia, updatedAt: new Date().toISOString() });
       setMsg("strategy-msg", "Guardado.", "ok");
-      toggleForm("strategy", false);
     } catch (err) { handleWriteError(err, "strategy-msg"); }
   }
 
@@ -954,29 +986,6 @@
     $("flow-picker-label").textContent = n === total ? "Todos los flujos" : n + " de " + total + " flujos";
   }
 
-  function toggleForm(kind, open) {
-    const form = $(kind + "-form");
-    form.hidden = !open;
-    if (kind === "analysis") {
-      $("analysis-view").hidden = open;
-      if (open) fillAnalysisForm();
-    } else {
-      $("strategy-view").hidden = open;
-      if (open) fillStrategyForm();
-    }
-  }
-
-  function fillAnalysisForm() {
-    const m = findMonth(state.analysisKey);
-    const form = $("analysis-form");
-    $("analysis-form-month").textContent = m.label;
-    form.querySelectorAll("[data-field]").forEach((el) => {
-      const v = getPath(m, el.dataset.field);
-      el.value = Array.isArray(v) ? v.join("\n") : (v || "");
-    });
-    setMsg("analysis-msg", "");
-  }
-
   function fillStrategyForm() {
     const est = (state.config && state.config.estrategia) || {};
     $("strategy-form").querySelectorAll("[data-field]").forEach((el) => { el.value = (est[el.dataset.field] || []).join("\n"); });
@@ -985,7 +994,8 @@
 
   function applyWriteAccess() {
     const can = state.canWrite && !!state.db;
-    document.querySelectorAll('[data-js="analysis-edit"], [data-js="strategy-edit"], [data-js="add-campaign"], [data-js="add-month-form"]').forEach((el) => { el.hidden = !can; });
+    document.querySelectorAll('[data-js="add-campaign"], [data-js="add-month-form"]').forEach((el) => { el.hidden = !can; });
+    if ($("strategy-form")) $("strategy-form").querySelectorAll("textarea, button").forEach((el) => { el.disabled = !can; });
     if ($("edit-readonly")) $("edit-readonly").hidden = can;
     if ($("month-form")) $("month-form").querySelectorAll("input, button, textarea, select").forEach((el) => { el.disabled = !can; });
   }
@@ -1009,7 +1019,7 @@
       general: () => { renderSummary(months); renderGlobal(months); renderBbdd(months); renderPeriodKpis(months); renderHistory(); },
       campanas: () => renderCampaigns(months),
       flujos: () => renderFlows(months),
-      interanual: () => renderYoy(months),
+      interanual: () => { renderYoy(months); renderYoyTops(months); },
       analisis: () => renderAnalysis(),
       datos: () => renderEditor()
     };
@@ -1052,15 +1062,8 @@
     $("flows-all").addEventListener("click", () => { state.flowSel = null; populateFilters(); render(); });
     $("flows-none").addEventListener("click", () => { state.flowSel = new Set(); populateFilters(); render(); });
     $("camp-search").addEventListener("input", (e) => { state.search = e.target.value; renderCampaignTable(periodTotals(rangeMonths()).camps.slice().sort((a, b) => a.date < b.date ? -1 : 1)); });
-    $("analysis-month").addEventListener("change", (e) => { state.analysisKey = e.target.value; toggleForm("analysis", false); renderAnalysis(); });
-    $("analysis-view").addEventListener("submit", (e) => { if (e.target.matches('[data-js="context-form"]')) saveContext(e); });
-    $("analysis-view").addEventListener("input", (e) => { if (e.target.matches('[data-js="context-text"]')) state.contextDrafts[state.analysisKey] = e.target.value; });
-    $("edit-campaigns").addEventListener("change", (e) => { if (e.target.dataset.col === "b2b") e.target.closest("tr").classList.toggle("is-b2b", e.target.value === "b2b"); });
-    $("analysis-edit").addEventListener("click", () => toggleForm("analysis", true));
-    $("analysis-cancel").addEventListener("click", () => toggleForm("analysis", false));
-    $("analysis-form").addEventListener("submit", saveAnalysis);
-    $("strategy-edit").addEventListener("click", () => toggleForm("strategy", true));
-    $("strategy-cancel").addEventListener("click", () => toggleForm("strategy", false));
+    $("analysis-month").addEventListener("change", (e) => { state.analysisKey = e.target.value; renderAnalysis(); });
+    $("edit-campaigns").addEventListener("change", (e) => { if (e.target.dataset.col === "include") e.target.closest("tr").classList.toggle("is-b2b", !e.target.checked); });
     $("strategy-form").addEventListener("submit", saveStrategy);
     $("edit-month").addEventListener("change", (e) => { state.editKey = e.target.value; renderEditor(); });
     $("month-form").addEventListener("submit", saveMonth);
