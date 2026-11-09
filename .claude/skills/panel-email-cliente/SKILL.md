@@ -24,7 +24,7 @@ Una conversación = un cliente. No mezclar datos, conectores ni decisiones de cl
 
 Lo normal, una vez creados los paneles, es actualizar.
 
-**Listado «Paneles Email»** (https://claude.ai/artifact/Tstgau5tAfbTJ3Fauz7cQc): reúne el enlace de cada panel y su botón «Actualizar», que abre una sesión de Claude Code por cliente con esta skill (modo B) y el mes elegido. Al crear un panel nuevo (modo A), añadirlo allí desde «Añadir panel». El código está en `dashboards/hub/` del repositorio.
+**Listado «Paneles Email»** (https://claude.ai/artifact/Tstgau5tAfbTJ3Fauz7cQc): reúne el enlace de cada panel, su botón «Actualizar» (sesión de Claude Code con esta skill en modo B y el mes elegido), el formulario «Crear panel nuevo» (sesión en modo A) y un aviso por cliente con los datos que hay que meter a mano. Cada sesión trabaja con un solo cliente. El código está en `dashboards/hub/` del repositorio.
 
 ## Criterios comunes (iguales en todas las plataformas)
 
@@ -53,7 +53,7 @@ Lo normal, una vez creados los paneles, es actualizar.
 5. Escribir `months/<mes>` con `actualizacion: {fecha: <ahora en ISO>, modo: "manual"}` (o `"programada"` si la lanza la tarea programada) y, si cambia, `config/cliente`.
 6. **Versión estática** (modo D) y entregarla.
 7. **Resumen** para quien lo pidió: qué se ha cargado, qué falta de dato manual y anomalías (campañas sin audiencia, B2B dudosas, saltos raros).
-8. **Si la petición viene del listado «Paneles Email»** (lo indica y trae su enlace), dejar el resultado allí: `ArtifactData update` de `paneles/<id del panel>`, leyendo antes y con `if_version`, con `ultimaActualizacion {fecha, mes, estado, nota}` (`estado`: `ok`, `incompleta` o `error`; `nota`: una frase sobre lo que falta o lo que ha fallado). Sin cifras ni datos personales: el listado es común a todos los clientes.
+8. **Si la petición viene del listado «Paneles Email»** (lo indica y trae su enlace), dejar el resultado allí: `ArtifactData update` de `paneles/<id>`, leyendo antes y con `if_version`, con `ultimaActualizacion {fecha, mes, estado, nota}` (`estado`: `ok`, `incompleta` o `error`) y `pendientesManual` (lista `{dato, mes, detalle}` de lo que el equipo tiene que meter a mano en «Editar datos» porque sigue vacío tras la carga: venta neta, ingresos de Shopify si el conector no es de su tienda y lo que su fichero de plataforma marque como manual; `[]` si no falta nada). El listado muestra esa lista como aviso del cliente. Sin cifras ni datos personales: el listado es común a todos los clientes.
 
 ## Modo A · Crear el panel de un cliente nuevo
 
@@ -65,6 +65,7 @@ Pedir solo lo que falte: nombre, sociedad que factura, plataforma, conector, des
 4. Cargar `config/cliente` (con `plataforma`, `conector` y `notaFuentes`) y los meses con `ArtifactData batch` (máximo 50 escrituras por lote).
 5. Redactar el análisis del último mes y comprobar con un `list` de `months` usando `as_level: "view"`.
 6. Dar el enlace y recordar que es privado hasta que se comparta desde «Compartir».
+7. **Si la petición viene del listado «Paneles Email»**, el cliente ya tiene allí una fila `paneles/nuevo-<slug>` en estado «creando»: actualizarla con `url` (enlace del panel), `estado: "creado"`, `ultimaActualizacion` y `pendientesManual` como en el paso 8 del modo B. Si no se puede crear, `estado: "error"` y el motivo en `ultimaActualizacion.nota`. Si la petición no viene del listado, añadir allí el panel desde «Añadir panel existente».
 
 Plataformas sin conector: mismo panel; los datos del mes se cargan desde la exportación que pase el equipo o a mano en «Editar datos».
 

@@ -1,9 +1,10 @@
-/* Listado de paneles de email: alta de paneles y lanzamiento de la skill panel-email-cliente por cliente. */
+/* Paneles Email · interfaz: listado, avisos de datos manuales, alta y lanzamiento de sesiones con la skill. */
 (() => {
   "use strict";
 
+  const P = window.PanelesEmail.peticiones;
+
   // Constantes
-  const COLLECTION = "paneles";
   const HUB_CONFIG_DOC = "config/hub";
   const REMOTE_SERVER = "Claude Code Remote";
   const TOOL_CREATE = "create_session";
@@ -12,13 +13,10 @@
   const REPO_URL = "https://github.com/amaeso-webimpacto/mkt-automation";
   const REPO_BRANCH = "main";
   const SESSION_BASE_URL = "https://claude.ai/code/";
-  const PLATAFORMAS = ["Klaviyo", "iCommkt", "Connectif", "HubSpot"];
-  const ARTIFACT_URL_RE = /^https:\/\/claude\.ai\/(?:code\/)?artifact\/([A-Za-z0-9-]{8,64})\/?$/;
-  const CLIENTE_RE = /^[\p{L}\p{N}][\p{L}\p{N} .&'-]{0,59}$/u;
-  const MONTH_RE = /^\d{4}-(0[1-9]|1[0-2])$/;
   const SESSION_ID_RE = /session_[A-Za-z0-9]+/;
   const DB_TIMEOUT_MS = 10000;
   const ENV_STORAGE_KEY = "hub.environmentId";
+  const ESTADO_CREANDO = "creando";
   const SESSION_STATES = {
     working: { text: "En curso", tone: "ok" },
     blocked: { text: "Esperando permiso", tone: "warn" },
@@ -31,6 +29,7 @@
     incompleta: { text: "Incompleta", tone: "warn" },
     error: { text: "Error", tone: "bad" },
   };
+  const CREANDO_BADGE = { text: "Creando", tone: "warn" };
   const MCP_ERROR_COPY = {
     server_not_connected: "Añade el conector Claude Code Remote en claude.ai, Ajustes → Conectores, y vuelve a abrir esta página.",
     needs_reauth: "Vuelve a conectar Claude Code Remote en claude.ai, Ajustes → Conectores.",
@@ -53,7 +52,8 @@
     canWrite: true,
     names: {},
     sessionStatus: {},
-    launching: null,
+    busy: new Set(),
+    pendingLaunch: null,
     environments: null,
   };
 
@@ -67,11 +67,18 @@
     rows: $("rows"),
     empty: $("empty"),
     rowTemplate: $("row-template"),
+    avisosSection: $("avisos-section"),
+    avisos: $("avisos"),
+    avisoTemplate: $("aviso-template"),
+    avisoItemTemplate: $("aviso-item-template"),
+    createSection: $("create-section"),
+    createForm: $("create-form"),
+    createMsg: $("create-msg"),
     addSection: $("add-section"),
     addForm: $("add-form"),
     addMsg: $("add-msg"),
     dialog: $("launch-dialog"),
-    launchClient: $("launch-client"),
+    launchTitle: $("launch-title"),
     envGroup: $("env-group"),
     envSelect: $("launch-env"),
     prompt: $("launch-prompt"),
@@ -81,21 +88,8 @@
   };
 
   // Utilidades puras
-  function previousMonth(today) {
-    const d = new Date(today.getFullYear(), today.getMonth() - 1, 1);
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
-  }
-
-  function currentMonth(today) {
-    return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}`;
-  }
-
-  function isValidMonth(value, today) {
-    return MONTH_RE.test(value) && value <= currentMonth(today);
-  }
-
   function formatMonth(key) {
-    if (!MONTH_RE.test(key || "")) return "";
+    if (!P.MONTH_RE.test(key || "")) return "";
     const [y, m] = key.split("-").map(Number);
     return new Date(y, m - 1, 1).toLocaleDateString("es-ES", { month: "short", year: "2-digit" });
   }
@@ -106,32 +100,21 @@
     return d.toLocaleString("es-ES", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
   }
 
-  function validatePanel({ cliente, url, plataforma }) {
-    const name = (cliente || "").trim();
-    const link = (url || "").trim();
-    if (!CLIENTE_RE.test(name)) return { error: "Revisa el nombre del cliente: solo letras, números, espacios y . - & '." };
-    const match = ARTIFACT_URL_RE.exec(link);
-    if (!match) return { error: "El enlace tiene que ser de un artefacto de claude.ai (https://claude.ai/artifact/…)." };
-    if (!PLATAFORMAS.includes(plataforma)) return { error: "Elige una plataforma de la lista." };
-    return { id: match[1], data: { cliente: name, url: link, plataforma } };
+  function isCreating(panel) {
+    return !panel.url && panel.estado === ESTADO_CREANDO;
   }
 
-  /** Petición que recibe la sesión de Claude Code: un cliente, un panel y un mes. */
-  function buildPrompt(panel, month, hubUrl) {
-    const hub = hubUrl ? `el artefacto «Paneles Email» (${hubUrl})` : "el artefacto «Paneles Email» (búscalo con Artifact list)";
-    return [
-      `Actualiza el panel de email de ${panel.cliente} con la skill panel-email-cliente (modo B, actualizar un mes).`,
-      "",
-      `- Panel: ${panel.url}`,
-      `- Mes: ${month}`,
-      `- Plataforma: ${panel.plataforma}`,
-      "",
-      `Esta sesión es solo para ${panel.cliente}: no leas ni uses datos de otros clientes.`,
-      "",
-      `Al terminar, deja el resultado en ${hub} con ArtifactData: update del documento ${COLLECTION}/${panel.id} (léelo antes y usa if_version) con el campo ultimaActualizacion = {fecha: <ahora en ISO>, mes: "${month}", estado: "ok" | "incompleta" | "error", nota: <una frase sobre lo que falta de dato manual o lo que ha fallado>}. No escribas cifras ni datos personales en ese artefacto.`,
-      "",
-      "No hagas commits ni push.",
-    ].join("\n");
+  function itemKey(item) {
+    return `${item.dato || ""}|${item.mes || ""}`;
+  }
+
+  function avisoFor(panel) {
+    if (Array.isArray(panel.pendientesManual)) {
+      const items = panel.pendientesManual.filter((i) => i && typeof i.dato === "string");
+      return items.length ? { items, reported: true } : null;
+    }
+    if (isCreating(panel)) return null;
+    return { items: P.expectedManual(panel.plataforma), reported: false };
   }
 
   function extractSessionId(result) {
@@ -139,8 +122,7 @@
     const candidates = [payload && payload.session_id, payload && payload.id, payload && payload.session && payload.session.id];
     const direct = candidates.find((v) => typeof v === "string" && SESSION_ID_RE.test(v));
     if (direct) return direct.match(SESSION_ID_RE)[0];
-    const text = JSON.stringify(payload ?? result ?? "");
-    const found = text.match(SESSION_ID_RE);
+    const found = JSON.stringify(payload ?? result ?? "").match(SESSION_ID_RE);
     return found ? found[0] : null;
   }
 
@@ -157,7 +139,11 @@
   }
 
   function sortPaneles(list) {
-    return [...list].sort((a, b) => a.cliente.localeCompare(b.cliente, "es"));
+    return [...list].sort((a, b) => String(a.cliente).localeCompare(String(b.cliente), "es"));
+  }
+
+  function readForm(form) {
+    return Object.fromEntries([...form.querySelectorAll("[data-field]")].map((f) => [f.dataset.field, f.value]));
   }
 
   // Efectos: interfaz
@@ -177,6 +163,12 @@
     return (err && MCP_ERROR_COPY[err.code]) || "No se ha podido usar Claude Code Remote desde esta página.";
   }
 
+  function launchErrorText(err) {
+    const code = err && err.code;
+    if (code === "tool_error" || code in MCP_ERROR_COPY) return mcpErrorText(err);
+    return `No se ha podido lanzar la sesión (${code || "error desconocido"}).`;
+  }
+
   function setBadge(node, info) {
     node.hidden = !info;
     if (!info) return;
@@ -184,28 +176,48 @@
     node.className = `badge badge--${info.tone}`;
   }
 
-  function fillRow(row, panel) {
-    const slot = (name) => row.querySelector(`[data-slot="${name}"]`);
-    slot("link").textContent = panel.cliente;
-    slot("link").href = panel.url;
-    slot("link").setAttribute("aria-label", `Abrir el panel de ${panel.cliente} en una pestaña nueva`);
-    slot("plataforma").textContent = panel.plataforma || "";
-
+  function fillLastUpdate(slot, panel) {
     const upd = panel.ultimaActualizacion;
+    if (isCreating(panel)) {
+      setBadge(slot("upd-badge"), CREANDO_BADGE);
+      slot("upd-text").textContent = "El enlace llegará cuando la sesión publique el panel.";
+      slot("upd-note").textContent = "";
+      return;
+    }
     setBadge(slot("upd-badge"), upd && UPDATE_STATES[upd.estado]);
     slot("upd-text").textContent = upd ? `${formatMonth(upd.mes)} · ${formatDateTime(upd.fecha)}` : "Sin registro";
     slot("upd-note").textContent = (upd && upd.nota) || "";
+  }
 
+  function fillLastRequest(slot, panel) {
     const req = panel.ultimaPeticion;
     const who = req && req.por ? state.names[req.por] || "" : "";
-    slot("req-text").textContent = req ? `${formatMonth(req.mes)} · ${formatDateTime(req.fecha)}${who ? ` · ${who}` : ""}` : "—";
+    const what = req && req.tipo === "crear" ? "Creación" : formatMonth(req && req.mes);
+    slot("req-text").textContent = req ? `${what} · ${formatDateTime(req.fecha)}${who ? ` · ${who}` : ""}` : "—";
     setBadge(slot("req-badge"), req && SESSION_STATES[state.sessionStatus[req.sessionId]]);
     const link = slot("req-link");
     link.hidden = !(req && req.sessionId);
     if (req && req.sessionId) {
       link.href = SESSION_BASE_URL + req.sessionId;
-      link.setAttribute("aria-label", `Ver la sesión de actualización de ${panel.cliente}`);
+      link.setAttribute("aria-label", `Ver la sesión de ${panel.cliente}`);
     }
+  }
+
+  function fillRow(row, panel) {
+    const slot = (name) => row.querySelector(`[data-slot="${name}"]`);
+    const link = slot("link");
+    link.hidden = !panel.url;
+    slot("name-text").hidden = Boolean(panel.url);
+    if (panel.url) {
+      link.textContent = panel.cliente;
+      link.href = panel.url;
+      link.setAttribute("aria-label", `Abrir el panel de ${panel.cliente} en una pestaña nueva`);
+    } else {
+      slot("name-text").textContent = panel.cliente;
+    }
+    slot("plataforma").textContent = panel.plataforma || "";
+    fillLastUpdate(slot, panel);
+    fillLastRequest(slot, panel);
 
     row.querySelectorAll("[data-action]").forEach((btn) => {
       btn.dataset.id = panel.id;
@@ -213,8 +225,44 @@
     });
     const updateBtn = row.querySelector('[data-action="update"]');
     updateBtn.setAttribute("aria-label", `Actualizar el panel de ${panel.cliente}`);
-    updateBtn.disabled = state.launching === panel.id;
+    updateBtn.disabled = !panel.url || state.busy.has(panel.id);
     row.querySelector('[data-action="remove"]').setAttribute("aria-label", `Quitar ${panel.cliente} del listado`);
+  }
+
+  function buildAvisoItem(panel, item, reported) {
+    const li = el.avisoItemTemplate.content.firstElementChild.cloneNode(true);
+    li.querySelector('[data-slot="dato"]').textContent = item.dato;
+    li.querySelector('[data-slot="mes"]').textContent = item.mes ? `· ${formatMonth(item.mes)}` : "";
+    li.querySelector('[data-slot="detalle"]').textContent = item.detalle || "";
+    const btn = li.querySelector('[data-action="done"]');
+    btn.hidden = !reported || !state.canWrite;
+    btn.dataset.id = panel.id;
+    btn.dataset.key = itemKey(item);
+    btn.setAttribute("aria-label", `Marcar como hecho: ${item.dato} de ${panel.cliente}`);
+    return li;
+  }
+
+  function buildAviso(panel, aviso) {
+    const card = el.avisoTemplate.content.firstElementChild.cloneNode(true);
+    card.classList.toggle("aviso--previsto", !aviso.reported);
+    card.querySelector('[data-slot="cliente"]').textContent = panel.cliente;
+    card.querySelector('[data-slot="origen"]').textContent = aviso.reported
+      ? "según la última actualización"
+      : "previsto por su plataforma, sin revisar todavía";
+    card.querySelector('[data-slot="items"]').replaceChildren(...aviso.items.map((item) => buildAvisoItem(panel, item, aviso.reported)));
+    const link = card.querySelector('[data-slot="link"]');
+    link.hidden = !panel.url;
+    if (panel.url) {
+      link.href = panel.url;
+      link.setAttribute("aria-label", `Abrir el panel de ${panel.cliente} para meter los datos`);
+    }
+    return card;
+  }
+
+  function renderAvisos(list) {
+    const cards = list.map((panel) => [panel, avisoFor(panel)]).filter(([, aviso]) => aviso).map(([panel, aviso]) => buildAviso(panel, aviso));
+    el.avisos.replaceChildren(...cards);
+    el.avisosSection.hidden = cards.length === 0;
   }
 
   function render() {
@@ -224,21 +272,30 @@
       fillRow(row, panel);
       return row;
     }));
+    renderAvisos(list);
     el.empty.hidden = list.length > 0;
     el.count.textContent = `${list.length} ${list.length === 1 ? "panel" : "paneles"}`;
     el.heroMeta.textContent = state.canWrite
-      ? "Abre cada panel o lanza su actualización mensual."
-      : "Solo lectura: tu acceso no permite añadir paneles ni lanzar actualizaciones.";
+      ? "Abre cada panel, lanza su actualización mensual o crea uno nuevo."
+      : "Solo lectura: tu acceso no permite añadir paneles ni lanzar sesiones.";
     el.addSection.hidden = !state.canWrite;
+    el.createSection.hidden = !state.canWrite;
   }
 
-  function fillPlataformas() {
-    el.addForm.querySelector('[data-field="plataforma"]').replaceChildren(...PLATAFORMAS.map((p) => new Option(p, p)));
+  function fillSelects() {
+    const sources = { plataformas: P.PLATAFORMAS, sociedades: P.SOCIEDADES };
+    document.querySelectorAll("select[data-options]").forEach((select) => {
+      select.replaceChildren(...sources[select.dataset.options].map((v) => new Option(v, v)));
+    });
   }
 
   // Efectos: datos
+  async function currentUserId() {
+    return state.user ? (await state.user.id()) || null : null;
+  }
+
   async function resolveNames(ids) {
-    const missing = ids.filter((id) => id && !(id in state.names));
+    const missing = [...new Set(ids)].filter((id) => id && !(id in state.names));
     if (!missing.length || !state.user) return;
     try {
       const profiles = await state.user.profiles(missing);
@@ -272,12 +329,12 @@
 
   /** Estado de las sesiones lanzadas; solo si el conector ya está permitido, para no pedir permiso al abrir. */
   async function refreshSessionStatus(sessionIds) {
-    if (!hasRemoteTool(TOOL_GET) || !(await isRemoteGranted())) return;
-    await Promise.all(sessionIds.filter((id) => id && !(id in state.sessionStatus)).map(async (id) => {
+    const pending = sessionIds.filter((id) => id && !(id in state.sessionStatus));
+    if (!pending.length || !hasRemoteTool(TOOL_GET) || !(await isRemoteGranted())) return;
+    await Promise.all(pending.map(async (id) => {
       state.sessionStatus[id] = null;
       try {
-        const result = await state.mcp.callTool(REMOTE_SERVER, TOOL_GET, { session_id: id });
-        state.sessionStatus[id] = extractStatusBucket(result);
+        state.sessionStatus[id] = extractStatusBucket(await state.mcp.callTool(REMOTE_SERVER, TOOL_GET, { session_id: id }));
       } catch {
         state.sessionStatus[id] = null;
       }
@@ -295,7 +352,7 @@
 
   function subscribePaneles() {
     const timer = setTimeout(() => setStatus("La base de datos tarda en responder. Si no aparecen los paneles, vuelve a abrir la página."), DB_TIMEOUT_MS);
-    state.db.collection(COLLECTION).onSnapshot(
+    state.db.collection(P.COLLECTION).onSnapshot(
       (snap) => { clearTimeout(timer); setStatus(""); onPanelesSnapshot(snap); },
       (err) => { clearTimeout(timer); setStatus(`No se pueden leer los paneles (${err.code}).`); },
     );
@@ -305,7 +362,7 @@
     try {
       const snap = await state.db.doc(HUB_CONFIG_DOC).get();
       const url = snap.exists ? String(snap.data().url || "") : "";
-      state.hubUrl = ARTIFACT_URL_RE.test(url) ? url : "";
+      state.hubUrl = P.ARTIFACT_URL_RE.test(url) ? url : "";
     } catch {
       state.hubUrl = "";
     }
@@ -313,8 +370,7 @@
 
   async function loadEnvironments() {
     if (state.environments) return state.environments;
-    const result = await state.mcp.callTool(REMOTE_SERVER, TOOL_ENVS, { limit: 50 });
-    state.environments = extractEnvironments(result);
+    state.environments = extractEnvironments(await state.mcp.callTool(REMOTE_SERVER, TOOL_ENVS, { limit: 50 }));
     return state.environments;
   }
 
@@ -324,6 +380,28 @@
 
   function storeEnvironment(id) {
     try { localStorage.setItem(ENV_STORAGE_KEY, id); } catch { /* preferencia local opcional */ }
+  }
+
+  async function createSession({ prompt, title, tag, environmentId }) {
+    const result = await state.mcp.callTool(REMOTE_SERVER, TOOL_CREATE, {
+      prompt,
+      title,
+      environment_id: environmentId,
+      source_url: REPO_URL,
+      source_revision: REPO_BRANCH,
+      tags: ["panel-email", tag],
+    });
+    const sessionId = extractSessionId(result);
+    if (sessionId) state.sessionStatus[sessionId] = "working";
+    return sessionId;
+  }
+
+  async function recordRequest(panelId, request) {
+    try {
+      await state.db.doc(`${P.COLLECTION}/${panelId}`).update({ ultimaPeticion: { ...request, fecha: new Date().toISOString(), por: await currentUserId() } });
+    } catch (err) {
+      setStatus(`La sesión se ha lanzado, pero no se ha podido guardar aquí (${err.code}).`);
+    }
   }
 
   async function copyPrompt() {
@@ -336,19 +414,12 @@
     }
   }
 
-  // Manejadores
-  async function openLaunchDialog(panel) {
-    const month = el.month.value;
-    if (!isValidMonth(month, new Date())) {
-      setStatus("Elige un mes válido que no sea futuro en «Mes a actualizar».");
-      el.month.focus();
-      return;
-    }
+  // Lanzamiento de sesiones
+  async function openLaunchDialog(launch) {
+    state.pendingLaunch = launch;
     el.dialog.returnValue = "";
-    el.dialog.dataset.id = panel.id;
-    el.dialog.dataset.month = month;
-    el.launchClient.textContent = `${panel.cliente} · ${formatMonth(month)}`;
-    el.prompt.value = buildPrompt(panel, month, state.hubUrl);
+    el.launchTitle.textContent = launch.title;
+    el.prompt.value = launch.prompt;
     setMsg(el.launchMsg, "");
     el.dialog.showModal();
     await prepareEnvironments();
@@ -376,57 +447,99 @@
     }
   }
 
-  async function launchSession(panelId, month) {
-    const panel = state.paneles.find((p) => p.id === panelId);
-    const environmentId = el.envSelect.value;
-    if (!panel || !environmentId || !isValidMonth(month, new Date())) return;
-    storeEnvironment(environmentId);
-    state.launching = panel.id;
-    render();
+  async function runUpdate(panel, month, environmentId) {
     setStatus(`Lanzando la actualización de ${panel.cliente}…`);
+    const sessionId = await createSession({
+      prompt: P.buildUpdatePrompt(panel, month, state.hubUrl),
+      title: `Panel Email ${panel.cliente} · ${month}`,
+      tag: `panel-email:${panel.id}`,
+      environmentId,
+    });
+    await recordRequest(panel.id, { tipo: "actualizar", mes: month, sessionId });
+    return sessionId;
+  }
+
+  async function runCreate(id, nuevo, environmentId) {
+    setStatus(`Lanzando la creación del panel de ${nuevo.cliente}…`);
+    const ref = state.db.doc(`${P.COLLECTION}/${id}`);
+    await ref.set({
+      cliente: nuevo.cliente, plataforma: nuevo.plataforma, url: null, estado: ESTADO_CREANDO,
+      alta: { fecha: new Date().toISOString(), por: await currentUserId() },
+    });
     try {
-      const result = await state.mcp.callTool(REMOTE_SERVER, TOOL_CREATE, {
-        prompt: buildPrompt(panel, month, state.hubUrl),
-        title: `Panel Email ${panel.cliente} · ${month}`,
-        environment_id: environmentId,
-        source_url: REPO_URL,
-        source_revision: REPO_BRANCH,
-        tags: ["panel-email", `panel-email:${panel.id}`],
+      const sessionId = await createSession({
+        prompt: P.buildCreatePrompt(id, nuevo, state.hubUrl),
+        title: `Crear Panel Email ${nuevo.cliente}`,
+        tag: `panel-email:${id}`,
+        environmentId,
       });
-      const sessionId = extractSessionId(result);
-      if (sessionId) state.sessionStatus[sessionId] = "working";
-      await recordRequest(panel.id, month, sessionId);
-      setStatus(sessionId
-        ? `Sesión lanzada para ${panel.cliente}. Síguela con «Ver sesión».`
-        : `Sesión lanzada para ${panel.cliente}, pero no se ha podido leer su identificador. Búscala en claude.ai/code.`);
+      await recordRequest(id, { tipo: "crear", mes: nuevo.desde, sessionId });
+      el.createForm.reset();
+      return sessionId;
     } catch (err) {
-      setStatus(mcpErrorText(err));
+      if (err && (err.code === "server_unavailable" || err.code === "upstream_error")) throw err;
+      await ref.delete().catch(() => {});
+      throw err;
+    }
+  }
+
+  async function launchPending(environmentId) {
+    const launch = state.pendingLaunch;
+    state.pendingLaunch = null;
+    if (!launch || !environmentId) return;
+    storeEnvironment(environmentId);
+    state.busy.add(launch.id);
+    render();
+    try {
+      const sessionId = await launch.run(environmentId);
+      setStatus(sessionId
+        ? `Sesión lanzada para ${launch.cliente}. Síguela con «Ver sesión».`
+        : `Sesión lanzada para ${launch.cliente}, pero no se ha podido leer su identificador. Búscala en claude.ai/code.`);
+    } catch (err) {
+      setStatus(launchErrorText(err));
     } finally {
-      state.launching = null;
+      state.busy.delete(launch.id);
       render();
     }
   }
 
-  async function recordRequest(panelId, month, sessionId) {
-    const por = state.user ? await state.user.id() : null;
-    try {
-      await state.db.doc(`${COLLECTION}/${panelId}`).update({
-        ultimaPeticion: { fecha: new Date().toISOString(), mes: month, sessionId: sessionId || null, por: por || null },
-      });
-    } catch (err) {
-      setStatus(`La sesión se ha lanzado, pero no se ha podido guardar aquí (${err.code}).`);
+  // Manejadores
+  function handleUpdateClick(panel) {
+    const month = el.month.value;
+    if (!P.isValidMonth(month, new Date())) {
+      setStatus("Elige un mes válido que no sea futuro en «Mes a actualizar».");
+      el.month.focus();
+      return;
     }
+    openLaunchDialog({
+      id: panel.id,
+      cliente: panel.cliente,
+      title: `Actualizar ${panel.cliente} · ${formatMonth(month)}`,
+      prompt: P.buildUpdatePrompt(panel, month, state.hubUrl),
+      run: (environmentId) => runUpdate(panel, month, environmentId),
+    });
+  }
+
+  function handleCreate(event) {
+    event.preventDefault();
+    const { id, data, error } = P.validateNuevoPanel(readForm(el.createForm), state.paneles, new Date());
+    if (error) { setMsg(el.createMsg, error, "error"); return; }
+    setMsg(el.createMsg, "");
+    openLaunchDialog({
+      id,
+      cliente: data.cliente,
+      title: `Crear el panel de ${data.cliente}`,
+      prompt: P.buildCreatePrompt(id, data, state.hubUrl),
+      run: (environmentId) => runCreate(id, data, environmentId),
+    });
   }
 
   async function handleAdd(event) {
     event.preventDefault();
-    const fields = Object.fromEntries([...el.addForm.querySelectorAll("[data-field]")].map((f) => [f.dataset.field, f.value]));
-    const { id, data, error } = validatePanel(fields);
+    const { id, data, error } = P.validatePanel(readForm(el.addForm), state.paneles);
     if (error) { setMsg(el.addMsg, error, "error"); return; }
-    if (state.paneles.some((p) => p.id === id)) { setMsg(el.addMsg, "Ese panel ya está en el listado.", "error"); return; }
-    const por = state.user ? await state.user.id() : null;
     try {
-      await state.db.doc(`${COLLECTION}/${id}`).set({ ...data, alta: { fecha: new Date().toISOString(), por: por || null } });
+      await state.db.doc(`${P.COLLECTION}/${id}`).set({ ...data, alta: { fecha: new Date().toISOString(), por: await currentUserId() } });
       el.addForm.reset();
       setMsg(el.addMsg, `${data.cliente} añadido.`, "ok");
     } catch (err) {
@@ -437,30 +550,41 @@
   async function handleRemove(panel) {
     if (!window.confirm(`¿Quitar ${panel.cliente} del listado? El panel no se borra, solo deja de aparecer aquí.`)) return;
     try {
-      await state.db.doc(`${COLLECTION}/${panel.id}`).delete();
+      await state.db.doc(`${P.COLLECTION}/${panel.id}`).delete();
       setStatus(`${panel.cliente} quitado del listado.`);
     } catch (err) {
       setStatus(`No se ha podido quitar (${err.code}).`);
     }
   }
 
-  function handleRowClick(event) {
+  async function handleDone(panel, key) {
+    const items = (panel.pendientesManual || []).filter((item) => itemKey(item) !== key);
+    try {
+      await state.db.doc(`${P.COLLECTION}/${panel.id}`).update({ pendientesManual: items });
+    } catch (err) {
+      setStatus(`No se ha podido marcar como hecho (${err.code}).`);
+    }
+  }
+
+  function handleActionClick(event) {
     const btn = event.target.closest("[data-action]");
-    if (!btn) return;
-    const panel = state.paneles.find((p) => p.id === btn.dataset.id);
+    const panel = btn && state.paneles.find((p) => p.id === btn.dataset.id);
     if (!panel) return;
-    if (btn.dataset.action === "update") openLaunchDialog(panel);
+    if (btn.dataset.action === "update") handleUpdateClick(panel);
     if (btn.dataset.action === "remove") handleRemove(panel);
+    if (btn.dataset.action === "done") handleDone(panel, btn.dataset.key);
   }
 
   function handleDialogClose() {
-    if (el.dialog.returnValue !== "launch") return;
-    launchSession(el.dialog.dataset.id, el.dialog.dataset.month);
+    if (el.dialog.returnValue !== "launch") { state.pendingLaunch = null; return; }
+    launchPending(el.envSelect.value);
   }
 
   // Inicio
   function bindEvents() {
-    el.rows.addEventListener("click", handleRowClick);
+    el.rows.addEventListener("click", handleActionClick);
+    el.avisos.addEventListener("click", handleActionClick);
+    el.createForm.addEventListener("submit", handleCreate);
     el.addForm.addEventListener("submit", handleAdd);
     el.dialog.addEventListener("close", handleDialogClose);
     el.launchCopy.addEventListener("click", copyPrompt);
@@ -468,16 +592,15 @@
 
   async function init() {
     const today = new Date();
-    el.month.value = previousMonth(today);
-    el.month.max = currentMonth(today);
-    fillPlataformas();
+    el.month.value = P.previousMonth(today);
+    el.month.max = P.monthKey(today);
+    el.createForm.querySelector('[data-field="desde"]').max = P.monthKey(today);
+    fillSelects();
     bindEvents();
     render();
 
     const [db, user, mcp] = await Promise.all(["db", "user", "mcp"].map((name) => window.claude.use(name)));
-    state.db = db;
-    state.user = user;
-    state.mcp = mcp;
+    Object.assign(state, { db, user, mcp });
     if (!db) {
       setStatus("Inicia sesión en claude.ai para ver y editar el listado de paneles.");
       el.heroMeta.textContent = "Sin acceso a la base de datos.";
