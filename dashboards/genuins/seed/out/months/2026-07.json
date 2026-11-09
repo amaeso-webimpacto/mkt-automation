@@ -89,94 +89,31 @@
   },
   {
    "id": "c3",
-   "name": "Clásicos rebajados 10.07 DE-",
+   "name": "Clásicos rebajados 10.07",
    "date": "2026-07-10",
-   "recipients": 2766,
-   "or": 0.37455,
-   "ctr": 0.03543,
-   "ctor": 0.09459,
-   "cr": 0.01591,
-   "unsub": 0.00325,
-   "conv": 44,
+   "recipients": 33118,
+   "or": 0.4064,
+   "ctr": 0.01827,
+   "ctor": 0.04495,
+   "cr": 0.00453,
+   "unsub": 0.00314,
+   "conv": 150,
    "rev": null,
    "aov": null,
    "rpr": null,
    "b2b": false,
    "audiences": {
     "included": [
-     "?"
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
     ],
     "excluded": []
    }
   },
   {
    "id": "c4",
-   "name": "Clásicos rebajados 10.07 FR-",
-   "date": "2026-07-10",
-   "recipients": 2185,
-   "or": 0.4,
-   "ctr": 0.02426,
-   "ctor": 0.06064,
-   "cr": 0.00686,
-   "unsub": 0.0087,
-   "conv": 15,
-   "rev": null,
-   "aov": null,
-   "rpr": null,
-   "b2b": false,
-   "audiences": {
-    "included": [
-     "?"
-    ],
-    "excluded": []
-   }
-  },
-  {
-   "id": "c5",
-   "name": "Clásicos rebajados 10.07 ENG-",
-   "date": "2026-07-10",
-   "recipients": 4686,
-   "or": 0.38711,
-   "ctr": 0.01024,
-   "ctor": 0.02646,
-   "cr": 0.00405,
-   "unsub": 0.00235,
-   "conv": 19,
-   "rev": null,
-   "aov": null,
-   "rpr": null,
-   "b2b": false,
-   "audiences": {
-    "included": [
-     "?"
-    ],
-    "excluded": []
-   }
-  },
-  {
-   "id": "c6",
-   "name": "Clásicos rebajados 10.07 ES-",
-   "date": "2026-07-10",
-   "recipients": 23481,
-   "or": 0.41459,
-   "ctr": 0.01729,
-   "ctor": 0.04171,
-   "cr": 0.00307,
-   "unsub": 0.00277,
-   "conv": 72,
-   "rev": null,
-   "aov": null,
-   "rpr": null,
-   "b2b": false,
-   "audiences": {
-    "included": [
-     "?"
-    ],
-    "excluded": []
-   }
-  },
-  {
-   "id": "c7",
    "name": "Best sellers 12.07",
    "date": "2026-07-12",
    "recipients": 33339,
@@ -201,7 +138,7 @@
    }
   },
   {
-   "id": "c8",
+   "id": "c5",
    "name": "Segundas rebajas 14.07",
    "date": "2026-07-14",
    "recipients": 33342,
@@ -226,7 +163,7 @@
    }
   },
   {
-   "id": "c9",
+   "id": "c6",
    "name": "Segundas rebajas 2 17.07",
    "date": "2026-07-17",
    "recipients": 9615,
@@ -250,7 +187,7 @@
    }
   },
   {
-   "id": "c10",
+   "id": "c7",
    "name": "Envío gratis 17.07",
    "date": "2026-07-17",
    "recipients": 23604,
@@ -272,7 +209,7 @@
    }
   },
   {
-   "id": "c11",
+   "id": "c8",
    "name": "Segundas rebajas 3 19.07",
    "date": "2026-07-19",
    "recipients": 9431,
@@ -296,7 +233,7 @@
    }
   },
   {
-   "id": "c12",
+   "id": "c9",
    "name": "Envío gratis últimas horas 19.07",
    "date": "2026-07-19",
    "recipients": 23000,
@@ -318,7 +255,7 @@
    }
   },
   {
-   "id": "c13",
+   "id": "c10",
    "name": "Prepara Genuins Day 22.07",
    "date": "2026-07-22",
    "recipients": 32450,
@@ -343,7 +280,7 @@
    }
   },
   {
-   "id": "c14",
+   "id": "c11",
    "name": "Genuins Day 1 23.07",
    "date": "2026-07-23",
    "recipients": 33726,
@@ -368,7 +305,7 @@
    }
   },
   {
-   "id": "c15",
+   "id": "c12",
    "name": "Genuins Day 3 24.07",
    "date": "2026-07-24",
    "recipients": 32109,
@@ -393,7 +330,7 @@
    }
   },
   {
-   "id": "c16",
+   "id": "c13",
    "name": "Genuins Day 2 24.07",
    "date": "2026-07-24",
    "recipients": 31855,
@@ -418,7 +355,7 @@
    }
   },
   {
-   "id": "c17",
+   "id": "c14",
    "name": "Sostenibilidad 26.07",
    "date": "2026-07-26",
    "recipients": 31717,
@@ -443,7 +380,7 @@
    }
   },
   {
-   "id": "c18",
+   "id": "c15",
    "name": "Market Elche 28.07",
    "date": "2026-07-28",
    "recipients": 1482,
@@ -465,7 +402,7 @@
    }
   },
   {
-   "id": "c19",
+   "id": "c16",
    "name": "Segundas rebajas 30.07",
    "date": "2026-07-30",
    "recipients": 32240,

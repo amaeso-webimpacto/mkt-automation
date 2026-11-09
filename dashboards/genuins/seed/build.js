@@ -19,7 +19,7 @@ const round = (v, d) => +v.toFixed(d);
 const ratio = (num, den) => den ? round(num / den, 5) : 0;
 
 /** Nombre de la newsletter sin el sufijo de idioma ni espacios sobrantes. */
-const VARIANT_SUFFIX_RX = /[\s-]+(?:copia|v\d+|tarde|mañana)$/i;
+const VARIANT_SUFFIX_RX = /(?:[\s-]*(?:copia|v\d[\d.]*)|[\s-]+(?:tarde|mañana)|[\s.-]+)$/i;
 /** Nombre del envío sin espacios repetidos ni sufijos de variante («-copia», «v2», «Tarde»). */
 function cleanName(send) {
   let name = String(send.name || send.newsletter || "").replace(/\s+/g, " ").trim();
@@ -60,10 +60,13 @@ function toCampaign(group, index) {
   };
 }
 
-/** Enviados (suma de segmentos) de la última newsletter B2C del mes. */
+/** Enviados (suma de segmentos) de la última newsletter B2C del mes que va a todos los idiomas del mes. */
 function lastSends(campaigns) {
   const b2c = campaigns.filter((c) => !c.b2b);
-  return b2c.length ? b2c[b2c.length - 1].sends : null;
+  if (!b2c.length) return null;
+  const languages = (c) => new Set(c.audiences.included).size;
+  const maxLanguages = Math.max(...b2c.map(languages));
+  return b2c.filter((c) => languages(c) === maxLanguages).pop().sends;
 }
 
 function buildMonth(key, raw) {
