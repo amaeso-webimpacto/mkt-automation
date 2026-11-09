@@ -12,7 +12,7 @@ Ventana de atribución de 5 días (confirmado por el equipo): el mes se cierra *
 
 ## Ingresos
 
-- **Fuente principal: Shopify, último clic no directo** (como en todos los clientes), separando flujos y campañas si el dato está disponible; si no, dato manual.
+- **Fuente principal: Shopify, último clic no directo** (como en todos los clientes). Si el cliente tiene el reparto real de Shopify entre flujos y campañas, guardarlo en `shopify.revCampanas` y `shopify.revFlujos`; si no, el panel lo estima en proporción a la atribución de la plataforma.
 - `get_icomm_attribution` usa las rutas de conversión de Google Analytics 4 (cualquier compra con iCommkt en la ruta). **No es último clic no directo**: no mezclarlo con los ingresos de Shopify. Si se muestra, como dato de referencia y con su nombre.
 - El revenue que da iCommkt por envío, si lo da, también es solo referencia.
 

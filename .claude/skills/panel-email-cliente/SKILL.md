@@ -7,11 +7,11 @@ description: Actualiza cada mes, crea si aún no existe, o exporta en HTML está
 
 | Versión | Fecha | Creadora | Contacto |
 |---|---|---|---|
-| 1.1.0 | 07/11/2026 | Ana I. Maeso | amaeso@webimpacto.es |
+| 1.2.0 | 09/11/2026 | Ana I. Maeso | amaeso@webimpacto.es |
 
 Cada cliente tiene un artefacto llamado **«Panel Email <Cliente>»** con la línea gráfica de la sociedad que factura. Hoy solo existe la plantilla de **D2C eCommerce**: si el cliente factura con Webimpacto u otra sociedad, avisar y no continuar sin su plantilla. Los datos viven en la base de datos del artefacto (`db`); el diseño es el mismo para todos y está en `plantilla/` dentro de esta skill.
 
-Una conversación = un cliente. No mezclar datos, conectores ni decisiones de clientes distintos.
+**Norma: cada panel solo con datos de su cliente.** El panel de Azarey lleva solo datos de Azarey, el de Genuins solo de Genuins, y así con todos. Nunca se copian, comparan ni completan cifras, campañas, flujos, contexto o análisis con datos de otro cliente, ni siquiera como ejemplo o referencia. Antes de leer datos, confirmar que el conector es el del cliente del panel (`get_account_context`, `get-shop-info` o el nombre del conector). Una conversación = un cliente: si en la conversación aparecen datos de otro cliente, avisar y pedir una conversación nueva.
 
 **Ficheros de la skill:** este `SKILL.md` (lo común), `plataformas/<plataforma>.md` (cómo sacar los datos de cada plataforma) y `plantilla/` (el panel). **Si falta `plantilla/` o `plataformas/`** (por ejemplo, si se subió solo el `SKILL.md`), no improvisar: obtenerlos del repositorio `amaeso-webimpacto/mkt-automation`, rama `main`, en `.claude/skills/panel-email-cliente/` (con `add_repo` y clonado si hace falta). Si tampoco hay acceso, avisar de que hay que reinstalar la skill con el zip completo.
 
@@ -30,6 +30,7 @@ Lo normal, una vez creados los paneles, es actualizar.
 |---|---|
 | Campañas B2B / mayoristas | Fuera de todo cálculo (`b2b: true`). Nombre con B2B, BSB, MAYORISTA o [Seguimiento], **o** alguna audiencia, lista o segmento de envío con «MAYORISTA» o «B2B». Mirar siempre las audiencias, no solo el nombre. |
 | Ingresos canal email (Shopify) | Atribución **último clic no directo**. Antes de usar el conector de Shopify, `get-shop-info` y confirmar que la tienda es la del cliente; si no, no usar esos datos y dejarlo como dato manual. |
+| Reparto Shopify campañas / flujos | Si Shopify da el reparto real, se guarda en `shopify.revCampanas` y `shopify.revFlujos`. Si no (lo normal en Klaviyo), el panel lo **estima en proporción a la atribución de la plataforma**: Shopify campañas = canal Shopify × revenue de campañas ÷ (campañas + flujos) de la plataforma, y lo mismo para flujos, mes a mes. Se muestra marcado como estimado. Ejemplo: plataforma 10.000 € (2.000 campañas, 8.000 flujos) y Shopify 5.000 € → 1.000 € campañas y 4.000 € flujos. No guardar la estimación en la base de datos: la calcula el panel. |
 | Venta neta | **Siempre dato manual** que facilita el cliente. |
 | BBDD enviamos | Destinatarios de la **última campaña B2C** enviada en el mes. |
 | BBDD total, suscritos y activos | El día de la actualización. Cómo se obtienen depende de la plataforma (`plataformas/`). |
@@ -38,7 +39,7 @@ Lo normal, una vez creados los paneles, es actualizar.
 ## Datos del panel
 
 - `config/cliente`: `cliente`, `plataforma` (se muestra en el panel: «Klaviyo», «iCommkt»…), `tienda`, `sociedad`, `conector`, datos propios de la plataforma (por ejemplo `metricaPlacedOrder` en Klaviyo), `flujos` (`id → {name, status}`), `flujosPorCrear`, `estrategia` (`campanas`, `flujos`, `segmentacion`, `captacion`; líneas `título | prioridad | detalle`), `criterios`, `notaFuentes` (texto del pie del panel con las fuentes y criterios de ese cliente).
-- `months/<AAAA-MM>`: `key`, `label` («Oct 26»), `shopify {rev, ventaNeta}`, `bbdd {total, activos, suscritos, enviamos}`, `campaigns` (`id, name, date, recipients, or, ctr, ctor, cr, unsub, conv, rev, aov, rpr, b2b, audiences`), `flows` (`id → {r, o, c, p, rev}`), `contexto`, `analisis {resumen, funciono, corregir, acciones, propuestas}`, `fuentes {klaviyo, shopify, bbdd}` (`fuentes.klaviyo` guarda la fuente de la plataforma de email, sea cual sea), `actualizacion {fecha, modo}` (`manual` o `programada`), `updatedAt`.
+- `months/<AAAA-MM>`: `key`, `label` («Oct 26»), `shopify {rev, ventaNeta, revCampanas, revFlujos}` (los dos últimos solo con reparto real de Shopify), `bbdd {total, activos, suscritos, enviamos}`, `campaigns` (`id, name, date, recipients, or, ctr, ctor, cr, unsub, conv, rev, aov, rpr, b2b, audiences`), `flows` (`id → {r, o, c, p, rev}`), `contexto`, `analisis {resumen, funciono, corregir, acciones, propuestas}`, `fuentes {klaviyo, shopify, bbdd}` (`fuentes.klaviyo` guarda la fuente de la plataforma de email, sea cual sea), `actualizacion {fecha, modo}` (`manual` o `programada`), `updatedAt`.
 - Porcentajes como fracción (0,35 = 35 %). Un dato que la plataforma no da se guarda como `null`, nunca como 0. Lectura y escritura con `ArtifactData`, siempre leyendo antes y escribiendo con `if_version`.
 
 ## Modo B · Actualizar un mes
@@ -66,7 +67,7 @@ Plataformas sin conector: mismo panel; los datos del mes se cargan desde la expo
 
 ## Modo C · Pasar el contexto al análisis
 
-El equipo escribe el contexto en «Análisis y contexto». Al actualizar, o cuando se pida:
+El equipo escribe el contexto en «Editar datos» (es el único sitio donde se edita; «Análisis y contexto» lo muestra en modo lectura). Al actualizar, o cuando se pida:
 - Cada acción del contexto pasa a `analisis.acciones` (lo hecho en negrita y con fecha si se conoce). Comprobar en la plataforma lo verificable (por ejemplo, que un flujo existe y desde cuándo) y decir lo que no se ha podido comprobar.
 - Ajustar `resumen` y `corregir` si el contexto explica un dato.
 - Actualizar `config.estrategia` y `config.flujosPorCrear` si algo pasa de «por hacer» a «hecho» o «medir».
@@ -87,5 +88,6 @@ El equipo escribe el contexto en «Análisis y contexto». Al actualizar, o cuan
 
 | Versión | Fecha | Cambios |
 |---|---|---|
+| 1.2.0 | 09/11/2026 | Reparto de los ingresos de Shopify entre campañas y flujos en proporción a la atribución de la plataforma (o real si Shopify lo da). Norma explícita: cada panel solo con datos de su cliente. El contexto del mes se edita solo en «Editar datos». |
 | 1.1.0 | 07/11/2026 | Instrucciones por plataforma en `plataformas/` (Klaviyo e iCommkt). El panel muestra la plataforma de cada cliente y el pie de fuentes se configura por cliente (`notaFuentes`). Bloque de versión y autoría. |
 | 1.0.0 | 06/11/2026 | Primera versión: panel D2C con base de datos, criterios comunes, actualización mensual, contexto y versión estática. Basada en Klaviyo (Azarey). |

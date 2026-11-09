@@ -20,6 +20,10 @@ Cada resultado trae `campaign_details.attributes` con `name`, `send_time` y `aud
 
 Mapeo: `recipients → recipients`, `open_rate → or`, `click_rate → ctr`, `click_to_open_rate → ctor`, `conversion_rate → cr`, `unsubscribe_rate → unsub`, `conversions → conv`, `conversion_value → rev`, `average_order_value → aov`, `revenue_per_recipient → rpr`.
 
+## Reparto de Shopify
+
+Shopify no separa campañas y flujos: el panel reparte el canal Shopify en proporción a la atribución de Klaviyo de cada mes (ver criterio en `SKILL.md`). No hace falta cargar `shopify.revCampanas` ni `shopify.revFlujos`.
+
 ## Flujos
 
 `get_flow_report` del mes, canal email, `group_by: ["flow_id", "flow_name"]`. Usar `flow_aggregation` (un total por flujo): `recipients → r`, `open_rate → o`, `click_rate → c`, `conversions → p`, `conversion_value → rev`. Clave del flujo: su `flow_id`. Flujo nuevo → añadirlo a `config.flujos`.
@@ -32,4 +36,4 @@ Mapeo: `recipients → recipients`, `open_rate → or`, `click_rate → ctr`, `c
 
 ## Texto del pie (`notaFuentes`)
 
-«Fuentes: Klaviyo (conversión Placed Order de Shopify, canal email) y Shopify (último clic no directo). Venta neta facilitada por el cliente. Activos: recuento de perfiles de correo de Klaviyo el día de actualización. Enviamos: destinatarios de la última campaña B2C del mes. Campañas B2B y de mayoristas excluidas de todos los cálculos.»
+«Fuentes: Klaviyo (conversión Placed Order de Shopify, canal email) y Shopify (último clic no directo). Venta neta facilitada por el cliente. Activos: recuento de perfiles de correo de Klaviyo el día de actualización. Enviamos: destinatarios de la última campaña B2C del mes. Shopify campañas y flujos: estimados en proporción a la atribución de Klaviyo. Campañas B2B y de mayoristas excluidas de todos los cálculos.»

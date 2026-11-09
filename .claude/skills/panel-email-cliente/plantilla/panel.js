@@ -33,7 +33,7 @@
     fromKey: null, toKey: null, preset: "all",
     flowSel: null, tab: "general", search: "",
     analysisKey: null, editKey: null,
-    canWrite: true, db: null, contextDrafts: {}
+    canWrite: true, db: null
   };
   const charts = {};
 
@@ -107,6 +107,7 @@
 
   /** Nombre de la plataforma de email del cliente (config/cliente.plataforma). */
   const plat = () => (state.config && state.config.plataforma) || "Klaviyo";
+  const splitNote = (t) => t.shopifySplitEstimated ? "Estimado: reparto proporcional a la atribución de " + plat() : "Reparto de Shopify";
   const flowIds = () => Object.keys((state.config && state.config.flujos) || {});
   const flowName = (id) => (state.config && state.config.flujos[id] && state.config.flujos[id].name) || id;
   const selectedFlowIds = () => flowIds().filter((id) => !state.flowSel || state.flowSel.has(id));
@@ -123,14 +124,28 @@
     return selectedFlowIds().map((id) => ({ id, name: flowName(id), agg: flowAggFor(months, id) })).filter((x) => x.agg);
   }
 
+  /**
+   * Ingresos de Shopify (último clic no directo) repartidos entre campañas y flujos.
+   * Si el mes trae el reparto real (shopify.revCampanas / revFlujos) se usa; si no, se estima
+   * en proporción a la atribución de la plataforma de email (campañas y flujos sobre su total).
+   */
+  function shopifySplit(shop, campRev, flowRev) {
+    if (isNum(shop.revCampanas) && isNum(shop.revFlujos)) return { camp: shop.revCampanas, flow: shop.revFlujos, estimated: false };
+    const total = campRev + flowRev;
+    if (!isNum(shop.rev) || !total) return { camp: null, flow: null, estimated: false };
+    return { camp: shop.rev * campRev / total, flow: shop.rev * flowRev / total, estimated: true };
+  }
+
   function monthSummary(m) {
     const camp = aggregateCampaigns(b2cCampaigns(m));
     const flows = flowsAggFor([m], flowIds());
     const campRev = camp ? camp.rev : 0;
     const flowRev = flows ? flows.rev : 0;
     const shop = m.shopify || {};
+    const split = shopifySplit(shop, campRev, flowRev);
     return {
       key: m.key, label: m.label || labelForKey(m.key), camp, flows,
+      shopifyCamp: split.camp, shopifyFlow: split.flow, shopifySplitEstimated: split.estimated,
       campSends: camp ? camp.recipients : 0, flowSends: flows ? flows.recipients : 0,
       campRev, flowRev, klaviyoRev: campRev + flowRev,
       shopifyRev: isNum(shop.rev) ? shop.rev : null,
@@ -170,7 +185,13 @@
     const withShop = months.filter((m) => m.shopify && isNum(m.shopify.rev));
     const shopifyRev = withShop.length ? sum(withShop, (m) => m.shopify.rev) : null;
     const ventaNeta = withShop.length ? sum(withShop, (m) => m.shopify.ventaNeta || 0) : null;
-    return { camps, camp, flows, shopifyRev, ventaNeta, peso: shopifyRev != null && ventaNeta ? shopifyRev / ventaNeta : null, shopMonths: withShop.length };
+    const splits = months.map(monthSummary).filter((r) => r.shopifyCamp != null);
+    return {
+      camps, camp, flows, shopifyRev, ventaNeta, peso: shopifyRev != null && ventaNeta ? shopifyRev / ventaNeta : null, shopMonths: withShop.length,
+      shopifyCamp: splits.length ? sum(splits, (r) => r.shopifyCamp) : null,
+      shopifyFlow: splits.length ? sum(splits, (r) => r.shopifyFlow) : null,
+      shopifySplitEstimated: splits.some((r) => r.shopifySplitEstimated)
+    };
   }
 
   /* ---------- Gráficos ---------- */
@@ -239,6 +260,8 @@
     $("global-period").textContent = rangeLabel(months);
     $("global-kpis").innerHTML =
       kpiCard({ navy: true, label: "Ingresos canal email (Shopify)", value: t.shopifyRev, text: fEur(t.shopifyRev), note: partial, delta: deltaChip(t.shopifyRev, prev.shopifyRev, false, "vs año ant."), src: "Fuente: Shopify" }) +
+      kpiCard({ label: "Campañas · Shopify", value: t.shopifyCamp, text: fEur(t.shopifyCamp), note: splitNote(t), delta: deltaChip(t.shopifyCamp, prev.shopifyCamp, false, "vs año ant."), src: "Fuente: Shopify" }) +
+      kpiCard({ label: "Flujos · Shopify", value: t.shopifyFlow, text: fEur(t.shopifyFlow), note: splitNote(t), delta: deltaChip(t.shopifyFlow, prev.shopifyFlow, false, "vs año ant."), src: "Fuente: Shopify" }) +
       kpiCard({ label: "Venta neta", value: t.ventaNeta, text: fEur(t.ventaNeta), note: "Facturación de la tienda", delta: deltaChip(t.ventaNeta, prev.ventaNeta, false, "vs año ant."), src: "Fuente: Shopify" }) +
       kpiCard({ label: "Peso de venta del email", value: t.peso, text: fPct(t.peso), note: "Canal email sobre venta neta", delta: deltaChip(t.peso, prev.peso, true, "vs año ant."), src: "Fuente: Shopify" });
 
@@ -248,10 +271,11 @@
       type: "bar",
       data: { labels: rows.map((r) => r.label), datasets: [
         { type: "line", label: "Peso de venta (%)", data: rows.map((r) => r.peso == null ? null : +(r.peso * 100).toFixed(2)), borderColor: p.navy2, backgroundColor: p.navy2, borderWidth: 2, tension: .3, yAxisID: "y1", pointRadius: 3, spanGaps: true, order: 1 },
-        { label: "Ingresos canal email (€)", data: rows.map((r) => r.shopifyRev), backgroundColor: p.azul2, borderRadius: 4, order: 2 },
-        { label: "Venta neta (€)", data: rows.map((r) => r.ventaNeta), backgroundColor: p.suave, borderRadius: 4, order: 3 }
+        { label: "Email · flujos (€)", data: rows.map((r) => r.shopifyFlow), backgroundColor: p.navy2, stack: "email", order: 2 },
+        { label: "Email · campañas (€)", data: rows.map((r) => r.shopifyCamp), backgroundColor: p.azul2, borderRadius: 4, stack: "email", order: 2 },
+        { label: "Venta neta (€)", data: rows.map((r) => r.ventaNeta), backgroundColor: p.suave, borderRadius: 4, stack: "venta", order: 3 }
       ] },
-      options: baseOptions(p, { scales: { x: axis(p, { grid: { display: false } }), y: axis(p, { ticks: { color: p.apagado, callback: eurTick } }), y1: axis(p, { position: "right", grid: { display: false }, ticks: { color: p.apagado, callback: (v) => v + " %" } }) },
+      options: baseOptions(p, { scales: { x: axis(p, { stacked: true, grid: { display: false } }), y: axis(p, { stacked: true, ticks: { color: p.apagado, callback: eurTick } }), y1: axis(p, { position: "right", grid: { display: false }, ticks: { color: p.apagado, callback: (v) => v + " %" } }) },
         plugins: Object.assign(baseOptions(p).plugins, { tooltip: Object.assign({}, baseOptions(p).plugins.tooltip, { callbacks: { label: (c) => c.dataset.yAxisID === "y1" ? c.dataset.label + ": " + (c.parsed.y == null ? "—" : c.parsed.y.toLocaleString("es-ES") + " %") : tooltipEur(c) } }) }) })
     });
   }
@@ -355,7 +379,7 @@
       return "<tr><td>" + esc(r.label) + '</td><td class="num">' + fInt(b.total) + '</td><td class="num">' + fInt(b.activos) + '</td><td class="num">' + fInt(b.suscritos) +
         '</td><td class="num">' + fInt(sends) + '</td><td class="num">' + fPct(sends ? opens / sends : null) + '</td><td class="num">' + fPct(sends ? clicks / sends : null) +
         '</td><td class="num">' + fEur(r.flowRev) + '</td><td class="num">' + fEur(r.campRev) + '</td><td class="num"><strong>' + fEur(r.klaviyoRev) +
-        '</strong></td><td class="num">' + fEur(r.shopifyRev) + '</td><td class="num">' + fEur(r.ventaNeta) + '</td><td class="num">' + fPct(r.peso) + "</td></tr>";
+        '</strong></td><td class="num">' + fEur(r.shopifyRev) + '</td><td class="num">' + fEur(r.shopifyCamp) + '</td><td class="num">' + fEur(r.shopifyFlow) + '</td><td class="num">' + fEur(r.ventaNeta) + '</td><td class="num">' + fPct(r.peso) + "</td></tr>";
     }).join("");
   }
 
@@ -381,6 +405,7 @@
       kpiCard({ label: "Conversión", value: c.cr, text: fPct(c.cr, 3), note: fInt(c.conv) + " pedidos", delta: deltaChip(c.cr, pc.cr, true, vs) }) +
       kpiCard({ label: "Tasa de baja", value: c.unsub, text: fPct(c.unsub, 3), delta: deltaChip(c.unsub, pc.unsub, true, vs, true) }) +
       kpiCard({ navy: true, label: "Revenue", value: c.rev, text: fEur(c.rev), note: "AOV " + fEur(c.aov), delta: deltaChip(c.rev, pc.rev, false, vs), src: "Fuente: " + plat() }) +
+      kpiCard({ label: "Revenue · Shopify", value: t.shopifyCamp, text: fEur(t.shopifyCamp), note: splitNote(t), delta: deltaChip(t.shopifyCamp, prev.shopifyCamp, false, vs), src: "Fuente: Shopify" }) +
       kpiCard({ label: "€ por destinatario", value: c.rpr, text: c.rpr.toLocaleString("es-ES", { maximumFractionDigits: 3 }) + " €", delta: deltaChip(c.rpr, pc.rpr, false, vs) });
 
     const camps = t.camps.slice().sort((a, b) => a.date < b.date ? -1 : 1);
@@ -475,8 +500,11 @@
     const pv = prev || {};
     const vs = "vs año ant.";
     const best = list.slice().sort((a, b) => b.agg.rev - a.agg.rev)[0];
+    const shopT = periodTotals(months);
+    const shopPrev = periodTotals(yoyMonths(months));
     $("flow-kpis").innerHTML =
       kpiCard({ navy: true, label: "Revenue flujos", value: all.rev, text: fEur(all.rev), note: fInt(all.conv) + " pedidos", delta: deltaChip(all.rev, pv.rev, false, vs), src: "Fuente: " + plat() }) +
+      kpiCard({ label: "Revenue flujos · Shopify", value: shopT.shopifyFlow, text: fEur(shopT.shopifyFlow), note: splitNote(shopT) + (state.flowSel ? " (todos los flujos)" : ""), delta: deltaChip(shopT.shopifyFlow, shopPrev.shopifyFlow, false, vs), src: "Fuente: Shopify" }) +
       kpiCard({ label: "Envíos de flujos", value: all.recipients, text: fInt(all.recipients), delta: deltaChip(all.recipients, pv.recipients, false, vs) }) +
       kpiCard({ label: "Open rate ponderado", value: all.or, text: fPct(all.or), delta: deltaChip(all.or, pv.or, true, vs) }) +
       kpiCard({ label: "Conversión", value: all.cr, text: fPct(all.cr), delta: deltaChip(all.cr, pv.cr, true, vs) }) +
@@ -576,6 +604,8 @@
       card("Open rate campañas", g(cur, "or"), g(prev, "or"), (v) => fPct(v), true) +
       card("CTR campañas", g(cur, "ctr"), g(prev, "ctr"), (v) => fPct(v), true) +
       card("Ingresos canal email (Shopify)", cur.shopifyRev, prev.shopifyRev, fEur) +
+      card("Campañas · Shopify", cur.shopifyCamp, prev.shopifyCamp, fEur) +
+      card("Flujos · Shopify", cur.shopifyFlow, prev.shopifyFlow, fEur) +
       card("Venta neta", cur.ventaNeta, prev.ventaNeta, fEur) +
       card("Peso de venta", cur.peso, prev.peso, (v) => fPct(v), true);
     const p = palette();
@@ -633,28 +663,11 @@
   }
 
   /** Contexto del mes: textarea editable si el visitante puede guardar, texto si no. Conserva lo que se esté escribiendo. */
+  /** Contexto del mes en modo lectura: se escribe en «Editar datos». */
   function contextBlock(m) {
-    const placeholder = "Lo que pasó en el mes y no se ve en los datos: supresiones, incidencias, cambios de plantilla, promociones fuera de email…";
-    if (!(state.canWrite && state.db)) {
-      return '<div class="card context">' + (m.contexto ? '<p class="context__text">' + rich(m.contexto) + "</p>" : '<p class="context__empty">Sin contexto para este mes.</p>') + "</div>";
-    }
-    const draft = Object.prototype.hasOwnProperty.call(state.contextDrafts, m.key) ? state.contextDrafts[m.key] : (m.contexto || "");
-    return '<form class="card context context-form" data-js="context-form"><label class="sr-only" for="ctxText">Contexto de ' + esc(m.label) + "</label>" +
-      '<textarea id="ctxText" class="input textarea" rows="5" maxlength="' + MAX_TEXT + '" data-js="context-text" placeholder="' + esc(placeholder) + '">' + esc(draft) + "</textarea>" +
-      '<div class="form__actions"><button class="btn" type="submit">Guardar contexto</button><span class="form__msg" data-js="context-msg" role="status"></span></div></form>';
-  }
-
-  async function saveContext(event) {
-    event.preventDefault();
-    if (!state.db || !state.canWrite) return;
-    const key = state.analysisKey;
-    const text = $("context-text").value.trim().slice(0, MAX_TEXT);
-    setMsg("context-msg", "Guardando…");
-    try {
-      await state.db.doc(MONTHS_COLLECTION + "/" + key).update({ contexto: text, updatedAt: new Date().toISOString() });
-      delete state.contextDrafts[key];
-      setMsg("context-msg", "Guardado.", "ok");
-    } catch (err) { handleWriteError(err, "context-msg"); }
+    return '<div class="card context">' + (m.contexto
+      ? '<p class="context__text">' + rich(m.contexto) + "</p>"
+      : '<p class="context__empty">Sin contexto para este mes. Se escribe en «Editar datos».</p>') + "</div>";
   }
 
   function li(html, tag) {
@@ -826,7 +839,7 @@
     const base = findMonth(state.editKey);
     const doc = JSON.parse(JSON.stringify(base));
     $("month-form").querySelectorAll("[data-field]").forEach((el) => {
-      const value = el.type === "number" ? readNumber(el) : el.value.trim().slice(0, 300);
+      const value = el.type === "number" ? readNumber(el) : el.value.trim().slice(0, el.tagName === "TEXTAREA" ? MAX_TEXT : 300);
       setPath(doc, el.dataset.field, value);
     });
     doc.campaigns = readCampaignRows(base);
@@ -1047,8 +1060,6 @@
     $("flows-none").addEventListener("click", () => { state.flowSel = new Set(); populateFilters(); render(); });
     $("camp-search").addEventListener("input", (e) => { state.search = e.target.value; renderCampaignTable(periodTotals(rangeMonths()).camps.slice().sort((a, b) => a.date < b.date ? -1 : 1)); });
     $("analysis-month").addEventListener("change", (e) => { state.analysisKey = e.target.value; toggleForm("analysis", false); renderAnalysis(); });
-    $("analysis-view").addEventListener("submit", (e) => { if (e.target.matches('[data-js="context-form"]')) saveContext(e); });
-    $("analysis-view").addEventListener("input", (e) => { if (e.target.matches('[data-js="context-text"]')) state.contextDrafts[state.analysisKey] = e.target.value; });
     $("edit-campaigns").addEventListener("change", (e) => { if (e.target.dataset.col === "b2b") e.target.closest("tr").classList.toggle("is-b2b", e.target.value === "b2b"); });
     $("analysis-edit").addEventListener("click", () => toggleForm("analysis", true));
     $("analysis-cancel").addEventListener("click", () => toggleForm("analysis", false));

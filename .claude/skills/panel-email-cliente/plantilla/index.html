@@ -79,7 +79,7 @@
     <section class="section">
       <h2 class="section__title"><span class="tag">01</span>Visión global del canal <span class="pill" data-js="global-period"></span></h2>
       <p class="section__sub">Ingresos que Shopify atribuye a email (último clic no directo) sobre la venta neta de la tienda.</p>
-      <div class="kpis kpis--3" data-js="global-kpis"></div>
+      <div class="kpis kpis--5" data-js="global-kpis"></div>
       <div class="card chart-card"><h3 class="chart-card__title">Ingresos canal email, venta neta y peso de venta por mes</h3><div class="chart chart--tall"><canvas data-chart="globalEvolution" role="img" aria-label="Evolución mensual de ingresos de email en Shopify, venta neta y peso de venta"></canvas></div></div>
     </section>
 
@@ -114,12 +114,12 @@
               <th scope="col">Mes</th><th scope="col" class="num">BBDD total</th><th scope="col" class="num">Activos</th><th scope="col" class="num">Suscritos</th>
               <th scope="col" class="num">Envíos</th><th scope="col" class="num">OR</th><th scope="col" class="num">CTR</th>
               <th scope="col" class="num">Rev. flujos</th><th scope="col" class="num">Rev. campañas</th><th scope="col" class="num">Rev. <span data-platform>Klaviyo</span></th>
-              <th scope="col" class="num">Canal Shopify</th><th scope="col" class="num">Venta neta</th><th scope="col" class="num">Peso</th>
+              <th scope="col" class="num">Canal Shopify</th><th scope="col" class="num">Shopify camp.</th><th scope="col" class="num">Shopify flujos</th><th scope="col" class="num">Venta neta</th><th scope="col" class="num">Peso</th>
             </tr></thead>
             <tbody data-js="hist-table"></tbody>
           </table>
         </div>
-        <p class="note">Envíos, OR y CTR combinan campañas B2C y flujos (<span data-platform>Klaviyo</span>). Rev. <span data-platform>Klaviyo</span> es la atribución de la plataforma; canal Shopify y peso son la atribución de último clic no directo de Shopify.</p>
+        <p class="note">Envíos, OR y CTR combinan campañas B2C y flujos (<span data-platform>Klaviyo</span>). Rev. <span data-platform>Klaviyo</span> es la atribución de la plataforma. Shopify camp. y Shopify flujos reparten el canal Shopify en proporción a esa atribución salvo que el mes tenga el reparto real de Shopify; canal Shopify y peso son la atribución de último clic no directo de Shopify.</p>
       </div>
     </section>
   </div>
@@ -287,15 +287,23 @@
     </section>
     <form class="form" data-js="month-form" novalidate>
       <div class="card">
+        <h2 class="section__title">Contexto del mes</h2>
+        <label class="label" for="eContexto">Lo que pasó en el mes y no se ve en los datos (se muestra en «Análisis y contexto»)</label>
+        <textarea id="eContexto" class="input textarea" rows="5" maxlength="4000" data-field="contexto" placeholder="Ej.: supresión de contactos inactivos, cambio de plantilla, incidencia con el feed, promoción fuera de email…"></textarea>
+      </div>
+      <div class="card">
         <h2 class="section__title">Shopify y base de datos</h2>
         <div class="form-grid">
           <div><label class="label" for="eShopRev">Ingresos canal email Shopify (€) · último clic no directo</label><input id="eShopRev" class="input" type="number" step="any" min="0" data-field="shopify.rev"></div>
           <div><label class="label" for="eVenta">Venta neta tienda (€) · dato manual</label><input id="eVenta" class="input" type="number" step="any" min="0" data-field="shopify.ventaNeta"></div>
+          <div><label class="label" for="eShopCamp">Shopify campañas (€) · solo si hay reparto real</label><input id="eShopCamp" class="input" type="number" step="any" min="0" data-field="shopify.revCampanas"></div>
+          <div><label class="label" for="eShopFlow">Shopify flujos (€) · solo si hay reparto real</label><input id="eShopFlow" class="input" type="number" step="any" min="0" data-field="shopify.revFlujos"></div>
           <div><label class="label" for="eTotal">BBDD total</label><input id="eTotal" class="input" type="number" step="any" min="0" data-field="bbdd.total"></div>
           <div><label class="label" for="eActivos">BBDD activos · recuento de perfiles de correo</label><input id="eActivos" class="input" type="number" step="any" min="0" data-field="bbdd.activos"></div>
           <div><label class="label" for="eSuscritos">BBDD suscritos email</label><input id="eSuscritos" class="input" type="number" step="any" min="0" data-field="bbdd.suscritos"></div>
           <div><label class="label" for="eEnviamos">BBDD enviamos · última campaña B2C del mes</label><input id="eEnviamos" class="input" type="number" step="any" min="0" data-field="bbdd.enviamos"></div>
         </div>
+        <p class="section__sub">Si los dos campos de reparto real están vacíos, el panel reparte el canal Shopify en proporción a la atribución de la plataforma.</p>
         <div class="form-grid form-grid--wide">
           <div><label class="label" for="eSrcK">Fuente <span data-platform>Klaviyo</span></label><input id="eSrcK" class="input" type="text" maxlength="300" data-field="fuentes.klaviyo"></div>
           <div><label class="label" for="eSrcS">Fuente Shopify</label><input id="eSrcS" class="input" type="text" maxlength="300" data-field="fuentes.shopify"></div>
