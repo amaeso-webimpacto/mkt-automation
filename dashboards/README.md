@@ -44,9 +44,6 @@ Lo propio de cada plataforma (activos, suscritos, enviamos, flujos, revenue) est
 - **Enviamos:** destinatarios de la última campaña B2C enviada en el mes. Si el mes no tiene dato guardado, el panel lo calcula así.
 - **Total y suscritos:** perfiles totales y con consentimiento de email en Klaviyo el día de la actualización.
 
-## Actualización mensual (pendiente de automatizar)
+## Actualización mensual programada
 
-1. Klaviyo: `get_campaign_report` y `get_flow_report` del mes, conversión «Placed Order» de Shopify, canal email. Marcar las campañas B2B.
-2. Klaviyo: `list_billing_usage` (activos) y perfiles totales y suscritos el día de la actualización.
-3. Shopify de la tienda del cliente: ingresos del canal email con último clic no directo. Venta neta: la facilita el cliente.
-4. Escribir `months/<AAAA-MM>` con `ArtifactData` y redactar el análisis del mes.
+La skill `.claude/skills/programar-panel-email/` deja a nombre de cada persona del equipo una tarea programada por cliente (Klaviyo o iCommkt; HubSpot y Connectif todavía no). Cada mes, por defecto el día 7, la tarea abre una sesión nueva que aplica la skill del panel en modo B, genera la versión estática y envía un correo con las cifras clave y el enlace al HTML. El texto de la tarea está en `plantilla-tarea.md`.

@@ -24,6 +24,8 @@ Cada cliente tiene un artefacto llamado **«Panel Email <Cliente>»** con la lí
 
 Lo normal, una vez creados los paneles, es actualizar.
 
+**Actualización automática:** la skill `programar-panel-email` crea la tarea programada mensual de uno o varios clientes (una tarea por cliente) con el texto de su `plantilla-tarea.md`. Si cambia el modo B o los datos manuales, revisar también esa plantilla.
+
 **Listado «Paneles Email»** (https://claude.ai/artifact/Tstgau5tAfbTJ3Fauz7cQc): reúne el enlace de cada panel, su botón «Actualizar» (sesión de Claude Code con esta skill en modo B y el mes elegido), el formulario «Crear panel nuevo» (sesión en modo A) y un aviso por cliente con los datos que hay que meter a mano. Cada sesión trabaja con un solo cliente. El código está en `dashboards/hub/` del repositorio.
 
 ## Criterios comunes (iguales en todas las plataformas)
