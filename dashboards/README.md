@@ -18,13 +18,13 @@ Los porcentajes se guardan como fracción (0,35 = 35 %). Las campañas B2B se ex
 
 ## Listado de paneles
 
-«Paneles Email» (https://claude.ai/artifact/Tstgau5tAfbTJ3Fauz7cQc), código en `hub/` (`index.html`, `hub.js` para la interfaz, `hub-peticiones.js` para la validación y las peticiones a las sesiones, `hub.css`). Reutiliza `panel.css` y el logo de la plantilla. Guarda en su base de datos un documento por panel en `paneles/<id>` (`cliente`, `url`, `plataforma`, `estado`, `alta`, `ultimaPeticion`, `ultimaActualizacion`, `pendientesManual`) y su propio enlace en `config/hub`. Nada de cifras.
+«Paneles Email» (https://claude.ai/artifact/Tstgau5tAfbTJ3Fauz7cQc), código en `hub/` (`index.html`, `hub.js` para la interfaz, `hub-peticiones.js` para la validación y las peticiones, `hub.css`). Reutiliza `panel.css` y el logo de la plantilla. Guarda en su base de datos un documento por panel en `paneles/<id del artefacto>` (`cliente`, `url`, `plataforma`, `alta`, `ultimaActualizacion`, `pendientesManual`) y su propio enlace en `config/hub`. Nada de cifras.
 
-- **Actualizar:** con el conector Claude Code Remote, abre una sesión nueva de Claude Code a nombre de quien pulsa, en el entorno que elija, con este repositorio en `main` y la skill en modo B para ese cliente y mes.
-- **Crear panel nuevo:** pide cliente, plataforma, sociedad (solo D2C eCommerce tiene plantilla), conector, mes desde el que cargar y, si lo hay, el histórico anterior (artefacto o hoja de Google). Crea la fila `paneles/nuevo-<slug>` en estado «creando» y lanza una sesión en modo A, que le pone el enlace al publicar el panel.
-- **Añadir panel existente:** nombre, enlace del artefacto y plataforma; el id del documento es el del artefacto.
-- **Datos para meter a mano:** un aviso por cliente con `pendientesManual`, que deja la sesión al terminar (paso 8 del modo B y paso 7 del modo A). El equipo marca cada dato como hecho. Mientras un panel no tenga esa lista, el aviso muestra lo previsto por su plataforma (`MANUAL_POR_PLATAFORMA` en `hub-peticiones.js`): si cambian los datos manuales en `SKILL.md` o `plataformas/`, actualizarlo también allí.
-- Sin conector, la página deja copiar la petición para pegarla en Claude Code.
+- **El listado no ejecuta nada:** cada persona actualiza o crea paneles en su propia conversación con la skill, con su cuenta y sus conectores. El listado prepara la petición para copiarla.
+- **Petición de actualización:** modo B para ese cliente y el mes elegido, con la orden de dejar el resultado en el listado.
+- **Crear panel nuevo:** valida los datos del modo A (solo D2C eCommerce tiene plantilla) y prepara la petición. Al publicar el panel, la conversación lo registra en el listado.
+- **Añadir panel existente:** nombre, enlace del artefacto y plataforma.
+- **Datos para meter a mano:** un aviso por cliente con `pendientesManual`, que deja la conversación al terminar (paso 8 del modo B y paso 7 del modo A). El equipo marca cada dato como hecho. Sin esa lista, el aviso muestra lo previsto por su plataforma (`MANUAL_POR_PLATAFORMA` en `hub-peticiones.js`): si cambian los datos manuales en `SKILL.md` o `plataformas/`, actualizarlo también allí.
 - Publicar con `hub/index.html`, `files` `{"panel.css", "logo_d2c.png"}` desde la plantilla y `{"hub.css", "hub.js", "hub-peticiones.js"}` desde `hub/`, sin pasar `capabilities` en las republicaciones.
 
 ## Paneles publicados

@@ -29,7 +29,7 @@
         <input id="updateMonth" class="input" type="month" data-js="update-month" required>
       </div>
     </div>
-    <p class="section__sub">«Actualizar» abre una sesión de Claude Code para ese cliente con la skill panel-email-cliente (modo B). Cada sesión trabaja con un solo cliente y, al terminar, deja aquí el resultado y los datos que faltan por meter a mano.</p>
+    <p class="section__sub">Para actualizar un panel, copia su petición y pégala en una conversación nueva de Claude, con la skill panel-email-cliente. Una conversación por cliente. Al terminar, Claude deja aquí el resultado y los datos que faltan por meter a mano.</p>
     <div class="card">
       <div class="table-wrap">
         <table class="table hub-table">
@@ -38,7 +38,6 @@
             <th scope="col">Cliente</th>
             <th scope="col">Plataforma</th>
             <th scope="col">Última actualización</th>
-            <th scope="col">Última petición</th>
             <th scope="col"><span class="sr-only">Acciones</span></th>
           </tr></thead>
           <tbody data-js="rows"></tbody>
@@ -56,7 +55,7 @@
 
   <section class="section" data-js="create-section">
     <h2 class="section__title"><span class="tag">03</span>Crear panel nuevo</h2>
-    <p class="section__sub">Abre una sesión de Claude Code con la skill en modo A. El panel aparece en el listado como «Creando» y la sesión le pone el enlace al publicarlo.</p>
+    <p class="section__sub">Rellena los datos y copia la petición para pegarla en una conversación nueva de Claude, con la skill panel-email-cliente (modo A). Al publicar el panel, Claude lo añade a este listado.</p>
     <form class="card form" data-js="create-form" novalidate>
       <div class="form-grid">
         <div>
@@ -85,7 +84,7 @@
         </div>
       </div>
       <div class="form__actions">
-        <button class="btn" type="submit">Crear panel</button>
+        <button class="btn" type="submit">Preparar petición</button>
         <span class="form__msg" data-js="create-msg" role="status"></span>
       </div>
     </form>
@@ -118,17 +117,16 @@
 </main>
 
 <footer class="foot">
-  <p>Este listado solo guarda el nombre, el enlace, el estado y los datos pendientes de cada panel, nunca cifras. Las cifras viven en el panel de cada cliente. Para lanzar sesiones hace falta el conector Claude Code Remote en claude.ai.</p>
+  <p>Este listado solo guarda el nombre, el enlace, el estado y los datos pendientes de cada panel, nunca cifras. Las cifras viven en el panel de cada cliente.</p>
 </footer>
 
 <template data-js="row-template">
   <tr>
-    <td class="name"><a class="hub-link" data-slot="link" target="_blank" rel="noopener noreferrer"></a><span data-slot="name-text"></span></td>
+    <td class="name"><a class="hub-link" data-slot="link" target="_blank" rel="noopener noreferrer"></a></td>
     <td data-slot="plataforma"></td>
     <td><span class="badge" data-slot="upd-badge"></span> <span data-slot="upd-text"></span><span class="hub-note" data-slot="upd-note"></span></td>
-    <td><span data-slot="req-text"></span> <span class="badge" data-slot="req-badge" hidden></span> <a class="hub-link" data-slot="req-link" target="_blank" rel="noopener noreferrer" hidden>Ver sesión</a></td>
     <td class="hub-actions">
-      <button class="btn" type="button" data-action="update">Actualizar</button>
+      <button class="btn btn--ghost" type="button" data-action="update">Petición de actualización</button>
       <button class="link" type="button" data-action="remove">Quitar</button>
     </td>
   </tr>
@@ -149,21 +147,16 @@
   </li>
 </template>
 
-<dialog class="hub-dialog" data-js="launch-dialog" aria-labelledby="launchTitle">
-  <form method="dialog" class="form" data-js="launch-form">
-    <h2 class="section__title" id="launchTitle" data-js="launch-title"></h2>
-    <p class="section__sub">Se abrirá una sesión nueva de Claude Code a tu nombre con esta petición. Puedes seguirla desde «Ver sesión».</p>
-    <div class="filters__group" data-js="env-group">
-      <label class="label" for="launchEnv">Entorno de Claude Code</label>
-      <select id="launchEnv" class="input" data-js="launch-env"></select>
-    </div>
-    <label class="label" for="launchPrompt">Petición</label>
-    <textarea id="launchPrompt" class="input textarea" rows="10" readonly data-js="launch-prompt"></textarea>
-    <p class="form__msg" data-js="launch-msg" role="status"></p>
+<dialog class="hub-dialog" data-js="prompt-dialog" aria-labelledby="promptTitle">
+  <form method="dialog" class="form" data-js="prompt-form">
+    <h2 class="section__title" id="promptTitle" data-js="prompt-title"></h2>
+    <p class="section__sub">Cópiala y pégala en una conversación nueva de Claude con la skill panel-email-cliente. Se ejecuta con tu cuenta y tus conectores.</p>
+    <label class="label" for="promptText">Petición</label>
+    <textarea id="promptText" class="input textarea" rows="10" readonly data-js="prompt-text"></textarea>
+    <p class="form__msg" data-js="prompt-msg" role="status"></p>
     <div class="form__actions">
-      <button class="btn" type="submit" value="launch" data-js="launch-submit">Lanzar sesión</button>
-      <button class="btn btn--ghost" type="button" data-js="launch-copy">Copiar petición</button>
-      <button class="btn btn--ghost" type="submit" value="cancel" formnovalidate>Cancelar</button>
+      <button class="btn" type="button" data-js="prompt-copy">Copiar petición</button>
+      <button class="btn btn--ghost" type="submit" value="close" formnovalidate>Cerrar</button>
     </div>
   </form>
 </dialog>

@@ -26,7 +26,7 @@ Lo normal, una vez creados los paneles, es actualizar.
 
 **Actualización automática:** la skill `programar-panel-email` crea la tarea programada mensual de uno o varios clientes (una tarea por cliente) con el texto de su `plantilla-tarea.md`. Si cambia el modo B o los datos manuales, revisar también esa plantilla.
 
-**Listado «Paneles Email»** (https://claude.ai/artifact/Tstgau5tAfbTJ3Fauz7cQc): reúne el enlace de cada panel, su botón «Actualizar» (sesión de Claude Code con esta skill en modo B y el mes elegido), el formulario «Crear panel nuevo» (sesión en modo A) y un aviso por cliente con los datos que hay que meter a mano. Cada sesión trabaja con un solo cliente. El código está en `dashboards/hub/` del repositorio.
+**Listado «Paneles Email»** (https://claude.ai/artifact/Tstgau5tAfbTJ3Fauz7cQc): reúne el enlace de cada panel, un aviso por cliente con los datos que hay que meter a mano y peticiones listas para copiar (actualizar un mes o crear un panel) que cada persona pega en su propia conversación con esta skill. El código está en `dashboards/hub/` del repositorio.
 
 ## Criterios comunes (iguales en todas las plataformas)
 
@@ -75,7 +75,7 @@ Pedir solo lo que falte: nombre, sociedad que factura, plataforma, conector, des
 4. Cargar `config/cliente` (con `plataforma`, `conector` y `notaFuentes`) y los meses con `ArtifactData batch` (máximo 50 escrituras por lote).
 5. Redactar el análisis del último mes y comprobar con un `list` de `months` usando `as_level: "view"`.
 6. Dar el enlace y recordar que es privado hasta que se comparta desde «Compartir».
-7. **Si la petición viene del listado «Paneles Email»**, el cliente ya tiene allí una fila `paneles/nuevo-<slug>` en estado «creando»: actualizarla con `url` (enlace del panel), `estado: "creado"`, `ultimaActualizacion` y `pendientesManual` como en el paso 8 del modo B. Si no se puede crear, `estado: "error"` y el motivo en `ultimaActualizacion.nota`. Si la petición no viene del listado, añadir allí el panel desde «Añadir panel existente».
+7. **Registrar el panel en el listado «Paneles Email»**: `ArtifactData set` de `paneles/<id del artefacto del panel>` con `cliente`, `plataforma`, `url`, `ultimaActualizacion` y `pendientesManual` como en el paso 8 del modo B.
 
 Plataformas sin conector: mismo panel; los datos del mes se cargan desde la exportación que pase el equipo o a mano en «Editar datos».
 

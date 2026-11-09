@@ -11,7 +11,6 @@
   const CLIENTE_RE = /^[\p{L}\p{N}][\p{L}\p{N} .&'-]{0,59}$/u;
   const CONECTOR_RE = /^[\p{L}\p{N}][\p{L}\p{N} _.-]{1,59}$/u;
   const MONTH_RE = /^\d{4}-(0[1-9]|1[0-2])$/;
-  const NUEVO_PREFIX = "nuevo-";
 
   /** Datos que la skill marca como manuales, por plataforma (SKILL.md y plataformas/*.md). */
   const MANUAL_COMUN = [{ dato: "Venta neta del mes", detalle: "La facilita el cliente." }];
@@ -75,11 +74,7 @@
     if (conector && !CONECTOR_RE.test(conector)) return { error: "Revisa el nombre del conector: letras, números, espacios, guiones y puntos." };
     if (!isValidMonth(fields.desde, today)) return { error: "Elige desde qué mes cargar (no puede ser futuro)." };
     if (fuente && !ARTIFACT_URL_RE.test(fuente) && !SHEET_URL_RE.test(fuente)) return { error: "El histórico anterior tiene que ser un artefacto de claude.ai o una hoja de Google." };
-    const slug = slugify(cliente);
-    return {
-      id: NUEVO_PREFIX + slug,
-      data: { cliente, plataforma: fields.plataforma, sociedad: fields.sociedad, conector, desde: fields.desde, fuente, slug },
-    };
+    return { data: { cliente, plataforma: fields.plataforma, sociedad: fields.sociedad, conector, desde: fields.desde, fuente, slug: slugify(cliente) } };
   }
 
   function expectedManual(plataforma) {
@@ -106,31 +101,27 @@
       `- Mes: ${month}`,
       `- Plataforma: ${panel.plataforma}`,
       "",
-      `Esta sesión es solo para ${panel.cliente}: no leas ni uses datos de otros clientes.`,
+      `Trabaja solo con datos de ${panel.cliente}: no leas ni uses datos de otros clientes.`,
       "",
       `Al terminar, deja el resultado en ${hubReference(hubUrl)} con ArtifactData: update del documento ${COLLECTION}/${panel.id} (léelo antes y usa if_version) con ${resultFields(`"${month}"`)}. No escribas cifras ni datos personales en ese artefacto.`,
-      "",
-      "No hagas commits ni push.",
     ].join("\n");
   }
 
-  /** Petición del modo A: crear el panel de un cliente nuevo y registrarlo en el listado. */
-  function buildCreatePrompt(id, nuevo, hubUrl) {
+  /** Petición del modo A: crear el panel de un cliente nuevo y añadirlo al listado. */
+  function buildCreatePrompt(nuevo, hubUrl) {
     return [
-      `Crea el panel de email de ${nuevo.cliente} con la skill panel-email-cliente (modo A, crear el panel de un cliente nuevo). Quien lo pide ha confirmado que es un cliente nuevo.`,
+      `Crea el panel de email de ${nuevo.cliente} con la skill panel-email-cliente (modo A, crear el panel de un cliente nuevo). Confirmo que es un cliente nuevo.`,
       "",
       `- Cliente: ${nuevo.cliente} (slug: ${nuevo.slug})`,
       `- Sociedad que factura: ${nuevo.sociedad}`,
       `- Plataforma: ${nuevo.plataforma}`,
-      `- Conector: ${nuevo.conector || "sin indicar; búscalo entre los conectores de la sesión y confirma que es el del cliente antes de leer datos"}`,
+      `- Conector: ${nuevo.conector || "sin indicar; búscalo entre mis conectores y confirma que es el del cliente antes de leer datos"}`,
       `- Cargar desde: ${nuevo.desde}`,
       `- Histórico anterior: ${nuevo.fuente || "no hay"}`,
       "",
-      `Esta sesión es solo para ${nuevo.cliente}: no leas ni uses datos de otros clientes.`,
+      `Trabaja solo con datos de ${nuevo.cliente}: no leas ni uses datos de otros clientes.`,
       "",
-      `Al publicar el panel, regístralo en ${hubReference(hubUrl)} con ArtifactData: update del documento ${COLLECTION}/${id} (léelo antes y usa if_version) con url = <enlace del panel publicado>, estado = "creado" y ${resultFields("<último mes cargado>")}. Si algo impide crear el panel, pon estado = "error" y explícalo en ultimaActualizacion.nota. No escribas cifras ni datos personales en ese artefacto.`,
-      "",
-      `Guarda los ficheros del panel en dashboards/${nuevo.slug}/ y súbelos (commit y push) a la rama de esta sesión, sin abrir PR.`,
+      `Al publicar el panel, regístralo en ${hubReference(hubUrl)} con ArtifactData: set del documento ${COLLECTION}/<id del artefacto del panel> con cliente = "${nuevo.cliente}", plataforma = "${nuevo.plataforma}", url = <enlace del panel>, ${resultFields("<último mes cargado>")}. No escribas cifras ni datos personales en ese artefacto.`,
     ].join("\n");
   }
 
