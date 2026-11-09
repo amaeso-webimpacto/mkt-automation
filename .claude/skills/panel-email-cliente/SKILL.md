@@ -24,6 +24,8 @@ Una conversación = un cliente. No mezclar datos, conectores ni decisiones de cl
 
 Lo normal, una vez creados los paneles, es actualizar.
 
+**Listado «Paneles Email»** (https://claude.ai/artifact/Tstgau5tAfbTJ3Fauz7cQc): reúne el enlace de cada panel y su botón «Actualizar», que abre una sesión de Claude Code por cliente con esta skill (modo B) y el mes elegido. Al crear un panel nuevo (modo A), añadirlo allí desde «Añadir panel». El código está en `dashboards/hub/` del repositorio.
+
 ## Criterios comunes (iguales en todas las plataformas)
 
 | Dato | Criterio |
@@ -51,6 +53,7 @@ Lo normal, una vez creados los paneles, es actualizar.
 5. Escribir `months/<mes>` con `actualizacion: {fecha: <ahora en ISO>, modo: "manual"}` (o `"programada"` si la lanza la tarea programada) y, si cambia, `config/cliente`.
 6. **Versión estática** (modo D) y entregarla.
 7. **Resumen** para quien lo pidió: qué se ha cargado, qué falta de dato manual y anomalías (campañas sin audiencia, B2B dudosas, saltos raros).
+8. **Si la petición viene del listado «Paneles Email»** (lo indica y trae su enlace), dejar el resultado allí: `ArtifactData update` de `paneles/<id del panel>`, leyendo antes y con `if_version`, con `ultimaActualizacion {fecha, mes, estado, nota}` (`estado`: `ok`, `incompleta` o `error`; `nota`: una frase sobre lo que falta o lo que ha fallado). Sin cifras ni datos personales: el listado es común a todos los clientes.
 
 ## Modo A · Crear el panel de un cliente nuevo
 

@@ -16,10 +16,20 @@ Un artefacto HTML por cliente con la línea gráfica de la sociedad que factura 
 
 Los porcentajes se guardan como fracción (0,35 = 35 %). Las campañas B2B se excluyen de todos los cálculos con el campo `b2b`.
 
+## Listado de paneles
+
+«Paneles Email» (https://claude.ai/artifact/Tstgau5tAfbTJ3Fauz7cQc), código en `hub/`, reutiliza `panel.css` y el logo de la plantilla. Guarda en su base de datos un documento por panel en `paneles/<id del artefacto>` (`cliente`, `url`, `plataforma`, `alta`, `ultimaPeticion`, `ultimaActualizacion`) y su propio enlace en `config/hub`. Nada de cifras.
+
+- **Añadir panel:** cualquier persona con acceso para usar la página. El enlace tiene que ser de un artefacto de claude.ai.
+- **Actualizar:** con el conector Claude Code Remote, abre una sesión nueva de Claude Code a nombre de quien pulsa, en el entorno que elija, con este repositorio en `main` y la skill panel-email-cliente en modo B para ese cliente y mes. Una sesión por cliente. Sin conector, la página deja copiar la petición para pegarla en Claude Code.
+- **Resultado:** la sesión escribe `ultimaActualizacion {fecha, mes, estado, nota}` en el documento del panel (paso 8 del modo B). La página muestra también el estado de la sesión si el conector ya está permitido.
+- Publicar con `hub/index.html`, `files` `{"panel.css", "logo_d2c.png"}` desde la plantilla y `{"hub.css", "hub.js"}` desde `hub/`, sin pasar `capabilities` en las republicaciones.
+
 ## Paneles publicados
 
 - Azarey (Klaviyo): https://claude.ai/artifact/VPjVvjaBwSM4TWnRNxhyts
 - Genuins (iCommkt): https://claude.ai/artifact/CHaBWwxiDWyx67mC8tm3Nz
+- Macami (Klaviyo): https://claude.ai/artifact/64FYJRydhPvqKYL1ZXZjeL
 
 ## Criterios comunes a todos los proyectos
 

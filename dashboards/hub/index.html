@@ -1,0 +1,114 @@
+<title>Paneles Email</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&family=Titillium+Web:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="panel.css">
+<link rel="stylesheet" href="hub.css">
+
+<header class="hero">
+  <div class="hero__inner">
+    <div class="hero__brand">
+      <img class="hero__logo" src="logo_d2c.png" alt="D2C eCommerce" height="26">
+      <span class="hero__client">Email</span>
+    </div>
+    <h1 class="hero__title">Paneles de email por cliente</h1>
+    <p class="hero__meta" data-js="hero-meta">Cargando paneles…</p>
+  </div>
+  <span class="hero__watermark" aria-hidden="true">D2C</span>
+</header>
+
+<main class="page">
+  <div class="status" data-js="status" role="status" hidden></div>
+
+  <section class="section">
+    <div class="toolbar">
+      <h2 class="section__title"><span class="tag">01</span>Paneles <span class="pill" data-js="count"></span></h2>
+      <div class="filters__group">
+        <label class="label" for="updateMonth">Mes a actualizar</label>
+        <input id="updateMonth" class="input" type="month" data-js="update-month" required>
+      </div>
+    </div>
+    <p class="section__sub">«Actualizar» abre una sesión de Claude Code para ese cliente con la skill panel-email-cliente (modo B). Cada sesión trabaja con un solo cliente y, al terminar, deja aquí el resultado.</p>
+    <div class="card">
+      <div class="table-wrap">
+        <table class="table hub-table">
+          <caption class="sr-only">Paneles de email publicados y estado de su última actualización</caption>
+          <thead><tr>
+            <th scope="col">Cliente</th>
+            <th scope="col">Plataforma</th>
+            <th scope="col">Última actualización</th>
+            <th scope="col">Última petición</th>
+            <th scope="col"><span class="sr-only">Acciones</span></th>
+          </tr></thead>
+          <tbody data-js="rows"></tbody>
+        </table>
+      </div>
+      <p class="empty-row" data-js="empty" hidden>Todavía no hay paneles. Añade el primero en el formulario de abajo.</p>
+    </div>
+  </section>
+
+  <section class="section" data-js="add-section">
+    <h2 class="section__title"><span class="tag">02</span>Añadir panel</h2>
+    <p class="section__sub">Pega el enlace del artefacto «Panel Email &lt;Cliente&gt;». Si el panel aún no existe, créalo antes con la skill.</p>
+    <form class="card form" data-js="add-form" novalidate>
+      <div class="form-grid">
+        <div>
+          <label class="label" for="fCliente">Cliente</label>
+          <input id="fCliente" class="input" type="text" maxlength="60" autocomplete="off" required data-field="cliente" aria-describedby="fClienteHelp">
+          <span class="muted" id="fClienteHelp">Letras, números, espacios, punto, guion, &amp; o apóstrofo.</span>
+        </div>
+        <div>
+          <label class="label" for="fUrl">Enlace del panel</label>
+          <input id="fUrl" class="input" type="url" inputmode="url" placeholder="https://claude.ai/artifact/…" required data-field="url">
+        </div>
+        <div>
+          <label class="label" for="fPlataforma">Plataforma</label>
+          <select id="fPlataforma" class="input" required data-field="plataforma"></select>
+        </div>
+      </div>
+      <div class="form__actions">
+        <button class="btn" type="submit">Añadir panel</button>
+        <span class="form__msg" data-js="add-msg" role="status"></span>
+      </div>
+    </form>
+  </section>
+</main>
+
+<footer class="foot">
+  <p>Este listado solo guarda el nombre, el enlace y el estado de cada panel. Las cifras viven en el panel de cada cliente. Para lanzar sesiones hace falta el conector Claude Code Remote en claude.ai.</p>
+</footer>
+
+<template data-js="row-template">
+  <tr>
+    <td class="name"><a class="hub-link" data-slot="link" target="_blank" rel="noopener noreferrer"></a></td>
+    <td data-slot="plataforma"></td>
+    <td><span class="badge" data-slot="upd-badge"></span> <span data-slot="upd-text"></span><span class="hub-note" data-slot="upd-note"></span></td>
+    <td><span data-slot="req-text"></span> <span class="badge" data-slot="req-badge" hidden></span> <a class="hub-link" data-slot="req-link" target="_blank" rel="noopener noreferrer" hidden>Ver sesión</a></td>
+    <td class="hub-actions">
+      <button class="btn" type="button" data-action="update">Actualizar</button>
+      <button class="link" type="button" data-action="remove">Quitar</button>
+    </td>
+  </tr>
+</template>
+
+<dialog class="hub-dialog" data-js="launch-dialog" aria-labelledby="launchTitle">
+  <form method="dialog" class="form" data-js="launch-form">
+    <h2 class="section__title" id="launchTitle">Actualizar <span data-js="launch-client"></span></h2>
+    <p class="section__sub">Se abrirá una sesión nueva de Claude Code a tu nombre con esta petición. Puedes seguirla desde «Ver sesión».</p>
+    <div class="filters__group" data-js="env-group">
+      <label class="label" for="launchEnv">Entorno de Claude Code</label>
+      <select id="launchEnv" class="input" data-js="launch-env"></select>
+    </div>
+    <label class="label" for="launchPrompt">Petición</label>
+    <textarea id="launchPrompt" class="input textarea" rows="10" readonly data-js="launch-prompt"></textarea>
+    <p class="form__msg" data-js="launch-msg" role="status"></p>
+    <div class="form__actions">
+      <button class="btn" type="submit" value="launch" data-js="launch-submit">Lanzar sesión</button>
+      <button class="btn btn--ghost" type="button" data-js="launch-copy">Copiar petición</button>
+      <button class="btn btn--ghost" type="submit" value="cancel" formnovalidate>Cancelar</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="hub.js"></script>

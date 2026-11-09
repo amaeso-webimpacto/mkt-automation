@@ -1,0 +1,20 @@
+/* Listado de paneles de email · se apoya en los tokens y componentes de panel.css. */
+.hub-table td { vertical-align: top; }
+.hub-link { color: var(--azul-2); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+.hub-link:hover { color: var(--azul); }
+.hub-note { display: block; color: var(--apagado); font-size: 12px; max-width: 360px; }
+.hub-actions { white-space: nowrap; text-align: right; }
+.hub-actions .link { margin-left: var(--space-1); }
+.empty-row { margin: var(--space-2) 0 0; color: var(--texto-2); }
+
+.hub-dialog {
+  width: min(640px, calc(100vw - 32px));
+  border: 0;
+  border-radius: var(--radius-md);
+  padding: var(--space-2);
+  background: var(--tarjeta);
+  color: var(--texto);
+  box-shadow: var(--sombra);
+}
+.hub-dialog::backdrop { background: rgba(1, 26, 79, 0.45); }
+.hub-dialog .textarea { font-size: 13px; }
