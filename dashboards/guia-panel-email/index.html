@@ -1,0 +1,343 @@
+<title>Guía del panel de email</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Poppins:wght@600;700&display=swap">
+<link rel="stylesheet" href="guia.css">
+
+<main class="guia" lang="es">
+
+  <header class="cabecera">
+    <p class="cabecera__eyebrow">Webimpacto · Equipo de email marketing · Guía interna</p>
+    <h1>Cómo funcionan los paneles de email de cliente</h1>
+    <div class="cabecera__barra" aria-hidden="true"></div>
+    <p class="cabecera__entradilla">Cada cliente tiene un panel con sus campañas, flujos, base de datos y ventas del canal email. Claude lo crea y lo actualiza cada mes con la skill <strong>panel-email-cliente</strong>; el equipo revisa, mete los datos manuales y escribe el contexto. El hub <strong>Paneles Email</strong> reúne todos los paneles en una sola página.</p>
+    <p class="cabecera__meta">Skill panel-email-cliente v1.3.0 y programar-panel-email v1.0.0 · Guía de noviembre de 2026</p>
+  </header>
+
+  <nav class="seccion indice" aria-labelledby="indiceTitulo">
+    <h2 id="indiceTitulo">Contenido</h2>
+    <ol>
+      <li><a href="#piezas">Las cuatro piezas</a></li>
+      <li><a href="#mes">El mes, paso a paso</a></li>
+      <li><a href="#hub">El hub Paneles Email</a></li>
+      <li><a href="#panel">El panel de cada cliente</a></li>
+      <li><a href="#manual">Qué mete el equipo a mano</a></li>
+      <li><a href="#criterios">Criterios que no cambian</a></li>
+      <li><a href="#modos">Lo que puedes pedir a Claude</a></li>
+      <li><a href="#estatico">La versión HTML para Google Sites</a></li>
+      <li><a href="#codigo">El código, por dentro</a></li>
+      <li><a href="#reglas">Reglas y dudas frecuentes</a></li>
+    </ol>
+  </nav>
+
+  <!-- 01 -->
+  <section class="seccion" id="piezas" aria-labelledby="t1">
+    <h2 id="t1"><span class="chip-num">01</span>Las cuatro piezas</h2>
+    <p class="seccion__sub">Todo el sistema se reduce a esto. Si entiendes qué hace cada pieza, entiendes el resto de la guía.</p>
+    <div class="piezas">
+      <article class="pieza pieza--destacada">
+        <span class="pieza__tipo">Skill</span>
+        <h3><a href="https://github.com/amaeso-webimpacto/mkt-automation/tree/icommkt/.claude/skills/panel-email-cliente" target="_blank" rel="noopener noreferrer">panel-email-cliente</a></h3>
+        <p>Las instrucciones que sigue Claude: de dónde saca cada dato, qué criterios aplica y cómo escribe el análisis. Se activa sola cuando pides «actualiza el panel de email de…».</p>
+      </article>
+      <article class="pieza">
+        <span class="pieza__tipo">Artefacto · uno por cliente</span>
+        <h3>Panel Email &lt;Cliente&gt;</h3>
+        <p>La página que consulta el equipo y el cliente. Los datos viven en la base de datos del propio artefacto, así que se pueden editar desde el panel sin volver a publicarlo.</p>
+      </article>
+      <article class="pieza">
+        <span class="pieza__tipo">Artefacto · uno para todos</span>
+        <h3><a href="https://claude.ai/artifact/Tstgau5tAfbTJ3Fauz7cQc" target="_blank" rel="noopener noreferrer">Paneles Email (hub)</a></h3>
+        <p>El listado de todos los paneles: estado de la última actualización, datos pendientes de meter a mano y el texto de la petición para Claude, listo para copiar.</p>
+      </article>
+      <article class="pieza">
+        <span class="pieza__tipo">Fichero HTML</span>
+        <h3>Versión estática</h3>
+        <p>Una foto fija del panel en un único fichero <code>.html</code>, para pegar en Google Sites. No se edita ni se actualiza sola.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- 02 -->
+  <section class="seccion" id="mes" aria-labelledby="t2">
+    <h2 id="t2"><span class="chip-num">02</span>El mes, paso a paso</h2>
+    <p class="seccion__sub">Un mes se cierra <strong>a partir del día 5 del mes siguiente</strong>, cuando termina la ventana de atribución de 5 días. Antes de esa fecha las cifras todavía se mueven.</p>
+    <h3>Tres formas de actualizar</h3>
+    <div class="piezas">
+      <article class="pieza">
+        <span class="pieza__tipo">Forma 1 · A demanda</span>
+        <h3>Pedírselo a la skill</h3>
+        <p>En una conversación nueva de Claude, escribe con tus palabras: «actualiza el panel de email de Cliente Ejemplo con octubre». La skill se activa sola.</p>
+      </article>
+      <article class="pieza">
+        <span class="pieza__tipo">Forma 2 · Automática</span>
+        <h3>Tarea programada</h3>
+        <p>Pide «programa la actualización mensual del panel de Cliente Ejemplo» (skill <strong>programar-panel-email</strong>). Se crea una tarea por cliente a tu nombre: por defecto el día 7 a las 19:xx, hora de Madrid, actualiza el mes anterior y envía un correo con el resumen y el enlace a la versión HTML. Funciona con Klaviyo e iCommkt; HubSpot y Connectif todavía no.</p>
+      </article>
+      <article class="pieza">
+        <span class="pieza__tipo">Forma 3 · Guiada</span>
+        <h3>Paso a paso desde el hub</h3>
+        <p>El hub genera la petición ya redactada con el panel y el mes. Es la forma 1 con el texto preparado, y la más segura porque lleva el enlace del panel y deja el resultado en el hub.</p>
+      </article>
+    </div>
+    <p>Con cualquiera de las tres, los datos manuales (venta neta y lo pendiente) siguen siendo del equipo. El paso a paso de la forma 3 es este:</p>
+    <ol class="flujo">
+      <li class="es-equipo"><h3>Abre el hub</h3><p>Elige el mes en «Mes a actualizar» (por defecto, el anterior).</p><span class="flujo__quien">Equipo</span></li>
+      <li class="es-equipo"><h3>Copia la petición</h3><p>Botón «Petición de actualización» del cliente y «Copiar petición».</p><span class="flujo__quien">Equipo</span></li>
+      <li class="es-equipo"><h3>Pégala en Claude</h3><p>En una conversación nueva, solo para ese cliente.</p><span class="flujo__quien">Equipo</span></li>
+      <li><h3>Claude carga el mes</h3><p>Campañas, flujos y BBDD de la plataforma, ingresos de Shopify y análisis.</p><span class="flujo__quien">Claude</span></li>
+      <li><h3>Claude informa</h3><p>Deja en el hub el estado y la lista de datos que faltan.</p><span class="flujo__quien">Claude</span></li>
+      <li class="es-equipo"><h3>Completa y revisa</h3><p>En «Editar datos»: venta neta, lo pendiente y el contexto del mes.</p><span class="flujo__quien">Equipo</span></li>
+    </ol>
+    <p class="leyenda" aria-hidden="true"><span><i class="es-equipo"></i>Lo hace el equipo</span><span><i></i>Lo hace Claude</span></p>
+    <div class="nota">
+      <p class="nota__titulo">Por qué no hay un botón «Actualizar» en cada panel</p>
+      <ul class="lista">
+        <li><strong>Mes y momento correctos.</strong></li>
+        <li><strong>Un cliente por conversación.</strong></li>
+        <li><strong>Minimizar riesgos.</strong> Evitar sobrescrituras no controladas.</li>
+      </ul>
+      <p>Es una decisión táctica y práctica.</p>
+    </div>
+    <div class="nota">
+      <p class="nota__titulo">Antes de enseñárselo al cliente</p>
+      <p>Si has escrito el contexto después de la actualización, pide a Claude «pasa el contexto de octubre al análisis» para que lo incorpore. Si el panel va a Google Sites, pide también la versión estática (apartado 08).</p>
+    </div>
+  </section>
+
+  <!-- 03 -->
+  <section class="seccion" id="hub" aria-labelledby="t3">
+    <h2 id="t3"><span class="chip-num">03</span>El hub Paneles Email</h2>
+    <p class="seccion__sub">El punto de partida de cada mes. No guarda cifras de ningún cliente: solo nombre, enlace, plataforma, estado y datos pendientes. Enlace: <a href="https://claude.ai/artifact/Tstgau5tAfbTJ3Fauz7cQc" target="_blank" rel="noopener noreferrer">Paneles Email</a>.</p>
+    <div class="tabla-wrap">
+      <table>
+        <caption>Secciones del hub y para qué sirve cada una</caption>
+        <thead><tr><th scope="col">Sección</th><th scope="col">Para qué sirve</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">01 · Paneles</th><td>Un cliente por fila: enlace al panel, plataforma, última actualización y botón «Petición de actualización». «Quitar» lo saca del listado, pero no borra el panel.</td></tr>
+          <tr><th scope="row">02 · Datos para meter a mano</th><td>Lo que cada panel necesita del equipo. Cuando lo hayas metido en el panel, pulsa «Hecho». La siguiente actualización lo vuelve a comprobar.</td></tr>
+          <tr><th scope="row">03 · Crear panel nuevo</th><td>Rellenas cliente, plataforma, sociedad que factura, conector, desde qué mes cargar y, si existe, el histórico anterior. Te da la petición de creación para Claude.</td></tr>
+          <tr><th scope="row">04 · Añadir panel existente</th><td>Para registrar un panel que ya está publicado pegando su enlace.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>Estado de la última actualización</h3>
+    <div class="tabla-wrap">
+      <table>
+        <caption>Qué significa cada estado</caption>
+        <thead><tr><th scope="col">Estado</th><th scope="col">Qué significa</th><th scope="col">Qué hacer</th></tr></thead>
+        <tbody>
+          <tr><th scope="row"><span class="estado estado--ok">OK</span></th><td>Se cargó todo lo que da la plataforma.</td><td>Meter los datos manuales y revisar.</td></tr>
+          <tr><th scope="row"><span class="estado estado--warn">Incompleta</span></th><td>Falta algo que debería haber llegado. La nota dice qué.</td><td>Leer la nota y completarlo a mano o repetir la petición.</td></tr>
+          <tr><th scope="row"><span class="estado estado--bad">Error</span></th><td>La actualización no ha terminado.</td><td>Repetir la petición en una conversación nueva; si se repite, avisar a quien mantiene la skill.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Las tarjetas de datos pendientes pueden decir «previsto por su plataforma, sin revisar todavía»: es la lista esperada para esa plataforma antes de la primera actualización registrada, no un fallo.</p>
+  </section>
+
+  <!-- 04 -->
+  <section class="seccion" id="panel" aria-labelledby="t4">
+    <h2 id="t4"><span class="chip-num">04</span>El panel de cada cliente</h2>
+    <p class="seccion__sub">Se llama siempre «Panel Email &lt;Cliente&gt;» y es igual para todos los clientes; solo cambian los datos y la plataforma que aparece en los títulos. Arriba hay un filtro de periodo (último mes, 3, 6, 12 meses o todo) y otro de flujos.</p>
+    <div class="tabla-wrap">
+      <table>
+        <caption>Pestañas del panel</caption>
+        <thead><tr><th scope="col">Pestaña</th><th scope="col">Qué enseña</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">General</th><td>Ingresos del canal email frente a venta neta y su peso, evolución de la BBDD, KPIs del periodo e histórico mensual completo.</td></tr>
+          <tr><th scope="row">Campañas</th><td>Campañas B2C del periodo, las mejores (con su asunto y segmento de envío), gráficos de apertura, CTR y revenue, y detalle por campaña.</td></tr>
+          <tr><th scope="row">Flujos</th><td>Revenue por flujo y por destinatario, salud de cada flujo (puntuación de 0 a 100) y oportunidades.</td></tr>
+          <tr><th scope="row">Vs año anterior</th><td>El periodo elegido frente al mismo periodo del año anterior, y las mejores campañas de cada uno. Si no hay datos del año anterior, compara con el periodo anterior.</td></tr>
+          <tr><th scope="row">Análisis y contexto</th><td>Solo lectura: contexto, resumen, qué funcionó, qué corregir, acciones y propuestas del mes, recomendaciones calculadas y marco estratégico permanente del cliente.</td></tr>
+          <tr><th scope="row">Editar datos</th><td>El único sitio donde se edita. Por mes: contexto, análisis, Shopify, BBDD, fuentes, campañas (con asunto y casilla «Incluir») y flujos; se guarda con «Guardar mes». Aparte, el marco estratégico, con «Guardar marco». Lo que se guarda aquí lo respeta Claude en la siguiente actualización.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="nota">
+      <p class="nota__titulo">Quién puede editar</p>
+      <p>Guardar cambios depende del acceso que tengas al artefacto. Si ves «Solo lectura», pide acceso de edición a quien lo compartió. El panel es privado hasta que alguien lo comparte desde «Compartir».</p>
+    </div>
+  </section>
+
+  <!-- 05 -->
+  <section class="seccion" id="manual" aria-labelledby="t5">
+    <h2 id="t5"><span class="chip-num">05</span>Qué mete el equipo a mano</h2>
+    <p class="seccion__sub">Claude nunca inventa un dato: si la plataforma no lo da, el campo se queda vacío y aparece en el hub como pendiente. Todo se mete en la pestaña «Editar datos» del panel.</p>
+    <div class="tabla-wrap">
+      <table>
+        <caption>Datos manuales por plataforma</caption>
+        <thead><tr><th scope="col">Plataforma</th><th scope="col">Estado de la skill</th><th scope="col">Qué falta meter a mano</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Todas</th><td>—</td><td><strong>Venta neta del mes</strong>, que facilita el cliente. Y los ingresos de Shopify si el conector de Shopify no es el de la tienda del cliente.</td></tr>
+          <tr><th scope="row">Klaviyo</th><td><span class="estado estado--ok">Verificada</span></td><td>Nada más.</td></tr>
+          <tr><th scope="row">iCommkt</th><td><span class="estado estado--warn">Verificada en parte</span></td><td>Suscritos (segmento Masterdata_total o la suma de los de cada idioma) y los flujos, que salen de Shopify y de iCommkt: pon en el nombre de cada flujo de qué herramienta sale. iCommkt no da revenue: los ingresos salen solo de Shopify.</td></tr>
+          <tr><th scope="row">Connectif y HubSpot</th><td><span class="estado estado--bad">Sin conector</span></td><td>Todo el mes: campañas, flujos y BBDD, desde la exportación que pase el equipo.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 06 -->
+  <section class="seccion" id="criterios" aria-labelledby="t6">
+    <h2 id="t6"><span class="chip-num">06</span>Criterios que no cambian</h2>
+    <p class="seccion__sub">Son iguales para todos los clientes y todas las plataformas. Si un cliente pregunta por qué una cifra no coincide con su plataforma, la respuesta casi siempre está aquí.</p>
+    <div class="tabla-wrap">
+      <table>
+        <caption>Criterios comunes</caption>
+        <thead><tr><th scope="col">Dato</th><th scope="col">Cómo se calcula</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Campañas B2B y mayoristas</th><td>Fuera de todos los cálculos. Se detectan por el nombre (B2B, BSB, MAYORISTA, [Seguimiento]) o por una audiencia con «MAYORISTA» o «B2B».</td></tr>
+          <tr><th scope="row">Ingresos canal email</th><td>Shopify, atribución de <strong>último clic no directo</strong>. El revenue de la plataforma de email se enseña aparte y con su nombre.</td></tr>
+          <tr><th scope="row">Venta neta</th><td>Siempre dato manual del cliente.</td></tr>
+          <tr><th scope="row">BBDD enviamos</th><td>Destinatarios de la última campaña B2C del mes. Si sale por idiomas o segmentos, la suma de todas sus versiones.</td></tr>
+          <tr><th scope="row">BBDD total, suscritos y activos</th><td>Foto del día de la actualización, no un cierre de mes.</td></tr>
+          <tr><th scope="row">Reparto Shopify campañas y flujos</th><td>Si Shopify no da el reparto real, el panel lo estima en proporción a lo que atribuye la plataforma y lo marca como estimado. Ejemplo: plataforma 10.000 € (2.000 campañas, 8.000 flujos) y Shopify 5.000 € dan 1.000 € a campañas y 4.000 € a flujos.</td></tr>
+          <tr><th scope="row">Segmento de envío y asunto</th><td>Audiencias incluidas y excluidas de cada campaña, y su asunto.</td></tr>
+          <tr><th scope="row">Porcentajes</th><td>Se guardan como fracción (0,35 es 35 %). Un dato que no existe es vacío, nunca 0.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 07 -->
+  <section class="seccion" id="modos" aria-labelledby="t7">
+    <h2 id="t7"><span class="chip-num">07</span>Lo que puedes pedir a Claude</h2>
+    <p class="seccion__sub">La skill tiene cuatro modos. No hace falta nombrarlos: basta con pedirlo con tus palabras, aunque lo más seguro es usar la petición que genera el hub.</p>
+    <div class="tabla-wrap">
+      <table>
+        <caption>Modos de la skill</caption>
+        <thead><tr><th scope="col">Modo</th><th scope="col">Cuándo</th><th scope="col">Ejemplo de petición</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">B · Actualizar</th><td>Cada mes, a partir del día 5.</td><td>«Actualiza el panel de email de Cliente Ejemplo con octubre».</td></tr>
+          <tr><th scope="row">A · Crear</th><td>Cliente nuevo. Claude confirma antes que es nuevo.</td><td>Usa «Crear panel nuevo» del hub. Si el cliente ya tiene un dashboard en Google Sites, pega también su código HTML en la conversación, junto a la petición: así Claude tiene bien el contexto de la marca.</td></tr>
+          <tr><th scope="row">C · Contexto</th><td>Después de escribir el contexto del mes en el panel.</td><td>«Pasa el contexto de octubre al análisis de Cliente Ejemplo». El contexto se escribe antes en «Editar datos».</td></tr>
+          <tr><th scope="row">D · HTML estático</th><td>Cuando el panel va a Google Sites.</td><td>«Hazme la versión para Google Sites del panel de Cliente Ejemplo».</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="dos-col">
+      <div>
+        <h3>Qué hace Claude al actualizar</h3>
+        <ul class="lista">
+          <li>Lee primero lo que hay y respeta lo que ha escrito el equipo: contexto, venta neta y valores corregidos.</li>
+          <li>Comprueba que los conectores (plataforma y Shopify) son del cliente antes de leer nada.</li>
+          <li>Marca las campañas B2B mirando nombre y audiencias.</li>
+          <li>Escribe el análisis en voz D2C: titulares que afirman, cifras con periodo, sin emojis.</li>
+          <li>Te devuelve un resumen con lo cargado, lo que falta y las anomalías.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Qué no hace</h3>
+        <ul class="lista">
+          <li>No cierra un mes antes del día 5.</li>
+          <li>No inventa causas: si un dato no se explica, lo dice.</li>
+          <li>No mezcla datos de dos clientes ni usa otro cliente como ejemplo o referencia.</li>
+          <li>No usa herramientas que escriben en la plataforma de email: solo lee.</li>
+          <li>No crea paneles para sociedades sin plantilla. Hoy solo existe la de D2C eCommerce.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 -->
+  <section class="seccion" id="estatico" aria-labelledby="t8">
+    <h2 id="t8"><span class="chip-num">08</span>La versión HTML para Google Sites</h2>
+    <p class="seccion__sub">El panel vivo necesita claude.ai para leer su base de datos. Para tenerlo en Google Sites, Claude genera un único fichero <code>Panel-Email-&lt;Cliente&gt;-&lt;AAAA-MM&gt;.html</code> que lleva dentro el diseño, el código, el logo y los datos.</p>
+    <div class="dos-col">
+      <div>
+        <h3>Cómo se pega</h3>
+        <ol class="lista">
+          <li>Pide a Claude la versión estática y descarga el fichero.</li>
+          <li>Ábrelo con un editor de texto y copia todo el contenido.</li>
+          <li>En Google Sites: «Insertar» → «Insertar código» y pega.</li>
+          <li>Ajusta el tamaño del bloque y publica el Site.</li>
+        </ol>
+      </div>
+      <div>
+        <h3>Lo que hay que saber</h3>
+        <ul class="lista">
+          <li><strong>Es una foto fija.</strong> Muestra los datos del día en que se generó. Cada mes hay que generarla y pegarla de nuevo.</li>
+          <li><strong>Solo lectura.</strong> No tiene la pestaña «Editar datos».</li>
+          <li><strong>Los datos van dentro del código.</strong> Solo en Sites privados, compartidos con el cliente y el equipo.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 -->
+  <section class="seccion" id="codigo" aria-labelledby="t9">
+    <h2 id="t9"><span class="chip-num">09</span>El código, por dentro</h2>
+    <p class="seccion__sub">Para quien tenga que tocar el diseño o la skill. Vive en el repositorio <code>amaeso-webimpacto/mkt-automation</code>, carpeta <code>.claude/skills/panel-email-cliente/</code>. Es la única copia del diseño: todos los paneles salen de ahí. El hub está en <code>dashboards/hub/</code> y la skill de programación en <code>.claude/skills/programar-panel-email/</code>.</p>
+    <dl class="arbol">
+      <div><dt>SKILL.md</dt><dd>Proceso común, criterios, modos A a D, voz del análisis y versión.</dd></div>
+      <div><dt>plataformas/klaviyo.md</dt><dd>De dónde sale cada dato en Klaviyo. Verificado.</dd></div>
+      <div><dt>plataformas/icommkt.md</dt><dd>Lo mismo para iCommkt. Verificado en parte.</dd></div>
+      <div><dt>plantilla/index.html</dt><dd>La estructura del panel con <code>{{CLIENTE}}</code> en lugar del nombre.</dd></div>
+      <div><dt>plantilla/panel.css</dt><dd>Estilos con la línea gráfica de D2C eCommerce.</dd></div>
+      <div><dt>plantilla/panel.js</dt><dd>Lee la base de datos, calcula KPIs, pinta gráficos y tablas y guarda lo editado.</dd></div>
+      <div><dt>plantilla/nuevo-cliente.js</dt><dd>Crea la carpeta de un cliente y su <code>index.html</code> con el nombre puesto. Con <code>--force</code> lo regenera desde la plantilla vigente.</dd></div>
+      <div><dt>plantilla/build-static.js</dt><dd>Junta HTML, CSS, JS, logo y datos en el fichero para Google Sites.</dd></div>
+    </dl>
+    <h3>Cómo se guardan los datos</h3>
+    <p>Cada panel tiene su propia base de datos con dos tipos de documento. <code>config/cliente</code> guarda lo que no cambia cada mes: plataforma, conector, flujos, flujos por crear, marco estratégico y el texto de fuentes del pie. <code>months/AAAA-MM</code> guarda cada mes: Shopify, BBDD, campañas, flujos, contexto, análisis, fuentes y cuándo se actualizó.</p>
+    <pre><code>months/2026-10
+  shopify   { rev, ventaNeta, revCampanas, revFlujos }
+  bbdd      { total, activos, suscritos, enviamos }
+  campaigns [ { name, subject, date, recipients, or, ctr, rev, b2b, audiences, … } ]
+  flows     { idFlujo: { r, o, c, p, rev } }
+  contexto  "texto del equipo"
+  analisis  { resumen, funciono, corregir, acciones, propuestas }
+  actualizacion { fecha, modo: "manual" | "programada" }</code></pre>
+    <h3>Comandos de la plantilla</h3>
+    <pre><code>node plantilla/nuevo-cliente.js cliente-ejemplo "Cliente Ejemplo" [carpeta] [--force]
+node plantilla/build-static.js "Cliente Ejemplo" carpeta-datos Panel-Email-Cliente-Ejemplo-2026-10.html</code></pre>
+    <div class="nota">
+      <p class="nota__titulo">Si cambias la plantilla</p>
+      <p>Haz el cambio en el repositorio, sube la versión en la tabla de <code>SKILL.md</code> y vuelve a publicar cada panel con su <code>index.html</code> regenerado (<code>--force</code>) y los nuevos <code>panel.css</code> y <code>panel.js</code>: un <code>index.html</code> antiguo con un <code>panel.js</code> nuevo deja secciones y campos sin pintar. Si cambian los datos manuales, actualiza también <code>MANUAL_POR_PLATAFORMA</code> en <code>dashboards/hub/hub-peticiones.js</code> y la <code>plantilla-tarea.md</code> de la skill de programación. Los datos no se tocan porque viven en la base de datos de cada panel. No edites un panel publicado a mano: el siguiente cambio de plantilla lo pisaría.</p>
+    </div>
+  </section>
+
+  <!-- 10 -->
+  <section class="seccion" id="reglas" aria-labelledby="t10">
+    <h2 id="t10"><span class="chip-num">10</span>Reglas y dudas frecuentes</h2>
+    <ul class="lista">
+      <li><strong>Una conversación, un cliente.</strong> Nunca actualices dos clientes en la misma conversación.</li>
+      <li><strong>Sin datos personales.</strong> Ni el hub ni los paneles guardan correos, teléfonos ni pedidos de clientes finales.</li>
+      <li><strong>Los paneles son privados</strong> hasta que se comparten desde «Compartir».</li>
+    </ul>
+    <div>
+      <details>
+        <summary>He corregido una cifra a mano. ¿La pisará Claude el mes que viene?</summary>
+        <p>No. Al actualizar, Claude lee primero el mes y respeta lo que ha escrito el equipo. Si actualizas el mismo mes otra vez, avisa en la conversación de qué has corregido.</p>
+      </details>
+      <details>
+        <summary>Una campaña B2B aparece en las B2C.</summary>
+        <p>En «Editar datos», desmarca su casilla «Incluir» y pulsa «Guardar mes». Sale de todos los cálculos. Si pasa a menudo con un cliente, revisa cómo se llaman sus audiencias de mayoristas.</p>
+      </details>
+      <details>
+        <summary>Los ingresos del canal no coinciden con los de Klaviyo o iCommkt.</summary>
+        <p>Es lo esperado. El canal se mide en Shopify con último clic no directo; la plataforma de email usa su propia atribución. El panel enseña las dos con su nombre.</p>
+      </details>
+      <details>
+        <summary>Quiero actualizar el mes antes del día 5.</summary>
+        <p>Claude te avisará de que el mes no está cerrado. Puedes seguir, pero repite la actualización después del día 5 para que las cifras queden definitivas.</p>
+      </details>
+      <details>
+        <summary>El cliente factura con Webimpacto o Fotografía eCommerce.</summary>
+        <p>Todavía no hay plantilla para esas sociedades. El hub no deja preparar la petición y Claude no crea el panel hasta que exista.</p>
+      </details>
+      <details>
+        <summary>El panel dice «Solo lectura».</summary>
+        <p>Tu acceso al artefacto no permite guardar. Pide acceso de edición a quien lo compartió.</p>
+      </details>
+    </div>
+  </section>
+
+  <footer class="pie">
+    <p>Fuentes: panel-email-cliente/SKILL.md v1.3.0, plataformas/*.md, programar-panel-email/SKILL.md v1.0.0, plantilla del panel y dashboards/hub del repositorio mkt-automation (rama icommkt, 09/11/2026).</p>
+    <p>Mantenimiento de la skill: Ana I. Maeso · amaeso@webimpacto.es</p>
+  </footer>
+
+</main>

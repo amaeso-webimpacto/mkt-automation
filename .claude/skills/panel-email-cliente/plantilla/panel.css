@@ -295,3 +295,18 @@ body {
   .pill { margin-left: 0; }
   .chart, .chart--tall { height: 260px; }
 }
+
+/* Desglose por marca */
+.brands { display: grid; gap: var(--space-2); grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); }
+.brand { background: var(--tarjeta); border-radius: var(--radius-md); box-shadow: var(--sombra); border-top: 3px solid var(--azul); padding: var(--space-2); display: grid; gap: var(--space-1); min-width: 0; }
+.brand--alt { border-top-color: var(--ambar); }
+.brand__head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-1); }
+.brand__name { margin: 0; font-size: 15px; font-weight: 700; }
+.brand__count { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; padding: 2px 9px; border-radius: 999px; background: var(--fondo-2); color: var(--texto-2); }
+.minis { margin: 0; display: grid; gap: var(--space-1); grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.mini { background: var(--fondo-2); border-radius: 8px; padding: 10px 12px; min-width: 0; }
+.mini dt { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--apagado); }
+.mini dd { margin: 2px 0 0; font-size: 17px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--texto); overflow-wrap: anywhere; }
+.badge--off { background: var(--fondo-2); color: var(--apagado); }
+.table--tight th, .table--tight td { padding: 8px 6px; white-space: nowrap; }
+.table--tight th:first-child, .table--tight td:first-child { padding-left: 10px; }

@@ -148,7 +148,32 @@
       <div class="card chart-card"><h3 class="chart-card__title">Revenue por campaña</h3><div class="chart chart--tall"><canvas data-chart="campRevenue" role="img" aria-label="Revenue por campaña"></canvas></div></div>
     </section>
     <section class="section">
-      <h2 class="section__title"><span class="tag">03</span>Detalle por campaña</h2>
+      <h2 class="section__title"><span class="tag">03</span>Análisis por día y hora de envío</h2>
+      <div class="grid-2">
+        <div class="card"><h3 class="card__title">Por día de la semana</h3>
+          <div class="table-wrap"><table class="table table--tight">
+            <caption class="sr-only">Campañas B2C del periodo por día de la semana</caption>
+            <thead><tr><th scope="col">Día</th><th scope="col" class="num">Envíos</th><th scope="col" class="num">OR</th><th scope="col" class="num">CTOR</th><th scope="col" class="num">Pedidos</th><th scope="col" class="num">€/dest.</th><th scope="col" class="num">Revenue</th></tr></thead>
+            <tbody data-js="timing-day"></tbody>
+          </table></div>
+        </div>
+        <div class="card"><h3 class="card__title">Por franja horaria</h3>
+          <div class="table-wrap"><table class="table table--tight">
+            <caption class="sr-only">Campañas B2C del periodo por franja horaria de envío</caption>
+            <thead><tr><th scope="col">Franja</th><th scope="col" class="num">Envíos</th><th scope="col" class="num">OR</th><th scope="col" class="num">CTOR</th><th scope="col" class="num">Pedidos</th><th scope="col" class="num">€/dest.</th><th scope="col" class="num">Revenue</th></tr></thead>
+            <tbody data-js="timing-hour"></tbody>
+          </table></div>
+        </div>
+      </div>
+      <p class="note" data-js="timing-note"></p>
+    </section>
+    <section class="section" data-js="brand-section" hidden>
+      <h2 class="section__title"><span class="tag">04</span>Desglose por marca <span class="pill" data-js="brand-period"></span></h2>
+      <div class="brands" data-js="brand-split"></div>
+      <p class="note" data-js="brand-note"></p>
+    </section>
+    <section class="section">
+      <h2 class="section__title"><span class="tag">05</span>Detalle por campaña</h2>
       <div class="card">
         <div class="search">
           <label class="sr-only" for="campSearch">Buscar campaña</label>
@@ -180,11 +205,11 @@
         <div class="table-wrap">
           <table class="table">
             <caption class="sr-only">Detalle por flujo en el periodo</caption>
-            <thead><tr><th scope="col">Flujo</th><th scope="col" class="num">Meses</th><th scope="col" class="num">Dest.</th><th scope="col" class="num">OR</th><th scope="col" class="num">CTR</th><th scope="col" class="num">CR</th><th scope="col" class="num">Pedidos</th><th scope="col" class="num">Revenue</th><th scope="col" class="num">AOV</th><th scope="col" class="num">€/dest.</th></tr></thead>
+            <thead><tr><th scope="col">Flujo</th><th scope="col">Estado</th><th scope="col" class="num">Meses</th><th scope="col" class="num">Dest.</th><th scope="col" class="num">OR</th><th scope="col" class="num">CTR</th><th scope="col" class="num">CR</th><th scope="col" class="num">Pedidos</th><th scope="col" class="num">Revenue</th><th scope="col" class="num">AOV</th><th scope="col" class="num">€/dest.</th></tr></thead>
             <tbody data-js="flow-table"></tbody>
           </table>
         </div>
-        <p class="note">Suma de los meses seleccionados; OR, CTR y CR ponderados por destinatarios.</p>
+        <p class="note">Suma de los meses seleccionados; OR, CTR y CR ponderados por destinatarios. Estado del flujo en la plataforma el día de la última actualización.</p>
       </div>
     </section>
     <section class="section">
@@ -322,7 +347,7 @@
         <div class="table-wrap table-wrap--scroll">
           <table class="table table--edit">
             <caption class="sr-only">Campañas editables del mes</caption>
-            <thead><tr><th scope="col">Incluir</th><th scope="col">Campaña</th><th scope="col">Asunto</th><th scope="col">Fecha</th><th scope="col">Segmentos de envío</th><th scope="col">Dest.</th><th scope="col">OR %</th><th scope="col">CTR %</th><th scope="col">CTOR %</th><th scope="col">CR %</th><th scope="col">Bajas %</th><th scope="col">Pedidos</th><th scope="col">Revenue €</th><th scope="col"><span class="sr-only">Quitar</span></th></tr></thead>
+            <thead><tr><th scope="col">Incluir</th><th scope="col">Campaña</th><th scope="col">Asunto</th><th scope="col">Fecha</th><th scope="col">Segmentos de envío</th><th scope="col" data-js="edit-brand-th" hidden>Marca</th><th scope="col">Dest.</th><th scope="col">OR %</th><th scope="col">CTR %</th><th scope="col">CTOR %</th><th scope="col">CR %</th><th scope="col">Bajas %</th><th scope="col">Pedidos</th><th scope="col">Revenue €</th><th scope="col"><span class="sr-only">Quitar</span></th></tr></thead>
             <tbody data-js="edit-campaigns"></tbody>
           </table>
         </div>

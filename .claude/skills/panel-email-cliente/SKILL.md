@@ -7,7 +7,7 @@ description: Actualiza cada mes, crea si aún no existe, o exporta en HTML está
 
 | Versión | Fecha | Creadora | Contacto |
 |---|---|---|---|
-| 1.4.0 | 10/11/2026 | Ana I. Maeso | amaeso@webimpacto.es |
+| 1.5.0 | 10/11/2026 | Ana I. Maeso | amaeso@webimpacto.es |
 
 Cada cliente tiene un artefacto llamado **«Panel Email <Cliente>»** con la línea gráfica de la sociedad que factura. Hoy solo existe la plantilla de **D2C eCommerce**: si el cliente factura con Webimpacto u otra sociedad, avisar y no continuar sin su plantilla. Los datos viven en la base de datos del artefacto (`db`); el diseño es el mismo para todos y está en `plantilla/` dentro de esta skill.
 
@@ -24,7 +24,9 @@ Cada cliente tiene un artefacto llamado **«Panel Email <Cliente>»** con la lí
 
 Lo normal, una vez creados los paneles, es actualizar.
 
-**Listado «Paneles Email»** (https://claude.ai/artifact/Tstgau5tAfbTJ3Fauz7cQc): reúne el enlace de cada panel, su botón «Actualizar» (sesión de Claude Code con esta skill en modo B y el mes elegido), el formulario «Crear panel nuevo» (sesión en modo A) y un aviso por cliente con los datos que hay que meter a mano. Cada sesión trabaja con un solo cliente. El código está en `dashboards/hub/` del repositorio.
+**Actualización automática:** la skill `programar-panel-email` crea la tarea programada mensual de uno o varios clientes (una tarea por cliente) con el texto de su `plantilla-tarea.md`. Si cambia el modo B o los datos manuales, revisar también esa plantilla.
+
+**Listado «Paneles Email»** (https://claude.ai/artifact/Tstgau5tAfbTJ3Fauz7cQc): reúne el enlace de cada panel, un aviso por cliente con los datos que hay que meter a mano y peticiones listas para copiar (actualizar un mes o crear un panel) que cada persona pega en su propia conversación con esta skill. El código está en `dashboards/hub/` del repositorio.
 
 ## Criterios comunes (iguales en todas las plataformas)
 
@@ -47,14 +49,14 @@ Lo normal, una vez creados los paneles, es actualizar.
 
 ## Datos del panel
 
-- `config/cliente`: `cliente`, `plataforma` (se muestra en el panel: «Klaviyo», «iCommkt»…), `tienda`, `sociedad`, `conector`, datos propios de la plataforma (por ejemplo `metricaPlacedOrder` en Klaviyo), `flujos` (`id → {name, status}`), `flujosPorCrear`, `estrategia` (`campanas`, `flujos`, `segmentacion`, `captacion`; líneas `título | prioridad | detalle`), `criterios`, `notaFuentes` (texto del pie del panel con las fuentes y criterios de ese cliente).
-- `months/<AAAA-MM>`: `key`, `label` («Oct 26»), `shopify {rev, ventaNeta, revCampanas, revFlujos}` (los dos últimos solo con reparto real de Shopify), `bbdd {total, activos, suscritos, enviamos}`, `facturacion {perfiles {usados, max}, emails {usados, max}, periodoInicio, periodoFin, fecha}` (solo Klaviyo; fechas `AAAA-MM-DD`), `campaigns` (`id, name, subject, date, recipients, or, ctr, ctor, cr, unsub, conv, rev, aov, rpr, b2b, audiences`; `subject` es el asunto), `flows` (`id → {r, o, c, p, rev}`), `contexto`, `analisis {resumen, funciono, corregir, acciones, propuestas}`, `fuentes {klaviyo, shopify, bbdd}` (`fuentes.klaviyo` guarda la fuente de la plataforma de email, sea cual sea), `actualizacion {fecha, modo}` (`manual` o `programada`), `updatedAt`.
+- `config/cliente`: `cliente`, `plataforma` (se muestra en el panel: «Klaviyo», «iCommkt»…), `tienda`, `sociedad`, `conector`, datos propios de la plataforma (por ejemplo `metricaPlacedOrder` en Klaviyo), `flujos` (`id → {name, status}`; `status`: `live`, `manual`, `draft`, `archived` o `deleted`, el estado del flujo en la plataforma el día de la actualización), `marcas` (opcional, solo clientes con varias marcas en la misma cuenta: `[{name}, {name, match}]`; la que no tiene `match` es la marca por defecto y las demás agrupan las campañas cuyo nombre contiene `match`), `flujosPorCrear`, `estrategia` (`campanas`, `flujos`, `segmentacion`, `captacion`; líneas `título | prioridad | detalle`), `criterios`, `notaFuentes` (texto del pie del panel con las fuentes y criterios de ese cliente).
+- `months/<AAAA-MM>`: `key`, `label` («Oct 26»), `shopify {rev, ventaNeta, revCampanas, revFlujos}` (los dos últimos solo con reparto real de Shopify), `bbdd {total, activos, suscritos, enviamos}`, `facturacion {perfiles {usados, max}, emails {usados, max}, periodoInicio, periodoFin, fecha}` (solo Klaviyo; fechas `AAAA-MM-DD`), `campaigns` (`id, name, subject, date, hour, recipients, or, ctr, ctor, cr, unsub, conv, rev, aov, rpr, b2b, audiences, marca`; `subject` es el asunto; `hour` es la hora de envío 0-23 en la hora local de la cuenta y alimenta «Análisis por día y hora de envío»; `marca` solo se guarda para corregir a mano la marca que sale del nombre), `flows` (`id → {r, o, c, p, rev}`), `contexto`, `analisis {resumen, funciono, corregir, acciones, propuestas}`, `fuentes {klaviyo, shopify, bbdd}` (`fuentes.klaviyo` guarda la fuente de la plataforma de email, sea cual sea), `actualizacion {fecha, modo}` (`manual` o `programada`), `updatedAt`.
 - Porcentajes como fracción (0,35 = 35 %). Un dato que la plataforma no da se guarda como `null`, nunca como 0. Lectura y escritura con `ArtifactData`, siempre leyendo antes y escribiendo con `if_version`.
 
 ## Modo B · Actualizar un mes
 
 1. **Leer primero** `months/<mes>` (si existe) y `config/cliente`. Respetar todo lo escrito por el equipo: contexto, venta neta, ingresos Shopify y valores corregidos a mano. No sobrescribirlos.
-2. **Campañas, flujos y BBDD** como indique `plataformas/<plataforma>.md`. Guardar audiencias y marcar B2B. En Klaviyo, también el consumo del plan (`facturacion`).
+2. **Campañas, flujos y BBDD** como indique `plataformas/<plataforma>.md`. Guardar audiencias y hora de envío, y marcar B2B. Revisar siempre el **estado de cada flujo** y guardarlo en `config.flujos`: un flujo con ingresos que pasa a borrador o manual va a `analisis.corregir`. En Klaviyo, también el consumo del plan (`facturacion`).
 3. **Shopify** solo si el conector está en la tienda del cliente.
 4. **Análisis** con el contexto del mes (modo C) y voz D2C (abajo).
 5. Escribir `months/<mes>` con `actualizacion: {fecha: <ahora en ISO>, modo: "manual"}` (o `"programada"` si la lanza la tarea programada) y, si cambia, `config/cliente`.
@@ -74,7 +76,7 @@ Pedir solo lo que falte: nombre, sociedad que factura, plataforma, conector, des
 4. Cargar `config/cliente` (con `plataforma`, `conector` y `notaFuentes`) y los meses con `ArtifactData batch` (máximo 50 escrituras por lote).
 5. Redactar el análisis del último mes y comprobar con un `list` de `months` usando `as_level: "view"`.
 6. Dar el enlace y recordar que es privado hasta que se comparta desde «Compartir».
-7. **Si la petición viene del listado «Paneles Email»**, el cliente ya tiene allí una fila `paneles/nuevo-<slug>` en estado «creando»: actualizarla con `url` (enlace del panel), `estado: "creado"`, `ultimaActualizacion` y `pendientesManual` como en el paso 8 del modo B. Si no se puede crear, `estado: "error"` y el motivo en `ultimaActualizacion.nota`. Si la petición no viene del listado, añadir allí el panel desde «Añadir panel existente».
+7. **Registrar el panel en el listado «Paneles Email»**: `ArtifactData set` de `paneles/<id del artefacto del panel>` con `cliente`, `plataforma`, `url`, `ultimaActualizacion` y `pendientesManual` como en el paso 8 del modo B.
 
 Plataformas sin conector: mismo panel; los datos del mes se cargan desde la exportación que pase el equipo o a mano en «Editar datos».
 
@@ -101,6 +103,7 @@ El equipo escribe el contexto, el análisis del mes y el marco estratégico en �
 
 | Versión | Fecha | Cambios |
 |---|---|---|
+| 1.5.0 | 10/11/2026 | Estado de cada flujo en la tabla de flujos, con aviso si un flujo con ingresos está en borrador. Bloque «Análisis por día y hora de envío» (campo `hour`). Desglose por marca opcional (`config.marcas` y campo `marca`). |
 | 1.4.0 | 10/11/2026 | Nuevo apartado «Facturación Klaviyo» en la pestaña General, solo en clientes Klaviyo: perfiles activos usados y emails enviados del periodo de facturación, con su porcentaje sobre el plan. Se guarda en `facturacion` de cada mes y se edita en «Editar datos». Las secciones de General se numeran solas. |
 | 1.3.0 | 09/11/2026 | El análisis del mes y el marco estratégico se editan en «Editar datos» (junto con el contexto); «Análisis y contexto» queda en modo lectura. «Vs año anterior» muestra las mejores campañas del periodo y del periodo comparado (año anterior o, si no hay datos, el periodo anterior). Las tarjetas de mejores campañas muestran el asunto (`subject`), que también se edita en «Editar datos». `nuevo-cliente.js --force` regenera el `index.html` de un panel desde la plantilla antes de publicar. |
 | 1.2.1 | 09/11/2026 | En «Editar datos», cada campaña tiene una casilla «Incluir» (desmarcada = B2B, fuera de los cálculos). La cabecera de las tablas ya no queda por debajo de los campos al desplazarse. |

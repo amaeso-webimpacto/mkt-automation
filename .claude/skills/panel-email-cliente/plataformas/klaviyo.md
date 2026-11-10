@@ -16,7 +16,7 @@ Métrica «Placed Order» de integración **Shopify**. Su id está en `config/cl
 - `statistics`: `recipients, open_rate, click_rate, click_to_open_rate, conversion_rate, conversions, unsubscribe_rate`
 - `value_statistics`: `conversion_value, average_order_value, revenue_per_recipient`
 
-Cada resultado trae `campaign_details.attributes` con `name`, `send_time` y `audiences.included` / `audiences.excluded` (nombres): guardarlos en `audiences` y usarlos para marcar B2B.
+Cada resultado trae `campaign_details.attributes` con `name`, `send_time` y `audiences.included` / `audiences.excluded` (nombres): guardarlos en `audiences` y usarlos para marcar B2B. De `send_time` salen `date` y `hour` (0-23); el informe no trae zona horaria: se toma la de la cuenta (`get_account_details`).
 
 Mapeo: `recipients → recipients`, `open_rate → or`, `click_rate → ctr`, `click_to_open_rate → ctor`, `conversion_rate → cr`, `unsubscribe_rate → unsub`, `conversions → conv`, `conversion_value → rev`, `average_order_value → aov`, `revenue_per_recipient → rpr`.
 
@@ -31,6 +31,8 @@ Shopify no separa campañas y flujos: el panel reparte el canal Shopify en propo
 ## Flujos
 
 `get_flow_report` del mes, canal email, `group_by: ["flow_id", "flow_name"]`. Usar `flow_aggregation` (un total por flujo): `recipients → r`, `open_rate → o`, `click_rate → c`, `conversions → p`, `conversion_value → rev`. Clave del flujo: su `flow_id`. Flujo nuevo → añadirlo a `config.flujos`.
+
+**Estado:** `get_flows` con `fields_flow: ["name","status","archived"]`, una llamada normal y otra con `filter: equals(archived,true)` (los archivados no salen en la primera). Guardar en `config.flujos[id].status`: `live`, `manual` o `draft` según `status`; `archived` si está archivado; `deleted` si tiene datos en el informe y no aparece en ninguna de las dos.
 
 ## BBDD
 

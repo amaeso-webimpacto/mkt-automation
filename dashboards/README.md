@@ -12,19 +12,19 @@ Un artefacto HTML por cliente con la línea gráfica de la sociedad que factura 
 ## Modelo de datos
 
 - `config/cliente`: nombre, plataforma, flujos (`id de Klaviyo → nombre`) y marco estratégico.
-- `months/<AAAA-MM>`: Shopify (`rev`, `ventaNeta`), BBDD, facturación de Klaviyo (`facturacion`: perfiles activos y emails usados y su límite de plan; solo clientes Klaviyo), campañas (con `b2b: true` para excluirlas), flujos por id, contexto del mes, análisis (resumen, funcionó, corregir, acciones, propuestas) y fuentes.
+- `months/<AAAA-MM>`: Shopify (`rev`, `ventaNeta`), BBDD, campañas (con `b2b: true` para excluirlas), flujos por id, contexto del mes, análisis (resumen, funcionó, corregir, acciones, propuestas) y fuentes.
 
 Los porcentajes se guardan como fracción (0,35 = 35 %). Las campañas B2B se excluyen de todos los cálculos con el campo `b2b`.
 
 ## Listado de paneles
 
-«Paneles Email» (https://claude.ai/artifact/Tstgau5tAfbTJ3Fauz7cQc), código en `hub/` (`index.html`, `hub.js` para la interfaz, `hub-peticiones.js` para la validación y las peticiones a las sesiones, `hub.css`). Reutiliza `panel.css` y el logo de la plantilla. Guarda en su base de datos un documento por panel en `paneles/<id>` (`cliente`, `url`, `plataforma`, `estado`, `alta`, `ultimaPeticion`, `ultimaActualizacion`, `pendientesManual`) y su propio enlace en `config/hub`. Nada de cifras.
+«Paneles Email» (https://claude.ai/artifact/Tstgau5tAfbTJ3Fauz7cQc), código en `hub/` (`index.html`, `hub.js` para la interfaz, `hub-peticiones.js` para la validación y las peticiones, `hub.css`). Reutiliza `panel.css` y el logo de la plantilla. Guarda en su base de datos un documento por panel en `paneles/<id del artefacto>` (`cliente`, `url`, `plataforma`, `alta`, `ultimaActualizacion`, `pendientesManual`) y su propio enlace en `config/hub`. Nada de cifras.
 
-- **Actualizar:** con el conector Claude Code Remote, abre una sesión nueva de Claude Code a nombre de quien pulsa, en el entorno que elija, con este repositorio en `main` y la skill en modo B para ese cliente y mes.
-- **Crear panel nuevo:** pide cliente, plataforma, sociedad (solo D2C eCommerce tiene plantilla), conector, mes desde el que cargar y, si lo hay, el histórico anterior (artefacto o hoja de Google). Crea la fila `paneles/nuevo-<slug>` en estado «creando» y lanza una sesión en modo A, que le pone el enlace al publicar el panel.
-- **Añadir panel existente:** nombre, enlace del artefacto y plataforma; el id del documento es el del artefacto.
-- **Datos para meter a mano:** un aviso por cliente con `pendientesManual`, que deja la sesión al terminar (paso 8 del modo B y paso 7 del modo A). El equipo marca cada dato como hecho. Mientras un panel no tenga esa lista, el aviso muestra lo previsto por su plataforma (`MANUAL_POR_PLATAFORMA` en `hub-peticiones.js`): si cambian los datos manuales en `SKILL.md` o `plataformas/`, actualizarlo también allí.
-- Sin conector, la página deja copiar la petición para pegarla en Claude Code.
+- **El listado no ejecuta nada:** cada persona actualiza o crea paneles en su propia conversación con la skill, con su cuenta y sus conectores. El listado prepara la petición para copiarla.
+- **Petición de actualización:** modo B para ese cliente y el mes elegido, con la orden de dejar el resultado en el listado.
+- **Crear panel nuevo:** valida los datos del modo A (solo D2C eCommerce tiene plantilla) y prepara la petición. Al publicar el panel, la conversación lo registra en el listado.
+- **Añadir panel existente:** nombre, enlace del artefacto y plataforma.
+- **Datos para meter a mano:** un aviso por cliente con `pendientesManual`, que deja la conversación al terminar (paso 8 del modo B y paso 7 del modo A). El equipo marca cada dato como hecho. Sin esa lista, el aviso muestra lo previsto por su plataforma (`MANUAL_POR_PLATAFORMA` en `hub-peticiones.js`): si cambian los datos manuales en `SKILL.md` o `plataformas/`, actualizarlo también allí.
 - Publicar con `hub/index.html`, `files` `{"panel.css", "logo_d2c.png"}` desde la plantilla y `{"hub.css", "hub.js", "hub-peticiones.js"}` desde `hub/`, sin pasar `capabilities` en las republicaciones.
 
 ## Paneles publicados
@@ -44,9 +44,6 @@ Lo propio de cada plataforma (activos, suscritos, enviamos, flujos, revenue) est
 - **Enviamos:** destinatarios de la última campaña B2C enviada en el mes. Si el mes no tiene dato guardado, el panel lo calcula así.
 - **Total y suscritos:** perfiles totales y con consentimiento de email en Klaviyo el día de la actualización.
 
-## Actualización mensual (pendiente de automatizar)
+## Actualización mensual programada
 
-1. Klaviyo: `get_campaign_report` y `get_flow_report` del mes, conversión «Placed Order» de Shopify, canal email. Marcar las campañas B2B.
-2. Klaviyo: `list_billing_usage` (activos y consumo del plan para «Facturación Klaviyo») y perfiles totales y suscritos el día de la actualización.
-3. Shopify de la tienda del cliente: ingresos del canal email con último clic no directo. Venta neta: la facilita el cliente.
-4. Escribir `months/<AAAA-MM>` con `ArtifactData` y redactar el análisis del mes.
+La skill `.claude/skills/programar-panel-email/` deja a nombre de cada persona del equipo una tarea programada por cliente (Klaviyo o iCommkt; HubSpot y Connectif todavía no). Cada mes, por defecto el día 7, la tarea abre una sesión nueva que aplica la skill del panel en modo B, genera la versión estática y envía un correo con las cifras clave y el enlace al HTML. El texto de la tarea está en `plantilla-tarea.md`.
