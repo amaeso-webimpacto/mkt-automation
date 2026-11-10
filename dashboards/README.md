@@ -12,7 +12,7 @@ Un artefacto HTML por cliente con la línea gráfica de la sociedad que factura 
 ## Modelo de datos
 
 - `config/cliente`: nombre, plataforma, flujos (`id de Klaviyo → nombre`) y marco estratégico.
-- `months/<AAAA-MM>`: Shopify (`rev`, `ventaNeta`), BBDD, campañas (con `b2b: true` para excluirlas), flujos por id, contexto del mes, análisis (resumen, funcionó, corregir, acciones, propuestas) y fuentes.
+- `months/<AAAA-MM>`: Shopify (`rev`, `ventaNeta`), BBDD, facturación de Klaviyo (`facturacion`: perfiles activos y emails usados y su límite de plan; solo clientes Klaviyo), campañas (con `b2b: true` para excluirlas), flujos por id, contexto del mes, análisis (resumen, funcionó, corregir, acciones, propuestas) y fuentes.
 
 Los porcentajes se guardan como fracción (0,35 = 35 %). Las campañas B2B se excluyen de todos los cálculos con el campo `b2b`.
 
@@ -47,6 +47,6 @@ Lo propio de cada plataforma (activos, suscritos, enviamos, flujos, revenue) est
 ## Actualización mensual (pendiente de automatizar)
 
 1. Klaviyo: `get_campaign_report` y `get_flow_report` del mes, conversión «Placed Order» de Shopify, canal email. Marcar las campañas B2B.
-2. Klaviyo: `list_billing_usage` (activos) y perfiles totales y suscritos el día de la actualización.
+2. Klaviyo: `list_billing_usage` (activos y consumo del plan para «Facturación Klaviyo») y perfiles totales y suscritos el día de la actualización.
 3. Shopify de la tienda del cliente: ingresos del canal email con último clic no directo. Venta neta: la facilita el cliente.
 4. Escribir `months/<AAAA-MM>` con `ArtifactData` y redactar el análisis del mes.
