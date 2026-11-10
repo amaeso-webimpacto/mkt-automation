@@ -1,0 +1,368 @@
+{
+ "key": "2026-02",
+ "label": "Feb 26",
+ "shopify": {
+  "rev": null,
+  "ventaNeta": null
+ },
+ "bbdd": {
+  "total": null,
+  "activos": 130268,
+  "suscritos": null,
+  "enviamos": 49399
+ },
+ "campaigns": [
+  {
+   "id": "c0",
+   "name": "San valentín personalizado 01.02",
+   "date": "2026-02-01",
+   "recipients": 31226,
+   "or": 0.41638,
+   "ctr": 0.00407,
+   "ctor": 0.00977,
+   "cr": 0.00128,
+   "unsub": 0.00288,
+   "conv": 40,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c1",
+   "name": "Taller cerámica 03.02",
+   "date": "2026-02-03",
+   "recipients": 22711,
+   "or": 0.40166,
+   "ctr": 0.00207,
+   "ctor": 0.00515,
+   "cr": 0.00026,
+   "unsub": 0.00211,
+   "conv": 6,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c2",
+   "name": "Zuecos y moda 05.02",
+   "date": "2026-02-05",
+   "recipients": 29743,
+   "or": 0.40531,
+   "ctr": 0.00609,
+   "ctor": 0.01501,
+   "cr": 0.00091,
+   "unsub": 0.00178,
+   "conv": 27,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c3",
+   "name": "Tradición 08.02",
+   "date": "2026-02-08",
+   "recipients": 31124,
+   "or": 0.40053,
+   "ctr": 0.00363,
+   "ctor": 0.00906,
+   "cr": 0.001,
+   "unsub": 0.00202,
+   "conv": 31,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c4",
+   "name": "Novedades safari 10.02",
+   "date": "2026-02-10",
+   "recipients": 31061,
+   "or": 0.40256,
+   "ctr": 0.00309,
+   "ctor": 0.00768,
+   "cr": 0.00026,
+   "unsub": 0.00225,
+   "conv": 8,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c5",
+   "name": "Safari personalización 12.02",
+   "date": "2026-02-12",
+   "recipients": 31012,
+   "or": 0.40781,
+   "ctr": 0.00219,
+   "ctor": 0.00538,
+   "cr": 0.00003,
+   "unsub": 0.00193,
+   "conv": 1,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c6",
+   "name": "Market 15.02",
+   "date": "2026-02-15",
+   "recipients": 22559,
+   "or": 0.3978,
+   "ctr": 0.0043,
+   "ctor": 0.01081,
+   "cr": 0.00013,
+   "unsub": 0.00177,
+   "conv": 3,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c7",
+   "name": "Nuevos calcetines 16.02",
+   "date": "2026-02-16",
+   "recipients": 22530,
+   "or": 0.39964,
+   "ctr": 0.00257,
+   "ctor": 0.00644,
+   "cr": 0.0004,
+   "unsub": 0.00191,
+   "conv": 9,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c8",
+   "name": "Lead new in 17.02",
+   "date": "2026-02-17",
+   "recipients": 30947,
+   "or": 0.40928,
+   "ctr": 0.00614,
+   "ctor": 0.015,
+   "cr": 0.00081,
+   "unsub": 0.002,
+   "conv": 25,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c9",
+   "name": "Nuevos calcetines 19.02",
+   "date": "2026-02-19",
+   "recipients": 8443,
+   "or": 0.40661,
+   "ctr": 0.00296,
+   "ctor": 0.00728,
+   "cr": 0,
+   "unsub": 0.00142,
+   "conv": 0,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "EN",
+     "DE"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c10",
+   "name": "Market dudas 19.02",
+   "date": "2026-02-19",
+   "recipients": 22497,
+   "or": 0.42783,
+   "ctr": 0.00631,
+   "ctor": 0.01475,
+   "cr": 0.00031,
+   "unsub": 0.0024,
+   "conv": 7,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c11",
+   "name": "Inspo clientas 22.02",
+   "date": "2026-02-22",
+   "recipients": 30927,
+   "or": 0.46025,
+   "ctr": 0.00437,
+   "ctor": 0.00948,
+   "cr": 0.00094,
+   "unsub": 0.00323,
+   "conv": 29,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c12",
+   "name": "Reseñas 24.02",
+   "date": "2026-02-24",
+   "recipients": 49343,
+   "or": 0.42314,
+   "ctr": 0.00306,
+   "ctor": 0.00723,
+   "cr": 0.00057,
+   "unsub": 0.00235,
+   "conv": 28,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c13",
+   "name": "Últimos días market 26.02",
+   "date": "2026-02-26",
+   "recipients": 22347,
+   "or": 0.42319,
+   "ctr": 0.00367,
+   "ctor": 0.00867,
+   "cr": 0.00085,
+   "unsub": 0.00255,
+   "conv": 19,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "ES"
+    ],
+    "excluded": []
+   }
+  }
+ ],
+ "flows": {},
+ "contexto": "",
+ "analisis": {
+  "resumen": "",
+  "funciono": [],
+  "corregir": [],
+  "acciones": [],
+  "propuestas": []
+ },
+ "fuentes": {
+  "klaviyo": "iCommkt (envíos por idioma agrupados por newsletter; tasas sobre efectivos; sin revenue)",
+  "shopify": "Pendiente: conector de Shopify no conectado a la tienda de Genuins",
+  "bbdd": "iCommkt: activos a cierre de mes; total de octubre a 09/11/2026. Suscritos (Masterdata_total): manual. Enviamos: suma de los segmentos de la última newsletter B2C."
+ },
+ "actualizacion": {
+  "fecha": "2026-11-09T12:00:00Z",
+  "modo": "manual"
+ },
+ "updatedAt": "2026-11-09T12:00:00Z"
+}

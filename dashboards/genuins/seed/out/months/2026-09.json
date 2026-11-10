@@ -1,0 +1,285 @@
+{
+ "key": "2026-09",
+ "label": "Sep 26",
+ "shopify": {
+  "rev": null,
+  "ventaNeta": null
+ },
+ "bbdd": {
+  "total": null,
+  "activos": 136715,
+  "suscritos": null,
+  "enviamos": 32394
+ },
+ "campaigns": [
+  {
+   "id": "c0",
+   "name": "New collection 04.09",
+   "date": "2026-09-04",
+   "recipients": 32120,
+   "or": 0.40293,
+   "ctr": 0.01186,
+   "ctor": 0.02944,
+   "cr": 0.00056,
+   "unsub": 0.00233,
+   "conv": 18,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ES",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c1",
+   "name": "Lucia Barcena 06.08",
+   "date": "2026-09-06",
+   "recipients": 32091,
+   "or": 0.39927,
+   "ctr": 0.00495,
+   "ctor": 0.01241,
+   "cr": 0.00087,
+   "unsub": 0.0029,
+   "conv": 28,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c2",
+   "name": "New collection Autumn edit 08.09",
+   "date": "2026-09-08",
+   "recipients": 32054,
+   "or": 0.41109,
+   "ctr": 0.0093,
+   "ctor": 0.02262,
+   "cr": 0.00056,
+   "unsub": 0.00212,
+   "conv": 18,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c3",
+   "name": "New collection Riva Colores 10.09",
+   "date": "2026-09-10",
+   "recipients": 32040,
+   "or": 0.40534,
+   "ctr": 0.00593,
+   "ctor": 0.01463,
+   "cr": 0.00106,
+   "unsub": 0.0024,
+   "conv": 34,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c4",
+   "name": "New collection Tabanca y Correlli 13.09",
+   "date": "2026-09-13",
+   "recipients": 32038,
+   "or": 0.4033,
+   "ctr": 0.00531,
+   "ctor": 0.01316,
+   "cr": 0.00044,
+   "unsub": 0.00247,
+   "conv": 14,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c5",
+   "name": "New collection Zuecos 15.09",
+   "date": "2026-09-15",
+   "recipients": 32002,
+   "or": 0.41232,
+   "ctr": 0.01112,
+   "ctor": 0.02698,
+   "cr": 0.00106,
+   "unsub": 0.00184,
+   "conv": 34,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c6",
+   "name": "New collection Vegan 18.09",
+   "date": "2026-09-18",
+   "recipients": 31991,
+   "or": 0.40574,
+   "ctr": 0.00503,
+   "ctor": 0.0124,
+   "cr": 0.00022,
+   "unsub": 0.00175,
+   "conv": 7,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c7",
+   "name": "Clásicos favoritos 22.09",
+   "date": "2026-09-22",
+   "recipients": 31987,
+   "or": 0.40579,
+   "ctr": 0.0061,
+   "ctor": 0.01502,
+   "cr": 0.00094,
+   "unsub": 0.00216,
+   "conv": 30,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c8",
+   "name": "New Zuecos y Calcetines 25.09",
+   "date": "2026-09-25",
+   "recipients": 31953,
+   "or": 0.4061,
+   "ctr": 0.0108,
+   "ctor": 0.02659,
+   "cr": 0.00059,
+   "unsub": 0.00178,
+   "conv": 19,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c9",
+   "name": "Venta privada - Inicio 28.09",
+   "date": "2026-09-28",
+   "recipients": 32038,
+   "or": 0.41039,
+   "ctr": 0.0241,
+   "ctor": 0.05872,
+   "cr": 0.00353,
+   "unsub": 0.00228,
+   "conv": 113,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  }
+ ],
+ "flows": {},
+ "contexto": "",
+ "analisis": {
+  "resumen": "",
+  "funciono": [],
+  "corregir": [],
+  "acciones": [],
+  "propuestas": []
+ },
+ "fuentes": {
+  "klaviyo": "iCommkt (envíos por idioma agrupados por newsletter; tasas sobre efectivos; sin revenue)",
+  "shopify": "Pendiente: conector de Shopify no conectado a la tienda de Genuins",
+  "bbdd": "iCommkt: activos a cierre de mes; total de octubre a 09/11/2026. Suscritos (Masterdata_total): manual. Enviamos: suma de los segmentos de la última newsletter B2C."
+ },
+ "actualizacion": {
+  "fecha": "2026-11-09T12:00:00Z",
+  "modo": "manual"
+ },
+ "updatedAt": "2026-11-09T12:00:00Z"
+}

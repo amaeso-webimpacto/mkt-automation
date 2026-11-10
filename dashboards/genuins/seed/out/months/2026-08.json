@@ -1,0 +1,335 @@
+{
+ "key": "2026-08",
+ "label": "Ago 26",
+ "shopify": {
+  "rev": null,
+  "ventaNeta": null
+ },
+ "bbdd": {
+  "total": null,
+  "activos": 136380,
+  "suscritos": null,
+  "enviamos": 32990
+ },
+ "campaigns": [
+  {
+   "id": "c0",
+   "name": "Clásicos Genuins 02.08",
+   "date": "2026-08-02",
+   "recipients": 32112,
+   "or": 0.40029,
+   "ctr": 0.00819,
+   "ctor": 0.02046,
+   "cr": 0.00193,
+   "unsub": 0.00311,
+   "conv": 62,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "ENG",
+     "FR",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c1",
+   "name": "Segundas rebajas 2 05.08",
+   "date": "2026-08-04",
+   "recipients": 33970,
+   "or": 0.38128,
+   "ctr": 0.01613,
+   "ctor": 0.04231,
+   "cr": 0.00306,
+   "unsub": 0.00256,
+   "conv": 104,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c2",
+   "name": "Sandalias Planas 09.08",
+   "date": "2026-08-09",
+   "recipients": 32591,
+   "or": 0.38652,
+   "ctr": 0.00801,
+   "ctor": 0.02072,
+   "cr": 0.00175,
+   "unsub": 0.00295,
+   "conv": 57,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c3",
+   "name": "Regalo Gafas 10.08",
+   "date": "2026-08-10",
+   "recipients": 33259,
+   "or": 0.39009,
+   "ctr": 0.00851,
+   "ctor": 0.02181,
+   "cr": 0.00153,
+   "unsub": 0.00216,
+   "conv": 51,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c4",
+   "name": "Regalo Gafas 2 12.08",
+   "date": "2026-08-12",
+   "recipients": 32108,
+   "or": 0.39915,
+   "ctr": 0.00645,
+   "ctor": 0.01615,
+   "cr": 0.0019,
+   "unsub": 0.00178,
+   "conv": 61,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c5",
+   "name": "Regalo Gafas 3 14.08",
+   "date": "2026-08-16",
+   "recipients": 32155,
+   "or": 0.38703,
+   "ctr": 0.0042,
+   "ctor": 0.01085,
+   "cr": 0.00093,
+   "unsub": 0.00243,
+   "conv": 30,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c6",
+   "name": "Final Segundas Rebajas 18.08",
+   "date": "2026-08-18",
+   "recipients": 34098,
+   "or": 0.3663,
+   "ctr": 0.01079,
+   "ctor": 0.02946,
+   "cr": 0.00129,
+   "unsub": 0.00214,
+   "conv": 44,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c7",
+   "name": "Clásicos Genuins 21.08",
+   "date": "2026-08-21",
+   "recipients": 32541,
+   "or": 0.27879,
+   "ctr": 0.00433,
+   "ctor": 0.01554,
+   "cr": 0.00049,
+   "unsub": 0.00212,
+   "conv": 16,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c8",
+   "name": "Segundas rebajas 10% 23.08",
+   "date": "2026-08-23",
+   "recipients": 33313,
+   "or": 0.32927,
+   "ctr": 0.0072,
+   "ctor": 0.02188,
+   "cr": 0.00159,
+   "unsub": 0.00258,
+   "conv": 53,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c9",
+   "name": "Segundas rebajas 10% últimos días 25.08",
+   "date": "2026-08-25",
+   "recipients": 32452,
+   "or": 0.39612,
+   "ctr": 0.01149,
+   "ctor": 0.02902,
+   "cr": 0.0012,
+   "unsub": 0.00259,
+   "conv": 39,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c10",
+   "name": "Segundas rebajas 10% últimos días 2 27.08",
+   "date": "2026-08-27",
+   "recipients": 32398,
+   "or": 0.39431,
+   "ctr": 0.01071,
+   "ctor": 0.02716,
+   "cr": 0.0017,
+   "unsub": 0.00256,
+   "conv": 55,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c11",
+   "name": "Segundas rebajas 10% últimas horas 1 30.08",
+   "date": "2026-08-30",
+   "recipients": 32966,
+   "or": 0.38285,
+   "ctr": 0.00925,
+   "ctor": 0.02417,
+   "cr": 0.00164,
+   "unsub": 0.00285,
+   "conv": 54,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  }
+ ],
+ "flows": {},
+ "contexto": "",
+ "analisis": {
+  "resumen": "",
+  "funciono": [],
+  "corregir": [],
+  "acciones": [],
+  "propuestas": []
+ },
+ "fuentes": {
+  "klaviyo": "iCommkt (envíos por idioma agrupados por newsletter; tasas sobre efectivos; sin revenue)",
+  "shopify": "Pendiente: conector de Shopify no conectado a la tienda de Genuins",
+  "bbdd": "iCommkt: activos a cierre de mes; total de octubre a 09/11/2026. Suscritos (Masterdata_total): manual. Enviamos: suma de los segmentos de la última newsletter B2C."
+ },
+ "actualizacion": {
+  "fecha": "2026-11-09T12:00:00Z",
+  "modo": "manual"
+ },
+ "updatedAt": "2026-11-09T12:00:00Z"
+}

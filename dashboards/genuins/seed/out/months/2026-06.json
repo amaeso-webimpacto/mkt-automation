@@ -1,0 +1,451 @@
+{
+ "key": "2026-06",
+ "label": "Jun 26",
+ "shopify": {
+  "rev": null,
+  "ventaNeta": null
+ },
+ "bbdd": {
+  "total": null,
+  "activos": 134849,
+  "suscritos": null,
+  "enviamos": 31961
+ },
+ "campaigns": [
+  {
+   "id": "c0",
+   "name": "Bolsa Playa 02.06",
+   "date": "2026-06-02",
+   "recipients": 31443,
+   "or": 0.44643,
+   "ctr": 0.00747,
+   "ctor": 0.01674,
+   "cr": 0.00188,
+   "unsub": 0.00274,
+   "conv": 59,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c1",
+   "name": "Sandalias verano 03.06",
+   "date": "2026-06-03",
+   "recipients": 1735,
+   "or": 0.47435,
+   "ctr": 0.01614,
+   "ctor": 0.03402,
+   "cr": 0.00922,
+   "unsub": 0.00922,
+   "conv": 16,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c2",
+   "name": "Water Outlet H2O 03.06",
+   "date": "2026-06-03",
+   "recipients": 1474,
+   "or": 0.52578,
+   "ctr": 0.01221,
+   "ctor": 0.02323,
+   "cr": 0.00407,
+   "unsub": 0.00339,
+   "conv": 6,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c3",
+   "name": "Nuestras tiendas 04.06",
+   "date": "2026-06-04",
+   "recipients": 31541,
+   "or": 0.46403,
+   "ctr": 0.00564,
+   "ctor": 0.01216,
+   "cr": 0.00254,
+   "unsub": 0.00282,
+   "conv": 80,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c4",
+   "name": "Nombres clientas 07.06",
+   "date": "2026-06-07",
+   "recipients": 31820,
+   "or": 0.40248,
+   "ctr": 0.00553,
+   "ctor": 0.01374,
+   "cr": 0.00314,
+   "unsub": 0.00214,
+   "conv": 100,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c5",
+   "name": "Regalo Mascarilla pies 08.06",
+   "date": "2026-06-08",
+   "recipients": 22846,
+   "or": 0.45802,
+   "ctr": 0.00718,
+   "ctor": 0.01567,
+   "cr": 0.00298,
+   "unsub": 0.00219,
+   "conv": 68,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c6",
+   "name": "Calzado para siempre 09.06",
+   "date": "2026-06-09",
+   "recipients": 31948,
+   "or": 0.43909,
+   "ctr": 0.00695,
+   "ctor": 0.01583,
+   "cr": 0.00185,
+   "unsub": 0.00235,
+   "conv": 59,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c7",
+   "name": "Water Outlet online 11.06",
+   "date": "2026-06-10",
+   "recipients": 31958,
+   "or": 0.41755,
+   "ctr": 0.02588,
+   "ctor": 0.06198,
+   "cr": 0.00535,
+   "unsub": 0.00188,
+   "conv": 171,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c8",
+   "name": "Flash sales 11.06",
+   "date": "2026-06-11",
+   "recipients": 31281,
+   "or": 0.41242,
+   "ctr": 0.02286,
+   "ctor": 0.05542,
+   "cr": 0.00406,
+   "unsub": 0.00169,
+   "conv": 127,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c9",
+   "name": "Flash sales final 14.06",
+   "date": "2026-06-14",
+   "recipients": 31439,
+   "or": 0.43128,
+   "ctr": 0.01756,
+   "ctor": 0.04071,
+   "cr": 0.00522,
+   "unsub": 0.00184,
+   "conv": 164,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c10",
+   "name": "Él hizo tus zapatos 16.06",
+   "date": "2026-06-16",
+   "recipients": 31619,
+   "or": 0.41051,
+   "ctr": 0.00873,
+   "ctor": 0.02126,
+   "cr": 0.00225,
+   "unsub": 0.00161,
+   "conv": 71,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c11",
+   "name": "Básicos de confianza 18.06",
+   "date": "2026-06-18",
+   "recipients": 31663,
+   "or": 0.39876,
+   "ctr": 0.00572,
+   "ctor": 0.01434,
+   "cr": 0.00104,
+   "unsub": 0.00171,
+   "conv": 33,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c12",
+   "name": "Últimas tallas 21.06",
+   "date": "2026-06-21",
+   "recipients": 31707,
+   "or": 0.39874,
+   "ctr": 0.01091,
+   "ctor": 0.02737,
+   "cr": 0.00173,
+   "unsub": 0.00155,
+   "conv": 55,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c13",
+   "name": "Pre Rebajas 22.06",
+   "date": "2026-06-22",
+   "recipients": 31478,
+   "or": 0.4208,
+   "ctr": 0.01547,
+   "ctor": 0.03677,
+   "cr": 0.002,
+   "unsub": 0.00191,
+   "conv": 63,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c14",
+   "name": "Rebajas 23.06",
+   "date": "2026-06-23",
+   "recipients": 32528,
+   "or": 0.39757,
+   "ctr": 0.0214,
+   "ctor": 0.05382,
+   "cr": 0.00443,
+   "unsub": 0.00191,
+   "conv": 144,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c15",
+   "name": "Color favorito Rebajas 25.06",
+   "date": "2026-06-25",
+   "recipients": 31505,
+   "or": 0.40914,
+   "ctr": 0.00974,
+   "ctor": 0.02382,
+   "cr": 0.00333,
+   "unsub": 0.00178,
+   "conv": 105,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c16",
+   "name": "Prepara tu maleta Rebajas 28.06",
+   "date": "2026-06-28",
+   "recipients": 31923,
+   "or": 0.40184,
+   "ctr": 0.01018,
+   "ctor": 0.02534,
+   "cr": 0.00341,
+   "unsub": 0.00241,
+   "conv": 109,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  }
+ ],
+ "flows": {},
+ "contexto": "",
+ "analisis": {
+  "resumen": "",
+  "funciono": [],
+  "corregir": [],
+  "acciones": [],
+  "propuestas": []
+ },
+ "fuentes": {
+  "klaviyo": "iCommkt (envíos por idioma agrupados por newsletter; tasas sobre efectivos; sin revenue)",
+  "shopify": "Pendiente: conector de Shopify no conectado a la tienda de Genuins",
+  "bbdd": "iCommkt: activos a cierre de mes; total de octubre a 09/11/2026. Suscritos (Masterdata_total): manual. Enviamos: suma de los segmentos de la última newsletter B2C."
+ },
+ "actualizacion": {
+  "fecha": "2026-11-09T12:00:00Z",
+  "modo": "manual"
+ },
+ "updatedAt": "2026-11-09T12:00:00Z"
+}

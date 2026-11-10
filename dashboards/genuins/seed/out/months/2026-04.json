@@ -1,0 +1,307 @@
+{
+ "key": "2026-04",
+ "label": "Abr 26",
+ "shopify": {
+  "rev": null,
+  "ventaNeta": null
+ },
+ "bbdd": {
+  "total": null,
+  "activos": 130822,
+  "suscritos": null,
+  "enviamos": 87791
+ },
+ "campaigns": [
+  {
+   "id": "c0",
+   "name": "Lanzamiento serpiente y Leopardo 02.04",
+   "date": "2026-04-02",
+   "recipients": 30052,
+   "or": 0.38843,
+   "ctr": 0.00582,
+   "ctor": 0.01499,
+   "cr": 0.0013,
+   "unsub": 0.0012,
+   "conv": 39,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c1",
+   "name": "Lanzamiento Galia 07.04",
+   "date": "2026-04-07",
+   "recipients": 30003,
+   "or": 0.40463,
+   "ctr": 0.00723,
+   "ctor": 0.01787,
+   "cr": 0.0023,
+   "unsub": 0.0014,
+   "conv": 69,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c2",
+   "name": "Lanzamiento Galia Fringes 09.04",
+   "date": "2026-04-09",
+   "recipients": 28589,
+   "or": 0.41873,
+   "ctr": 0.00717,
+   "ctor": 0.01712,
+   "cr": 0.00115,
+   "unsub": 0.00133,
+   "conv": 33,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c3",
+   "name": "Felina Floral Red 12.04",
+   "date": "2026-04-12",
+   "recipients": 29931,
+   "or": 0.41348,
+   "ctr": 0.00775,
+   "ctor": 0.01875,
+   "cr": 0.00124,
+   "unsub": 0.00187,
+   "conv": 37,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c4",
+   "name": "Inspiración Collabs 14.04",
+   "date": "2026-04-14",
+   "recipients": 29875,
+   "or": 0.41978,
+   "ctr": 0.00633,
+   "ctor": 0.01507,
+   "cr": 0.0008,
+   "unsub": 0.00154,
+   "conv": 24,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c5",
+   "name": "Los más deseados 16.04",
+   "date": "2026-04-16",
+   "recipients": 28446,
+   "or": 0.41728,
+   "ctr": 0.00689,
+   "ctor": 0.01651,
+   "cr": 0.0012,
+   "unsub": 0.00109,
+   "conv": 34,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c6",
+   "name": "Carta Founder 19.04",
+   "date": "2026-04-19",
+   "recipients": 29833,
+   "or": 0.4439,
+   "ctr": 0.00459,
+   "ctor": 0.01035,
+   "cr": 0.00188,
+   "unsub": 0.00201,
+   "conv": 56,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c7",
+   "name": "Día de la madre 21.04",
+   "date": "2026-04-21",
+   "recipients": 29780,
+   "or": 0.423,
+   "ctr": 0.01249,
+   "ctor": 0.02953,
+   "cr": 0.00279,
+   "unsub": 0.00121,
+   "conv": 83,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c8",
+   "name": "Leather Edition Hawaii Velour 23.04",
+   "date": "2026-04-23",
+   "recipients": 28436,
+   "or": 0.42576,
+   "ctr": 0.0095,
+   "ctor": 0.0223,
+   "cr": 0.00137,
+   "unsub": 0.00134,
+   "conv": 39,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c9",
+   "name": "Kids Collection 26.04",
+   "date": "2026-04-26",
+   "recipients": 87116,
+   "or": 0.15144,
+   "ctr": 0.00278,
+   "ctor": 0.01834,
+   "cr": 0.00056,
+   "unsub": 0.00107,
+   "conv": 49,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c10",
+   "name": "Dia de la madre 28.04",
+   "date": "2026-04-28",
+   "recipients": 87241,
+   "or": 0.12772,
+   "ctr": 0.00269,
+   "ctor": 0.02109,
+   "cr": 0.00055,
+   "unsub": 0.00086,
+   "conv": 48,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  }
+ ],
+ "flows": {},
+ "contexto": "",
+ "analisis": {
+  "resumen": "",
+  "funciono": [],
+  "corregir": [],
+  "acciones": [],
+  "propuestas": []
+ },
+ "fuentes": {
+  "klaviyo": "iCommkt (envíos por idioma agrupados por newsletter; tasas sobre efectivos; sin revenue)",
+  "shopify": "Pendiente: conector de Shopify no conectado a la tienda de Genuins",
+  "bbdd": "iCommkt: activos a cierre de mes; total de octubre a 09/11/2026. Suscritos (Masterdata_total): manual. Enviamos: suma de los segmentos de la última newsletter B2C."
+ },
+ "actualizacion": {
+  "fecha": "2026-11-09T12:00:00Z",
+  "modo": "manual"
+ },
+ "updatedAt": "2026-11-09T12:00:00Z"
+}

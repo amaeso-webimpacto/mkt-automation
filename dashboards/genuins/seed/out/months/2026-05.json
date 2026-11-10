@@ -1,0 +1,441 @@
+{
+ "key": "2026-05",
+ "label": "May 26",
+ "shopify": {
+  "rev": null,
+  "ventaNeta": null
+ },
+ "bbdd": {
+  "total": null,
+  "activos": 131950,
+  "suscritos": null,
+  "enviamos": 31271
+ },
+ "campaigns": [
+  {
+   "id": "c0",
+   "name": "Dia de la madre Final 3.05",
+   "date": "2026-05-03",
+   "recipients": 34270,
+   "or": 0.34698,
+   "ctr": 0.00811,
+   "ctor": 0.02338,
+   "cr": 0.00301,
+   "unsub": 0.00204,
+   "conv": 103,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c1",
+   "name": "Los Zuecos están de moda 5.05",
+   "date": "2026-05-05",
+   "recipients": 33543,
+   "or": 0.36911,
+   "ctr": 0.00546,
+   "ctor": 0.01478,
+   "cr": 0.00072,
+   "unsub": 0.00182,
+   "conv": 24,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c2",
+   "name": "kit de cuidados 7.05",
+   "date": "2026-05-07",
+   "recipients": 29525,
+   "or": 0.38208,
+   "ctr": 0.00322,
+   "ctor": 0.00842,
+   "cr": 0.00058,
+   "unsub": 0.00139,
+   "conv": 17,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c3",
+   "name": "Así lo llevan ellas 12.05",
+   "date": "2026-05-12",
+   "recipients": 31104,
+   "or": 0.30533,
+   "ctr": 0.00505,
+   "ctor": 0.01653,
+   "cr": 0.00093,
+   "unsub": 0.00109,
+   "conv": 29,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c4",
+   "name": "Fuencarral 14.05",
+   "date": "2026-05-14",
+   "recipients": 22619,
+   "or": 0.40594,
+   "ctr": 0.00407,
+   "ctor": 0.01002,
+   "cr": 0.00164,
+   "unsub": 0.00168,
+   "conv": 37,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c5",
+   "name": "Primavera 14.05",
+   "date": "2026-05-14",
+   "recipients": 31101,
+   "or": 0.40574,
+   "ctr": 0.01051,
+   "ctor": 0.02591,
+   "cr": 0.00174,
+   "unsub": 0.00183,
+   "conv": 54,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "ENG",
+     "DE",
+     "FR",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c6",
+   "name": "Fuencarral 17.05",
+   "date": "2026-05-17",
+   "recipients": 22616,
+   "or": 0.40516,
+   "ctr": 0.00296,
+   "ctor": 0.00731,
+   "cr": 0.00097,
+   "unsub": 0.00164,
+   "conv": 22,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c7",
+   "name": "Clásicos 17.05",
+   "date": "2026-05-17",
+   "recipients": 31079,
+   "or": 0.40149,
+   "ctr": 0.00644,
+   "ctor": 0.01603,
+   "cr": 0.00154,
+   "unsub": 0.00171,
+   "conv": 48,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c8",
+   "name": "Apúntate a nuestro club 18.05",
+   "date": "2026-05-18",
+   "recipients": 31059,
+   "or": 0.40133,
+   "ctr": 0.00631,
+   "ctor": 0.01572,
+   "cr": 0.00203,
+   "unsub": 0.00187,
+   "conv": 63,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c9",
+   "name": "Reseñas Clientes 19.05",
+   "date": "2026-05-18",
+   "recipients": 1568,
+   "or": 0.40115,
+   "ctr": 0.00255,
+   "ctor": 0.00636,
+   "cr": 0,
+   "unsub": 0.00638,
+   "conv": 0,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c10",
+   "name": "Reseñas Clientes 19.05",
+   "date": "2026-05-19",
+   "recipients": 29536,
+   "or": 0.40476,
+   "ctr": 0.00464,
+   "ctor": 0.01146,
+   "cr": 0.00193,
+   "unsub": 0.00173,
+   "conv": 57,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c11",
+   "name": "Kids 21.05",
+   "date": "2026-05-21",
+   "recipients": 29526,
+   "or": 0.39453,
+   "ctr": 0.00522,
+   "ctor": 0.01322,
+   "cr": 0.00234,
+   "unsub": 0.00139,
+   "conv": 69,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c12",
+   "name": "Fuencarral evento 24.05",
+   "date": "2026-05-24",
+   "recipients": 22604,
+   "or": 0.40803,
+   "ctr": 0.005,
+   "ctor": 0.01225,
+   "cr": 0.00296,
+   "unsub": 0.0023,
+   "conv": 67,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c13",
+   "name": "Best sellers 24.05",
+   "date": "2026-05-24",
+   "recipients": 31173,
+   "or": 0.39339,
+   "ctr": 0.01046,
+   "ctor": 0.02658,
+   "cr": 0.0042,
+   "unsub": 0.00183,
+   "conv": 131,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c14",
+   "name": "Hombre verano 26.05",
+   "date": "2026-05-26",
+   "recipients": 31224,
+   "or": 0.44889,
+   "ctr": 0.00647,
+   "ctor": 0.01441,
+   "cr": 0.0041,
+   "unsub": 0.00253,
+   "conv": 128,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c15",
+   "name": "Sandalias planas 28.05",
+   "date": "2026-05-28",
+   "recipients": 29633,
+   "or": 0.43668,
+   "ctr": 0.01238,
+   "ctor": 0.02836,
+   "cr": 0.00381,
+   "unsub": 0.00186,
+   "conv": 113,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c16",
+   "name": "Código PRIMAVERA15 72 h 29.05",
+   "date": "2026-05-29",
+   "recipients": 2587,
+   "or": 0.35678,
+   "ctr": 0.01855,
+   "ctor": 0.052,
+   "cr": 0.00966,
+   "unsub": 0.00309,
+   "conv": 25,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE"
+    ],
+    "excluded": []
+   }
+  }
+ ],
+ "flows": {},
+ "contexto": "",
+ "analisis": {
+  "resumen": "",
+  "funciono": [],
+  "corregir": [],
+  "acciones": [],
+  "propuestas": []
+ },
+ "fuentes": {
+  "klaviyo": "iCommkt (envíos por idioma agrupados por newsletter; tasas sobre efectivos; sin revenue)",
+  "shopify": "Pendiente: conector de Shopify no conectado a la tienda de Genuins",
+  "bbdd": "iCommkt: activos a cierre de mes; total de octubre a 09/11/2026. Suscritos (Masterdata_total): manual. Enviamos: suma de los segmentos de la última newsletter B2C."
+ },
+ "actualizacion": {
+  "fecha": "2026-11-09T12:00:00Z",
+  "modo": "manual"
+ },
+ "updatedAt": "2026-11-09T12:00:00Z"
+}

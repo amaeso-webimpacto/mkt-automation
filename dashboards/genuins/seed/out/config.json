@@ -1,0 +1,17 @@
+{
+ "cliente": "Genuins",
+ "plataforma": "iCommkt",
+ "tienda": "Shopify",
+ "sociedad": "D2C eCommerce",
+ "conector": "icomm-genuins",
+ "flujos": {},
+ "flujosPorCrear": [],
+ "estrategia": {
+  "campanas": [],
+  "flujos": [],
+  "segmentacion": [],
+  "captacion": []
+ },
+ "criterios": "Ingresos solo de Shopify (último clic no directo). Suscritos: segmentos Masterdata_total. Enviamos: suma de los segmentos de la última newsletter B2C. Activos: contactos activos de iCommkt. Flujos de Shopify e iCommkt, a mano.",
+ "notaFuentes": "Fuentes: iCommkt (envíos, aperturas, clics, bajas y compras por envío; tasas sobre efectivos) y Shopify (ingresos del canal, último clic no directo). Venta neta facilitada por el cliente. Activos y total: contactos de iCommkt. Suscritos: segmentos Masterdata_total. Enviamos: suma de los segmentos de la última newsletter B2C del mes, todas sus versiones por idioma. Flujos de Shopify e iCommkt cargados a mano. Campañas B2B y de mayoristas excluidas de todos los cálculos."
+}

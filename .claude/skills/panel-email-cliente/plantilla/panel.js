@@ -14,6 +14,7 @@
   const MAX_NAME = 200;
   const MAX_AUDIENCES = 600;
   const MIN_RELEVANT_RECIPIENTS = 1000;
+  const TOP_CAMPAIGNS = 4;
   const MIN_RELEVANT_FLOW_RECIPIENTS = 200;
   const UNSUB_LIMIT = 0.003;
   const CADENCE = { high: 16, low: 8 };
@@ -36,7 +37,7 @@
     fromKey: null, toKey: null, preset: "all",
     flowSel: null, tab: "general", search: "",
     analysisKey: null, editKey: null,
-    canWrite: true, db: null, contextDrafts: {}
+    canWrite: true, db: null
   };
   const charts = {};
 
@@ -44,6 +45,10 @@
   const $ = (name) => document.querySelector('[data-js="' + name + '"]');
   const sum = (arr, fn) => arr.reduce((a, x) => a + (fn ? fn(x) : x), 0);
   const isNum = (v) => typeof v === "number" && isFinite(v);
+  /** Suma solo los valores numéricos; null si ninguno lo es (dato que la plataforma no da). */
+  const sumKnown = (arr, fn) => { const vals = arr.map(fn).filter(isNum); return vals.length ? sum(vals) : null; };
+  const addKnown = (a, b) => isNum(a) || isNum(b) ? (a || 0) + (b || 0) : null;
+  const fRpr = (v) => isNum(v) ? v.toLocaleString("es-ES", { maximumFractionDigits: 3 }) + " €" : "—";
   const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const rich = (s) => esc(s).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
   const nf0 = new Intl.NumberFormat("es-ES", { maximumFractionDigits: 0 });
@@ -93,9 +98,9 @@
     const opens = sum(list, (c) => c.recipients * (c.or || 0));
     const clicks = sum(list, (c) => c.recipients * (c.ctr || 0));
     const conv = sum(list, (c) => c.conv || 0);
-    const rev = sum(list, (c) => c.rev || 0);
+    const rev = sumKnown(list, (c) => c.rev);
     const unsubs = sum(list, (c) => c.recipients * (c.unsub || 0));
-    return { n: list.length, recipients: r, or: opens / r, ctr: clicks / r, ctor: opens ? clicks / opens : 0, cr: conv / r, unsub: unsubs / r, conv, rev, aov: conv ? rev / conv : 0, rpr: rev / r };
+    return { n: list.length, recipients: r, or: opens / r, ctr: clicks / r, ctor: opens ? clicks / opens : 0, cr: conv / r, unsub: unsubs / r, conv, rev, aov: isNum(rev) && conv ? rev / conv : null, rpr: isNum(rev) ? rev / r : null };
   }
 
   function aggregateFlowEntries(entries) {
@@ -104,12 +109,13 @@
     const opens = sum(entries, (d) => d.r * (d.o || 0));
     const clicks = sum(entries, (d) => d.r * (d.c || 0));
     const conv = sum(entries, (d) => d.p || 0);
-    const rev = sum(entries, (d) => d.rev || 0);
-    return { recipients: r, or: opens / r, ctr: clicks / r, ctor: opens ? clicks / opens : 0, cr: conv / r, conv, rev, aov: conv ? rev / conv : 0, rpr: rev / r, months: entries.length };
+    const rev = sumKnown(entries, (d) => d.rev);
+    return { recipients: r, or: opens / r, ctr: clicks / r, ctor: opens ? clicks / opens : 0, cr: conv / r, conv, rev, aov: isNum(rev) && conv ? rev / conv : null, rpr: isNum(rev) ? rev / r : null, months: entries.length };
   }
 
   /** Nombre de la plataforma de email del cliente (config/cliente.plataforma). */
   const plat = () => (state.config && state.config.plataforma) || "Klaviyo";
+  const splitNote = (t) => t.shopifySplitEstimated ? "Estimado: reparto proporcional a la atribución de " + plat() : "Reparto de Shopify";
   const flowIds = () => Object.keys((state.config && state.config.flujos) || {});
   const flowName = (id) => (state.config && state.config.flujos[id] && state.config.flujos[id].name) || id;
   const flowStatus = (id) => (state.config && state.config.flujos[id] && state.config.flujos[id].status) || null;
@@ -137,7 +143,6 @@
   const weekdayIndex = (date) => { const [y, m, d] = date.split("-").map(Number); return (new Date(y, m - 1, d).getDay() + 6) % 7; };
   const hourSlot = (c) => isNum(c.hour) && c.hour >= 0 && c.hour < 24 ? Math.floor(c.hour / HOUR_SLOT) * HOUR_SLOT : null;
   const slotLabel = (start) => String(start).padStart(2, "0") + "–" + String((start + HOUR_SLOT) % 24).padStart(2, "0") + " h";
-  const fRpr = (v) => (v || 0).toLocaleString("es-ES", { maximumFractionDigits: 3 }) + " €";
   const selectedFlowIds = () => flowIds().filter((id) => !state.flowSel || state.flowSel.has(id));
 
   function flowAggFor(months, id) {
@@ -152,16 +157,30 @@
     return selectedFlowIds().map((id) => ({ id, name: flowName(id), agg: flowAggFor(months, id) })).filter((x) => x.agg);
   }
 
+  /**
+   * Ingresos de Shopify (último clic no directo) repartidos entre campañas y flujos.
+   * Si el mes trae el reparto real (shopify.revCampanas / revFlujos) se usa; si no, se estima
+   * en proporción a la atribución de la plataforma de email (campañas y flujos sobre su total).
+   */
+  function shopifySplit(shop, campRev, flowRev) {
+    if (isNum(shop.revCampanas) && isNum(shop.revFlujos)) return { camp: shop.revCampanas, flow: shop.revFlujos, estimated: false };
+    const total = campRev + flowRev;
+    if (!isNum(shop.rev) || !total) return { camp: null, flow: null, estimated: false };
+    return { camp: shop.rev * campRev / total, flow: shop.rev * flowRev / total, estimated: true };
+  }
+
   function monthSummary(m) {
     const camp = aggregateCampaigns(b2cCampaigns(m));
     const flows = flowsAggFor([m], flowIds());
-    const campRev = camp ? camp.rev : 0;
-    const flowRev = flows ? flows.rev : 0;
+    const campRev = camp ? camp.rev : null;
+    const flowRev = flows ? flows.rev : null;
     const shop = m.shopify || {};
+    const split = shopifySplit(shop, campRev, flowRev);
     return {
       key: m.key, label: m.label || labelForKey(m.key), camp, flows,
+      shopifyCamp: split.camp, shopifyFlow: split.flow, shopifySplitEstimated: split.estimated,
       campSends: camp ? camp.recipients : 0, flowSends: flows ? flows.recipients : 0,
-      campRev, flowRev, klaviyoRev: campRev + flowRev,
+      campRev, flowRev, klaviyoRev: addKnown(campRev, flowRev),
       shopifyRev: isNum(shop.rev) ? shop.rev : null,
       ventaNeta: isNum(shop.ventaNeta) ? shop.ventaNeta : null,
       peso: isNum(shop.rev) && isNum(shop.ventaNeta) && shop.ventaNeta ? shop.rev / shop.ventaNeta : null,
@@ -199,7 +218,13 @@
     const withShop = months.filter((m) => m.shopify && isNum(m.shopify.rev));
     const shopifyRev = withShop.length ? sum(withShop, (m) => m.shopify.rev) : null;
     const ventaNeta = withShop.length ? sum(withShop, (m) => m.shopify.ventaNeta || 0) : null;
-    return { camps, camp, flows, shopifyRev, ventaNeta, peso: shopifyRev != null && ventaNeta ? shopifyRev / ventaNeta : null, shopMonths: withShop.length };
+    const splits = months.map(monthSummary).filter((r) => r.shopifyCamp != null);
+    return {
+      camps, camp, flows, shopifyRev, ventaNeta, peso: shopifyRev != null && ventaNeta ? shopifyRev / ventaNeta : null, shopMonths: withShop.length,
+      shopifyCamp: splits.length ? sum(splits, (r) => r.shopifyCamp) : null,
+      shopifyFlow: splits.length ? sum(splits, (r) => r.shopifyFlow) : null,
+      shopifySplitEstimated: splits.some((r) => r.shopifySplitEstimated)
+    };
   }
 
   /* ---------- Gráficos ---------- */
@@ -233,13 +258,13 @@
   function renderSummary(months) {
     const t = periodTotals(months);
     const last = months[months.length - 1];
-    const klaviyo = (t.camp ? t.camp.rev : 0) + (t.flows ? t.flows.rev : 0);
-    const flowShare = klaviyo ? (t.flows ? t.flows.rev : 0) / klaviyo : 0;
+    const klaviyo = addKnown(t.camp && t.camp.rev, t.flows && t.flows.rev);
+    const flowShare = klaviyo ? ((t.flows && t.flows.rev) || 0) / klaviyo : 0;
     const resumen = last.analisis && last.analisis.resumen;
     const contexto = last.contexto;
     $("summary").innerHTML =
       '<span class="highlight__eyebrow">Resumen · ' + esc(rangeLabel(months)) + "</span>" +
-      "<p><strong>" + fInt(t.camp ? t.camp.n : 0) + " campañas B2C</strong> y <strong>" + fInt(t.flows ? t.flows.recipients + (t.camp ? t.camp.recipients : 0) : 0) + " emails</strong> enviados. Revenue atribuido por " + esc(plat()) + ": <strong>" + fEur(klaviyo) + "</strong>, el " + fPct(flowShare, 0) + " desde flujos." +
+      "<p><strong>" + fInt(t.camp ? t.camp.n : 0) + " campañas B2C</strong> y <strong>" + fInt((t.flows ? t.flows.recipients : 0) + (t.camp ? t.camp.recipients : 0)) + " emails</strong> enviados." + (isNum(klaviyo) ? " Revenue atribuido por " + esc(plat()) + ": <strong>" + fEur(klaviyo) + "</strong>, el " + fPct(flowShare, 0) + " desde flujos." : " " + esc(plat()) + " no atribuye revenue: los ingresos del canal salen de Shopify.") +
       (t.peso != null ? " Peso del email en la venta neta según Shopify: <strong>" + fPct(t.peso) + "</strong>." : "") + "</p>" +
       (resumen ? "<p><strong>" + esc(last.label) + ":</strong> " + rich(resumen) + "</p>" : "") +
       (contexto ? "<p><strong>Contexto:</strong> " + rich(contexto) + "</p>" : "");
@@ -268,6 +293,8 @@
     $("global-period").textContent = rangeLabel(months);
     $("global-kpis").innerHTML =
       kpiCard({ navy: true, label: "Ingresos canal email (Shopify)", value: t.shopifyRev, text: fEur(t.shopifyRev), note: partial, delta: deltaChip(t.shopifyRev, prev.shopifyRev, false, "vs año ant."), src: "Fuente: Shopify" }) +
+      kpiCard({ label: "Campañas · Shopify", value: t.shopifyCamp, text: fEur(t.shopifyCamp), note: splitNote(t), delta: deltaChip(t.shopifyCamp, prev.shopifyCamp, false, "vs año ant."), src: "Fuente: Shopify" }) +
+      kpiCard({ label: "Flujos · Shopify", value: t.shopifyFlow, text: fEur(t.shopifyFlow), note: splitNote(t), delta: deltaChip(t.shopifyFlow, prev.shopifyFlow, false, "vs año ant."), src: "Fuente: Shopify" }) +
       kpiCard({ label: "Venta neta", value: t.ventaNeta, text: fEur(t.ventaNeta), note: "Facturación de la tienda", delta: deltaChip(t.ventaNeta, prev.ventaNeta, false, "vs año ant."), src: "Fuente: Shopify" }) +
       kpiCard({ label: "Peso de venta del email", value: t.peso, text: fPct(t.peso), note: "Canal email sobre venta neta", delta: deltaChip(t.peso, prev.peso, true, "vs año ant."), src: "Fuente: Shopify" });
 
@@ -277,10 +304,11 @@
       type: "bar",
       data: { labels: rows.map((r) => r.label), datasets: [
         { type: "line", label: "Peso de venta (%)", data: rows.map((r) => r.peso == null ? null : +(r.peso * 100).toFixed(2)), borderColor: p.navy2, backgroundColor: p.navy2, borderWidth: 2, tension: .3, yAxisID: "y1", pointRadius: 3, spanGaps: true, order: 1 },
-        { label: "Ingresos canal email (€)", data: rows.map((r) => r.shopifyRev), backgroundColor: p.azul2, borderRadius: 4, order: 2 },
-        { label: "Venta neta (€)", data: rows.map((r) => r.ventaNeta), backgroundColor: p.suave, borderRadius: 4, order: 3 }
+        { label: "Email · flujos (€)", data: rows.map((r) => r.shopifyFlow), backgroundColor: p.navy2, stack: "email", order: 2 },
+        { label: "Email · campañas (€)", data: rows.map((r) => r.shopifyCamp), backgroundColor: p.azul2, borderRadius: 4, stack: "email", order: 2 },
+        { label: "Venta neta (€)", data: rows.map((r) => r.ventaNeta), backgroundColor: p.suave, borderRadius: 4, stack: "venta", order: 3 }
       ] },
-      options: baseOptions(p, { scales: { x: axis(p, { grid: { display: false } }), y: axis(p, { ticks: { color: p.apagado, callback: eurTick } }), y1: axis(p, { position: "right", grid: { display: false }, ticks: { color: p.apagado, callback: (v) => v + " %" } }) },
+      options: baseOptions(p, { scales: { x: axis(p, { stacked: true, grid: { display: false } }), y: axis(p, { stacked: true, ticks: { color: p.apagado, callback: eurTick } }), y1: axis(p, { position: "right", grid: { display: false }, ticks: { color: p.apagado, callback: (v) => v + " %" } }) },
         plugins: Object.assign(baseOptions(p).plugins, { tooltip: Object.assign({}, baseOptions(p).plugins.tooltip, { callbacks: { label: (c) => c.dataset.yAxisID === "y1" ? c.dataset.label + ": " + (c.parsed.y == null ? "—" : c.parsed.y.toLocaleString("es-ES") + " %") : tooltipEur(c) } }) }) })
     });
   }
@@ -328,9 +356,9 @@
       kpiCard({ label: "Open rate campañas", value: c.or, text: fPct(c.or), delta: deltaChip(c.or, pc.or, true, vs) }) +
       kpiCard({ label: "CTR campañas", value: c.ctr, text: fPct(c.ctr), note: "CTOR " + fPct(c.ctor), delta: deltaChip(c.ctr, pc.ctr, true, vs) }) +
       kpiCard({ label: "Tasa de baja", value: c.unsub, text: fPct(c.unsub, 3), note: c.unsub > UNSUB_LIMIT ? "Por encima del 0,3 %" : "Por debajo del 0,3 %", delta: deltaChip(c.unsub, pc.unsub, true, vs, true) }) +
-      kpiCard({ navy: true, label: "Revenue campañas", value: c.rev || 0, text: fEur(c.rev || 0), note: fInt(c.conv || 0) + " pedidos · AOV " + fEur(c.aov), delta: deltaChip(c.rev, pc.rev, false, vs), src: "Fuente: " + plat() }) +
-      kpiCard({ label: "Revenue flujos", value: f.rev || 0, text: fEur(f.rev || 0), note: fInt(f.conv || 0) + " pedidos", delta: deltaChip(f.rev, pf.rev, false, vs), src: "Fuente: " + plat() }) +
-      kpiCard({ label: "€ por destinatario (campañas)", value: c.rpr, text: isNum(c.rpr) ? c.rpr.toLocaleString("es-ES", { maximumFractionDigits: 3 }) + " €" : "—", delta: deltaChip(c.rpr, pc.rpr, false, vs), src: "Fuente: " + plat() }) +
+      kpiCard({ navy: true, label: "Revenue campañas", value: c.rev, text: fEur(c.rev), note: fInt(c.conv || 0) + " pedidos · AOV " + fEur(c.aov), delta: deltaChip(c.rev, pc.rev, false, vs), src: "Fuente: " + plat() }) +
+      kpiCard({ label: "Revenue flujos", value: f.rev, text: fEur(f.rev), note: fInt(f.conv || 0) + " pedidos", delta: deltaChip(f.rev, pf.rev, false, vs), src: "Fuente: " + plat() }) +
+      kpiCard({ label: "€ por destinatario (campañas)", value: c.rpr, text: fRpr(c.rpr), delta: deltaChip(c.rpr, pc.rpr, false, vs), src: "Fuente: " + plat() }) +
       kpiCard({ label: "€ por destinatario (flujos)", value: f.rpr, text: fEur2(f.rpr), delta: deltaChip(f.rpr, pf.rpr, false, vs), src: "Fuente: " + plat() });
 
     const p = palette();
@@ -348,7 +376,7 @@
       type: "bar",
       data: { labels: rows.map((r) => r.label), datasets: [
         { type: "line", label: "Pedidos", data: rows.map((r) => r.camp ? r.camp.conv : 0), borderColor: p.navy2, backgroundColor: p.navy2, borderWidth: 2, tension: .3, yAxisID: "y1", pointRadius: 3 },
-        { type: "line", label: "AOV (€)", data: rows.map((r) => r.camp && r.camp.conv ? +r.camp.aov.toFixed(2) : null), borderColor: p.apagado, backgroundColor: p.apagado, borderDash: [5, 4], borderWidth: 2, tension: .3, yAxisID: "y2", pointRadius: 2, spanGaps: true },
+        { type: "line", label: "AOV (€)", data: rows.map((r) => r.camp && isNum(r.camp.aov) ? +r.camp.aov.toFixed(2) : null), borderColor: p.apagado, backgroundColor: p.apagado, borderDash: [5, 4], borderWidth: 2, tension: .3, yAxisID: "y2", pointRadius: 2, spanGaps: true },
         { label: "Revenue campañas (€)", data: rows.map((r) => r.campRev), backgroundColor: p.azul2, borderRadius: 4 }
       ] },
       options: baseOptions(p, { scales: { x: axis(p, { grid: { display: false } }), y: axis(p, { ticks: { color: p.apagado, callback: eurTick } }), y1: axis(p, { position: "right", grid: { display: false }, ticks: { color: p.apagado } }), y2: { display: false } } })
@@ -384,7 +412,7 @@
       return "<tr><td>" + esc(r.label) + '</td><td class="num">' + fInt(b.total) + '</td><td class="num">' + fInt(b.activos) + '</td><td class="num">' + fInt(b.suscritos) +
         '</td><td class="num">' + fInt(sends) + '</td><td class="num">' + fPct(sends ? opens / sends : null) + '</td><td class="num">' + fPct(sends ? clicks / sends : null) +
         '</td><td class="num">' + fEur(r.flowRev) + '</td><td class="num">' + fEur(r.campRev) + '</td><td class="num"><strong>' + fEur(r.klaviyoRev) +
-        '</strong></td><td class="num">' + fEur(r.shopifyRev) + '</td><td class="num">' + fEur(r.ventaNeta) + '</td><td class="num">' + fPct(r.peso) + "</td></tr>";
+        '</strong></td><td class="num">' + fEur(r.shopifyRev) + '</td><td class="num">' + fEur(r.shopifyCamp) + '</td><td class="num">' + fEur(r.shopifyFlow) + '</td><td class="num">' + fEur(r.ventaNeta) + '</td><td class="num">' + fPct(r.peso) + "</td></tr>";
     }).join("");
   }
 
@@ -411,14 +439,11 @@
       kpiCard({ label: "Conversión", value: c.cr, text: fPct(c.cr, 3), note: fInt(c.conv) + " pedidos", delta: deltaChip(c.cr, pc.cr, true, vs) }) +
       kpiCard({ label: "Tasa de baja", value: c.unsub, text: fPct(c.unsub, 3), delta: deltaChip(c.unsub, pc.unsub, true, vs, true) }) +
       kpiCard({ navy: true, label: "Revenue", value: c.rev, text: fEur(c.rev), note: "AOV " + fEur(c.aov), delta: deltaChip(c.rev, pc.rev, false, vs), src: "Fuente: " + plat() }) +
+      kpiCard({ label: "Revenue · Shopify", value: t.shopifyCamp, text: fEur(t.shopifyCamp), note: splitNote(t), delta: deltaChip(t.shopifyCamp, prev.shopifyCamp, false, vs), src: "Fuente: Shopify" }) +
       kpiCard({ label: "€ por destinatario", value: c.rpr, text: c.rpr.toLocaleString("es-ES", { maximumFractionDigits: 3 }) + " €", delta: deltaChip(c.rpr, pc.rpr, false, vs) });
 
     const camps = t.camps.slice().sort((a, b) => a.date < b.date ? -1 : 1);
-    const top = camps.filter((x) => x.rev > 0).sort((a, b) => b.rev - a.rev).slice(0, 4);
-    $("top-camps").innerHTML = top.length ? top.map((x, i) =>
-      '<article class="top"><span class="top__rank">' + (i + 1) + '</span><h3 class="top__name">' + esc(x.name) + '</h3><span class="top__date">' + esc(x.date) + "</span>" + audienceLine(x) + '<dl class="top__stats">' +
-      stat("Revenue", fEur(x.rev)) + stat("Pedidos", fInt(x.conv)) + stat("€/dest.", (x.rpr || 0).toLocaleString("es-ES", { maximumFractionDigits: 3 })) +
-      stat("OR", fPct(x.or, 1)) + stat("CTOR", fPct(x.ctor, 1)) + stat("Bajas", fPct(x.unsub, 2)) + "</dl></article>").join("") : '<p class="note">Sin revenue en el periodo.</p>';
+    $("top-camps").innerHTML = topCampsHtml(camps);
 
     const p = palette();
     const labels = camps.map((x) => x.name + " · " + x.date.slice(5));
@@ -476,6 +501,45 @@
     const fallback = list.find((b) => !b.match);
     $("brand-note").textContent = "Campañas B2B excluidas. " + (rules.length ? rules.join("; ") + (fallback ? "; el resto se atribuye a «" + fallback.name + "»" : "") + ". " : "") + "La marca de una campaña se puede corregir en «Editar datos».";
   }
+  /** Las cuatro campañas B2C con más revenue de la lista, como tarjetas. */
+  function topCampsHtml(camps) {
+    const top = camps.filter((x) => x.rev > 0).sort((a, b) => b.rev - a.rev).slice(0, TOP_CAMPAIGNS);
+    if (!top.length) return '<p class="note">Sin campañas con revenue en el periodo.</p>';
+    return top.map((x, i) =>
+      '<article class="top"><span class="top__rank">' + (i + 1) + '</span><h3 class="top__name">' + esc(x.name) + '</h3><span class="top__date">' + esc(x.date) + "</span>" + audienceLine(x) + subjectLine(x) + '<dl class="top__stats">' +
+      stat("Revenue", fEur(x.rev)) + stat("Pedidos", fInt(x.conv)) + stat("€/dest.", (x.rpr || 0).toLocaleString("es-ES", { maximumFractionDigits: 3 })) +
+      stat("OR", fPct(x.or, 1)) + stat("CTOR", fPct(x.ctor, 1)) + stat("Bajas", fPct(x.unsub, 2)) + "</dl></article>").join("");
+  }
+
+  function subjectLine(c) {
+    return c.subject ? '<p class="top__aud"><b>Asunto:</b> ' + esc(c.subject) + "</p>" : '<p class="top__aud">Asunto sin registrar</p>';
+  }
+
+  /**
+   * Periodo con el que comparar el rango: el mismo periodo del año anterior si hay datos de todos sus meses;
+   * si no, los meses inmediatamente anteriores con la misma duración.
+   */
+  function comparisonPeriod(months) {
+    const sameMonthsLastYear = yoyMonths(months);
+    if (sameMonthsLastYear.length) return { kind: "Año anterior", months: sameMonthsLastYear };
+    const first = state.months.indexOf(months[0]);
+    const prev = first >= months.length ? state.months.slice(first - months.length, first) : [];
+    return prev.length ? { kind: "Periodo anterior", months: prev } : { kind: "", months: [] };
+  }
+
+  function renderYoyTops(months) {
+    const cmp = comparisonPeriod(months);
+    $("yoy-tops-cur-title").textContent = "Periodo seleccionado · " + rangeLabel(months);
+    $("yoy-tops-cur").innerHTML = topCampsHtml([].concat(...months.map(b2cCampaigns)));
+    if (!cmp.months.length) {
+      $("yoy-tops-prev-title").textContent = "Sin periodo con el que comparar";
+      $("yoy-tops-prev").innerHTML = '<p class="note">No hay meses anteriores con datos.</p>';
+      return;
+    }
+    $("yoy-tops-prev-title").textContent = cmp.kind + " · " + rangeLabel(cmp.months);
+    $("yoy-tops-prev").innerHTML = topCampsHtml([].concat(...cmp.months.map(b2cCampaigns)));
+  }
+
   function audienceLine(c) {
     const aud = c.audiences || {};
     const inc = aud.included || [];
@@ -494,13 +558,13 @@
       '</td><td class="num ' + semClass(c.or, THRESHOLDS.campOr) + '">' + fPct(c.or) + '</td><td class="num ' + semClass(c.ctr, THRESHOLDS.campCtr) + '">' + fPct(c.ctr) +
       '</td><td class="num">' + fPct(c.ctor) + '</td><td class="num ' + semClass(c.cr, THRESHOLDS.campCr) + '">' + fPct(c.cr, 3) +
       '</td><td class="num' + (c.unsub > UNSUB_LIMIT ? " sem sem--bad" : "") + '">' + fPct(c.unsub, 3) + '</td><td class="num">' + fInt(c.conv) +
-      '</td><td class="num"><strong>' + fEur2(c.rev) + '</strong></td><td class="num">' + fEur2(c.aov) + '</td><td class="num">' + (c.rpr || 0).toLocaleString("es-ES", { maximumFractionDigits: 3 }) + " €</td></tr>"
+      '</td><td class="num"><strong>' + fEur2(c.rev) + '</strong></td><td class="num">' + fEur2(c.aov) + '</td><td class="num">' + fRpr(c.rpr) + "</td></tr>"
     ).join("") : '<tr><td colspan="12">Ninguna campaña coincide con la búsqueda.</td></tr>';
   }
 
   /* ---------- Render: flujos ---------- */
   function healthScore(a) {
-    const part = (v, [target, pts]) => Math.min(v / target, 1) * pts;
+    const part = (v, [target, pts]) => isNum(v) ? Math.min(v / target, 1) * pts : 0;
     return Math.round(part(a.rpr, HEALTH.rpr) + part(a.or, HEALTH.or) + part(a.cr, HEALTH.cr) + part(a.recipients, HEALTH.vol));
   }
   const healthLevel = (score) => HEALTH_LEVELS.find(([min]) => score >= min);
@@ -511,7 +575,7 @@
     if (a.rpr >= 2) parts.push("Muy rentable (" + fEur2(a.rpr) + "/dest.).");
     else if (a.rpr >= 0.5) parts.push("Rentabilidad correcta (" + fEur2(a.rpr) + "/dest.).");
     else if (a.rpr > 0) parts.push("Rentabilidad baja (" + fEur2(a.rpr) + "/dest.).");
-    else parts.push("Sin revenue atribuido.");
+    else parts.push(isNum(a.rpr) ? "Sin revenue atribuido." : "Sin revenue de plataforma: medir en Shopify.");
     if (a.or >= 0.45) parts.push("Apertura alta (" + fPct(a.or, 1) + ").");
     else if (a.or < 0.30) parts.push("Apertura floja (" + fPct(a.or, 1) + ").");
     let action = "Revisa asuntos, timing e incentivo.";
@@ -543,8 +607,11 @@
     const pv = prev || {};
     const vs = "vs año ant.";
     const best = list.slice().sort((a, b) => b.agg.rev - a.agg.rev)[0];
+    const shopT = periodTotals(months);
+    const shopPrev = periodTotals(yoyMonths(months));
     $("flow-kpis").innerHTML =
       kpiCard({ navy: true, label: "Revenue flujos", value: all.rev, text: fEur(all.rev), note: fInt(all.conv) + " pedidos", delta: deltaChip(all.rev, pv.rev, false, vs), src: "Fuente: " + plat() }) +
+      kpiCard({ label: "Revenue flujos · Shopify", value: shopT.shopifyFlow, text: fEur(shopT.shopifyFlow), note: splitNote(shopT) + (state.flowSel ? " (todos los flujos)" : ""), delta: deltaChip(shopT.shopifyFlow, shopPrev.shopifyFlow, false, vs), src: "Fuente: Shopify" }) +
       kpiCard({ label: "Envíos de flujos", value: all.recipients, text: fInt(all.recipients), delta: deltaChip(all.recipients, pv.recipients, false, vs) }) +
       kpiCard({ label: "Open rate ponderado", value: all.or, text: fPct(all.or), delta: deltaChip(all.or, pv.or, true, vs) }) +
       kpiCard({ label: "Conversión", value: all.cr, text: fPct(all.cr), delta: deltaChip(all.cr, pv.cr, true, vs) }) +
@@ -559,7 +626,7 @@
       options: baseOptions(p, { indexAxis: "y", plugins: Object.assign(baseOptions(p).plugins, { legend: { display: false }, tooltip: Object.assign({}, baseOptions(p).plugins.tooltip, { callbacks: { label: (c) => fmt(c.parsed.x) } }) }), scales: { x: axis(p, { ticks: { color: p.apagado, callback: fmt } }), y: axis(p, { grid: { display: false } }) } })
     });
     hbar("flowRevenue", sorted.map((x) => x.agg.rev), (v) => fK(v) + " €");
-    hbar("flowRpr", sorted.map((x) => +x.agg.rpr.toFixed(2)), (v) => v.toLocaleString("es-ES") + " €");
+    hbar("flowRpr", sorted.map((x) => isNum(x.agg.rpr) ? +x.agg.rpr.toFixed(2) : null), (v) => v.toLocaleString("es-ES") + " €");
 
     $("flow-table").innerHTML = sorted.map((x) => {
       const a = x.agg;
@@ -633,7 +700,7 @@
     const prevLabel = rangeLabel(prevMonths);
     $("yoy-range").textContent = curLabel + " vs " + prevLabel;
     $("yoy-sub").textContent = months.length + (months.length === 1 ? " mes comparado" : " meses comparados") + " con el mismo mes del año anterior" + (months.length < rangeList.length ? "; se omiten " + (rangeList.length - months.length) + " meses del rango sin equivalente." : ".");
-    const klav = (t) => (t.camp ? t.camp.rev : 0) + (t.flows ? t.flows.rev : 0);
+    const klav = (t) => addKnown(t.camp && t.camp.rev, t.flows && t.flows.rev);
     const sends = (t) => (t.camp ? t.camp.recipients : 0) + (t.flows ? t.flows.recipients : 0);
     const card = (label, c, pv, fmt, isRate, navy) => kpiCard({ navy, label, value: c, text: fmt(c), delta: deltaChip(c, pv, isRate), note: "Año anterior: " + fmt(pv) });
     const g = (t, k) => t.camp ? t.camp[k] : null;
@@ -645,10 +712,12 @@
       card("Open rate campañas", g(cur, "or"), g(prev, "or"), (v) => fPct(v), true) +
       card("CTR campañas", g(cur, "ctr"), g(prev, "ctr"), (v) => fPct(v), true) +
       card("Ingresos canal email (Shopify)", cur.shopifyRev, prev.shopifyRev, fEur) +
+      card("Campañas · Shopify", cur.shopifyCamp, prev.shopifyCamp, fEur) +
+      card("Flujos · Shopify", cur.shopifyFlow, prev.shopifyFlow, fEur) +
       card("Venta neta", cur.ventaNeta, prev.ventaNeta, fEur) +
       card("Peso de venta", cur.peso, prev.peso, (v) => fPct(v), true);
     const p = palette();
-    const series = (list) => list.map((m) => { const s = monthSummary(m); return Math.round(s.klaviyoRev); });
+    const series = (list) => list.map((m) => { const s = monthSummary(m); return isNum(s.klaviyoRev) ? Math.round(s.klaviyoRev) : null; });
     drawChart("yoyChart", {
       type: "line",
       data: { labels: months.map((m) => m.label.slice(0, 3)), datasets: [
@@ -702,28 +771,11 @@
   }
 
   /** Contexto del mes: textarea editable si el visitante puede guardar, texto si no. Conserva lo que se esté escribiendo. */
+  /** Contexto del mes en modo lectura: se escribe en «Editar datos». */
   function contextBlock(m) {
-    const placeholder = "Lo que pasó en el mes y no se ve en los datos: supresiones, incidencias, cambios de plantilla, promociones fuera de email…";
-    if (!(state.canWrite && state.db)) {
-      return '<div class="card context">' + (m.contexto ? '<p class="context__text">' + rich(m.contexto) + "</p>" : '<p class="context__empty">Sin contexto para este mes.</p>') + "</div>";
-    }
-    const draft = Object.prototype.hasOwnProperty.call(state.contextDrafts, m.key) ? state.contextDrafts[m.key] : (m.contexto || "");
-    return '<form class="card context context-form" data-js="context-form"><label class="sr-only" for="ctxText">Contexto de ' + esc(m.label) + "</label>" +
-      '<textarea id="ctxText" class="input textarea" rows="5" maxlength="' + MAX_TEXT + '" data-js="context-text" placeholder="' + esc(placeholder) + '">' + esc(draft) + "</textarea>" +
-      '<div class="form__actions"><button class="btn" type="submit">Guardar contexto</button><span class="form__msg" data-js="context-msg" role="status"></span></div></form>';
-  }
-
-  async function saveContext(event) {
-    event.preventDefault();
-    if (!state.db || !state.canWrite) return;
-    const key = state.analysisKey;
-    const text = $("context-text").value.trim().slice(0, MAX_TEXT);
-    setMsg("context-msg", "Guardando…");
-    try {
-      await state.db.doc(MONTHS_COLLECTION + "/" + key).update({ contexto: text, updatedAt: new Date().toISOString() });
-      delete state.contextDrafts[key];
-      setMsg("context-msg", "Guardado.", "ok");
-    } catch (err) { handleWriteError(err, "context-msg"); }
+    return '<div class="card context">' + (m.contexto
+      ? '<p class="context__text">' + rich(m.contexto) + "</p>"
+      : '<p class="context__empty">Sin contexto para este mes. Se escribe en «Editar datos».</p>') + "</div>";
   }
 
   function li(html, tag) {
@@ -748,7 +800,7 @@
       if (perMonth > CADENCE.high) P.push(li("Cadencia alta: " + metric(perMonth.toFixed(1).replace(".", ",") + " campañas/mes") + ". Por encima de 14-16 al mes la apertura cae.", ["bad", "Reducir"]));
       else if (perMonth < CADENCE.low && months.length > 1) P.push(li("Cadencia baja: " + metric(perMonth.toFixed(1).replace(".", ",") + " campañas/mes") + ". Hay margen hasta 11-14 al mes con audiencia engaged.", ["warn", "Subir"]));
       else P.push(li("Cadencia de " + metric(perMonth.toFixed(1).replace(".", ",") + " campañas/mes") + ".", ["ok", "Cadencia"]));
-      const elig = t.camps.filter((x) => x.recipients >= MIN_RELEVANT_RECIPIENTS);
+      const elig = t.camps.filter((x) => x.recipients >= MIN_RELEVANT_RECIPIENTS && isNum(x.rpr));
       if (elig.length) {
         const best = elig.slice().sort((a, b) => b.rpr - a.rpr)[0];
         const worst = elig.slice().sort((a, b) => a.rpr - b.rpr)[0];
@@ -757,8 +809,8 @@
       }
       if (c.unsub > UNSUB_LIMIT) P.push(li("Tasa de baja del " + metric(fPct(c.unsub, 3)) + ", por encima del 0,3 %. Excluye inactivos y no abridores.", ["bad", "Entregabilidad"]));
     }
-    if (t.flows) {
-      const total = (t.camp ? t.camp.rev : 0) + t.flows.rev;
+    if (t.flows && isNum(t.flows.rev)) {
+      const total = addKnown(t.camp && t.camp.rev, t.flows.rev);
       P.push(li("Los flujos generan " + metric(fEur(t.flows.rev)) + " (" + fPct(total ? t.flows.rev / total : 0, 0) + " del revenue de email) con " + fEur2(t.flows.rpr) + "/dest.", ["good", "Flujos"]));
       const weak = flowsWithAgg(months).filter((x) => x.agg.recipients >= MIN_RELEVANT_FLOW_RECIPIENTS).sort((a, b) => a.agg.rpr - b.agg.rpr)[0];
       if (weak && weak.agg.rpr < 0.5) P.push(li("Flujo a optimizar: «" + esc(weak.name) + "» (" + metric(fEur2(weak.agg.rpr) + "/dest.") + ", OR " + fPct(weak.agg.or, 1) + ").", ["warn", "Optimizar"]));
@@ -769,13 +821,13 @@
     const rows = all.map(monthSummary).filter((r) => r.camp);
     if (rows.length >= 3) {
       const byOr = rows.slice().sort((a, b) => b.camp.or - a.camp.or);
-      T.push(li("Mejor apertura en " + metric(byOr.slice(0, 3).map((r) => r.label).join(", ")) + " y peor en " + metric(byOr.slice(-3).map((r) => r.label).join(", ")) + ". La apertura de 2026 está por encima de 2025 por la segmentación engaged.", ["ok", "Estacionalidad"]));
+      T.push(li("Mejor apertura en " + metric(byOr.slice(0, 3).map((r) => r.label).join(", ")) + " y peor en " + metric(byOr.slice(-3).map((r) => r.label).join(", ")) + ".", ["ok", "Estacionalidad"]));
       const busiest = rows.slice().sort((a, b) => b.camp.n - a.camp.n)[0];
       const medianOr = byOr[Math.floor(byOr.length / 2)].camp.or;
       if (busiest.camp.or < medianOr) T.push(li("El mes con más campañas (" + metric(busiest.label + ", " + busiest.camp.n) + ") tuvo un OR del " + fPct(busiest.camp.or, 1) + ", por debajo de la mediana (" + fPct(medianOr, 1) + "). Más envíos no es mejor.", ["warn", "Frecuencia"]));
     }
     const flowHist = flowsAggFor(all, flowIds());
-    if (flowHist && hist) {
+    if (flowHist && hist && isNum(flowHist.rev) && isNum(hist.rev)) {
       const share = flowHist.rev / (flowHist.rev + hist.rev);
       T.push(li("En todo el histórico los flujos suman " + metric(fEur(flowHist.rev)) + " frente a " + metric(fEur(hist.rev)) + " de campañas: el " + metric(fPct(share, 0)) + " del revenue de email es automatizado.", ["good", "Flujos"]));
       const perFlow = flowIds().map((id) => ({ name: flowName(id), agg: flowAggFor(all, id) })).filter((x) => x.agg);
@@ -816,8 +868,9 @@
   function campaignRow(c) {
     const inc = (c.audiences && c.audiences.included) || [];
     return '<tr data-id="' + esc(c.id || "") + '"' + (c.b2b ? ' class="is-b2b"' : "") + ">" +
-      '<td><select class="input input--type" data-col="b2b" aria-label="Tipo de campaña"><option value="b2c"' + (c.b2b ? "" : " selected") + '>B2C · se incluye</option><option value="b2b"' + (c.b2b ? " selected" : "") + ">B2B · se excluye</option></select></td>" +
+      '<td class="check-cell"><input type="checkbox" class="check" data-col="include"' + (c.b2b ? "" : " checked") + ' aria-label="Incluir «' + esc(c.name || "campaña nueva") + '» en los cálculos"></td>' +
       '<td><input class="input input--name" type="text" maxlength="' + MAX_NAME + '" data-col="name" value="' + esc(c.name || "") + '" aria-label="Nombre de campaña" required></td>' +
+      '<td><input class="input input--aud" type="text" maxlength="300" data-col="subject" value="' + esc(c.subject || "") + '" aria-label="Asunto"></td>' +
       '<td><input class="input input--date" type="date" data-col="date" value="' + esc(c.date || "") + '" aria-label="Fecha" required></td>' +
       '<td><input class="input input--aud" type="text" maxlength="' + MAX_AUDIENCES + '" data-col="included" value="' + esc(inc.join(" | ")) + '" aria-label="Segmentos de envío"></td>' +
       (brands().length ? '<td><select class="input input--type" data-col="marca" aria-label="Marca"><option value="">Automática</option>' + brands().map((b) => '<option value="' + esc(b.name) + '"' + (c.marca === b.name ? " selected" : "") + ">" + esc(b.name) + "</option>").join("") + "</select></td>" : "") +
@@ -839,8 +892,9 @@
     const form = $("month-form");
     form.querySelectorAll("[data-field]").forEach((el) => {
       const v = getPath(m, el.dataset.field);
-      el.value = v == null ? "" : v;
+      el.value = Array.isArray(v) ? v.join("\n") : (v == null ? "" : v);
     });
+    fillStrategyForm();
     $("edit-brand-th").hidden = !brands().length;
     $("edit-campaigns").innerHTML = (m.campaigns || []).slice().sort((a, b) => a.date < b.date ? -1 : 1).map(campaignRow).join("");
     $("edit-flows").innerHTML = flowIds().map((id) => {
@@ -873,14 +927,16 @@
       if (!DATE_RX.test(date) || date.slice(0, 7) !== monthKey) throw new Error("La fecha de «" + name + "» debe estar dentro de " + monthKey + ".");
       const prev = previous[tr.dataset.id] || {};
       const included = get("included").value.split("|").map((s) => s.trim()).filter(Boolean).slice(0, 20);
-      const c = { id: tr.dataset.id || "n" + Date.now().toString(36) + i, name, date, b2b: get("b2b").value === "b2b",
+      const c = { id: tr.dataset.id || "n" + Date.now().toString(36) + i, name, date, b2b: !get("include").checked,
+        subject: get("subject").value.trim().slice(0, 300),
         audiences: { included, excluded: (prev.audiences && prev.audiences.excluded) || [] } };
-      ["recipients", "conv", "rev"].concat(PCT_COLS).forEach((col) => { c[col] = readNumber(get(col), { pct: PCT_COLS.includes(col), max: PCT_COLS.includes(col) ? 100 : null }) || 0; });
+      ["recipients", "conv"].concat(PCT_COLS).forEach((col) => { c[col] = readNumber(get(col), { pct: PCT_COLS.includes(col), max: PCT_COLS.includes(col) ? 100 : null }) || 0; });
+      c.rev = readNumber(get("rev"));
       if (isNum(prev.hour)) c.hour = prev.hour;
       const marca = get("marca") ? get("marca").value : prev.marca;
       if (marca) c.marca = marca;
-      c.aov = c.conv ? +(c.rev / c.conv).toFixed(2) : 0;
-      c.rpr = c.recipients ? +(c.rev / c.recipients).toFixed(5) : 0;
+      c.aov = isNum(c.rev) && c.conv ? +(c.rev / c.conv).toFixed(2) : null;
+      c.rpr = isNum(c.rev) && c.recipients ? +(c.rev / c.recipients).toFixed(5) : null;
       return c;
     });
   }
@@ -891,7 +947,7 @@
       const get = (col) => tr.querySelector('[data-col="' + col + '"]');
       const r = readNumber(get("r"));
       if (!r) return;
-      flows[tr.dataset.flow] = { r, o: readNumber(get("o"), { pct: true, max: 100 }) || 0, c: readNumber(get("c"), { pct: true, max: 100 }) || 0, p: readNumber(get("p")) || 0, rev: readNumber(get("rev")) || 0 };
+      flows[tr.dataset.flow] = { r, o: readNumber(get("o"), { pct: true, max: 100 }) || 0, c: readNumber(get("c"), { pct: true, max: 100 }) || 0, p: readNumber(get("p")) || 0, rev: readNumber(get("rev")) };
     });
     return flows;
   }
@@ -900,7 +956,10 @@
     const base = findMonth(state.editKey);
     const doc = JSON.parse(JSON.stringify(base));
     $("month-form").querySelectorAll("[data-field]").forEach((el) => {
-      const value = el.type === "number" ? readNumber(el) : el.value.trim().slice(0, 300);
+      let value;
+      if (el.type === "number") value = readNumber(el);
+      else if (el.dataset.list) value = linesOf(el.value);
+      else value = el.value.trim().slice(0, el.tagName === "TEXTAREA" ? MAX_TEXT : 300);
       setPath(doc, el.dataset.field, value);
     });
     doc.campaigns = readCampaignRows(base);
@@ -932,27 +991,6 @@
     }
   }
 
-  async function saveAnalysis(event) {
-    event.preventDefault();
-    if (!state.db || !state.canWrite) return;
-    const form = $("analysis-form");
-    const field = (f) => form.querySelector('[data-field="' + f + '"]').value;
-    const payload = {
-      analisis: {
-        resumen: field("analisis.resumen").trim().slice(0, MAX_TEXT),
-        funciono: linesOf(field("analisis.funciono")), corregir: linesOf(field("analisis.corregir")),
-        acciones: linesOf(field("analisis.acciones")), propuestas: linesOf(field("analisis.propuestas"))
-      },
-      updatedAt: new Date().toISOString()
-    };
-    setMsg("analysis-msg", "Guardando…");
-    try {
-      await state.db.doc(MONTHS_COLLECTION + "/" + state.analysisKey).update(payload);
-      setMsg("analysis-msg", "Guardado.", "ok");
-      toggleForm("analysis", false);
-    } catch (err) { handleWriteError(err, "analysis-msg"); }
-  }
-
   async function saveStrategy(event) {
     event.preventDefault();
     if (!state.db || !state.canWrite) return;
@@ -963,7 +1001,6 @@
     try {
       await state.db.doc(CONFIG_DOC).update({ estrategia, updatedAt: new Date().toISOString() });
       setMsg("strategy-msg", "Guardado.", "ok");
-      toggleForm("strategy", false);
     } catch (err) { handleWriteError(err, "strategy-msg"); }
   }
 
@@ -1022,29 +1059,6 @@
     $("flow-picker-label").textContent = n === total ? "Todos los flujos" : n + " de " + total + " flujos";
   }
 
-  function toggleForm(kind, open) {
-    const form = $(kind + "-form");
-    form.hidden = !open;
-    if (kind === "analysis") {
-      $("analysis-view").hidden = open;
-      if (open) fillAnalysisForm();
-    } else {
-      $("strategy-view").hidden = open;
-      if (open) fillStrategyForm();
-    }
-  }
-
-  function fillAnalysisForm() {
-    const m = findMonth(state.analysisKey);
-    const form = $("analysis-form");
-    $("analysis-form-month").textContent = m.label;
-    form.querySelectorAll("[data-field]").forEach((el) => {
-      const v = getPath(m, el.dataset.field);
-      el.value = Array.isArray(v) ? v.join("\n") : (v || "");
-    });
-    setMsg("analysis-msg", "");
-  }
-
   function fillStrategyForm() {
     const est = (state.config && state.config.estrategia) || {};
     $("strategy-form").querySelectorAll("[data-field]").forEach((el) => { el.value = (est[el.dataset.field] || []).join("\n"); });
@@ -1053,7 +1067,8 @@
 
   function applyWriteAccess() {
     const can = state.canWrite && !!state.db;
-    document.querySelectorAll('[data-js="analysis-edit"], [data-js="strategy-edit"], [data-js="add-campaign"], [data-js="add-month-form"]').forEach((el) => { el.hidden = !can; });
+    document.querySelectorAll('[data-js="add-campaign"], [data-js="add-month-form"]').forEach((el) => { el.hidden = !can; });
+    if ($("strategy-form")) $("strategy-form").querySelectorAll("textarea, button").forEach((el) => { el.disabled = !can; });
     if ($("edit-readonly")) $("edit-readonly").hidden = can;
     if ($("month-form")) $("month-form").querySelectorAll("input, button, textarea, select").forEach((el) => { el.disabled = !can; });
   }
@@ -1077,7 +1092,7 @@
       general: () => { renderSummary(months); renderGlobal(months); renderBbdd(months); renderPeriodKpis(months); renderHistory(); },
       campanas: () => renderCampaigns(months),
       flujos: () => renderFlows(months),
-      interanual: () => renderYoy(months),
+      interanual: () => { renderYoy(months); renderYoyTops(months); },
       analisis: () => renderAnalysis(),
       datos: () => renderEditor()
     };
@@ -1120,15 +1135,8 @@
     $("flows-all").addEventListener("click", () => { state.flowSel = null; populateFilters(); render(); });
     $("flows-none").addEventListener("click", () => { state.flowSel = new Set(); populateFilters(); render(); });
     $("camp-search").addEventListener("input", (e) => { state.search = e.target.value; renderCampaignTable(periodTotals(rangeMonths()).camps.slice().sort((a, b) => a.date < b.date ? -1 : 1)); });
-    $("analysis-month").addEventListener("change", (e) => { state.analysisKey = e.target.value; toggleForm("analysis", false); renderAnalysis(); });
-    $("analysis-view").addEventListener("submit", (e) => { if (e.target.matches('[data-js="context-form"]')) saveContext(e); });
-    $("analysis-view").addEventListener("input", (e) => { if (e.target.matches('[data-js="context-text"]')) state.contextDrafts[state.analysisKey] = e.target.value; });
-    $("edit-campaigns").addEventListener("change", (e) => { if (e.target.dataset.col === "b2b") e.target.closest("tr").classList.toggle("is-b2b", e.target.value === "b2b"); });
-    $("analysis-edit").addEventListener("click", () => toggleForm("analysis", true));
-    $("analysis-cancel").addEventListener("click", () => toggleForm("analysis", false));
-    $("analysis-form").addEventListener("submit", saveAnalysis);
-    $("strategy-edit").addEventListener("click", () => toggleForm("strategy", true));
-    $("strategy-cancel").addEventListener("click", () => toggleForm("strategy", false));
+    $("analysis-month").addEventListener("change", (e) => { state.analysisKey = e.target.value; renderAnalysis(); });
+    $("edit-campaigns").addEventListener("change", (e) => { if (e.target.dataset.col === "include") e.target.closest("tr").classList.toggle("is-b2b", !e.target.checked); });
     $("strategy-form").addEventListener("submit", saveStrategy);
     $("edit-month").addEventListener("change", (e) => { state.editKey = e.target.value; renderEditor(); });
     $("month-form").addEventListener("submit", saveMonth);

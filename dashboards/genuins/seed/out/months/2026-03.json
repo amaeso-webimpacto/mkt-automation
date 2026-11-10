@@ -1,0 +1,375 @@
+{
+ "key": "2026-03",
+ "label": "Mar 26",
+ "shopify": {
+  "rev": null,
+  "ventaNeta": null
+ },
+ "bbdd": {
+  "total": null,
+  "activos": 130314,
+  "suscritos": null,
+  "enviamos": 30182
+ },
+ "campaigns": [
+  {
+   "id": "c0",
+   "name": "Novedad Honolulu Lead 01.03",
+   "date": "2026-03-01",
+   "recipients": 30256,
+   "or": 0.39863,
+   "ctr": 0.00446,
+   "ctor": 0.01119,
+   "cr": 0.0004,
+   "unsub": 0.00238,
+   "conv": 12,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "EN",
+     "DE",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c1",
+   "name": "Nuevas H20 03.03",
+   "date": "2026-03-03",
+   "recipients": 30248,
+   "or": 0.42366,
+   "ctr": 0.00678,
+   "ctor": 0.016,
+   "cr": 0.00066,
+   "unsub": 0.00169,
+   "conv": 20,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "EN",
+     "DE",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c2",
+   "name": "Inspiración for him 05.03",
+   "date": "2026-03-05",
+   "recipients": 28897,
+   "or": 0.39803,
+   "ctr": 0.0027,
+   "ctor": 0.00678,
+   "cr": 0.00076,
+   "unsub": 0.00138,
+   "conv": 22,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "EN",
+     "DE",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c3",
+   "name": "Dia de la mujer 08.03",
+   "date": "2026-03-08",
+   "recipients": 30324,
+   "or": 0.39955,
+   "ctr": 0.00237,
+   "ctor": 0.00594,
+   "cr": 0.00026,
+   "unsub": 0.00171,
+   "conv": 8,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c4",
+   "name": "Nuevo lanzamiento Gelan 10.03",
+   "date": "2026-03-10",
+   "recipients": 30354,
+   "or": 0.41504,
+   "ctr": 0.00557,
+   "ctor": 0.01341,
+   "cr": 0.00082,
+   "unsub": 0.00165,
+   "conv": 25,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "EN",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c5",
+   "name": "Entrevista Founder 12.03",
+   "date": "2026-03-12",
+   "recipients": 28969,
+   "or": 0.42473,
+   "ctr": 0.00463,
+   "ctor": 0.01089,
+   "cr": 0.00076,
+   "unsub": 0.0018,
+   "conv": 22,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c6",
+   "name": "Novedades:Zaha OudSandals 15.03",
+   "date": "2026-03-15",
+   "recipients": 30309,
+   "or": 0.4111,
+   "ctr": 0.00904,
+   "ctor": 0.02199,
+   "cr": 0.00026,
+   "unsub": 0.00181,
+   "conv": 8,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c7",
+   "name": "Clásicos de piel 17.03",
+   "date": "2026-03-17",
+   "recipients": 7971,
+   "or": 0.4135,
+   "ctr": 0.00652,
+   "ctor": 0.01578,
+   "cr": 0.0005,
+   "unsub": 0.001,
+   "conv": 4,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "FR",
+     "ENG"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c8",
+   "name": "Regalo día del padre 17.03",
+   "date": "2026-03-17",
+   "recipients": 22310,
+   "or": 0.42196,
+   "ctr": 0.00229,
+   "ctor": 0.00542,
+   "cr": 0.00049,
+   "unsub": 0.00233,
+   "conv": 11,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c9",
+   "name": "La tradición se hereda 19.03",
+   "date": "2026-03-19",
+   "recipients": 28873,
+   "or": 0.40654,
+   "ctr": 0.00353,
+   "ctor": 0.00869,
+   "cr": 0.00042,
+   "unsub": 0.00184,
+   "conv": 12,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "DE",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c10",
+   "name": "Lanzamiento Matilda Novedad 22.03",
+   "date": "2026-03-22",
+   "recipients": 30226,
+   "or": 0.40138,
+   "ctr": 0.00493,
+   "ctor": 0.01228,
+   "cr": 0.00069,
+   "unsub": 0.00169,
+   "conv": 21,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c11",
+   "name": "Lanzamiento Ziar: 24.03",
+   "date": "2026-03-24",
+   "recipients": 30205,
+   "or": 0.4097,
+   "ctr": 0.00752,
+   "ctor": 0.01834,
+   "cr": 0.00063,
+   "unsub": 0.00166,
+   "conv": 19,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c12",
+   "name": "Clásicos de piel 26.03",
+   "date": "2026-03-26",
+   "recipients": 22211,
+   "or": 0.40732,
+   "ctr": 0.00455,
+   "ctor": 0.01116,
+   "cr": 0.00041,
+   "unsub": 0.00176,
+   "conv": 9,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "ES"
+    ],
+    "excluded": []
+   }
+  },
+  {
+   "id": "c13",
+   "name": "Prepara outfits primavera 29.03",
+   "date": "2026-03-29",
+   "recipients": 30144,
+   "or": 0.3896,
+   "ctr": 0.00395,
+   "ctor": 0.01013,
+   "cr": 0.00113,
+   "unsub": 0.00123,
+   "conv": 34,
+   "rev": null,
+   "aov": null,
+   "rpr": null,
+   "b2b": false,
+   "audiences": {
+    "included": [
+     "FR",
+     "DE",
+     "ENG",
+     "ES"
+    ],
+    "excluded": []
+   }
+  }
+ ],
+ "flows": {},
+ "contexto": "",
+ "analisis": {
+  "resumen": "",
+  "funciono": [],
+  "corregir": [],
+  "acciones": [],
+  "propuestas": []
+ },
+ "fuentes": {
+  "klaviyo": "iCommkt (envíos por idioma agrupados por newsletter; tasas sobre efectivos; sin revenue)",
+  "shopify": "Pendiente: conector de Shopify no conectado a la tienda de Genuins",
+  "bbdd": "iCommkt: activos a cierre de mes; total de octubre a 09/11/2026. Suscritos (Masterdata_total): manual. Enviamos: suma de los segmentos de la última newsletter B2C."
+ },
+ "actualizacion": {
+  "fecha": "2026-11-09T12:00:00Z",
+  "modo": "manual"
+ },
+ "updatedAt": "2026-11-09T12:00:00Z"
+}
