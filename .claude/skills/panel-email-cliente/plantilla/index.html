@@ -90,8 +90,15 @@
       <div class="card chart-card"><h3 class="chart-card__title">Suscritos y enviamos (barras), crecimiento de la BBDD y bajas en campañas (líneas)</h3><div class="chart chart--tall"><canvas data-chart="bbddEvolution" role="img" aria-label="Evolución de la base de datos"></canvas></div></div>
     </section>
 
+    <section class="section" data-js="billing-section" hidden>
+      <h2 class="section__title"><span class="tag">03</span>Facturación Klaviyo <span class="pill" data-js="billing-period"></span></h2>
+      <p class="section__sub" data-js="billing-asof"></p>
+      <div class="kpis kpis--3" data-js="billing-kpis"></div>
+      <p class="note">Consumo del plan de Klaviyo en el periodo de facturación en curso el día de la actualización. El periodo de facturación no coincide con el mes natural. La barra avisa a partir del 80 % del plan.</p>
+    </section>
+
     <section class="section">
-      <h2 class="section__title"><span class="tag">03</span>KPIs del periodo <span class="pill" data-js="kpi-period"></span></h2>
+      <h2 class="section__title"><span class="tag">04</span>KPIs del periodo <span class="pill" data-js="kpi-period"></span></h2>
       <div class="kpis kpis--4" data-js="period-kpis"></div>
       <div class="grid-2">
         <div class="card chart-card"><h3 class="chart-card__title">Destinatarios, campañas y open rate por mes</h3><div class="chart"><canvas data-chart="sendsEvolution" role="img" aria-label="Destinatarios, campañas y open rate por mes"></canvas></div></div>
@@ -100,7 +107,7 @@
     </section>
 
     <section class="section">
-      <h2 class="section__title"><span class="tag">04</span>Histórico completo del canal <span class="pill" data-js="hist-range"></span></h2>
+      <h2 class="section__title"><span class="tag">05</span>Histórico completo del canal <span class="pill" data-js="hist-range"></span></h2>
       <p class="section__sub">Esta sección muestra siempre todo el histórico, sin aplicar el filtro de meses.</p>
       <div class="grid-2">
         <div class="card chart-card"><h3 class="chart-card__title">Revenue <span data-platform>Klaviyo</span>: campañas y flujos</h3><div class="chart"><canvas data-chart="histRevenue" role="img" aria-label="Revenue de campañas y flujos por mes"></canvas></div></div>
@@ -291,6 +298,19 @@
           <div><label class="label" for="eSrcK">Fuente <span data-platform>Klaviyo</span></label><input id="eSrcK" class="input" type="text" maxlength="300" data-field="fuentes.klaviyo"></div>
           <div><label class="label" for="eSrcS">Fuente Shopify</label><input id="eSrcS" class="input" type="text" maxlength="300" data-field="fuentes.shopify"></div>
           <div><label class="label" for="eSrcB">Fuente BBDD</label><input id="eSrcB" class="input" type="text" maxlength="300" data-field="fuentes.bbdd"></div>
+        </div>
+      </div>
+      <div class="card" data-js="billing-edit" hidden>
+        <h2 class="section__title">Facturación Klaviyo</h2>
+        <p class="section__sub">Uso del plan en el periodo de facturación en curso el día de la actualización. El porcentaje lo calcula el panel.</p>
+        <div class="form-grid">
+          <div><label class="label" for="eFacPerfUsados">Perfiles activos usados</label><input id="eFacPerfUsados" class="input" type="number" step="1" min="0" data-field="facturacion.perfiles.usados"></div>
+          <div><label class="label" for="eFacPerfMax">Perfiles activos del plan</label><input id="eFacPerfMax" class="input" type="number" step="1" min="0" data-field="facturacion.perfiles.max"></div>
+          <div><label class="label" for="eFacMailUsados">Emails enviados</label><input id="eFacMailUsados" class="input" type="number" step="1" min="0" data-field="facturacion.emails.usados"></div>
+          <div><label class="label" for="eFacMailMax">Emails del plan</label><input id="eFacMailMax" class="input" type="number" step="1" min="0" data-field="facturacion.emails.max"></div>
+          <div><label class="label" for="eFacInicio">Inicio del periodo de facturación</label><input id="eFacInicio" class="input" type="date" data-field="facturacion.periodoInicio"></div>
+          <div><label class="label" for="eFacFin">Fin del periodo de facturación</label><input id="eFacFin" class="input" type="date" data-field="facturacion.periodoFin"></div>
+          <div><label class="label" for="eFacFecha">Fecha del dato</label><input id="eFacFecha" class="input" type="date" data-field="facturacion.fecha"></div>
         </div>
       </div>
       <div class="card">
