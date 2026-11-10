@@ -17,6 +17,9 @@
   const TOP_CAMPAIGNS = 4;
   const MIN_RELEVANT_FLOW_RECIPIENTS = 200;
   const UNSUB_LIMIT = 0.003;
+  const BILLING_PLATFORM = "klaviyo";
+  const BILLING_LEVELS = [[0.95, "bad", "Al límite del plan"], [0.8, "warn", "Cerca del límite del plan"], [0, "ok", ""]];
+  const BILLING_ITEMS = [["perfiles", "Perfiles activos usados", "perfiles"], ["emails", "Emails enviados", "emails"]];
   const CADENCE = { high: 16, low: 8 };
   const THRESHOLDS = {
     campOr: [0.35, 0.25], campCtr: [0.025, 0.015], campCr: [0.0015, 0.001],
@@ -201,6 +204,20 @@
     return Object.assign(b, { enviamosCalculado: calculated && isNum(b.enviamos) });
   }
 
+  const hasBilling = () => plat().toLowerCase() === BILLING_PLATFORM;
+  const fDay = (iso) => DATE_RX.test(iso || "") ? iso.slice(8, 10) + "/" + iso.slice(5, 7) + "/" + iso.slice(0, 4) : "";
+  /** Consumo de un concepto del plan; `pct` es null si falta el consumo o el límite. */
+  function planUsage(item) {
+    const u = item || {};
+    const pct = isNum(u.usados) && isNum(u.max) && u.max > 0 ? u.usados / u.max : null;
+    return { usados: isNum(u.usados) ? u.usados : null, max: isNum(u.max) ? u.max : null, pct };
+  }
+  /** Último mes de la lista con consumo del plan guardado, o null. */
+  function lastBillingMonth(months) {
+    const withData = months.filter((m) => m.facturacion && BILLING_ITEMS.some(([key]) => planUsage(m.facturacion[key]).usados != null));
+    return withData.length ? withData[withData.length - 1] : null;
+  }
+
   function rangeMonths() {
     const all = state.months;
     if (!all.length) return [];
@@ -340,6 +357,35 @@
       ] },
       options: baseOptions(p, { scales: { x: axis(p, { grid: { display: false } }), y: axis(p, { ticks: { color: p.apagado, callback: fK } }), y1: axis(p, { position: "right", grid: { display: false }, ticks: { color: p.apagado, callback: (v) => v + " %" } }) } })
     });
+  }
+
+  function billingCard([key, label, unit], billing) {
+    const u = planUsage(billing[key]);
+    if (u.usados == null) return kpiCard({ label, value: null });
+    const [, level, warning] = BILLING_LEVELS.find(([min]) => (u.pct || 0) >= min);
+    const pctText = fPct(u.pct, 1);
+    const usage = u.pct == null ? "" : '<div class="kpi__usage"><progress class="meter meter--' + level + '" max="1" value="' + Math.min(u.pct, 1) + '" aria-label="' + esc(label + ": " + pctText + " del plan") + '"></progress><span class="kpi__pct">' + esc(pctText) + "</span></div>";
+    const note = u.max == null ? "Sin límite de plan guardado" : "de " + fInt(u.max) + " " + unit + " del plan" + (warning ? " · " + warning : "");
+    return '<div class="kpi"><span class="kpi__label">' + esc(label) + '</span><span class="kpi__value">' + esc(fInt(u.usados)) + "</span>" + usage +
+      '<span class="kpi__note">' + esc(note) + '</span><span class="kpi__src">Fuente: ' + esc(plat()) + "</span></div>";
+  }
+
+  function renderBilling(months) {
+    const section = $("billing-section");
+    section.hidden = !hasBilling();
+    if (section.hidden) return;
+    const m = lastBillingMonth(months);
+    const billing = (m && m.facturacion) || {};
+    const from = fDay(billing.periodoInicio), to = fDay(billing.periodoFin);
+    $("billing-period").textContent = !m ? "Sin datos" : from && to ? "Periodo " + from + " – " + to : "Cierre de " + m.label;
+    $("billing-asof").textContent = !m ? "Todavía no hay consumo del plan guardado en los meses seleccionados." : "Dato guardado con la actualización de " + m.label + (fDay(billing.fecha) ? ", a " + fDay(billing.fecha) : "") + ".";
+    $("billing-kpis").innerHTML = BILLING_ITEMS.map((item) => billingCard(item, billing)).join("");
+  }
+
+  /** Numera las secciones visibles de un panel, para que no queden huecos cuando una se oculta. */
+  function numberSections(panelName) {
+    let n = 0;
+    document.querySelectorAll('[data-panel="' + panelName + '"] > .section:not([hidden]) .section__title > .tag').forEach((tag) => { n += 1; tag.textContent = String(n).padStart(2, "0"); });
   }
 
   function renderPeriodKpis(months) {
@@ -890,6 +936,7 @@
     if (!m) return;
     state.editKey = m.key;
     const form = $("month-form");
+    $("billing-edit").hidden = !hasBilling();
     form.querySelectorAll("[data-field]").forEach((el) => {
       const v = getPath(m, el.dataset.field);
       el.value = Array.isArray(v) ? v.join("\n") : (v == null ? "" : v);
@@ -957,6 +1004,8 @@
     const doc = JSON.parse(JSON.stringify(base));
     $("month-form").querySelectorAll("[data-field]").forEach((el) => {
       let value;
+      if (el.closest("[hidden]")) return;
+      if (el.type === "date" && el.value && !DATE_RX.test(el.value)) throw new Error("Fecha no válida en «" + el.dataset.field + "».");
       if (el.type === "number") value = readNumber(el);
       else if (el.dataset.list) value = linesOf(el.value);
       else value = el.value.trim().slice(0, el.tagName === "TEXTAREA" ? MAX_TEXT : 300);
@@ -1089,8 +1138,8 @@
     const t = periodTotals(months);
     $("filter-info").textContent = months.length + (months.length === 1 ? " mes" : " meses") + " · " + (t.camp ? t.camp.n : 0) + " campañas B2C · " + flowsWithAgg(months).length + " flujos con datos";
     const views = {
-      general: () => { renderSummary(months); renderGlobal(months); renderBbdd(months); renderPeriodKpis(months); renderHistory(); },
-      campanas: () => renderCampaigns(months),
+      general: () => { renderSummary(months); renderGlobal(months); renderBbdd(months); renderBilling(months); numberSections("general"); renderPeriodKpis(months); renderHistory(); },
+      campanas: () => { renderCampaigns(months); numberSections("campanas"); },
       flujos: () => renderFlows(months),
       interanual: () => { renderYoy(months); renderYoyTops(months); },
       analisis: () => renderAnalysis(),

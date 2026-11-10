@@ -40,6 +40,16 @@ Shopify no separa campañas y flujos: el panel reparte el canal Shopify en propo
 - **Total y suscritos:** `ask_analytics_question` pidiendo solo dos recuentos agregados (perfiles totales y perfiles con consentimiento de email «subscribed»). Es una foto del momento, no un cierre de mes.
 - **Enviamos:** destinatarios de la última campaña B2C del mes.
 
+## Facturación (consumo del plan)
+
+`list_billing_usage` devuelve un elemento por concepto del plan, con `usage_used`, `usage_max`, `period_start`, `period_end` y `as_of`. Guardar en `facturacion` del mes que se actualiza solo estos dos:
+
+- `active_profiles` → `perfiles {usados: usage_used, max: usage_max}`.
+- `email_sends` → `emails {usados: usage_used, max: usage_max}`.
+- `periodoInicio` y `periodoFin`: la fecha (`AAAA-MM-DD`) de `period_start` y `period_end`. `fecha`: la de `as_of`.
+
+Es el periodo de facturación **en curso** el día de la actualización, no el mes natural del panel, y la herramienta no da periodos anteriores: no rellenar meses pasados. Si un concepto no viene o no trae límite, guardar `null`. No guardar el porcentaje: lo calcula el panel (usado ÷ límite), que avisa desde el 80 % y marca «al límite» desde el 95 %.
+
 ## Texto del pie (`notaFuentes`)
 
 «Fuentes: Klaviyo (conversión Placed Order de Shopify, canal email) y Shopify (último clic no directo). Venta neta facilitada por el cliente. Activos: recuento de perfiles de correo de Klaviyo el día de actualización. Enviamos: destinatarios de la última campaña B2C del mes. Shopify campañas y flujos: estimados en proporción a la atribución de Klaviyo. Campañas B2B y de mayoristas excluidas de todos los cálculos.»

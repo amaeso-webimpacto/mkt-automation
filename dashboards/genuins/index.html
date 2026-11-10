@@ -79,7 +79,7 @@
     <section class="section">
       <h2 class="section__title"><span class="tag">01</span>Visión global del canal <span class="pill" data-js="global-period"></span></h2>
       <p class="section__sub">Ingresos que Shopify atribuye a email (último clic no directo) sobre la venta neta de la tienda.</p>
-      <div class="kpis kpis--3" data-js="global-kpis"></div>
+      <div class="kpis kpis--5" data-js="global-kpis"></div>
       <div class="card chart-card"><h3 class="chart-card__title">Ingresos canal email, venta neta y peso de venta por mes</h3><div class="chart chart--tall"><canvas data-chart="globalEvolution" role="img" aria-label="Evolución mensual de ingresos de email en Shopify, venta neta y peso de venta"></canvas></div></div>
     </section>
 
@@ -90,8 +90,15 @@
       <div class="card chart-card"><h3 class="chart-card__title">Suscritos y enviamos (barras), crecimiento de la BBDD y bajas en campañas (líneas)</h3><div class="chart chart--tall"><canvas data-chart="bbddEvolution" role="img" aria-label="Evolución de la base de datos"></canvas></div></div>
     </section>
 
+    <section class="section" data-js="billing-section" hidden>
+      <h2 class="section__title"><span class="tag">03</span>Facturación Klaviyo <span class="pill" data-js="billing-period"></span></h2>
+      <p class="section__sub" data-js="billing-asof"></p>
+      <div class="kpis kpis--3" data-js="billing-kpis"></div>
+      <p class="note">Consumo del plan de Klaviyo en el periodo de facturación en curso el día de la actualización. El periodo de facturación no coincide con el mes natural. La barra avisa a partir del 80 % del plan.</p>
+    </section>
+
     <section class="section">
-      <h2 class="section__title"><span class="tag">03</span>KPIs del periodo <span class="pill" data-js="kpi-period"></span></h2>
+      <h2 class="section__title"><span class="tag">04</span>KPIs del periodo <span class="pill" data-js="kpi-period"></span></h2>
       <div class="kpis kpis--4" data-js="period-kpis"></div>
       <div class="grid-2">
         <div class="card chart-card"><h3 class="chart-card__title">Destinatarios, campañas y open rate por mes</h3><div class="chart"><canvas data-chart="sendsEvolution" role="img" aria-label="Destinatarios, campañas y open rate por mes"></canvas></div></div>
@@ -100,7 +107,7 @@
     </section>
 
     <section class="section">
-      <h2 class="section__title"><span class="tag">04</span>Histórico completo del canal <span class="pill" data-js="hist-range"></span></h2>
+      <h2 class="section__title"><span class="tag">05</span>Histórico completo del canal <span class="pill" data-js="hist-range"></span></h2>
       <p class="section__sub">Esta sección muestra siempre todo el histórico, sin aplicar el filtro de meses.</p>
       <div class="grid-2">
         <div class="card chart-card"><h3 class="chart-card__title">Revenue <span data-platform>Klaviyo</span>: campañas y flujos</h3><div class="chart"><canvas data-chart="histRevenue" role="img" aria-label="Revenue de campañas y flujos por mes"></canvas></div></div>
@@ -114,12 +121,12 @@
               <th scope="col">Mes</th><th scope="col" class="num">BBDD total</th><th scope="col" class="num">Activos</th><th scope="col" class="num">Suscritos</th>
               <th scope="col" class="num">Envíos</th><th scope="col" class="num">OR</th><th scope="col" class="num">CTR</th>
               <th scope="col" class="num">Rev. flujos</th><th scope="col" class="num">Rev. campañas</th><th scope="col" class="num">Rev. <span data-platform>Klaviyo</span></th>
-              <th scope="col" class="num">Canal Shopify</th><th scope="col" class="num">Venta neta</th><th scope="col" class="num">Peso</th>
+              <th scope="col" class="num">Canal Shopify</th><th scope="col" class="num">Shopify camp.</th><th scope="col" class="num">Shopify flujos</th><th scope="col" class="num">Venta neta</th><th scope="col" class="num">Peso</th>
             </tr></thead>
             <tbody data-js="hist-table"></tbody>
           </table>
         </div>
-        <p class="note">Envíos, OR y CTR combinan campañas B2C y flujos (<span data-platform>Klaviyo</span>). Rev. <span data-platform>Klaviyo</span> es la atribución de la plataforma; canal Shopify y peso son la atribución de último clic no directo de Shopify.</p>
+        <p class="note">Envíos, OR y CTR combinan campañas B2C y flujos (<span data-platform>Klaviyo</span>). Rev. <span data-platform>Klaviyo</span> es la atribución de la plataforma. Shopify camp. y Shopify flujos reparten el canal Shopify en proporción a esa atribución salvo que el mes tenga el reparto real de Shopify; canal Shopify y peso son la atribución de último clic no directo de Shopify.</p>
       </div>
     </section>
   </div>
@@ -202,6 +209,14 @@
       <div class="kpis kpis--3" data-js="yoy-cards"></div>
       <div class="card chart-card"><h3 class="chart-card__title">Revenue <span data-platform>Klaviyo</span> (campañas y flujos) mes a mes</h3><div class="chart chart--tall"><canvas data-chart="yoyChart" role="img" aria-label="Revenue de la plataforma de email del periodo frente al año anterior"></canvas></div></div>
     </section>
+    <section class="section">
+      <h2 class="section__title"><span class="tag">02</span>Mejores campañas: periodo seleccionado y periodo comparado</h2>
+      <p class="section__sub">Se compara con el mismo periodo del año anterior si hay datos; si no, con los meses inmediatamente anteriores.</p>
+      <div class="grid-2">
+        <div class="tops-col"><h3 class="card__title" data-js="yoy-tops-cur-title"></h3><div class="tops tops--col" data-js="yoy-tops-cur"></div></div>
+        <div class="tops-col"><h3 class="card__title" data-js="yoy-tops-prev-title"></h3><div class="tops tops--col" data-js="yoy-tops-prev"></div></div>
+      </div>
+    </section>
   </div>
 
   <!-- ANÁLISIS -->
@@ -212,29 +227,9 @@
           <label class="label" for="analysisMonth">Mes analizado</label>
           <select id="analysisMonth" class="input" data-js="analysis-month"></select>
         </div>
-        <button class="btn btn--ghost" type="button" data-js="analysis-edit">Editar análisis del mes</button>
       </div>
     </section>
     <div data-js="analysis-view"></div>
-    <form class="card form" data-js="analysis-form" novalidate hidden>
-      <h2 class="section__title">Editar <span data-js="analysis-form-month"></span></h2>
-      <p class="section__sub">Una idea por línea. Usa **texto** para negrita. En propuestas: título | cuándo | descripción.</p>
-      <label class="label" for="fResumen">Resumen ejecutivo</label>
-      <textarea id="fResumen" class="input textarea" rows="4" data-field="analisis.resumen"></textarea>
-      <label class="label" for="fFunciono">Lo que ha funcionado</label>
-      <textarea id="fFunciono" class="input textarea" rows="6" data-field="analisis.funciono" data-list="true"></textarea>
-      <label class="label" for="fCorregir">Lo que hay que corregir</label>
-      <textarea id="fCorregir" class="input textarea" rows="6" data-field="analisis.corregir" data-list="true"></textarea>
-      <label class="label" for="fAcciones">Acciones realizadas en el mes</label>
-      <textarea id="fAcciones" class="input textarea" rows="4" data-field="analisis.acciones" data-list="true"></textarea>
-      <label class="label" for="fPropuestas">Propuestas de newsletters</label>
-      <textarea id="fPropuestas" class="input textarea" rows="6" data-field="analisis.propuestas" data-list="true"></textarea>
-      <div class="form__actions">
-        <button class="btn" type="submit">Guardar</button>
-        <button class="btn btn--ghost" type="button" data-js="analysis-cancel">Cancelar</button>
-        <span class="form__msg" data-js="analysis-msg" role="status"></span>
-      </div>
-    </form>
     <section class="section">
       <h2 class="section__title"><span class="tag">R</span>Recomendaciones calculadas</h2>
       <p class="section__sub">Se recalculan con el filtro de meses y con el histórico completo.</p>
@@ -244,28 +239,9 @@
       </div>
     </section>
     <section class="section">
-      <div class="toolbar">
-        <h2 class="section__title"><span class="tag">E</span>Marco estratégico permanente</h2>
-        <button class="btn btn--ghost" type="button" data-js="strategy-edit">Editar marco</button>
-      </div>
+      <h2 class="section__title"><span class="tag">E</span>Marco estratégico permanente</h2>
       <p class="section__sub">Prioridades que se mantienen de un mes a otro.</p>
       <div class="grid-4" data-js="strategy-view"></div>
-      <form class="card form" data-js="strategy-form" novalidate hidden>
-        <p class="section__sub">Una recomendación por línea: título | prioridad (alta, media, baja) | detalle.</p>
-        <label class="label" for="sCampanas">Campañas</label>
-        <textarea id="sCampanas" class="input textarea" rows="5" data-field="campanas"></textarea>
-        <label class="label" for="sFlujos">Flujos</label>
-        <textarea id="sFlujos" class="input textarea" rows="5" data-field="flujos"></textarea>
-        <label class="label" for="sSegmentacion">Segmentación</label>
-        <textarea id="sSegmentacion" class="input textarea" rows="5" data-field="segmentacion"></textarea>
-        <label class="label" for="sCaptacion">Captación</label>
-        <textarea id="sCaptacion" class="input textarea" rows="4" data-field="captacion"></textarea>
-        <div class="form__actions">
-          <button class="btn" type="submit">Guardar</button>
-          <button class="btn btn--ghost" type="button" data-js="strategy-cancel">Cancelar</button>
-          <span class="form__msg" data-js="strategy-msg" role="status"></span>
-        </div>
-      </form>
     </section>
   </div>
 
@@ -287,19 +263,54 @@
     </section>
     <form class="form" data-js="month-form" novalidate>
       <div class="card">
+        <h2 class="section__title">Contexto del mes</h2>
+        <label class="label" for="eContexto">Lo que pasó en el mes y no se ve en los datos (se muestra en «Análisis y contexto»)</label>
+        <textarea id="eContexto" class="input textarea" rows="5" maxlength="4000" data-field="contexto" placeholder="Ej.: supresión de contactos inactivos, cambio de plantilla, incidencia con el feed, promoción fuera de email…"></textarea>
+      </div>
+      <div class="card">
+        <h2 class="section__title">Análisis del mes</h2>
+        <p class="section__sub">Se muestra en «Análisis y contexto». Una idea por línea; usa **texto** para negrita. En propuestas: título | cuándo | descripción.</p>
+        <label class="label" for="fResumen">Resumen ejecutivo</label>
+        <textarea id="fResumen" class="input textarea" rows="4" maxlength="4000" data-field="analisis.resumen"></textarea>
+        <label class="label" for="fFunciono">Lo que ha funcionado</label>
+        <textarea id="fFunciono" class="input textarea" rows="6" data-field="analisis.funciono" data-list="true"></textarea>
+        <label class="label" for="fCorregir">Lo que hay que corregir</label>
+        <textarea id="fCorregir" class="input textarea" rows="6" data-field="analisis.corregir" data-list="true"></textarea>
+        <label class="label" for="fAcciones">Acciones realizadas en el mes</label>
+        <textarea id="fAcciones" class="input textarea" rows="4" data-field="analisis.acciones" data-list="true"></textarea>
+        <label class="label" for="fPropuestas">Propuestas de newsletters</label>
+        <textarea id="fPropuestas" class="input textarea" rows="6" data-field="analisis.propuestas" data-list="true"></textarea>
+      </div>
+      <div class="card">
         <h2 class="section__title">Shopify y base de datos</h2>
         <div class="form-grid">
           <div><label class="label" for="eShopRev">Ingresos canal email Shopify (€) · último clic no directo</label><input id="eShopRev" class="input" type="number" step="any" min="0" data-field="shopify.rev"></div>
           <div><label class="label" for="eVenta">Venta neta tienda (€) · dato manual</label><input id="eVenta" class="input" type="number" step="any" min="0" data-field="shopify.ventaNeta"></div>
+          <div><label class="label" for="eShopCamp">Shopify campañas (€) · solo si hay reparto real</label><input id="eShopCamp" class="input" type="number" step="any" min="0" data-field="shopify.revCampanas"></div>
+          <div><label class="label" for="eShopFlow">Shopify flujos (€) · solo si hay reparto real</label><input id="eShopFlow" class="input" type="number" step="any" min="0" data-field="shopify.revFlujos"></div>
           <div><label class="label" for="eTotal">BBDD total</label><input id="eTotal" class="input" type="number" step="any" min="0" data-field="bbdd.total"></div>
           <div><label class="label" for="eActivos">BBDD activos · recuento de perfiles de correo</label><input id="eActivos" class="input" type="number" step="any" min="0" data-field="bbdd.activos"></div>
           <div><label class="label" for="eSuscritos">BBDD suscritos email</label><input id="eSuscritos" class="input" type="number" step="any" min="0" data-field="bbdd.suscritos"></div>
           <div><label class="label" for="eEnviamos">BBDD enviamos · última campaña B2C del mes</label><input id="eEnviamos" class="input" type="number" step="any" min="0" data-field="bbdd.enviamos"></div>
         </div>
+        <p class="section__sub">Si los dos campos de reparto real están vacíos, el panel reparte el canal Shopify en proporción a la atribución de la plataforma.</p>
         <div class="form-grid form-grid--wide">
           <div><label class="label" for="eSrcK">Fuente <span data-platform>Klaviyo</span></label><input id="eSrcK" class="input" type="text" maxlength="300" data-field="fuentes.klaviyo"></div>
           <div><label class="label" for="eSrcS">Fuente Shopify</label><input id="eSrcS" class="input" type="text" maxlength="300" data-field="fuentes.shopify"></div>
           <div><label class="label" for="eSrcB">Fuente BBDD</label><input id="eSrcB" class="input" type="text" maxlength="300" data-field="fuentes.bbdd"></div>
+        </div>
+      </div>
+      <div class="card" data-js="billing-edit" hidden>
+        <h2 class="section__title">Facturación Klaviyo</h2>
+        <p class="section__sub">Uso del plan en el periodo de facturación en curso el día de la actualización. El porcentaje lo calcula el panel.</p>
+        <div class="form-grid">
+          <div><label class="label" for="eFacPerfUsados">Perfiles activos usados</label><input id="eFacPerfUsados" class="input" type="number" step="1" min="0" data-field="facturacion.perfiles.usados"></div>
+          <div><label class="label" for="eFacPerfMax">Perfiles activos del plan</label><input id="eFacPerfMax" class="input" type="number" step="1" min="0" data-field="facturacion.perfiles.max"></div>
+          <div><label class="label" for="eFacMailUsados">Emails enviados</label><input id="eFacMailUsados" class="input" type="number" step="1" min="0" data-field="facturacion.emails.usados"></div>
+          <div><label class="label" for="eFacMailMax">Emails del plan</label><input id="eFacMailMax" class="input" type="number" step="1" min="0" data-field="facturacion.emails.max"></div>
+          <div><label class="label" for="eFacInicio">Inicio del periodo de facturación</label><input id="eFacInicio" class="input" type="date" data-field="facturacion.periodoInicio"></div>
+          <div><label class="label" for="eFacFin">Fin del periodo de facturación</label><input id="eFacFin" class="input" type="date" data-field="facturacion.periodoFin"></div>
+          <div><label class="label" for="eFacFecha">Fecha del dato</label><input id="eFacFecha" class="input" type="date" data-field="facturacion.fecha"></div>
         </div>
       </div>
       <div class="card">
@@ -307,11 +318,11 @@
           <h2 class="section__title">Campañas del mes</h2>
           <button class="btn btn--ghost" type="button" data-js="add-campaign">Añadir campaña</button>
         </div>
-        <p class="section__sub">Porcentajes en %. Las campañas de tipo «B2B · se excluye» no cuentan en ningún cálculo. Separa los segmentos de envío con «|».</p>
+        <p class="section__sub">Porcentajes en %. Desmarca «Incluir» en las campañas B2B o de mayoristas: no cuentan en ningún cálculo. Separa los segmentos de envío con «|».</p>
         <div class="table-wrap table-wrap--scroll">
           <table class="table table--edit">
             <caption class="sr-only">Campañas editables del mes</caption>
-            <thead><tr><th scope="col">Tipo</th><th scope="col">Campaña</th><th scope="col">Fecha</th><th scope="col">Segmentos de envío</th><th scope="col">Dest.</th><th scope="col">OR %</th><th scope="col">CTR %</th><th scope="col">CTOR %</th><th scope="col">CR %</th><th scope="col">Bajas %</th><th scope="col">Pedidos</th><th scope="col">Revenue €</th><th scope="col"><span class="sr-only">Quitar</span></th></tr></thead>
+            <thead><tr><th scope="col">Incluir</th><th scope="col">Campaña</th><th scope="col">Asunto</th><th scope="col">Fecha</th><th scope="col">Segmentos de envío</th><th scope="col">Dest.</th><th scope="col">OR %</th><th scope="col">CTR %</th><th scope="col">CTOR %</th><th scope="col">CR %</th><th scope="col">Bajas %</th><th scope="col">Pedidos</th><th scope="col">Revenue €</th><th scope="col"><span class="sr-only">Quitar</span></th></tr></thead>
             <tbody data-js="edit-campaigns"></tbody>
           </table>
         </div>
@@ -330,6 +341,22 @@
         <button class="btn" type="submit">Guardar mes</button>
         <button class="btn btn--ghost" type="button" data-js="month-reset">Descartar cambios</button>
         <span class="form__msg" data-js="month-msg" role="status"></span>
+      </div>
+    </form>
+    <form class="card form" data-js="strategy-form" novalidate>
+      <h2 class="section__title">Marco estratégico permanente</h2>
+      <p class="section__sub">Es del cliente, no de un mes: se guarda aparte. Una recomendación por línea: título | prioridad (alta, media, baja) | detalle.</p>
+      <label class="label" for="sCampanas">Campañas</label>
+      <textarea id="sCampanas" class="input textarea" rows="5" data-field="campanas"></textarea>
+      <label class="label" for="sFlujos">Flujos</label>
+      <textarea id="sFlujos" class="input textarea" rows="5" data-field="flujos"></textarea>
+      <label class="label" for="sSegmentacion">Segmentación</label>
+      <textarea id="sSegmentacion" class="input textarea" rows="5" data-field="segmentacion"></textarea>
+      <label class="label" for="sCaptacion">Captación</label>
+      <textarea id="sCaptacion" class="input textarea" rows="4" data-field="captacion"></textarea>
+      <div class="form__actions">
+        <button class="btn" type="submit">Guardar marco</button>
+        <span class="form__msg" data-js="strategy-msg" role="status"></span>
       </div>
     </form>
   </div>

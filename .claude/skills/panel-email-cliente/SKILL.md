@@ -7,7 +7,7 @@ description: Actualiza cada mes, crea si aún no existe, o exporta en HTML está
 
 | Versión | Fecha | Creadora | Contacto |
 |---|---|---|---|
-| 1.4.0 | 10/11/2026 | Ana I. Maeso | amaeso@webimpacto.es |
+| 1.5.0 | 10/11/2026 | Ana I. Maeso | amaeso@webimpacto.es |
 
 Cada cliente tiene un artefacto llamado **«Panel Email <Cliente>»** con la línea gráfica de la sociedad que factura. Hoy solo existe la plantilla de **D2C eCommerce**: si el cliente factura con Webimpacto u otra sociedad, avisar y no continuar sin su plantilla. Los datos viven en la base de datos del artefacto (`db`); el diseño es el mismo para todos y está en `plantilla/` dentro de esta skill.
 
@@ -44,18 +44,19 @@ Lo normal, una vez creados los paneles, es actualizar.
 | Venta neta | **Siempre dato manual** que facilita el cliente. |
 | BBDD enviamos | Destinatarios de la **última campaña B2C** enviada en el mes. |
 | BBDD total, suscritos y activos | El día de la actualización. Cómo se obtienen depende de la plataforma (`plataformas/`). |
+| Facturación Klaviyo (solo Klaviyo) | Consumo del plan el día de la actualización: perfiles activos y emails enviados, con lo usado y el límite del plan, del periodo de facturación en curso (no coincide con el mes natural). Se guarda en `facturacion` del mes que se actualiza; el porcentaje lo calcula el panel. En el resto de plataformas no se carga y el apartado no se muestra. |
 | Segmento de envío y asunto | Audiencias, listas o segmentos incluidos y excluidos de cada campaña, guardados en `audiences`, y su asunto en `subject`. Las mejores campañas los muestran en sus tarjetas. |
 
 ## Datos del panel
 
 - `config/cliente`: `cliente`, `plataforma` (se muestra en el panel: «Klaviyo», «iCommkt»…), `tienda`, `sociedad`, `conector`, datos propios de la plataforma (por ejemplo `metricaPlacedOrder` en Klaviyo), `flujos` (`id → {name, status}`; `status`: `live`, `manual`, `draft`, `archived` o `deleted`, el estado del flujo en la plataforma el día de la actualización), `marcas` (opcional, solo clientes con varias marcas en la misma cuenta: `[{name}, {name, match}]`; la que no tiene `match` es la marca por defecto y las demás agrupan las campañas cuyo nombre contiene `match`), `flujosPorCrear`, `estrategia` (`campanas`, `flujos`, `segmentacion`, `captacion`; líneas `título | prioridad | detalle`), `criterios`, `notaFuentes` (texto del pie del panel con las fuentes y criterios de ese cliente).
-- `months/<AAAA-MM>`: `key`, `label` («Oct 26»), `shopify {rev, ventaNeta, revCampanas, revFlujos}` (los dos últimos solo con reparto real de Shopify), `bbdd {total, activos, suscritos, enviamos}`, `campaigns` (`id, name, subject, date, hour, recipients, or, ctr, ctor, cr, unsub, conv, rev, aov, rpr, b2b, audiences, marca`; `subject` es el asunto; `hour` es la hora de envío 0-23 en la hora local de la cuenta y alimenta «Análisis por día y hora de envío»; `marca` solo se guarda para corregir a mano la marca que sale del nombre), `flows` (`id → {r, o, c, p, rev}`), `contexto`, `analisis {resumen, funciono, corregir, acciones, propuestas}`, `fuentes {klaviyo, shopify, bbdd}` (`fuentes.klaviyo` guarda la fuente de la plataforma de email, sea cual sea), `actualizacion {fecha, modo}` (`manual` o `programada`), `updatedAt`.
+- `months/<AAAA-MM>`: `key`, `label` («Oct 26»), `shopify {rev, ventaNeta, revCampanas, revFlujos}` (los dos últimos solo con reparto real de Shopify), `bbdd {total, activos, suscritos, enviamos}`, `facturacion {perfiles {usados, max}, emails {usados, max}, periodoInicio, periodoFin, fecha}` (solo Klaviyo; fechas `AAAA-MM-DD`), `campaigns` (`id, name, subject, date, hour, recipients, or, ctr, ctor, cr, unsub, conv, rev, aov, rpr, b2b, audiences, marca`; `subject` es el asunto; `hour` es la hora de envío 0-23 en la hora local de la cuenta y alimenta «Análisis por día y hora de envío»; `marca` solo se guarda para corregir a mano la marca que sale del nombre), `flows` (`id → {r, o, c, p, rev}`), `contexto`, `analisis {resumen, funciono, corregir, acciones, propuestas}`, `fuentes {klaviyo, shopify, bbdd}` (`fuentes.klaviyo` guarda la fuente de la plataforma de email, sea cual sea), `actualizacion {fecha, modo}` (`manual` o `programada`), `updatedAt`.
 - Porcentajes como fracción (0,35 = 35 %). Un dato que la plataforma no da se guarda como `null`, nunca como 0. Lectura y escritura con `ArtifactData`, siempre leyendo antes y escribiendo con `if_version`.
 
 ## Modo B · Actualizar un mes
 
 1. **Leer primero** `months/<mes>` (si existe) y `config/cliente`. Respetar todo lo escrito por el equipo: contexto, venta neta, ingresos Shopify y valores corregidos a mano. No sobrescribirlos.
-2. **Campañas, flujos y BBDD** como indique `plataformas/<plataforma>.md`. Guardar audiencias y hora de envío, y marcar B2B. Revisar siempre el **estado de cada flujo** y guardarlo en `config.flujos`: un flujo con ingresos que pasa a borrador o manual va a `analisis.corregir`.
+2. **Campañas, flujos y BBDD** como indique `plataformas/<plataforma>.md`. Guardar audiencias y hora de envío, y marcar B2B. Revisar siempre el **estado de cada flujo** y guardarlo en `config.flujos`: un flujo con ingresos que pasa a borrador o manual va a `analisis.corregir`. En Klaviyo, también el consumo del plan (`facturacion`).
 3. **Shopify** solo si el conector está en la tienda del cliente.
 4. **Análisis** con el contexto del mes (modo C) y voz D2C (abajo).
 5. Escribir `months/<mes>` con `actualizacion: {fecha: <ahora en ISO>, modo: "manual"}` (o `"programada"` si la lanza la tarea programada) y, si cambia, `config/cliente`.
@@ -102,7 +103,8 @@ El equipo escribe el contexto, el análisis del mes y el marco estratégico en �
 
 | Versión | Fecha | Cambios |
 |---|---|---|
-| 1.4.0 | 10/11/2026 | Estado de cada flujo en la tabla de flujos, con aviso si un flujo con ingresos está en borrador. Bloque «Análisis por día y hora de envío» (campo `hour`). Desglose por marca opcional (`config.marcas` y campo `marca`). |
+| 1.5.0 | 10/11/2026 | Estado de cada flujo en la tabla de flujos, con aviso si un flujo con ingresos está en borrador. Bloque «Análisis por día y hora de envío» (campo `hour`). Desglose por marca opcional (`config.marcas` y campo `marca`). |
+| 1.4.0 | 10/11/2026 | Nuevo apartado «Facturación Klaviyo» en la pestaña General, solo en clientes Klaviyo: perfiles activos usados y emails enviados del periodo de facturación, con su porcentaje sobre el plan. Se guarda en `facturacion` de cada mes y se edita en «Editar datos». Las secciones de General se numeran solas. |
 | 1.3.0 | 09/11/2026 | El análisis del mes y el marco estratégico se editan en «Editar datos» (junto con el contexto); «Análisis y contexto» queda en modo lectura. «Vs año anterior» muestra las mejores campañas del periodo y del periodo comparado (año anterior o, si no hay datos, el periodo anterior). Las tarjetas de mejores campañas muestran el asunto (`subject`), que también se edita en «Editar datos». `nuevo-cliente.js --force` regenera el `index.html` de un panel desde la plantilla antes de publicar. |
 | 1.2.1 | 09/11/2026 | En «Editar datos», cada campaña tiene una casilla «Incluir» (desmarcada = B2B, fuera de los cálculos). La cabecera de las tablas ya no queda por debajo de los campos al desplazarse. |
 | 1.2.0 | 09/11/2026 | Reparto de los ingresos de Shopify entre campañas y flujos en proporción a la atribución de la plataforma (o real si Shopify lo da). Norma explícita: cada panel solo con datos de su cliente. El contexto del mes se edita solo en «Editar datos». |
