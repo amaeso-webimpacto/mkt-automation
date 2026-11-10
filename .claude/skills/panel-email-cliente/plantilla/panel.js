@@ -25,6 +25,9 @@
   const HEALTH_LEVELS = [[70, "good", "Excelente"], [50, "ok", "Sano"], [30, "warn", "A vigilar"], [0, "bad", "Crítico"]];
   const PRIORITY_CLASS = { alta: "bad", media: "warn", baja: "ok" };
   const DEFAULT_FLOWS_TO_CREATE = ["Sunset de inactivos para proteger la entregabilidad", "Segunda compra a 20-30 días", "Aviso de bajada de precio para quien vio o añadió al carrito"];
+  const WEEKDAYS = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
+  const HOUR_SLOT = 2;
+  const FLOW_STATUS = { live: ["good", "Activo"], manual: ["warn", "Manual"], draft: ["bad", "Borrador"], archived: ["off", "Archivado"], deleted: ["off", "Eliminado"] };
   const STRATEGY_BLOCKS = [["campanas", "Campañas"], ["flujos", "Flujos"], ["segmentacion", "Segmentación"], ["captacion", "Captación"]];
 
   /* ---------- Estado ---------- */
@@ -109,6 +112,32 @@
   const plat = () => (state.config && state.config.plataforma) || "Klaviyo";
   const flowIds = () => Object.keys((state.config && state.config.flujos) || {});
   const flowName = (id) => (state.config && state.config.flujos[id] && state.config.flujos[id].name) || id;
+  const flowStatus = (id) => (state.config && state.config.flujos[id] && state.config.flujos[id].status) || null;
+  function flowStatusBadge(id) {
+    const s = FLOW_STATUS[flowStatus(id)];
+    return s ? '<span class="badge badge--' + s[0] + '">' + s[1] + "</span>" : '<span class="muted">—</span>';
+  }
+  /** Marcas del cliente (config/cliente.marcas): [{ name, match }]; la que no tiene `match` es la marca por defecto. */
+  const brands = () => (state.config && Array.isArray(state.config.marcas)) ? state.config.marcas.filter((b) => b && b.name) : [];
+  /** Marca de una campaña: la guardada en `marca` o, si no hay, la primera cuyo `match` aparece en el nombre. */
+  function brandOf(c) {
+    const list = brands();
+    if (c.marca && list.some((b) => b.name === c.marca)) return c.marca;
+    const name = String(c.name || "").toLowerCase();
+    const hit = list.find((b) => b.match && name.includes(String(b.match).toLowerCase()));
+    const fallback = list.find((b) => !b.match);
+    return hit ? hit.name : fallback ? fallback.name : null;
+  }
+  /** Agrupa campañas por una clave y devuelve el agregado de cada grupo, en el orden de `order`. */
+  function groupCampaigns(camps, keyOf, order) {
+    const groups = new Map();
+    camps.forEach((c) => { const k = keyOf(c); if (k == null) return; if (!groups.has(k)) groups.set(k, []); groups.get(k).push(c); });
+    return Array.from(groups.entries()).sort((a, b) => order(a[0]) - order(b[0])).map(([key, list]) => ({ key, list, agg: aggregateCampaigns(list) })).filter((g) => g.agg);
+  }
+  const weekdayIndex = (date) => { const [y, m, d] = date.split("-").map(Number); return (new Date(y, m - 1, d).getDay() + 6) % 7; };
+  const hourSlot = (c) => isNum(c.hour) && c.hour >= 0 && c.hour < 24 ? Math.floor(c.hour / HOUR_SLOT) * HOUR_SLOT : null;
+  const slotLabel = (start) => String(start).padStart(2, "0") + "–" + String((start + HOUR_SLOT) % 24).padStart(2, "0") + " h";
+  const fRpr = (v) => (v || 0).toLocaleString("es-ES", { maximumFractionDigits: 3 }) + " €";
   const selectedFlowIds = () => flowIds().filter((id) => !state.flowSel || state.flowSel.has(id));
 
   function flowAggFor(months, id) {
@@ -371,6 +400,7 @@
       $("camp-kpis").innerHTML = '<p class="note">No hay campañas B2C en el periodo.</p>';
       $("top-camps").innerHTML = ""; $("camp-table").innerHTML = "";
       drawChart("campOrCtr", null); drawChart("campRevenue", null);
+      renderSendTiming([]); renderBrandSplit([], "");
       return;
     }
     const pc = prev.camp || {};
@@ -406,7 +436,45 @@
       data: { labels, datasets: [{ label: "Revenue (€)", data: camps.map((x) => x.rev), backgroundColor: p.azul2, borderRadius: 3 }] },
       options: baseOptions(p, { plugins: Object.assign(baseOptions(p).plugins, { legend: { display: false }, tooltip: Object.assign({}, baseOptions(p).plugins.tooltip, { callbacks: { label: tooltipEur } }) }), scales: { x: axis(p, { grid: { display: false }, ticks: tickOpts }), y: axis(p, { beginAtZero: true, ticks: { color: p.apagado, callback: eurTick } }) } })
     });
+    renderSendTiming(camps);
+    renderBrandSplit(camps, rangeLabel(months));
     renderCampaignTable(camps);
+  }
+
+  function timingRows(groups, labelOf) {
+    return groups.map((g) => '<tr><td class="name">' + esc(labelOf(g.key)) + '</td><td class="num">' + g.agg.n + '</td><td class="num ' + semClass(g.agg.or, THRESHOLDS.campOr) + '">' + fPct(g.agg.or) +
+      '</td><td class="num">' + fPct(g.agg.ctor) + '</td><td class="num">' + fInt(g.agg.conv) + '</td><td class="num">' + fRpr(g.agg.rpr) + '</td><td class="num"><strong>' + fEur(g.agg.rev) + "</strong></td></tr>").join("");
+  }
+  function renderSendTiming(camps) {
+    const empty = (text) => '<tr><td colspan="7">' + text + "</td></tr>";
+    const byDay = groupCampaigns(camps.filter((c) => DATE_RX.test(c.date || "")), (c) => weekdayIndex(c.date), (k) => k);
+    const byHour = groupCampaigns(camps, hourSlot, (k) => k);
+    $("timing-day").innerHTML = byDay.length ? timingRows(byDay, (k) => WEEKDAYS[k]) : empty("Sin campañas en el periodo.");
+    $("timing-hour").innerHTML = byHour.length ? timingRows(byHour, slotLabel) : empty("Sin hora de envío registrada en las campañas del periodo.");
+    const withHour = sum(byHour, (g) => g.agg.n);
+    $("timing-note").textContent = "Día de la semana según la fecha de envío; hora de envío en franjas de " + HOUR_SLOT + " horas (hora local de la cuenta)." +
+      (camps.length && withHour < camps.length ? " " + (camps.length - withHour) + " de " + camps.length + " campañas no tienen hora registrada." : "") + " Con pocos envíos por franja la comparación es orientativa.";
+  }
+
+  function renderBrandSplit(camps, label) {
+    const list = brands();
+    $("brand-section").hidden = !list.length;
+    if (!list.length) return;
+    $("brand-period").textContent = label;
+    const mini = (l, v) => '<div class="mini"><dt>' + esc(l) + "</dt><dd>" + esc(v) + "</dd></div>";
+    $("brand-split").innerHTML = list.map((b, i) => {
+      const own = camps.filter((c) => brandOf(c) === b.name);
+      const a = aggregateCampaigns(own);
+      const head = '<article class="brand' + (i ? " brand--alt" : "") + '"><div class="brand__head"><h3 class="brand__name">' + esc(b.name) + '</h3><span class="brand__count">' + own.length + " camp.</span></div>";
+      if (!a) return head + '<p class="note">Sin campañas en el periodo.</p></article>';
+      const best = own.filter((c) => c.recipients >= MIN_RELEVANT_RECIPIENTS).sort((x, y) => (y.rpr || 0) - (x.rpr || 0))[0];
+      return head + '<dl class="minis">' + mini("Open rate", fPct(a.or)) + mini("CTOR", fPct(a.ctor)) + mini("Destinatarios", fInt(a.recipients)) +
+        mini("Ingresos", fEur(a.rev)) + mini("Pedidos", fInt(a.conv)) + mini("€/dest.", fRpr(a.rpr)) + "</dl>" +
+        (best ? '<p class="note">Más eficiente: <strong>' + esc(best.name) + "</strong> (" + esc(best.date) + ", " + fRpr(best.rpr) + "/dest.)</p>" : "") + "</article>";
+    }).join("");
+    const rules = list.filter((b) => b.match).map((b) => "«" + b.name + "» agrupa las campañas cuyo nombre contiene «" + b.match + "»");
+    const fallback = list.find((b) => !b.match);
+    $("brand-note").textContent = "Campañas B2B excluidas. " + (rules.length ? rules.join("; ") + (fallback ? "; el resto se atribuye a «" + fallback.name + "»" : "") + ". " : "") + "La marca de una campaña se puede corregir en «Editar datos».";
   }
   function audienceLine(c) {
     const aud = c.audiences || {};
@@ -495,7 +563,7 @@
 
     $("flow-table").innerHTML = sorted.map((x) => {
       const a = x.agg;
-      return '<tr><td class="name">' + esc(x.name) + '</td><td class="num">' + a.months + '</td><td class="num">' + fInt(a.recipients) +
+      return '<tr><td class="name">' + esc(x.name) + "</td><td>" + flowStatusBadge(x.id) + '</td><td class="num">' + a.months + '</td><td class="num">' + fInt(a.recipients) +
         '</td><td class="num ' + semClass(a.or, THRESHOLDS.flowOr) + '">' + fPct(a.or) + '</td><td class="num ' + semClass(a.ctr, THRESHOLDS.flowCtr) + '">' + fPct(a.ctr) +
         '</td><td class="num ' + semClass(a.cr, THRESHOLDS.flowCr) + '">' + fPct(a.cr) + '</td><td class="num">' + fInt(a.conv) +
         '</td><td class="num"><strong>' + fEur2(a.rev) + '</strong></td><td class="num">' + fEur2(a.aov) + '</td><td class="num">' + fEur2(a.rpr) + "</td></tr>";
@@ -505,7 +573,7 @@
       const lvl = healthLevel(x.score);
       const a = x.agg;
       return '<article class="health__card"><span class="health__rank">' + (i + 1) + '</span><div class="health__body"><div class="health__head"><span class="health__name">' + esc(x.name) +
-        '</span><span class="badge badge--' + lvl[1] + '">' + lvl[2] + '</span><span class="health__score">Salud <b>' + x.score + "</b>/100</span></div>" +
+        '</span><span class="badge badge--' + lvl[1] + '">' + lvl[2] + "</span>" + (flowStatus(x.id) && flowStatus(x.id) !== "live" ? flowStatusBadge(x.id) : "") + '<span class="health__score">Salud <b>' + x.score + "</b>/100</span></div>" +
         '<div class="health__metrics"><span><b>' + fEur(a.rev) + "</b>Revenue</span><span><b>" + fEur2(a.rpr) + "</b>€/dest.</span><span><b>" + fPct(a.or, 1) + "</b>Open rate</span><span><b>" + fPct(a.cr) + "</b>Conversión</span><span><b>" + fInt(a.recipients) + "</b>Envíos</span></div>" +
         '<p class="health__diag">' + flowDiagnosis(x.name, a) + "</p></div></article>";
     }).join("");
@@ -517,6 +585,7 @@
     const opps = [];
     list.forEach((x) => {
       const a = x.agg;
+      if (flowStatus(x.id) === "draft" && a.rev > 0) opps.unshift(["alta", "Reactivar «" + x.name + "»", "Figura en borrador en " + plat() + " y generó " + fEur(a.rev) + " en el periodo. Mientras esté en borrador no envía: confirmar si es una pausa prevista y volver a activarlo."]);
       if (a.rev === 0 && a.or >= 0.40 && a.recipients >= 100) opps.push(["alta", "Monetizar «" + x.name + "»", "Abre bien (" + fPct(a.or, 1) + " sobre " + fInt(a.recipients) + " envíos) y no genera revenue. Añadir código personal con caducidad y un bloque de producto."]);
     });
     const wb = find("winback");
@@ -751,6 +820,7 @@
       '<td><input class="input input--name" type="text" maxlength="' + MAX_NAME + '" data-col="name" value="' + esc(c.name || "") + '" aria-label="Nombre de campaña" required></td>' +
       '<td><input class="input input--date" type="date" data-col="date" value="' + esc(c.date || "") + '" aria-label="Fecha" required></td>' +
       '<td><input class="input input--aud" type="text" maxlength="' + MAX_AUDIENCES + '" data-col="included" value="' + esc(inc.join(" | ")) + '" aria-label="Segmentos de envío"></td>' +
+      (brands().length ? '<td><select class="input input--type" data-col="marca" aria-label="Marca"><option value="">Automática</option>' + brands().map((b) => '<option value="' + esc(b.name) + '"' + (c.marca === b.name ? " selected" : "") + ">" + esc(b.name) + "</option>").join("") + "</select></td>" : "") +
       "<td>" + numInput("recipients", c.recipients, "1") + "</td>" +
       "<td>" + numInput("or", pctValue(c.or), "0.01", ' max="100"') + "</td>" +
       "<td>" + numInput("ctr", pctValue(c.ctr), "0.01", ' max="100"') + "</td>" +
@@ -771,6 +841,7 @@
       const v = getPath(m, el.dataset.field);
       el.value = v == null ? "" : v;
     });
+    $("edit-brand-th").hidden = !brands().length;
     $("edit-campaigns").innerHTML = (m.campaigns || []).slice().sort((a, b) => a.date < b.date ? -1 : 1).map(campaignRow).join("");
     $("edit-flows").innerHTML = flowIds().map((id) => {
       const d = (m.flows || {})[id] || {};
@@ -805,6 +876,9 @@
       const c = { id: tr.dataset.id || "n" + Date.now().toString(36) + i, name, date, b2b: get("b2b").value === "b2b",
         audiences: { included, excluded: (prev.audiences && prev.audiences.excluded) || [] } };
       ["recipients", "conv", "rev"].concat(PCT_COLS).forEach((col) => { c[col] = readNumber(get(col), { pct: PCT_COLS.includes(col), max: PCT_COLS.includes(col) ? 100 : null }) || 0; });
+      if (isNum(prev.hour)) c.hour = prev.hour;
+      const marca = get("marca") ? get("marca").value : prev.marca;
+      if (marca) c.marca = marca;
       c.aov = c.conv ? +(c.rev / c.conv).toFixed(2) : 0;
       c.rpr = c.recipients ? +(c.rev / c.recipients).toFixed(5) : 0;
       return c;

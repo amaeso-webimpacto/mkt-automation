@@ -7,7 +7,7 @@ description: Actualiza cada mes, crea si aún no existe, o exporta en HTML está
 
 | Versión | Fecha | Creadora | Contacto |
 |---|---|---|---|
-| 1.1.0 | 07/11/2026 | Ana I. Maeso | amaeso@webimpacto.es |
+| 1.2.0 | 10/11/2026 | Ana I. Maeso | amaeso@webimpacto.es |
 
 Cada cliente tiene un artefacto llamado **«Panel Email <Cliente>»** con la línea gráfica de la sociedad que factura. Hoy solo existe la plantilla de **D2C eCommerce**: si el cliente factura con Webimpacto u otra sociedad, avisar y no continuar sin su plantilla. Los datos viven en la base de datos del artefacto (`db`); el diseño es el mismo para todos y está en `plantilla/` dentro de esta skill.
 
@@ -37,14 +37,14 @@ Lo normal, una vez creados los paneles, es actualizar.
 
 ## Datos del panel
 
-- `config/cliente`: `cliente`, `plataforma` (se muestra en el panel: «Klaviyo», «iCommkt»…), `tienda`, `sociedad`, `conector`, datos propios de la plataforma (por ejemplo `metricaPlacedOrder` en Klaviyo), `flujos` (`id → {name, status}`), `flujosPorCrear`, `estrategia` (`campanas`, `flujos`, `segmentacion`, `captacion`; líneas `título | prioridad | detalle`), `criterios`, `notaFuentes` (texto del pie del panel con las fuentes y criterios de ese cliente).
-- `months/<AAAA-MM>`: `key`, `label` («Oct 26»), `shopify {rev, ventaNeta}`, `bbdd {total, activos, suscritos, enviamos}`, `campaigns` (`id, name, date, recipients, or, ctr, ctor, cr, unsub, conv, rev, aov, rpr, b2b, audiences`), `flows` (`id → {r, o, c, p, rev}`), `contexto`, `analisis {resumen, funciono, corregir, acciones, propuestas}`, `fuentes {klaviyo, shopify, bbdd}` (`fuentes.klaviyo` guarda la fuente de la plataforma de email, sea cual sea), `actualizacion {fecha, modo}` (`manual` o `programada`), `updatedAt`.
+- `config/cliente`: `cliente`, `plataforma` (se muestra en el panel: «Klaviyo», «iCommkt»…), `tienda`, `sociedad`, `conector`, datos propios de la plataforma (por ejemplo `metricaPlacedOrder` en Klaviyo), `flujos` (`id → {name, status}`; `status`: `live`, `manual`, `draft`, `archived` o `deleted`, el estado del flujo en la plataforma el día de la actualización), `marcas` (opcional, solo clientes con varias marcas en la misma cuenta: `[{name}, {name, match}]`; la que no tiene `match` es la marca por defecto y las demás agrupan las campañas cuyo nombre contiene `match`), `flujosPorCrear`, `estrategia` (`campanas`, `flujos`, `segmentacion`, `captacion`; líneas `título | prioridad | detalle`), `criterios`, `notaFuentes` (texto del pie del panel con las fuentes y criterios de ese cliente).
+- `months/<AAAA-MM>`: `key`, `label` («Oct 26»), `shopify {rev, ventaNeta}`, `bbdd {total, activos, suscritos, enviamos}`, `campaigns` (`id, name, date, hour, recipients, or, ctr, ctor, cr, unsub, conv, rev, aov, rpr, b2b, audiences, marca`; `hour` es la hora de envío 0-23 en la hora local de la cuenta y alimenta «Análisis por día y hora de envío»; `marca` solo se guarda para corregir a mano la marca que sale del nombre), `flows` (`id → {r, o, c, p, rev}`), `contexto`, `analisis {resumen, funciono, corregir, acciones, propuestas}`, `fuentes {klaviyo, shopify, bbdd}` (`fuentes.klaviyo` guarda la fuente de la plataforma de email, sea cual sea), `actualizacion {fecha, modo}` (`manual` o `programada`), `updatedAt`.
 - Porcentajes como fracción (0,35 = 35 %). Un dato que la plataforma no da se guarda como `null`, nunca como 0. Lectura y escritura con `ArtifactData`, siempre leyendo antes y escribiendo con `if_version`.
 
 ## Modo B · Actualizar un mes
 
 1. **Leer primero** `months/<mes>` (si existe) y `config/cliente`. Respetar todo lo escrito por el equipo: contexto, venta neta, ingresos Shopify y valores corregidos a mano. No sobrescribirlos.
-2. **Campañas, flujos y BBDD** como indique `plataformas/<plataforma>.md`. Guardar audiencias y marcar B2B.
+2. **Campañas, flujos y BBDD** como indique `plataformas/<plataforma>.md`. Guardar audiencias y hora de envío, y marcar B2B. Revisar siempre el **estado de cada flujo** y guardarlo en `config.flujos`: un flujo con ingresos que pasa a borrador o manual va a `analisis.corregir`.
 3. **Shopify** solo si el conector está en la tienda del cliente.
 4. **Análisis** con el contexto del mes (modo C) y voz D2C (abajo).
 5. Escribir `months/<mes>` con `actualizacion: {fecha: <ahora en ISO>, modo: "manual"}` (o `"programada"` si la lanza la tarea programada) y, si cambia, `config/cliente`.
@@ -87,5 +87,6 @@ El equipo escribe el contexto en «Análisis y contexto». Al actualizar, o cuan
 
 | Versión | Fecha | Cambios |
 |---|---|---|
+| 1.2.0 | 10/11/2026 | Estado de cada flujo en la tabla de flujos, con aviso si un flujo con ingresos está en borrador. Bloque «Análisis por día y hora de envío» (campo `hour`). Desglose por marca opcional (`config.marcas` y campo `marca`). |
 | 1.1.0 | 07/11/2026 | Instrucciones por plataforma en `plataformas/` (Klaviyo e iCommkt). El panel muestra la plataforma de cada cliente y el pie de fuentes se configura por cliente (`notaFuentes`). Bloque de versión y autoría. |
 | 1.0.0 | 06/11/2026 | Primera versión: panel D2C con base de datos, criterios comunes, actualización mensual, contexto y versión estática. Basada en Klaviyo (Azarey). |
