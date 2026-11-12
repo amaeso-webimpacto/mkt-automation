@@ -541,7 +541,7 @@
       kpiCard({ label: "Tasa de baja", value: c.unsub, text: fPct(c.unsub, 3), delta: deltaChip(c.unsub, pc.unsub, true, vs, true) }) +
       kpiCard({ navy: true, label: "Revenue", value: c.rev, text: fEur(c.rev), note: "AOV " + fEur(c.aov), delta: deltaChip(c.rev, pc.rev, false, vs), src: "Fuente: " + plat() }) +
       kpiCard({ label: "Revenue · Shopify", value: t.shopifyCamp, text: fEur(t.shopifyCamp), note: splitNote(t), delta: deltaChip(t.shopifyCamp, prev.shopifyCamp, false, vs), src: "Fuente: Shopify" }) +
-      kpiCard({ label: "€ por destinatario", value: c.rpr, text: c.rpr.toLocaleString("es-ES", { maximumFractionDigits: 3 }) + " €", delta: deltaChip(c.rpr, pc.rpr, false, vs) });
+      kpiCard({ label: "€ por destinatario", value: c.rpr, text: fRpr(c.rpr), delta: deltaChip(c.rpr, pc.rpr, false, vs) });
 
     const camps = t.camps.slice().sort((a, b) => a.date < b.date ? -1 : 1);
     $("top-camps").innerHTML = topCampsHtml(camps);

@@ -7,7 +7,7 @@ description: Actualiza cada mes, crea si aún no existe, o exporta en HTML está
 
 | Versión | Fecha | Creadora | Contacto |
 |---|---|---|---|
-| 1.8.0 | 12/11/2026 | Ana I. Maeso | amaeso@webimpacto.es |
+| 1.8.1 | 12/11/2026 | Ana I. Maeso | amaeso@webimpacto.es |
 
 Cada cliente tiene un artefacto llamado **«Panel Email <Cliente>»** con la línea gráfica de la sociedad que factura. Hoy solo existe la plantilla de **D2C eCommerce**: si el cliente factura con Webimpacto u otra sociedad, avisar y no continuar sin su plantilla. Los datos viven en la base de datos del artefacto (`db`); el diseño es el mismo para todos y está en `plantilla/` dentro de esta skill.
 
@@ -98,6 +98,7 @@ El equipo escribe el contexto, el análisis del mes y el marco estratégico en �
 
 | Versión | Fecha | Cambios |
 |---|---|---|
+| 1.8.1 | 12/11/2026 | La pestaña Campañas ya no falla en campañas sin revenue (iCommkt): «€ por destinatario» muestra «—». Hay que republicar el `panel.js` de los paneles iCommkt ya creados. |
 | 1.8.0 | 12/11/2026 | Solo clientes iCommkt: carpeta de Drive de los exports de cada cliente (`config.carpetaExports`), que se usa si no se pega un enlace; se pide al crear el panel. La venta neta sigue siendo siempre dato manual. |
 | 1.7.0 | 12/11/2026 | Norma iCommkt: el conector de Shopify de la tienda del cliente es obligatorio y, si falta, la actualización se para con un aviso. Lectura del export de iCommkt desde un enlace de Drive. `config.exclusiones` para excluir por defecto envíos ajenos, recuperables en «Editar datos». Limpieza de filas duplicadas en «Criterios comunes». |
 | 1.6.3 | 12/11/2026 | Los gráficos de evolución mensual (canal email y venta neta, BBDD, envíos, revenue de campañas y flujos por mes) muestran siempre todo el histórico; los meses fuera del periodo seleccionado salen atenuados. Los gráficos por campaña, flujo o mercado siguen el periodo. |
