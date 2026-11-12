@@ -65,7 +65,7 @@ Para cada cliente confirmado:
    - `name`: «Panel Email <Cliente> · actualización mensual».
    - `cron_expression`: `CRON_TZ=Europe/Madrid <minuto> <hora> <día> * *`. Minuto no redondo (ni :00 ni :30). Con varios clientes, separar cada tarea **10 minutos** de la anterior.
    - `create_new_session_on_fire: true` (cada mes, sesión limpia).
-   - `connectors`: solo `[<conector de la plataforma>, "Shopify", "Gmail"]`, con los nombres exactos de la persona. Nunca conectores de otros clientes.
+   - `connectors`: solo `[<conector de la plataforma>, "Shopify", "Gmail"]` (en iCommkt, añadir también el conector de Google Drive para leer el export de su `carpetaExports`), con los nombres exactos de la persona. Nunca conectores de otros clientes.
    - `initiation: "human_request"`.
 3. Guardar el `id` y la `next_run_at` que devuelve.
 

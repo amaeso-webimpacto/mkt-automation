@@ -45,7 +45,12 @@ En iCommkt una **campaña es un contenedor** (en Genuins, uno por mes e idioma: 
 
 **Pendiente de verificar con un export real** (nombre de columnas, formato y si trae una fila por envío o por contacto). Hasta entonces, cuadrar el recuento de envíos y alguna cifra con el informe anterior del cliente antes de darlo por bueno.
 
-Si quien pide la actualización pega un enlace de Drive a un export de iCommkt, ese export es la **fuente de las métricas de campañas del mes**, en lugar de `get_campaign_performance`: sus aperturas, clics y bajas pueden no coincidir con las del conector, así que no se mezclan las dos fuentes en un mismo mes. Dejarlo dicho en `fuentes.klaviyo` («Export de iCommkt, fecha») y en `notaFuentes`. La BBDD y la comprobación de la cuenta siguen saliendo del conector.
+**Dónde está el export del mes**, por este orden:
+1. El enlace de Drive que pegue quien pide la actualización.
+2. La carpeta `config/cliente.carpetaExports` del panel (cada cliente tiene la suya; los exports se suben el día 5 de cada mes). Buscar en ella solo el archivo del mes. No buscar nunca en carpetas de otros clientes ni abrir su contenido.
+3. Si no hay ni enlace ni carpeta, o el archivo del mes aún no está subido, usar el conector y decirlo en el resumen. Si falta `carpetaExports`, pedirla y guardarla en `config/cliente`.
+
+Si hay varios archivos candidatos para el mes, preguntar en vez de elegir. Con un export, ese export es la **fuente de las métricas de campañas del mes**, en lugar de `get_campaign_performance`: sus aperturas, clics y bajas pueden no coincidir con las del conector, así que no se mezclan las dos fuentes en un mismo mes. Dejarlo dicho en `fuentes.klaviyo` («Export de iCommkt, fecha») y en `notaFuentes`. La BBDD y la comprobación de la cuenta siguen saliendo del conector.
 
 1. Leerlo con el conector de Google Drive (`get_file_metadata` y `download_file_content` o `read_file_content`). Si no abre por permisos, avisar y pedir acceso; no improvisar.
 2. No leerlo ni imprimirlo entero: comprobar nombre, tipo, tamaño, número de filas, columnas y primeras filas, procesarlo con un script que escriba un JSON y mostrar solo el resumen.
