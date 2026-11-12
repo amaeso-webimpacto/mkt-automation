@@ -20,7 +20,7 @@ Cada persona del equipo deja programada, a su nombre, la actualización mensual 
 | Plataforma | ¿Se puede programar? | Datos propios que necesita la tarea |
 |---|---|---|
 | Klaviyo | Sí | Conector `Klaviyo-<Cliente>-todo` e id de la métrica Placed Order de Shopify (`config/cliente.metricaPlacedOrder` del panel). |
-| iCommkt | Sí, con datos manuales | Conector `icomm-<cliente>`. Flujos y suscritos siguen siendo manuales (ver `plataformas/icommkt.md`): el correo los lista como pendientes. |
+| iCommkt | Sí, con datos manuales | Conector `icomm-<cliente>` y **conector de Shopify de la tienda del cliente, obligatorio**: si falta, la tarea se para y lo avisa en el correo sin escribir el mes. Flujos y suscritos siguen siendo manuales (ver `plataformas/icommkt.md`): el correo los lista como pendientes. |
 | HubSpot, Connectif | **No todavía** | La skill del panel no tiene instrucciones para estas plataformas. Decirlo, no crear la tarea y seguir con el resto de clientes. |
 
 ## Paso 1 · Recoger los datos

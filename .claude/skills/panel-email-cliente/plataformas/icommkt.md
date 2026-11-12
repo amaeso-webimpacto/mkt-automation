@@ -10,7 +10,7 @@ Conector por cliente: `icomm-<cliente>` (herramientas `mcp__icomm-<cliente>__*`)
 
 | Dato | Criterio |
 |---|---|
-| Ingresos del canal | **Solo Shopify** (último clic no directo), nunca de iCommkt. iCommkt no da revenue por envío: `rev`, `aov` y `rpr` de campañas y flujos se guardan como `null`. |
+| Ingresos del canal | **Solo Shopify** (último clic no directo), nunca de iCommkt, y **con el conector de Shopify de la tienda del cliente obligatorio**: si no está, parar con un warning (ver «Ingresos»). iCommkt no da revenue por envío: `rev`, `aov` y `rpr` de campañas y flujos se guardan como `null`. |
 | Flujos | Salen **de Shopify y de iCommkt**. El conector no los da (ver «Flujos»): se cargan a mano, indicando en el nombre de cada flujo de qué herramienta sale. |
 | BBDD suscritos | Contactos del segmento **Masterdata_total** o, si hay uno por idioma, la **suma** de esos segmentos. |
 | BBDD activos | Contactos activos que da iCommkt (`get_contacts_overview`). |
@@ -23,6 +23,7 @@ Ventana de atribución de 5 días (confirmado por el equipo): el mes se cierra *
 
 ## Ingresos
 
+- **Norma para todos los clientes iCommkt: el conector de Shopify es obligatorio.** Antes de cargar nada, `get-shop-info` y confirmar que la tienda es la del cliente. Si el conector no está conectado o apunta a otra tienda, lanzar un warning claro («Falta el conector de Shopify de <tienda>: reconéctalo y vuelve a lanzar la actualización») y **parar la tarea sin escribir el mes**. No se deja el ingreso como dato manual ni se usa el revenue de iCommkt como sustituto.
 - **Fuente principal: Shopify, último clic no directo** (como en todos los clientes). Si el cliente tiene el reparto real de Shopify entre flujos y campañas, guardarlo en `shopify.revCampanas` y `shopify.revFlujos`; si no, el panel lo estima en proporción a la atribución de la plataforma.
 - `get_icomm_attribution` usa las rutas de conversión de Google Analytics 4 (cualquier compra con iCommkt en la ruta). **No es último clic no directo**: no mezclarlo con los ingresos de Shopify. Si se muestra, como dato de referencia y con su nombre.
 - El revenue que da iCommkt por envío, si lo da, también es solo referencia.
@@ -39,6 +40,17 @@ En iCommkt una **campaña es un contenedor** (en Genuins, uno por mes e idioma: 
 6. **Envíos con `sends` 0:** hay muchos (duplicados o cancelados, a veces con el mismo nombre que el envío real). Se descartan. Algunos traen `sends` 0 y `effective` negativo pero sí aperturas y compras (en Genuins, «Inspiración Vacaciones 05.04» e «Honolulu Lead 10.05»): sin destinatarios no se pueden calcular tasas, así que se descartan también y se avisa en el resumen.
 7. Las fechas de `scheduled_at` vienen con huso −03:00: usar la fecha local de la cuenta (Romance Standard Time) si el envío cae cerca de medianoche.
 8. Segmentos de envío: **el conector no los da** (`list_audiences` no lee las audiencias de la tienda «Email Marketing» y la de «Shopify» solo devuelve categorías). B2B se marca por nombre; si hay dudas, preguntar al equipo.
+
+## Export de iCommkt (enlace de Drive)
+
+**Pendiente de verificar con un export real** (nombre de columnas, formato y si trae una fila por envío o por contacto). Hasta entonces, cuadrar el recuento de envíos y alguna cifra con el informe anterior del cliente antes de darlo por bueno.
+
+Si quien pide la actualización pega un enlace de Drive a un export de iCommkt, ese export es la **fuente de las métricas de campañas del mes**, en lugar de `get_campaign_performance`: sus aperturas, clics y bajas pueden no coincidir con las del conector, así que no se mezclan las dos fuentes en un mismo mes. Dejarlo dicho en `fuentes.klaviyo` («Export de iCommkt, fecha») y en `notaFuentes`. La BBDD y la comprobación de la cuenta siguen saliendo del conector.
+
+1. Leerlo con el conector de Google Drive (`get_file_metadata` y `download_file_content` o `read_file_content`). Si no abre por permisos, avisar y pedir acceso; no improvisar.
+2. No leerlo ni imprimirlo entero: comprobar nombre, tipo, tamaño, número de filas, columnas y primeras filas, procesarlo con un script que escriba un JSON y mostrar solo el resumen.
+3. Si trae datos personales de contactos (correo, teléfono, nombre), no volcarlos ni guardarlos en el panel: solo agregados por envío.
+4. Mismo tratamiento que en «Campañas»: agrupar por newsletter, tasas recalculadas desde los recuentos, descartar envíos con 0 enviados y marcar B2B y `config.exclusiones` antes de calcular. Filas dudosas: preguntar al equipo.
 
 ## Flujos (automatizaciones)
 
