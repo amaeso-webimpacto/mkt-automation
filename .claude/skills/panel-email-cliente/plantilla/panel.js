@@ -137,6 +137,29 @@
     const fallback = list.find((b) => !b.match);
     return hit ? hit.name : fallback ? fallback.name : null;
   }
+  /** Mercados del cliente (config/cliente.mercados): [{ code, name }]; `code` es el prefijo del nombre de la campaña («ES - …»). */
+  const markets = () => (state.config && Array.isArray(state.config.mercados)) ? state.config.mercados.filter((m) => m && m.code) : [];
+  const OTHER_MARKET = "__otros";
+  /** Mercado de una campaña: el guardado en `mercado` o el prefijo de dos letras de su nombre; si no es un mercado configurado, «Otros». */
+  function marketOf(c) {
+    const codes = markets().map((m) => m.code);
+    if (c.mercado && codes.includes(c.mercado)) return c.mercado;
+    const hit = /^\s*([A-Za-z]{2})\s*-/.exec(String(c.name || ""));
+    const code = hit ? hit[1].toUpperCase() : null;
+    return codes.includes(code) ? code : OTHER_MARKET;
+  }
+  const marketLabel = (code) => { if (code === OTHER_MARKET) return "Otros"; const m = markets().find((x) => x.code === code); return m && m.name ? m.name + " (" + code + ")" : code; };
+  /** Pestañas que el cliente no quiere ver (config/cliente.pestanasOcultas): nombres de `data-tab`, salvo «general» y «datos». */
+  const hiddenTabs = () => (state.config && Array.isArray(state.config.pestanasOcultas)) ? state.config.pestanasOcultas.filter((t) => t !== "general" && t !== "datos") : [];
+  /** Oculta los botones de las pestañas ocultas y, si la abierta es una de ellas, vuelve a General. */
+  function applyHiddenTabs() {
+    const hidden = hiddenTabs();
+    document.querySelectorAll("[data-tab]").forEach((b) => { b.hidden = hidden.includes(b.dataset.tab); });
+    if (hidden.includes(state.tab)) {
+      state.tab = "general";
+      document.querySelectorAll("[data-tab]").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.tab === state.tab)));
+    }
+  }
   /** Agrupa campañas por una clave y devuelve el agregado de cada grupo, en el orden de `order`. */
   function groupCampaigns(camps, keyOf, order) {
     const groups = new Map();
@@ -474,7 +497,7 @@
       $("camp-kpis").innerHTML = '<p class="note">No hay campañas B2C en el periodo.</p>';
       $("top-camps").innerHTML = ""; $("camp-table").innerHTML = "";
       drawChart("campOrCtr", null); drawChart("campRevenue", null);
-      renderSendTiming([]); renderBrandSplit([], "");
+      renderSendTiming([]); renderBrandSplit([], ""); renderMarketSplit([], "");
       return;
     }
     const pc = prev.camp || {};
@@ -509,6 +532,7 @@
     });
     renderSendTiming(camps);
     renderBrandSplit(camps, rangeLabel(months));
+    renderMarketSplit(camps, rangeLabel(months));
     renderCampaignTable(camps);
   }
 
@@ -546,6 +570,31 @@
     const rules = list.filter((b) => b.match).map((b) => "«" + b.name + "» agrupa las campañas cuyo nombre contiene «" + b.match + "»");
     const fallback = list.find((b) => !b.match);
     $("brand-note").textContent = "Campañas B2B excluidas. " + (rules.length ? rules.join("; ") + (fallback ? "; el resto se atribuye a «" + fallback.name + "»" : "") + ". " : "") + "La marca de una campaña se puede corregir en «Editar datos».";
+  }
+  function renderMarketSplit(camps, label) {
+    const list = markets();
+    $("market-section").hidden = !list.length;
+    if (!list.length) { drawChart("marketOrCtr", null); return; }
+    $("market-period").textContent = label;
+    const order = (k) => { const i = list.findIndex((m) => m.code === k); return i < 0 ? list.length : i; };
+    const groups = groupCampaigns(camps, marketOf, order);
+    const total = aggregateCampaigns(camps);
+    const row = (name, a, strong) => '<tr' + (strong ? ' class="total"' : "") + '><td class="name">' + (strong ? "<strong>" + esc(name) + "</strong>" : esc(name)) + '</td><td class="num">' + a.n + '</td><td class="num">' + fInt(a.recipients) +
+      '</td><td class="num ' + semClass(a.or, THRESHOLDS.campOr) + '">' + fPct(a.or) + '</td><td class="num ' + semClass(a.ctr, THRESHOLDS.campCtr) + '">' + fPct(a.ctr) +
+      '</td><td class="num">' + fPct(a.ctor) + '</td><td class="num">' + fInt(a.conv) + '</td><td class="num"><strong>' + fEur(a.rev) + '</strong></td><td class="num">' + fRpr(a.rpr) + "</td></tr>";
+    $("market-table").innerHTML = groups.length ? groups.map((g) => row(marketLabel(g.key), g.agg)).join("") + (groups.length > 1 && total ? row("Total", total, true) : "") : '<tr><td colspan="9">Sin campañas en el periodo.</td></tr>';
+    const p = palette();
+    drawChart("marketOrCtr", groups.length ? {
+      type: "bar",
+      data: { labels: groups.map((g) => marketLabel(g.key)), datasets: [
+        { label: "Open rate (%)", data: groups.map((g) => +(g.agg.or * 100).toFixed(2)), backgroundColor: p.azul2, yAxisID: "y", borderRadius: 3 },
+        { label: "CTR (%)", data: groups.map((g) => +(g.agg.ctr * 100).toFixed(2)), backgroundColor: p.navy2, yAxisID: "y1", borderRadius: 3 }
+      ] },
+      options: baseOptions(p, { scales: { x: axis(p, { grid: { display: false }, ticks: { color: p.apagado } }), y: axis(p, { beginAtZero: true, title: { display: true, text: "Open rate", color: p.apagado }, ticks: { color: p.apagado, callback: (v) => v + " %" } }), y1: axis(p, { position: "right", beginAtZero: true, grid: { display: false }, title: { display: true, text: "CTR", color: p.apagado }, ticks: { color: p.apagado, callback: (v) => v + " %" } }) } })
+    } : null);
+    const codes = list.map((m) => m.code).join(", ");
+    const others = groups.some((g) => g.key === OTHER_MARKET);
+    $("market-note").textContent = "Campañas B2B excluidas. El mercado sale del prefijo del nombre de la campaña (" + codes + ")" + (others ? "; «Otros» agrupa las que no llevan uno de esos prefijos" : "") + ". OR y CTR ponderados por destinatarios; el open rate está inflado por la privacidad de Apple.";
   }
   /** Las cuatro campañas B2C con más revenue de la lista, como tarjetas. */
   function topCampsHtml(camps) {
@@ -1124,6 +1173,7 @@
 
   /* ---------- Render principal ---------- */
   function render() {
+    applyHiddenTabs();
     const hasData = state.months.length > 0;
     $("empty").hidden = hasData || !state.loaded;
     $("filters").hidden = !hasData || state.tab === "datos";
