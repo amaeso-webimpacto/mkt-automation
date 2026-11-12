@@ -7,7 +7,7 @@ description: Crea, revisa o cambia la tarea programada mensual que actualiza el 
 
 | Versión | Fecha | Creadora | Contacto |
 |---|---|---|---|
-| 1.0.0 | 09/11/2026 | Ana I. Maeso | amaeso@webimpacto.es |
+| 1.1.0 | 12/11/2026 | Ana I. Maeso | amaeso@webimpacto.es |
 
 Cada persona del equipo deja programada, a su nombre, la actualización mensual de los paneles de sus clientes. La tarea programada abre cada mes una sesión nueva que aplica la skill **panel-email-cliente** (modo B, con el análisis del modo C y la versión estática del modo D) y envía un correo con el resultado.
 
@@ -20,7 +20,7 @@ Cada persona del equipo deja programada, a su nombre, la actualización mensual 
 | Plataforma | ¿Se puede programar? | Datos propios que necesita la tarea |
 |---|---|---|
 | Klaviyo | Sí | Conector `Klaviyo-<Cliente>-todo` e id de la métrica Placed Order de Shopify (`config/cliente.metricaPlacedOrder` del panel). |
-| iCommkt | Sí, con datos manuales | Conector `icomm-<cliente>`. Flujos y suscritos siguen siendo manuales (ver `plataformas/icommkt.md`): el correo los lista como pendientes. |
+| iCommkt | Sí, con datos manuales | Conector `icomm-<cliente>` y **conector de Shopify de la tienda del cliente, obligatorio**: si falta, la tarea se para y lo avisa en el correo sin escribir el mes. Flujos y suscritos siguen siendo manuales (ver `plataformas/icommkt.md`): el correo los lista como pendientes. |
 | HubSpot, Connectif | **No todavía** | La skill del panel no tiene instrucciones para estas plataformas. Decirlo, no crear la tarea y seguir con el resto de clientes. |
 
 ## Paso 1 · Recoger los datos
@@ -65,7 +65,7 @@ Para cada cliente confirmado:
    - `name`: «Panel Email <Cliente> · actualización mensual».
    - `cron_expression`: `CRON_TZ=Europe/Madrid <minuto> <hora> <día> * *`. Minuto no redondo (ni :00 ni :30). Con varios clientes, separar cada tarea **10 minutos** de la anterior.
    - `create_new_session_on_fire: true` (cada mes, sesión limpia).
-   - `connectors`: solo `[<conector de la plataforma>, "Shopify", "Gmail"]`, con los nombres exactos de la persona. Nunca conectores de otros clientes.
+   - `connectors`: solo `[<conector de la plataforma>, "Shopify", "Gmail"]` (en iCommkt, añadir también el conector de Google Drive para leer el export de su `carpetaExports`), con los nombres exactos de la persona. Nunca conectores de otros clientes.
    - `initiation: "human_request"`.
 3. Guardar el `id` y la `next_run_at` que devuelve.
 
@@ -88,4 +88,5 @@ Por cliente: nombre de la tarea, id, próxima ejecución en hora de Madrid y des
 
 | Versión | Fecha | Cambios |
 |---|---|---|
+| 1.1.0 | 12/11/2026 | En iCommkt la tarea necesita también el conector de Shopify de la tienda del cliente (obligatorio: si falta, la tarea se para y el correo lo avisa) y el de Google Drive para leer el export. |
 | 1.0.0 | 09/11/2026 | Primera versión: una tarea por cliente (Klaviyo e iCommkt), varios clientes del tirón, correo con resumen en HTML y enlace a la versión estática. HubSpot y Connectif fuera hasta que la skill del panel los contemple. |
