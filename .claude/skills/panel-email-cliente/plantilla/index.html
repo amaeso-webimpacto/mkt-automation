@@ -172,8 +172,21 @@
       <div class="brands" data-js="brand-split"></div>
       <p class="note" data-js="brand-note"></p>
     </section>
+    <section class="section" data-js="market-section" hidden>
+      <h2 class="section__title"><span class="tag">05</span>Rendimiento por mercado <span class="pill" data-js="market-period"></span></h2>
+      <p class="section__sub">OR y CTR por país.</p>
+      <div class="card">
+        <div class="table-wrap"><table class="table table--tight">
+          <caption class="sr-only">Campañas B2C del periodo por mercado</caption>
+          <thead><tr><th scope="col">Mercado</th><th scope="col" class="num">Envíos</th><th scope="col" class="num">Destinatarios</th><th scope="col" class="num">OR</th><th scope="col" class="num">CTR</th><th scope="col" class="num">CTOR</th><th scope="col" class="num">Pedidos</th><th scope="col" class="num">Ingresos</th><th scope="col" class="num">€/dest.</th></tr></thead>
+          <tbody data-js="market-table"></tbody>
+        </table></div>
+      </div>
+      <div class="card chart-card"><h3 class="chart-card__title">OR y CTR por mercado</h3><div class="chart"><canvas data-chart="marketOrCtr" role="img" aria-label="Open rate y CTR de las campañas por mercado"></canvas></div></div>
+      <p class="note" data-js="market-note"></p>
+    </section>
     <section class="section">
-      <h2 class="section__title"><span class="tag">05</span>Detalle por campaña</h2>
+      <h2 class="section__title"><span class="tag">06</span>Detalle por campaña</h2>
       <div class="card">
         <div class="search">
           <label class="sr-only" for="campSearch">Buscar campaña</label>
