@@ -23,7 +23,7 @@ Ventana de atribución de 5 días (confirmado por el equipo): el mes se cierra *
 
 ## Ingresos
 
-- **Norma para todos los clientes iCommkt: el conector de Shopify es obligatorio.** Antes de cargar nada, `get-shop-info` y confirmar que la tienda es la del cliente. Si el conector no está conectado o apunta a otra tienda, lanzar un warning claro («Falta el conector de Shopify de <tienda>: reconéctalo y vuelve a lanzar la actualización») y **parar la tarea sin escribir el mes**. No se deja el ingreso como dato manual ni se usa el revenue de iCommkt como sustituto.
+- **Norma para todos los clientes iCommkt: el conector de Shopify es obligatorio.** Antes de cargar nada, `get-shop-info` y confirmar que la tienda es la del cliente. Si el conector no está conectado o apunta a otra tienda, lanzar un warning claro («Falta el conector de Shopify de <tienda>: reconéctalo y vuelve a lanzar la actualización») y **parar la tarea sin escribir el mes**. No se dejan los ingresos de Shopify como dato manual ni se usa el revenue de iCommkt como sustituto. La **venta neta** no sale de Shopify y sigue siendo siempre dato manual que facilita el cliente.
 - **Fuente principal: Shopify, último clic no directo** (como en todos los clientes). Si el cliente tiene el reparto real de Shopify entre flujos y campañas, guardarlo en `shopify.revCampanas` y `shopify.revFlujos`; si no, el panel lo estima en proporción a la atribución de la plataforma.
 - `get_icomm_attribution` usa las rutas de conversión de Google Analytics 4 (cualquier compra con iCommkt en la ruta). **No es último clic no directo**: no mezclarlo con los ingresos de Shopify. Si se muestra, como dato de referencia y con su nombre.
 - El revenue que da iCommkt por envío, si lo da, también es solo referencia.
