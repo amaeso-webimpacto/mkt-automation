@@ -7,7 +7,7 @@ description: Crea, revisa o cambia la tarea programada mensual que actualiza el 
 
 | Versión | Fecha | Creadora | Contacto |
 |---|---|---|---|
-| 1.0.0 | 09/11/2026 | Ana I. Maeso | amaeso@webimpacto.es |
+| 1.1.0 | 12/11/2026 | Ana I. Maeso | amaeso@webimpacto.es |
 
 Cada persona del equipo deja programada, a su nombre, la actualización mensual de los paneles de sus clientes. La tarea programada abre cada mes una sesión nueva que aplica la skill **panel-email-cliente** (modo B, con el análisis del modo C y la versión estática del modo D) y envía un correo con el resultado.
 
@@ -88,4 +88,5 @@ Por cliente: nombre de la tarea, id, próxima ejecución en hora de Madrid y des
 
 | Versión | Fecha | Cambios |
 |---|---|---|
+| 1.1.0 | 12/11/2026 | En iCommkt la tarea necesita también el conector de Shopify de la tienda del cliente (obligatorio: si falta, la tarea se para y el correo lo avisa) y el de Google Drive para leer el export. |
 | 1.0.0 | 09/11/2026 | Primera versión: una tarea por cliente (Klaviyo e iCommkt), varios clientes del tirón, correo con resumen en HTML y enlace a la versión estática. HubSpot y Connectif fuera hasta que la skill del panel los contemple. |
