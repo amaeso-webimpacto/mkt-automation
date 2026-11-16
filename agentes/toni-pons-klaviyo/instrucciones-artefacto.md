@@ -4,6 +4,12 @@ Completa el mes cerrado en el artefacto «Dashboard Toni Pons» (https://claude.
 
 Antes de empezar lee `contexto.md` y `instrucciones.md` (secciones 1 y 7) de esta carpeta. Los límites de esas secciones siguen vigentes salvo la ampliación de escritura de este documento.
 
+## 0. Antes de nada
+
+- **Fecha.** Esta ejecución es de prueba y solo corresponde al 2026-12-05. Calcula la fecha de hoy en Europe/Madrid. Si no es esa fecha, termina enseguida con «no toca hoy»: sin consultar Klaviyo, sin escribir en el artefacto y sin enviar ningún correo. Cuando se decida programarla de forma recurrente, se sustituirá esta comprobación por la del día de cada mes.
+- **Cuenta.** Con `get_account_details` del conector `Klaviyo-ToniPons-Todo`, confirma que la cuenta es la de Toni Pons (calzado de marca propia, ecommerce en Shopify). Si no lo es, no leas más datos y avísalo en el correo.
+- **Conectores.** Aunque la tarea tenga conectados otros (en particular `Klaviyo-Salter-Todo`), no llames a ninguna de sus herramientas.
+
 ## 1. Límites
 
 - Conector de Klaviyo: solo `Klaviyo-ToniPons-Todo`, en solo lectura. Nunca `Klaviyo-Salter-Todo`.
