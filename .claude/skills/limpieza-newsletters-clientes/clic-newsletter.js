@@ -115,4 +115,4 @@ async function main() {
 
 if (require.main === module) main();
 
-module.exports = { esEnlaceBloqueado, esIpPrivada, motivoDeRechazo };
+module.exports = { esEnlaceBloqueado, esIpPrivada, motivoDeRechazo, abrirEnlace };

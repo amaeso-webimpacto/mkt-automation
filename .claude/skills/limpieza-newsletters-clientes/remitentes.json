@@ -7,18 +7,22 @@
     { "cliente": "Azarey", "remitente": "comunicacion@azarey.es", "plataforma": "klaviyo" },
     { "cliente": "Tuc Tuc", "remitente": "hola@tuctuc.com", "plataforma": "klaviyo" }
   ],
-  "pendientes_de_confirmar": [
-    "Macami",
-    "Paloma Barceló",
-    "Palomitas",
-    "BSoul (resto de países)",
-    "Porronet",
+  "plataforma_conocida_falta_direccion": [
+    { "cliente": "Macami", "plataforma": "klaviyo" },
+    { "cliente": "Paloma Barceló", "plataforma": "klaviyo" },
+    { "cliente": "Paloma Barceló USA", "plataforma": "klaviyo" },
+    { "cliente": "Palomitas", "plataforma": "klaviyo" },
+    { "cliente": "Porronet", "plataforma": "klaviyo" },
+    { "cliente": "Mumit", "plataforma": "klaviyo" },
+    { "cliente": "Bliet", "plataforma": "klaviyo" },
+    { "cliente": "BSoul (resto de países)", "plataforma": "hubspot" },
+    { "cliente": "Abbacino", "plataforma": "icommkt" },
+    { "cliente": "Genuins", "plataforma": "icommkt" },
+    { "cliente": "10xDiez", "plataforma": "icommkt" }
+  ],
+  "sin_plataforma_ni_direccion": [
     "Polín et Moi",
     "Toni Pons",
-    "Abbacino",
-    "Mumit",
-    "Genuins",
-    "Bliet",
     "Endado",
     "Plátano Melón",
     "Munich",

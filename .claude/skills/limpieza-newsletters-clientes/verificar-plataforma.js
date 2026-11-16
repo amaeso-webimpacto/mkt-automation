@@ -92,4 +92,4 @@ function main() {
 
 if (require.main === module) main();
 
-module.exports = { verificarPlataforma, parsearCabeceras };
+module.exports = { verificarPlataforma, parsearCabeceras, decodificarRaw };
