@@ -51,7 +51,7 @@ Elaborado el 2026-11-16 a partir de 159 hilos de correo con personas de @tonipon
 
 ## Incidencias abiertas a 2026-11-16 (según el último correo de cada hilo)
 
-- Shopify tags y locale: los formularios de newsletter, Back in Stock y el formulario nativo dejaron de guardar los tags (2026-09-23). Hay más de 1.200 suscritos fuera de las bases y más de 800 sin país o idioma. La auditoría de Webimpacto (2026-10-01) apunta a retraso en la asignación del tag. Se propuso un delay de 5 min en el inicio del flujo, y el cliente lo aceptó. No consta que esté implementado, ni la respuesta de Klaviyo al caso abierto, ni la reanudación de los welcome flows pausados el 2026-09-23.
+- Shopify tags y locale: los formularios de newsletter, Back in Stock y el formulario nativo dejaron de guardar los tags (2026-09-23). Hay más de 1.200 suscritos fuera de las bases y más de 800 sin país o idioma. La auditoría de Webimpacto (2026-10-01) apunta a retraso en la asignación del tag. Se propuso un delay de 5 min en el inicio del flujo, y el cliente lo aceptó. Los flujos de welcome están LIVE (comprobado en Klaviyo el 2026-11-16, tras pausarse el 2026-09-23). No consta que el delay esté implementado ni la respuesta de Klaviyo al caso abierto.
 - Evento Merged Profile: pausa 30 min los disparadores de flujos del perfil (unos 500 usuarios). Solución propuesta: un flujo paralelo con delay de 30 min. No consta implementación.
 - Agosto de 2026: caída del 17 % en impactos con la base creciendo. Webimpacto prometió auditar los envíos y los flujos «en las próximas semanas». No consta conclusión.
 - Back in Stock: al cerrar el popup se suscribe el SKU equivocado, y un modelo con stock aparece como pendiente en la cola (petición del CEO).
