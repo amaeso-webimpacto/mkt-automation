@@ -31,10 +31,12 @@ function enlacesDeTexto(texto) {
   return [...markdown, ...conParentesis];
 }
 
+// Los enlaces del HTML son los que la plataforma envuelve con su rastreador de clics; los del texto plano suelen ir directos
+// y un clic en ellos no cuenta como clic del correo. El texto solo se usa si el correo no tiene HTML.
 function extraerEnlaces(partes) {
   const html = partes.filter((p) => p.tipo === "text/html").flatMap((p) => enlacesDeHtml(p.texto));
-  const texto = partes.filter((p) => p.tipo === "text/plain").flatMap((p) => enlacesDeTexto(p.texto));
-  return [...html, ...texto];
+  if (html.length > 0) return html;
+  return partes.filter((p) => p.tipo === "text/plain").flatMap((p) => enlacesDeTexto(p.texto));
 }
 
 function esCandidato({ texto, url }) {

@@ -54,6 +54,14 @@ test("extrae enlaces de texto con formato Markdown y con paréntesis", () => {
   assert.strictEqual(elegirEnlace(enlaces).url, "https://t.example/collections/a");
 });
 
+test("si hay HTML elige el enlace con rastreador y no el directo del texto plano", () => {
+  const partes = [
+    { tipo: "text/html", texto: html('<a href="https://ctrk.klclick.example/abc123">Descubrir colección</a>') },
+    { tipo: "text/plain", texto: "[Descubrir colección](https://tienda.example/collections/nueva)" },
+  ];
+  assert.strictEqual(elegirEnlace(extraerEnlaces(partes)).url, "https://ctrk.klclick.example/abc123");
+});
+
 test("no hay enlace si todos son de baja o legales", () => {
   const partes = [{ tipo: "text/html", texto: html('<a href="https://t.example/unsubscribe">Darse de baja</a><a href="https://t.example/privacidad">Política de privacidad</a>') }];
   assert.strictEqual(elegirEnlace(extraerEnlaces(partes)), null);
