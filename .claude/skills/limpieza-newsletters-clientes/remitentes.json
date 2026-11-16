@@ -1,10 +1,11 @@
 {
-  "descripcion": "Remitentes de newsletters de clientes que el agente puede abrir y mandar a la papelera. Solo se actúa sobre direcciones exactas de esta lista.",
+  "descripcion": "Remitentes de newsletters de clientes que el agente puede abrir y mandar a la papelera. Solo se actúa sobre direcciones exactas de esta lista y cuando las cabeceras confirman la plataforma indicada.",
+  "plataformas_permitidas": ["klaviyo", "icommkt", "connectif", "hubspot"],
   "confirmados": [
-    { "cliente": "HEYDUDE", "remitente": "newsletter@news.heydude.es" },
-    { "cliente": "BSoul", "remitente": "news@mail.bsoul.es" },
-    { "cliente": "Azarey", "remitente": "comunicacion@azarey.es" },
-    { "cliente": "Tuc Tuc", "remitente": "hola@tuctuc.com" }
+    { "cliente": "HEYDUDE", "remitente": "newsletter@news.heydude.es", "plataforma": "icommkt" },
+    { "cliente": "BSoul", "remitente": "news@mail.bsoul.es", "plataforma": "hubspot" },
+    { "cliente": "Azarey", "remitente": "comunicacion@azarey.es", "plataforma": "klaviyo" },
+    { "cliente": "Tuc Tuc", "remitente": "hola@tuctuc.com", "plataforma": "klaviyo" }
   ],
   "pendientes_de_confirmar": [
     "Macami",

@@ -15,6 +15,7 @@
       <li class="chip"><span class="chip__punto chip__punto--atencion" aria-hidden="true"></span>Modo prueba: solo informa</li>
       <li class="chip"><span class="chip__punto chip__punto--atencion" aria-hidden="true"></span>Sin programar</li>
       <li class="chip"><span class="chip__punto chip__punto--ok" aria-hidden="true"></span>Papelera, nunca borrado definitivo</li>
+      <li class="chip"><span class="chip__punto chip__punto--ok" aria-hidden="true"></span>Nunca envía correos</li>
     </ul>
   </div>
 </header>
@@ -232,7 +233,8 @@
       "datos": [
         { "etiqueta": "Clics por mensaje", "valor": "1" },
         { "etiqueta": "Redirecciones que sigue", "valor": "hasta 5" },
-        { "etiqueta": "Solo enlaces", "valor": "https" }
+        { "etiqueta": "Solo enlaces", "valor": "https" },
+        { "etiqueta": "Envía correos", "valor": "nunca" }
       ],
       "fuente": "Skill limpieza-newsletters-clientes 1.0.0: SKILL.md y clic-newsletter.js."
     },
@@ -251,8 +253,12 @@
       "nombre": "Archivo de remitentes",
       "burbuja": "Faltan 16 fichas",
       "dice": "Solo toco lo que está en la lista. Si no me das la dirección exacta, no adivino.",
-      "resumen": "La lista de remitentes autorizados es la única fuente de verdad de qué se toca. Los clientes pendientes necesitan que se confirme su dirección exacta antes de entrar.",
-      "datos": [],
+      "resumen": "La lista de remitentes autorizados es la única fuente de verdad de qué se toca. Además, las cabeceras de cada correo deben demostrar que lo envía Klaviyo, iCommkt, Connectif o HubSpot. Los correos de personas no se tocan. Los clientes pendientes necesitan que se confirme su dirección exacta antes de entrar.",
+      "datos": [
+        { "etiqueta": "Plataformas verificadas", "valor": "Klaviyo, iCommkt, HubSpot" },
+        { "etiqueta": "Connectif", "valor": "sin firma verificada" },
+        { "etiqueta": "Correos de personas", "valor": "nunca" }
+      ],
       "chips": [
         { "grupo": "Confirmados", "estado": "ok", "items": ["HEYDUDE", "BSoul", "Azarey", "Tuc Tuc"] },
         { "grupo": "Pendientes de confirmar", "estado": "atencion", "items": ["Macami", "Paloma Barceló", "Palomitas", "BSoul (resto de países)", "Porronet", "Polín et Moi", "Toni Pons", "Abbacino", "Mumit", "Genuins", "Bliet", "Endado", "Plátano Melón", "Munich", "XTI", "Carmela Shoes"] }
