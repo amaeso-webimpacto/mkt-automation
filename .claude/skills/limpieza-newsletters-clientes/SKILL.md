@@ -34,7 +34,7 @@ Plataformas y firma verificada con correos reales (16/11/2026):
 |---|---|
 | Klaviyo | cabecera `X-Kmail-Account`, firma DKIM de `klaviyomail.com` o baja en `kmail-lists.com` |
 | iCommkt | firma DKIM de `icommarketing.com` o baja en `icmkt.com` |
-| HubSpot | cabecera `X-HS-Cid` (deducida del correo de BSoul; falta contrastarla con la documentación de HubSpot) |
+| HubSpot | cabecera `X-HS-Cid` (confirmado por la responsable: BSoul usa HubSpot) |
 | Connectif | **sin firma verificada**: sus correos no se tocan hasta añadir una muestra real al verificador |
 
 Además, todo correo debe llevar cabecera `List-Unsubscribe` y no puede llevar `In-Reply-To` ni `References`.
