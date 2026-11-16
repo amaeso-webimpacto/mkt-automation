@@ -13,7 +13,7 @@ hooks:
 
 | Versión | Fecha | Creadora | Contacto |
 |---|---|---|---|
-| 1.3.0 | 16/11/2026 | Ana I. Maeso | amaeso@webimpacto.es |
+| 1.4.0 | 16/11/2026 | Ana I. Maeso | amaeso@webimpacto.es |
 
 La bandeja recibe cada día las campañas de todos los clientes, y cada una llega varias veces porque la cuenta está suscrita con distintos alias. El agente abre cada correo, hace un clic y lo manda a la **papelera** de Gmail (recuperable 30 días). Nunca borra de forma definitiva.
 
@@ -24,7 +24,7 @@ La bandeja recibe cada día las campañas de todos los clientes, y cada una lleg
 ## Límites (no negociables)
 
 1. **Solo newsletters enviadas desde Klaviyo, iCommkt, Connectif o HubSpot.** Se demuestra con las cabeceras del correo, no con el nombre del remitente ni con el asunto. Lo comprueba el script. Si no devuelve `ok: true`, el correo no se toca.
-2. **Nunca correos que envíen personas.** Un hilo con una respuesta, un mensaje enviado por ti, un mensaje sin cabecera de baja de lista, con un remitente que no está en `remitentes.json` o con remitentes distintos entre sí se queda en la bandeja entero.
+2. **Nunca correos que envíen personas.** Un hilo con una respuesta, un mensaje enviado por ti, un mensaje sin cabecera de baja de lista, con un remitente que no está en `remitentes.json`, con remitentes distintos entre sí o con más de 6 mensajes se queda en la bandeja entero.
 3. **Nunca enviar correo, de ninguna forma.** Prohibido usar `send_message`, `reply`, `forward`, `create_draft`, `update_draft` y `send_draft`, y no crear borradores. El único cambio que se hace en Gmail es `trash_thread`. El script de clic solo hace peticiones GET.
 4. **Nunca marcar como spam, etiquetar ni cancelar suscripciones.**
 5. **Solo Gmail.** No usar ningún otro conector (Klaviyo, Shopify, Asana, Drive...). Del conector de Gmail solo se usan `search_threads`, `get_message` y `trash_thread`.
@@ -57,7 +57,7 @@ Además, todo correo debe llevar cabecera `List-Unsubscribe` y no puede llevar `
 ## Proceso
 
 1. Leer `remitentes.json` (solo `confirmados`). Buscar con `search_threads`: `in:inbox from:(<remitente1> OR <remitente2> ...)`, `view: THREAD_VIEW_METADATA_ONLY` y `pageSize` de **12 hilos en real y 5 en prueba**.
-2. De cada hilo hay que ver **todos** sus mensajes. La búsqueda solo enseña los 5 primeros: si `messageCount` es mayor que los mensajes devueltos, pedir el hilo con `get_thread` y `messageFormat: METADATA_ONLY` (sin cuerpos, unos 1 KB por mensaje). El hilo solo sigue si **todos** sus mensajes tienen el mismo remitente exacto, ese remitente está en la lista y ninguno lleva la etiqueta `SENT`. Si hay remitentes distintos, aunque estén en la lista, o cualquier mensaje tuyo, el hilo se deja sin tocar. El número de mensajes no importa y tampoco que el contenido no se repita: cada mensaje recibe su propio clic.
+2. **Un hilo con más de 6 mensajes se deja sin leer ni tocar** (`messageCount` de la búsqueda mayor que 6). El límite cubre el caso normal: la cuenta está suscrita con varios alias y cada campaña llega una vez por alias. De cada hilo de 6 mensajes o menos hay que ver **todos** sus mensajes. La búsqueda solo enseña los 5 primeros: si `messageCount` es 6, pedir el hilo con `get_thread` y `messageFormat: METADATA_ONLY` (sin cuerpos, unos 1 KB por mensaje). El hilo solo sigue si **todos** sus mensajes tienen el mismo remitente exacto, ese remitente está en la lista y ninguno lleva la etiqueta `SENT`. Si hay remitentes distintos, aunque estén en la lista, o cualquier mensaje tuyo, el hilo se deja sin tocar. Cada mensaje recibe su propio clic.
    **Tope de mensajes por ejecución: 40 en real y 15 en prueba.** Los hilos se van añadiendo en orden hasta llegar al tope. Un hilo nunca se procesa a medias: si no cabe entero, se deja para la siguiente ejecución, salvo que sea el primero, que se procesa siempre.
 3. Descargar en una sola tanda, en paralelo, todos los mensajes de los hilos elegidos con `get_message` y `messageFormat: RAW`. La respuesta es muy grande y Gmail la guarda en un fichero: anotar solo su ruta. Si una respuesta llegara en línea, no tocar ese hilo.
 4. Lanzar **una sola orden** con todas las rutas: `node procesar-correo.js <ruta1> <ruta2> ...` (en prueba, con `--solo-validar` delante). Devuelve una línea JSON por mensaje con `ok`, `hilo`, `cliente`, `plataforma` y, si falla, `motivo`. No muestra enlaces, solo el texto del botón y el host.
@@ -72,7 +72,7 @@ Resumen final, corto, sin asuntos completos ni direcciones de destinatarios:
 - Hilos que se quedan en la bandeja y motivo (`plataforma-no-reconocida`, `forma-parte-de-una-conversacion`, `sin-enlace-de-contenido`, `error-de-red`...).
 - Remitentes nuevos sin clasificar.
 - Hilos que quedan para otra ejecución por el tope de mensajes.
-- Hilos con remitentes distintos o con mensajes tuyos, que se dejan sin tocar.
+- Hilos con más de 6 mensajes, con remitentes distintos o con mensajes tuyos, que se dejan sin tocar (solo contar cuántos son).
 
 ## Reglas
 
