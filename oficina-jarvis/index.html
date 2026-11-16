@@ -1,0 +1,283 @@
+<title>Oficina JARVIS</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap">
+<link rel="stylesheet" href="oficina.css">
+
+<header class="cabecera">
+  <div class="cabecera__interior">
+    <p class="kicker">Limpieza diaria del correo</p>
+    <span class="barra" aria-hidden="true"></span>
+    <h1 class="titulo">Oficina de JARVIS</h1>
+    <p class="entradilla">JARVIS abre las newsletters de los clientes, hace clic en un enlace de contenido y las manda a la papelera. Pulsa un puesto para ver qué hace cada uno.</p>
+    <ul class="estado" aria-label="Estado del agente">
+      <li class="chip"><span class="chip__punto chip__punto--atencion" aria-hidden="true"></span>Modo prueba: solo informa</li>
+      <li class="chip"><span class="chip__punto chip__punto--atencion" aria-hidden="true"></span>Sin programar</li>
+      <li class="chip"><span class="chip__punto chip__punto--ok" aria-hidden="true"></span>Papelera, nunca borrado definitivo</li>
+    </ul>
+  </div>
+</header>
+
+<main class="pagina">
+  <section class="bloque" aria-labelledby="titulo-oficina">
+    <h2 id="titulo-oficina" class="solo-lectores">La oficina</h2>
+
+    <div class="escena">
+      <svg class="escena__svg" data-js="escena" data-paso="0" viewBox="0 0 960 500" role="img" aria-label="Oficina con cinco puestos: buzón, mesa de clics, papelera, archivo de remitentes y reloj. JARVIS, un chibi calvo con cara amable, se mueve entre ellos.">
+        <defs>
+          <g id="jarvis-cabeza">
+            <ellipse class="piel" cx="-45" cy="6" rx="8" ry="11"/>
+            <ellipse class="piel" cx="45" cy="6" rx="8" ry="11"/>
+            <circle class="piel" cx="0" cy="0" r="46"/>
+            <path class="brillo" d="M-30,-22 Q-20,-37 -3,-38"/>
+            <ellipse class="rubor" cx="-29" cy="17" rx="8" ry="5"/>
+            <ellipse class="rubor" cx="29" cy="17" rx="8" ry="5"/>
+            <g class="ojos">
+              <ellipse class="ojo" cx="-16" cy="3" rx="5.5" ry="8"/>
+              <ellipse class="ojo" cx="16" cy="3" rx="5.5" ry="8"/>
+              <circle class="ojo-brillo" cx="-14.2" cy="0" r="2"/>
+              <circle class="ojo-brillo" cx="17.8" cy="0" r="2"/>
+            </g>
+            <path class="ceja" d="M-26,-12 Q-16,-19 -8,-13"/>
+            <path class="ceja" d="M8,-13 Q16,-19 26,-12"/>
+            <path class="sonrisa" d="M-13,21 Q0,34 13,21"/>
+          </g>
+        </defs>
+
+        <g aria-hidden="true">
+          <rect class="pared" x="0" y="0" width="960" height="170"/>
+          <rect class="suelo" x="0" y="170" width="960" height="330"/>
+          <rect class="zocalo" x="0" y="168" width="960" height="5"/>
+          <rect class="alfombra" x="330" y="414" width="300" height="62" rx="12"/>
+
+          <g class="ventana">
+            <rect x="390" y="28" width="150" height="100" rx="6"/>
+            <line x1="465" y1="28" x2="465" y2="128"/>
+            <line x1="390" y1="78" x2="540" y2="78"/>
+          </g>
+
+          <g class="estacion" data-js-lugar="archivo">
+            <rect class="estacion__resalte" x="48" y="38" width="154" height="198" rx="12"/>
+            <rect class="archivador" x="60" y="48" width="130" height="150" rx="6"/>
+            <g class="archivador__cajon">
+              <rect x="70" y="58" width="110" height="40" rx="4"/>
+              <rect x="70" y="102" width="110" height="40" rx="4"/>
+              <rect x="70" y="146" width="110" height="40" rx="4"/>
+            </g>
+            <g class="archivador__etiqueta">
+              <rect x="95" y="68" width="60" height="14" rx="3"/>
+              <rect x="95" y="112" width="60" height="14" rx="3"/>
+              <rect x="95" y="156" width="60" height="14" rx="3"/>
+            </g>
+            <text class="rotulo" x="125" y="222" text-anchor="middle">Archivo</text>
+          </g>
+
+          <g class="estacion" data-js-lugar="reloj">
+            <rect class="estacion__resalte" x="808" y="12" width="104" height="124" rx="12"/>
+            <circle class="reloj__esfera" cx="860" cy="56" r="34"/>
+            <g class="reloj__marcas">
+              <line x1="860" y1="26" x2="860" y2="32"/>
+              <line x1="890" y1="56" x2="884" y2="56"/>
+              <line x1="860" y1="86" x2="860" y2="80"/>
+              <line x1="830" y1="56" x2="836" y2="56"/>
+            </g>
+            <line class="reloj__aguja" x1="860" y1="56" x2="860" y2="36"/>
+            <line class="reloj__aguja reloj__aguja--corta" x1="860" y1="56" x2="874" y2="62"/>
+            <circle class="reloj__centro" cx="860" cy="56" r="3.5"/>
+          </g>
+
+          <g class="estacion" data-js-lugar="buzon">
+            <rect class="estacion__resalte" x="48" y="250" width="214" height="214" rx="12"/>
+            <g class="sobre-pila">
+              <rect x="82" y="276" width="46" height="30" rx="3"/>
+              <rect x="120" y="268" width="46" height="30" rx="3" transform="rotate(5 143 283)"/>
+              <rect x="150" y="274" width="46" height="30" rx="3" transform="rotate(-4 173 289)"/>
+            </g>
+            <rect class="mueble" x="60" y="304" width="190" height="124" rx="8"/>
+            <g class="mueble__hueco">
+              <rect x="74" y="318" width="52" height="40" rx="4"/>
+              <rect x="132" y="318" width="52" height="40" rx="4"/>
+              <rect x="190" y="318" width="46" height="40" rx="4"/>
+              <rect x="74" y="366" width="52" height="40" rx="4"/>
+              <rect x="132" y="366" width="52" height="40" rx="4"/>
+              <rect x="190" y="366" width="46" height="40" rx="4"/>
+            </g>
+            <circle class="insignia" cx="238" cy="304" r="27"/>
+            <text class="insignia__texto" x="238" y="310" text-anchor="middle">~201</text>
+            <text class="rotulo" x="155" y="452" text-anchor="middle">Buzón</text>
+          </g>
+
+          <g class="estacion" data-js-lugar="mesa">
+            <rect class="estacion__resalte" x="344" y="220" width="272" height="196" rx="12"/>
+            <rect class="monitor__soporte" x="472" y="302" width="16" height="16"/>
+            <rect class="monitor" x="428" y="232" width="104" height="72" rx="6"/>
+            <rect class="monitor__pantalla" x="436" y="240" width="88" height="56" rx="3"/>
+            <g class="monitor__lineas">
+              <rect x="444" y="248" width="40" height="6" rx="3"/>
+              <rect x="444" y="260" width="72" height="4" rx="2"/>
+              <rect x="444" y="268" width="60" height="4" rx="2"/>
+            </g>
+            <circle class="clic" cx="500" cy="280" r="6"/>
+            <path class="cursor" d="M494,274 L494,292 L499,287 L503,296 L507,294 L503,285 L510,285 Z"/>
+            <rect class="mesa__tablero" x="360" y="318" width="240" height="14" rx="4"/>
+            <rect class="mesa__frente" x="372" y="332" width="216" height="74" rx="4"/>
+            <rect class="mesa__tirador" x="458" y="352" width="44" height="8" rx="4"/>
+            <text class="rotulo" x="480" y="432" text-anchor="middle">Mesa de clics</text>
+          </g>
+
+          <g class="estacion" data-js-lugar="papelera">
+            <rect class="estacion__resalte" x="684" y="306" width="122" height="162" rx="12"/>
+            <rect class="papelera__asa" x="734" y="314" width="22" height="10" rx="3"/>
+            <rect class="papelera__tapa" x="696" y="324" width="98" height="14" rx="4"/>
+            <path class="papelera__cuerpo" d="M704,340 L786,340 L778,428 L712,428 Z"/>
+            <g class="papelera__costillas">
+              <line x1="730" y1="350" x2="732" y2="418"/>
+              <line x1="745" y1="350" x2="745" y2="418"/>
+              <line x1="760" y1="350" x2="758" y2="418"/>
+            </g>
+            <text class="rotulo" x="745" y="452" text-anchor="middle">Papelera</text>
+          </g>
+
+          <g class="sobre">
+            <rect x="0" y="0" width="38" height="26" rx="3"/>
+            <polyline points="0,0 19,14 38,0"/>
+          </g>
+        </g>
+
+        <g class="jarvis" data-js="jarvis" data-lugar="mesa" data-saluda="false" aria-hidden="true">
+          <g class="jarvis__escala" transform="scale(0.95)">
+            <g class="jarvis__cuerpo">
+              <rect class="traje" x="-16" y="-26" width="13" height="24" rx="5"/>
+              <rect class="traje" x="3" y="-26" width="13" height="24" rx="5"/>
+              <ellipse class="zapato" cx="-10" cy="-2" rx="14" ry="6.5"/>
+              <ellipse class="zapato" cx="10" cy="-2" rx="14" ry="6.5"/>
+              <g transform="translate(-31 -66)">
+                <g class="brazo brazo--izq">
+                  <rect class="traje" x="-7" y="-4" width="14" height="36" rx="7"/>
+                  <circle class="piel" cx="0" cy="34" r="7.5"/>
+                </g>
+              </g>
+              <rect class="traje" x="-27" y="-74" width="54" height="56" rx="18"/>
+              <polygon class="camisa" points="-10,-74 10,-74 0,-50"/>
+              <polygon class="corbata" points="-4,-66 4,-66 6.5,-44 0,-35 -6.5,-44"/>
+              <g transform="translate(31 -66)">
+                <g class="brazo brazo--der">
+                  <rect class="traje" x="-7" y="-4" width="14" height="36" rx="7"/>
+                  <circle class="piel" cx="0" cy="34" r="7.5"/>
+                </g>
+              </g>
+              <use href="#jarvis-cabeza" transform="translate(0 -112)"/>
+            </g>
+          </g>
+          <g class="jarvis__burbuja">
+            <rect x="-88" y="-192" width="176" height="40" rx="12"/>
+            <polygon points="-8,-152 8,-152 0,-141"/>
+            <text data-js="burbuja-texto" x="0" y="-167" text-anchor="middle">Busco un producto</text>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <nav class="puestos" aria-label="Puestos de la oficina" data-js="puestos"></nav>
+  </section>
+
+  <div class="rejilla">
+    <section class="tarjeta panel" aria-labelledby="panel-titulo">
+      <div class="panel__dice">
+        <svg class="avatar" viewBox="-56 -56 112 112" role="img" aria-label="JARVIS, un chibi calvo con cara amable"><use href="#jarvis-cabeza"/></svg>
+        <p class="panel__frase" data-js="panel-dice"></p>
+      </div>
+      <div aria-live="polite">
+        <h2 class="panel__titulo" id="panel-titulo" data-js="panel-titulo"></h2>
+        <p class="panel__resumen" data-js="panel-resumen"></p>
+        <dl class="datos" data-js="panel-datos"></dl>
+        <div data-js="panel-chips"></div>
+        <p class="fuente" data-js="panel-fuente"></p>
+      </div>
+    </section>
+
+    <section class="tarjeta recorrido" aria-labelledby="recorrido-titulo">
+      <h2 class="panel__titulo" id="recorrido-titulo">Recorrido de un correo</h2>
+      <p class="nota">Demostración con un correo de ejemplo. No toca tu bandeja.</p>
+      <ol class="pasos" data-js="pasos"></ol>
+      <button class="boton" type="button" data-js="reproducir">Reproducir recorrido</button>
+    </section>
+  </div>
+</main>
+
+<script type="application/json" id="datos-oficina">
+{
+  "fecha": "16/11/2026",
+  "orden": ["buzon", "mesa", "papelera", "archivo", "reloj"],
+  "inicial": "mesa",
+  "lugares": {
+    "buzon": {
+      "nombre": "Buzón",
+      "burbuja": "Cuánto correo",
+      "dice": "Cada campaña me llega varias veces, una por alias. Voy de una en una.",
+      "resumen": "Aquí esperan las newsletters de los remitentes confirmados. JARVIS recorre la bandeja de entrada y solo toca los correos cuyo remitente está en la lista exacta.",
+      "datos": [
+        { "etiqueta": "Hilos pendientes", "valor": "unos 201" },
+        { "etiqueta": "Remitentes confirmados", "valor": "4" },
+        { "etiqueta": "Tope por ejecución", "valor": "40 hilos" }
+      ],
+      "fuente": "Estimación de Gmail sobre la bandeja de entrada, 16/11/2026. Skill limpieza-newsletters-clientes 1.0.0."
+    },
+    "mesa": {
+      "nombre": "Mesa de clics",
+      "burbuja": "Busco un producto",
+      "dice": "Un clic por correo, y siempre en contenido. Jamás en darse de baja.",
+      "resumen": "De cada mensaje elige un enlace de contenido (producto, colección o botón principal) y lo abre con el script de validación. El script rechaza enlaces de baja, preferencias y legales, direcciones IP directas y destinos internos.",
+      "datos": [
+        { "etiqueta": "Clics por mensaje", "valor": "1" },
+        { "etiqueta": "Redirecciones que sigue", "valor": "hasta 5" },
+        { "etiqueta": "Solo enlaces", "valor": "https" }
+      ],
+      "fuente": "Skill limpieza-newsletters-clientes 1.0.0: SKILL.md y clic-newsletter.js."
+    },
+    "papelera": {
+      "nombre": "Papelera",
+      "burbuja": "A la papelera",
+      "dice": "Si todos los clics salieron bien, el hilo se va. Si no, se queda y te aviso.",
+      "resumen": "El hilo solo se manda a la papelera de Gmail cuando todos sus mensajes tuvieron un clic correcto. Nunca hay borrado definitivo, así que cualquier error se recupera durante 30 días.",
+      "datos": [
+        { "etiqueta": "Recuperable durante", "valor": "30 días" },
+        { "etiqueta": "Vaciar lo acumulado", "valor": "6 ejecuciones o más" }
+      ],
+      "fuente": "Skill limpieza-newsletters-clientes 1.0.0. Las 6 ejecuciones salen de unos 201 hilos entre un tope de 40, sin contar lo que llegue cada día."
+    },
+    "archivo": {
+      "nombre": "Archivo de remitentes",
+      "burbuja": "Faltan 16 fichas",
+      "dice": "Solo toco lo que está en la lista. Si no me das la dirección exacta, no adivino.",
+      "resumen": "La lista de remitentes autorizados es la única fuente de verdad de qué se toca. Los clientes pendientes necesitan que se confirme su dirección exacta antes de entrar.",
+      "datos": [],
+      "chips": [
+        { "grupo": "Confirmados", "estado": "ok", "items": ["HEYDUDE", "BSoul", "Azarey", "Tuc Tuc"] },
+        { "grupo": "Pendientes de confirmar", "estado": "atencion", "items": ["Macami", "Paloma Barceló", "Palomitas", "BSoul (resto de países)", "Porronet", "Polín et Moi", "Toni Pons", "Abbacino", "Mumit", "Genuins", "Bliet", "Endado", "Plátano Melón", "Munich", "XTI", "Carmela Shoes"] }
+      ],
+      "fuente": "Skill limpieza-newsletters-clientes 1.0.0: remitentes.json."
+    },
+    "reloj": {
+      "nombre": "Reloj",
+      "burbuja": "Sin programar aún",
+      "dice": "Dime a qué hora y me pongo a trabajar cada día.",
+      "resumen": "La tarea diaria todavía no está programada. El plan es una semana en modo prueba, en la que JARVIS solo informa, y después pasar al modo real. Falta elegir la hora.",
+      "datos": [
+        { "etiqueta": "Estado", "valor": "Sin programar" },
+        { "etiqueta": "Modo actual", "valor": "Prueba" }
+      ],
+      "fuente": "Skill limpieza-newsletters-clientes 1.0.0: SKILL.md."
+    }
+  },
+  "pasos": [
+    { "titulo": "Llega la newsletter", "lugar": "buzon", "burbuja": "Nueva campaña", "detalle": "JARVIS encuentra un hilo cuyo remitente está en la lista." },
+    { "titulo": "Elige un enlace de contenido", "lugar": "mesa", "burbuja": "Busco un producto", "detalle": "Lee el texto del mensaje y elige un producto, una colección o el botón principal." },
+    { "titulo": "Valida y hace clic", "lugar": "mesa", "burbuja": "Clic, sin baja", "detalle": "El script rechaza bajas y destinos dudosos, y abre el enlace siguiendo las redirecciones." },
+    { "titulo": "Comprueba el resultado", "lugar": "mesa", "burbuja": "Todo en orden", "detalle": "Si algún clic falla, el hilo se queda en la bandeja y queda anotado en el resumen." },
+    { "titulo": "A la papelera", "lugar": "papelera", "burbuja": "A la papelera", "detalle": "El hilo se mueve a la papelera de Gmail y se puede recuperar durante 30 días." }
+  ]
+}
+</script>
+<script type="module" src="oficina.js"></script>

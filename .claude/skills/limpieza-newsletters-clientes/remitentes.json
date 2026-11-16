@@ -1,0 +1,27 @@
+{
+  "descripcion": "Remitentes de newsletters de clientes que el agente puede abrir y mandar a la papelera. Solo se actúa sobre direcciones exactas de esta lista.",
+  "confirmados": [
+    { "cliente": "HEYDUDE", "remitente": "newsletter@news.heydude.es" },
+    { "cliente": "BSoul", "remitente": "news@mail.bsoul.es" },
+    { "cliente": "Azarey", "remitente": "comunicacion@azarey.es" },
+    { "cliente": "Tuc Tuc", "remitente": "hola@tuctuc.com" }
+  ],
+  "pendientes_de_confirmar": [
+    "Macami",
+    "Paloma Barceló",
+    "Palomitas",
+    "BSoul (resto de países)",
+    "Porronet",
+    "Polín et Moi",
+    "Toni Pons",
+    "Abbacino",
+    "Mumit",
+    "Genuins",
+    "Bliet",
+    "Endado",
+    "Plátano Melón",
+    "Munich",
+    "XTI",
+    "Carmela Shoes"
+  ]
+}
