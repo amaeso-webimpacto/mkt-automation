@@ -1,6 +1,6 @@
 # Agente de revisión de la cuenta de Klaviyo de Toni Pons
 
-Revisa la cuenta, detecta errores, riesgos y oportunidades, y envía un correo a Webimpacto. Hay dos modos: **semanal** (estado de la cuenta, lunes) y **mensual** (análisis completo del último mes cerrado, día 7 o siguiente laborable).
+Revisa la cuenta, detecta errores, riesgos y oportunidades, y envía un correo a Webimpacto. Hay dos modos: **semanal** (estado de la cuenta, lunes) y **mensual** (análisis completo del último mes cerrado, día 7 de cada mes, sea o no laborable).
 
 Antes de empezar, lee `contexto.md` de esta carpeta: recoge las reglas del cliente y las incidencias abiertas. Lo que contradiga esas reglas no se propone.
 
