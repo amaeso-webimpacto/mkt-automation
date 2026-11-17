@@ -1,5 +1,6 @@
 // Lectura mínima de un correo MIME: cabeceras y partes de texto o HTML ya decodificadas.
 const { parsearCabeceras } = require("./verificar-plataforma.js");
+const { decodificarQuotedPrintable } = require("./codificacion.js");
 
 const FIN_CABECERAS = /\r?\n\r?\n/;
 const CHARSET_POR_DEFECTO = "utf-8";
@@ -7,21 +8,6 @@ const CHARSET_POR_DEFECTO = "utf-8";
 function cuerpoDe(mime) {
   const corte = mime.search(FIN_CABECERAS);
   return corte < 0 ? "" : mime.slice(corte).replace(FIN_CABECERAS, "");
-}
-
-function decodificarQuotedPrintable(texto) {
-  const limpio = texto.replace(/=\r?\n/g, "");
-  const bytes = [];
-  for (let i = 0; i < limpio.length; i++) {
-    const hex = limpio.slice(i + 1, i + 3);
-    if (limpio[i] === "=" && /^[0-9A-Fa-f]{2}$/.test(hex)) {
-      bytes.push(parseInt(hex, 16));
-      i += 2;
-    } else {
-      bytes.push(limpio.charCodeAt(i) & 0xff);
-    }
-  }
-  return Buffer.from(bytes);
 }
 
 function bytesDeParte(cuerpo, codificacion) {

@@ -4,6 +4,7 @@
 // Salida: una línea JSON con { ok, plataforma, senales, motivo }, sin direcciones de personas. Código 0 si se verifica y 3 si no.
 // Connectif no tiene firma verificada: sus correos nunca se dan por buenos hasta añadir una muestra real.
 const fs = require("node:fs");
+const { esAsuntoDeTest } = require("./asunto.js");
 
 const FIN_CABECERAS = /\r?\n\r?\n/;
 const DOMINIO = /@?([a-z0-9][a-z0-9.-]+\.[a-z]{2,})/g;
@@ -56,8 +57,9 @@ function dominiosBaja(cabeceras) {
   return (cabeceras.get("list-unsubscribe") ?? []).flatMap((valor) => [...valor.toLowerCase().matchAll(DOMINIO)].map((m) => m[1]));
 }
 
-// Un correo de conversación o sin cabecera de baja de lista no es una campaña masiva.
+// Un envío de prueba, un correo de conversación o uno sin cabecera de baja de lista no es una campaña masiva.
 function motivoDeRechazoGeneral(cabeceras) {
+  if (esAsuntoDeTest(cabeceras.get("subject")?.[0] ?? "")) return "asunto-de-test-interno";
   if (!cabeceras.has("list-unsubscribe")) return "sin-cabecera-de-baja-de-lista";
   if (cabeceras.has("in-reply-to") || cabeceras.has("references")) return "forma-parte-de-una-conversacion";
   return null;

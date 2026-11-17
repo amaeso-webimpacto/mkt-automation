@@ -46,17 +46,34 @@
       "cliente": "Siux Pádel",
       "remitente": "contact.spain@siuxpadel.com",
       "plataforma": "klaviyo"
-    }
-  ],
-  "plataforma_conocida_falta_direccion": [
+    },
     {
       "cliente": "Macami",
+      "remitente": "info@macamibiotech.com",
       "plataforma": "klaviyo"
     },
     {
       "cliente": "Paloma Barceló USA",
+      "remitente": "info@palomabarcelo.us",
       "plataforma": "klaviyo"
     },
+    {
+      "cliente": "XTI",
+      "remitente": "news@mailingxti.com",
+      "plataforma": "klaviyo"
+    },
+    {
+      "cliente": "Bliet",
+      "remitente": "hello@bliet.com",
+      "plataforma": "klaviyo"
+    },
+    {
+      "cliente": "REFRESH",
+      "remitente": "news@mailingrefresh.com",
+      "plataforma": "klaviyo"
+    }
+  ],
+  "plataforma_conocida_falta_direccion": [
     {
       "cliente": "Palomitas",
       "plataforma": "klaviyo"
@@ -67,10 +84,6 @@
     },
     {
       "cliente": "Mumit",
-      "plataforma": "klaviyo"
-    },
-    {
-      "cliente": "Bliet",
       "plataforma": "klaviyo"
     },
     {
@@ -92,7 +105,13 @@
     "Endado",
     "Plátano Melón",
     "Munich",
-    "XTI",
     "Carmela Shoes"
+  ],
+  "enviados_desde_plataformas_no_permitidas": [
+    {
+      "cliente": "BSoul España",
+      "remitente": "contacto@sac.bsoul.es",
+      "plataforma_detectada": "Shopify Email"
+    }
   ]
 }
