@@ -13,7 +13,7 @@ hooks:
 
 | Versión | Fecha | Creadora | Contacto |
 |---|---|---|---|
-| 1.4.2 | 17/11/2026 | Ana I. Maeso | amaeso@webimpacto.es |
+| 1.5.0 | 17/11/2026 | Ana I. Maeso | amaeso@webimpacto.es |
 
 La bandeja recibe cada día las campañas de todos los clientes, y cada una llega varias veces porque la cuenta está suscrita con distintos alias. El agente abre cada correo, hace un clic y lo manda a la **papelera** de Gmail (recuperable 30 días). Nunca borra de forma definitiva.
 
@@ -27,7 +27,8 @@ La bandeja recibe cada día las campañas de todos los clientes, y cada una lleg
 2. **Nunca correos que envíen personas.** Un hilo con una respuesta, un mensaje enviado por ti, un mensaje sin cabecera de baja de lista, con un remitente que no está en `remitentes.json`, con remitentes distintos entre sí o con más de 6 mensajes se queda en la bandeja entero.
 3. **Nunca enviar correo, de ninguna forma.** Prohibido usar `send_message`, `reply`, `forward`, `create_draft`, `update_draft` y `send_draft`, y no crear borradores. El único cambio que se hace en Gmail es `trash_thread`. El script de clic solo hace peticiones GET.
 4. **Nunca marcar como spam, etiquetar ni cancelar suscripciones.**
-5. **Solo Gmail.** No usar ningún otro conector (Klaviyo, Shopify, Asana, Drive...). Del conector de Gmail solo se usan `search_threads`, `get_message` y `trash_thread`.
+5. **Nunca envíos de prueba.** Si el asunto contiene como palabra completa `TEST`, `PRUEBA`, `VISTA PREVIA` o `PREVIEW`, sin distinguir mayúsculas ni acentos, el correo no se toca (`asunto-de-test-interno`). Lo comprueba `verificar-plataforma.js` tras decodificar el asunto.
+6. **Solo Gmail.** No usar ningún otro conector (Klaviyo, Shopify, Asana, Drive...). Del conector de Gmail solo se usan `search_threads`, `get_message` y `trash_thread`.
 
 Un hook de esta skill (`restringir-herramientas.js`) bloquea las llamadas MCP que no sean esas tres, pero no se ha probado en una tarea programada: la regla se cumple igualmente por instrucción. Si algo no encaja con estos límites, no se actúa y se cuenta en el resumen.
 
@@ -35,6 +36,7 @@ Un hook de esta skill (`restringir-herramientas.js`) bloquea las llamadas MCP qu
 
 - `remitentes.json`: remitentes exactos autorizados y la plataforma que se espera de cada uno. Es la única fuente de verdad de qué se toca.
 - `procesar-correo.js`: por cada correo en bruto comprueba remitente y plataforma, elige un enlace de contenido, lo valida y hace clic. Usa `verificar-plataforma.js`, `mime.js`, `enlaces-newsletter.js` y `clic-newsletter.js`.
+- `asunto.js` y `codificacion.js`: decodifican el asunto y detectan los envíos de prueba.
 - `restringir-herramientas.js`: hook que bloquea herramientas fuera de las permitidas.
 - Los tests se lanzan con `node --test` desde esta carpeta.
 
@@ -80,4 +82,5 @@ Resumen final, corto, sin asuntos completos ni direcciones de destinatarios:
 - Una factura, un pedido, una respuesta o un mensaje de un cliente que no es newsletter se queda donde está.
 - Nunca pulsar baja, preferencias ni «ver en navegador». El script los descarta por el texto del enlace, por su dirección y en cada redirección.
 - Los enlaces de seguimiento llevan identificadores del suscriptor: no imprimirlos, solo el host.
-- Para añadir un cliente: confirmar su dirección exacta y su plataforma con un correo real, y pasarlo de `plataforma_conocida_falta_direccion` a `confirmados`.
+- Para añadir un cliente: confirmar su dirección exacta y su plataforma con un correo real de campaña (un envío de prueba no sirve: no lleva cabecera de baja), y pasarlo de `plataforma_conocida_falta_direccion` a `confirmados`.
+- Un remitente que envíe desde otra plataforma (por ejemplo Shopify Email) no entra en la lista, aunque sea de un cliente: se anota en `enviados_desde_plataformas_no_permitidas`.
