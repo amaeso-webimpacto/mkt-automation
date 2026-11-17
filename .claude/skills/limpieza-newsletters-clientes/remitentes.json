@@ -1,24 +1,90 @@
 {
   "descripcion": "Remitentes de newsletters de clientes que el agente puede abrir y mandar a la papelera. Solo se actúa sobre direcciones exactas de esta lista y cuando las cabeceras confirman la plataforma indicada.",
-  "plataformas_permitidas": ["klaviyo", "icommkt", "connectif", "hubspot"],
+  "plataformas_permitidas": [
+    "klaviyo",
+    "icommkt",
+    "connectif",
+    "hubspot"
+  ],
   "confirmados": [
-    { "cliente": "HEYDUDE", "remitente": "newsletter@news.heydude.es", "plataforma": "icommkt" },
-    { "cliente": "BSoul", "remitente": "news@mail.bsoul.es", "plataforma": "hubspot" },
-    { "cliente": "Azarey", "remitente": "comunicacion@azarey.es", "plataforma": "klaviyo" },
-    { "cliente": "Tuc Tuc", "remitente": "hola@tuctuc.com", "plataforma": "klaviyo" }
+    {
+      "cliente": "HEYDUDE",
+      "remitente": "newsletter@news.heydude.es",
+      "plataforma": "icommkt"
+    },
+    {
+      "cliente": "BSoul",
+      "remitente": "news@mail.bsoul.es",
+      "plataforma": "hubspot"
+    },
+    {
+      "cliente": "Azarey",
+      "remitente": "comunicacion@azarey.es",
+      "plataforma": "klaviyo"
+    },
+    {
+      "cliente": "Tuc Tuc",
+      "remitente": "hola@tuctuc.com",
+      "plataforma": "klaviyo"
+    },
+    {
+      "cliente": "Abbacino",
+      "remitente": "newsletter@news.abbacino.es",
+      "plataforma": "icommkt"
+    },
+    {
+      "cliente": "Paloma Barceló",
+      "remitente": "contact@palomabarcelo.com",
+      "plataforma": "klaviyo"
+    },
+    {
+      "cliente": "BSoul Perú",
+      "remitente": "news@mail.bsoul.pe",
+      "plataforma": "hubspot"
+    },
+    {
+      "cliente": "Siux Pádel",
+      "remitente": "contact.spain@siuxpadel.com",
+      "plataforma": "klaviyo"
+    }
   ],
   "plataforma_conocida_falta_direccion": [
-    { "cliente": "Macami", "plataforma": "klaviyo" },
-    { "cliente": "Paloma Barceló", "plataforma": "klaviyo" },
-    { "cliente": "Paloma Barceló USA", "plataforma": "klaviyo" },
-    { "cliente": "Palomitas", "plataforma": "klaviyo" },
-    { "cliente": "Porronet", "plataforma": "klaviyo" },
-    { "cliente": "Mumit", "plataforma": "klaviyo" },
-    { "cliente": "Bliet", "plataforma": "klaviyo" },
-    { "cliente": "BSoul (resto de países)", "plataforma": "hubspot" },
-    { "cliente": "Abbacino", "plataforma": "icommkt" },
-    { "cliente": "Genuins", "plataforma": "icommkt" },
-    { "cliente": "10xDiez", "plataforma": "icommkt" }
+    {
+      "cliente": "Macami",
+      "plataforma": "klaviyo"
+    },
+    {
+      "cliente": "Paloma Barceló USA",
+      "plataforma": "klaviyo"
+    },
+    {
+      "cliente": "Palomitas",
+      "plataforma": "klaviyo"
+    },
+    {
+      "cliente": "Porronet",
+      "plataforma": "klaviyo"
+    },
+    {
+      "cliente": "Mumit",
+      "plataforma": "klaviyo"
+    },
+    {
+      "cliente": "Bliet",
+      "plataforma": "klaviyo"
+    },
+    {
+      "cliente": "BSoul (resto de países, sin Perú)",
+      "plataforma": "hubspot"
+    },
+    {
+      "cliente": "Genuins",
+      "plataforma": "icommkt"
+    },
+    {
+      "cliente": "10xDiez",
+      "plataforma": "icommkt"
+    }
   ],
   "sin_plataforma_ni_direccion": [
     "Polín et Moi",

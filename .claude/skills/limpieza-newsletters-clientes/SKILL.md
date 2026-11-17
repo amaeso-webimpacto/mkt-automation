@@ -13,7 +13,7 @@ hooks:
 
 | Versión | Fecha | Creadora | Contacto |
 |---|---|---|---|
-| 1.4.1 | 16/11/2026 | Ana I. Maeso | amaeso@webimpacto.es |
+| 1.4.2 | 17/11/2026 | Ana I. Maeso | amaeso@webimpacto.es |
 
 La bandeja recibe cada día las campañas de todos los clientes, y cada una llega varias veces porque la cuenta está suscrita con distintos alias. El agente abre cada correo, hace un clic y lo manda a la **papelera** de Gmail (recuperable 30 días). Nunca borra de forma definitiva.
 
