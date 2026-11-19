@@ -124,6 +124,10 @@ Envía con `mcp__Gmail__send_message` (`htmlBody` y `body` de texto plano) solo 
 
 Si falla la escritura en el artefacto o alguna fuente, envía igualmente el correo explicando qué ha fallado y qué queda pendiente, y no inventes datos. No hagas commit.
 
-## 8. Cierre
+## 8. Aviso en la Oficina de agentes
 
-Deja en la sesión un resumen de tres líneas: mes cerrado, datos medidos y pendientes, y si el correo se envió.
+Al terminar, también si ha fallado, escribe el aviso de Tony Stark como indica `instrucciones.md`, sección 8. El resumen indica el mes cerrado y cuántos datos quedan pendientes de rellenar a mano; cada dato pendiente importante va como entrada `aviso` de `avisos`.
+
+## 9. Cierre
+
+Deja en la sesión un resumen de tres líneas: mes cerrado, datos medidos y pendientes, y si el correo y el aviso de la oficina se enviaron.
