@@ -1,0 +1,246 @@
+<title>Inventario de oficina</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap">
+<link rel="stylesheet" href="styles.css">
+
+<div class="app">
+  <header class="app-header">
+    <div class="gradient-bar" aria-hidden="true"></div>
+    <p class="app-header__kicker">Oficina Webimpacto</p>
+    <h1 class="app-header__title">Inventario de oficina</h1>
+    <p class="app-header__turn" data-js-turn>Sin turno asignado para hoy</p>
+  </header>
+
+  <p class="banner" role="status" data-js-banner hidden></p>
+
+  <main class="app-main">
+    <section class="view" data-js-view="inventario" aria-labelledby="title-inventario">
+      <div class="card review-card">
+        <h2 class="card__title" id="title-review">Revisión de este turno</h2>
+        <p class="card__text" data-js-review-text></p>
+        <p class="card__text" data-js-last-order-text></p>
+        <button type="button" class="btn btn--secondary" data-js-review-done data-js-write>Marcar revisión hecha</button>
+      </div>
+
+      <div class="section-head">
+        <h2 class="section-head__title" id="title-inventario">Productos</h2>
+        <button type="button" class="btn btn--primary" data-js-item-add data-js-write>Añadir producto</button>
+      </div>
+
+      <form class="filters" role="search" data-js-filters>
+        <div class="field filters__query">
+          <label for="filter-query">Buscar producto</label>
+          <input id="filter-query" type="search" autocomplete="off" data-js-filter-query>
+        </div>
+        <div class="field">
+          <label for="filter-category">Categoría</label>
+          <select id="filter-category" data-js-filter-category></select>
+        </div>
+        <div class="field">
+          <label for="filter-status">Estado</label>
+          <select id="filter-status" data-js-filter-status></select>
+        </div>
+      </form>
+
+      <p class="count" aria-live="polite" data-js-count></p>
+      <ul class="item-list" data-js-item-list></ul>
+      <p class="empty" data-js-item-empty></p>
+    </section>
+
+    <section class="view" data-js-view="pedido" aria-labelledby="title-pedido" hidden>
+      <div class="section-head">
+        <h2 class="section-head__title" id="title-pedido">Pedido a RRHH</h2>
+        <p class="count" data-js-order-count></p>
+      </div>
+
+      <div class="empty" data-js-order-empty>
+        <p>No hay productos marcados como Hay que pedir.</p>
+        <a class="link" href="#inventario">Ir al inventario</a>
+      </div>
+
+      <div data-js-order-panel hidden>
+        <ul class="order-list" data-js-order-list></ul>
+
+        <div class="card">
+          <h3 class="card__title">Destinatario</h3>
+          <div class="field">
+            <label for="hr-name">Nombre</label>
+            <input id="hr-name" type="text" autocomplete="off" maxlength="60" data-js-hr-name data-js-write>
+          </div>
+          <div class="field">
+            <label for="hr-email">Correo de RRHH</label>
+            <input id="hr-email" type="email" autocomplete="off" maxlength="120" aria-describedby="hr-email-error" data-js-hr-email data-js-write>
+            <p class="field__error" id="hr-email-error" role="alert" data-js-hr-email-error></p>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="card__title">Mensaje</h3>
+          <div class="field">
+            <label for="email-signature">Firma</label>
+            <input id="email-signature" type="text" autocomplete="off" maxlength="60" placeholder="Equipo del turno actual" data-js-email-signature>
+          </div>
+          <div class="field">
+            <label for="email-notes">Notas para RRHH (opcional)</label>
+            <textarea id="email-notes" rows="3" maxlength="500" data-js-email-notes></textarea>
+          </div>
+          <div class="field">
+            <label for="email-subject">Asunto</label>
+            <input id="email-subject" type="text" readonly data-js-email-subject>
+          </div>
+          <div class="field">
+            <label for="email-body">Cuerpo del correo</label>
+            <textarea id="email-body" rows="12" readonly data-js-email-body></textarea>
+          </div>
+          <p class="card__text">Dirección de RRHH: <strong data-js-hr-address></strong></p>
+          <div class="btn-row">
+            <button type="button" class="btn btn--primary" data-js-copy-subject data-js-email-action>Copiar asunto</button>
+            <button type="button" class="btn btn--primary" data-js-copy-body data-js-email-action>Copiar mensaje</button>
+            <a class="btn btn--secondary" data-js-mailto>Abrir en mi correo</a>
+          </div>
+          <p class="card__hint">El botón Abrir en mi correo puede no hacer nada desde aquí. Si no pasa nada, copia el asunto y el mensaje y pégalos en tu correo.</p>
+        </div>
+
+        <div class="card">
+          <h3 class="card__title">Después de enviar el correo</h3>
+          <p class="card__text">Marca los productos como Pedido para que el siguiente turno sepa que ya están solicitados.</p>
+          <button type="button" class="btn btn--secondary" data-js-order-mark data-js-write>Marcar como pedido</button>
+          <div class="confirm" data-js-order-confirm hidden>
+            <p class="confirm__text" data-js-confirm-text></p>
+            <div class="btn-row">
+              <button type="button" class="btn btn--primary" data-js-confirm-yes data-js-write>Confirmar</button>
+              <button type="button" class="btn btn--secondary" data-js-confirm-no>Cancelar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" data-js-view="turnos" aria-labelledby="title-turnos" hidden>
+      <div class="section-head">
+        <h2 class="section-head__title" id="title-turnos">Turnos de revisión</h2>
+      </div>
+      <div class="card">
+        <h3 class="card__title">Cómo funciona</h3>
+        <p class="card__text">Cada 15 días un equipo revisa el inventario. Si no queda de varias cosas o de las esenciales, hace la lista y escribe a RRHH para que haga el pedido. Suele tardar entre 3 y 5 días en llegar, según caiga el fin de semana.</p>
+        <p class="card__text">El equipo encargado también sube las botellas de la neverita y los bidones.</p>
+        <p class="card__text">Lo ideal es dejar el inventario actualizado antes del cambio de turno.</p>
+      </div>
+      <ul class="rotation-list" data-js-rotation-list></ul>
+      <p class="empty" data-js-rotation-empty>Todavía no hay turnos cargados.</p>
+    </section>
+  </main>
+
+  <nav class="tabbar" aria-label="Secciones">
+    <a class="tabbar__link" href="#inventario" data-js-tab="inventario">Inventario</a>
+    <a class="tabbar__link" href="#pedido" data-js-tab="pedido">Pedido</a>
+    <a class="tabbar__link" href="#turnos" data-js-tab="turnos">Turnos</a>
+  </nav>
+
+  <p class="toast" role="status" data-js-toast hidden></p>
+</div>
+
+<dialog class="sheet" data-js-dialog data-js-dialog-item aria-labelledby="item-dialog-title">
+  <form class="sheet__form" method="dialog" data-js-item-form novalidate>
+    <h2 class="sheet__title" id="item-dialog-title" data-js-item-dialog-title>Editar producto</h2>
+    <div class="field">
+      <label for="item-name">Producto</label>
+      <input id="item-name" name="name" type="text" maxlength="80" required autocomplete="off">
+    </div>
+    <div class="field">
+      <label for="item-qty">Cantidad disponible</label>
+      <input id="item-qty" name="qty" type="text" maxlength="160" autocomplete="off" placeholder="Ej. 3 bricks">
+    </div>
+    <div class="field">
+      <label for="item-status">Estado del pedido</label>
+      <select id="item-status" name="status"></select>
+    </div>
+    <div class="field" data-js-order-qty-field hidden>
+      <label for="item-order-qty">Cantidad a pedir</label>
+      <input id="item-order-qty" name="orderQty" type="text" maxlength="160" autocomplete="off" placeholder="Ej. 6 bricks">
+    </div>
+    <div class="field">
+      <label for="item-category">Categoría</label>
+      <select id="item-category" name="category"></select>
+    </div>
+    <div class="field">
+      <label for="item-location">¿Dónde está?</label>
+      <input id="item-location" name="location" type="text" maxlength="160" autocomplete="off">
+    </div>
+    <div class="field">
+      <label for="item-spare">¿Dónde hay repuestos?</label>
+      <input id="item-spare" name="spare" type="text" maxlength="160" autocomplete="off">
+    </div>
+    <p class="field__error" role="alert" data-js-item-error></p>
+    <div class="btn-row">
+      <button type="submit" class="btn btn--primary" data-js-write>Guardar</button>
+      <button type="button" class="btn btn--secondary" data-js-item-cancel>Cancelar</button>
+      <button type="button" class="btn btn--danger" data-js-item-delete data-js-write>Eliminar</button>
+    </div>
+    <div class="confirm" data-js-item-delete-confirm hidden>
+      <p class="confirm__text">Se eliminará este producto para todos los equipos.</p>
+      <div class="btn-row">
+        <button type="button" class="btn btn--danger" data-js-item-delete-yes data-js-write>Sí, eliminar</button>
+        <button type="button" class="btn btn--secondary" data-js-item-delete-no>No</button>
+      </div>
+    </div>
+  </form>
+</dialog>
+
+<dialog class="sheet" data-js-dialog data-js-dialog-team aria-labelledby="team-dialog-title">
+  <form class="sheet__form" method="dialog" data-js-team-form novalidate>
+    <h2 class="sheet__title" id="team-dialog-title">Cambiar equipo del turno</h2>
+    <div class="field">
+      <label for="team-input">Equipo encargado</label>
+      <input id="team-input" type="text" maxlength="40" autocomplete="off" aria-describedby="team-error" data-js-team-input>
+      <p class="field__error" id="team-error" role="alert" data-js-team-error></p>
+    </div>
+    <div class="btn-row">
+      <button type="submit" class="btn btn--primary" data-js-write>Guardar</button>
+      <button type="button" class="btn btn--secondary" data-js-team-cancel>Cancelar</button>
+    </div>
+  </form>
+</dialog>
+
+<template data-js-template-item>
+  <li class="item-card" data-js-item-id>
+    <button type="button" class="item-card__main" data-js-item-edit>
+      <span class="item-card__name" data-js-field="name"></span>
+      <span class="item-card__line"><span class="item-card__label">Quedan:</span> <span data-js-field="qty"></span></span>
+      <span class="item-card__line" data-js-field="where"></span>
+    </button>
+    <div class="item-card__side">
+      <span class="pill" data-js-field="status"></span>
+      <button type="button" class="btn btn--small" data-js-item-flag data-js-write></button>
+    </div>
+  </li>
+</template>
+
+<template data-js-template-order>
+  <li class="order-row" data-js-item-id>
+    <div class="order-row__info">
+      <span class="order-row__name" data-js-field="name"></span>
+      <span class="order-row__stock" data-js-field="stock"></span>
+    </div>
+    <div class="field order-row__qty">
+      <label data-js-field="qty-label">Cantidad a pedir</label>
+      <input type="text" maxlength="160" autocomplete="off" data-js-field="qty-input" data-js-write>
+    </div>
+    <button type="button" class="btn btn--small" data-js-order-remove data-js-write>Quitar</button>
+  </li>
+</template>
+
+<template data-js-template-period>
+  <li class="period" data-js-period-index>
+    <div class="period__info">
+      <span class="period__range" data-js-field="range"></span>
+      <span class="period__team" data-js-field="team"></span>
+      <span class="pill pill--now" data-js-field="badge"></span>
+    </div>
+    <button type="button" class="btn btn--small" data-js-period-edit data-js-write>Cambiar</button>
+  </li>
+</template>
+
+<script type="module" src="js/main.js"></script>
