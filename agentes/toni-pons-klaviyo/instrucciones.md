@@ -8,7 +8,7 @@ Antes de empezar, lee `contexto.md` de esta carpeta: recoge las reglas del clien
 
 - **Un solo cliente, un solo conector de Klaviyo:** `Klaviyo-ToniPons-Todo`. No uses `Klaviyo-Salter-Todo` ni ningún otro conector de Klaviyo, ni siquiera para comprobar algo. Si el de Toni Pons falla, informa del fallo; no lo sustituyas.
 - **Klaviyo en solo lectura.** Permitido: `get_*`, `list_billing_usage`, `query_metric_aggregates`, `query_segment_values`, `ask_analytics_question` (solo recuentos agregados). Prohibido cualquier herramienta que cree, actualice, borre, envíe, suscriba, suprima, programe o publique, y `create_*`, `update_*`, `delete_*`, `bulk_*`, `send_*`, `schedule_*`, `subscribe_*`, `unsubscribe_*`, `merge_*`.
-- **Escrituras permitidas:** solo (a) el Sheet del histórico, en las pestañas `Mensual`, `Semanal`, `Flujos`, `Dominio`, `Alertas` y `Fuentes`, y (b) el envío del informe por Gmail. La pestaña `Umbrales` es solo lectura para el agente. El modo artefacto (`instrucciones-artefacto.md`) añade una escritura: el documento del mes en la base del artefacto «Dashboard Toni Pons».
+- **Escrituras permitidas:** solo (a) el Sheet del histórico, en las pestañas `Mensual`, `Semanal`, `Flujos`, `Dominio`, `Alertas` y `Fuentes`, (b) el envío del informe por Gmail y (c) el documento `avisos/tony` de la Oficina de agentes (sección 9). La pestaña `Umbrales` es solo lectura para el agente. El modo artefacto (`instrucciones-artefacto.md`) añade una escritura: el documento del mes en la base del artefacto «Dashboard Toni Pons».
 - **Sin datos personales:** no pidas ni escribas perfiles, correos, teléfonos, pedidos ni exportaciones de leads. Los recuentos de perfiles se piden agregados. No reproduzcas nunca claves, tokens ni contraseñas.
 - **No inventes.** Si un dato no se puede obtener, escríbelo como «no medido» y di por qué. Separa lo verificado de lo supuesto. No afirmes que algo funciona sin haberlo comprobado.
 - **No hagas cambios ni propongas ejecutarlos sin validación del cliente.** Las propuestas van como «a validar con el cliente».
@@ -119,6 +119,21 @@ Titular de una frase; alertas nuevas, cerradas y las que siguen abiertas (una l�
 - No cites nombres de personas del cliente: usa su cargo.
 - No incluyas direcciones de correo del cliente ni datos de clientes finales.
 
-## 8. Cierre
+## 8. Aviso en la Oficina de agentes
 
-Al terminar, deja en la sesión un resumen de tres líneas: qué modo se ejecutó, cuántas alertas nuevas y cerradas, y si el correo se envió. No hagas commit de nada.
+Este agente es Tony Stark en el artefacto «Oficina de agentes» (https://claude.ai/artifact/V1V3fcXrNsa6gXhnceG7Fp). Al terminar un informe semanal o mensual, también si ha fallado, escribe su estado con `ArtifactData`: `action: "set"`, `collection: "avisos"`, `doc_id: "tony"`. El documento ya existe: léelo antes y pasa `if_version`. Es la única escritura permitida en ese artefacto.
+
+Campos del documento:
+
+- `actualizado`: fecha y hora ISO con el desplazamiento de Madrid (calculado con `zoneinfo`).
+- `resumen`: una frase de 160 caracteres como máximo, por ejemplo «Semanal: 2 alertas nuevas, 1 crítica».
+- `avisos`: hasta 30 objetos `{t, d, nivel}`. `t` es el titular (160 caracteres), `d` el detalle (300) y `nivel` es `critico`, `aviso` o `info`. Una entrada por alerta nueva o abierta, las críticas primero; las alertas cerradas van como `info`. Lista vacía si no hay nada.
+- `error`: solo si la ejecución falló; texto breve (160 caracteres). La oficina muestra el error en lugar de los avisos.
+- `proxima`: texto de la próxima ejecución programada (80 caracteres), si se conoce.
+- `pasos`: lista de `{n, e}` donde `e` es `hecho`, `curso`, `pendiente` o `error`. Usa estos pasos: «Leer contexto y fuentes», «Consultar Klaviyo», «Analizar y priorizar» y «Publicar el aviso».
+
+Los textos siguen las mismas reglas que el correo: sin datos personales, sin nombres de personas del cliente, sin credenciales y sin causas sin verificar. Si la escritura falla, dilo en el cierre y no reintentes más de una vez.
+
+## 9. Cierre
+
+Al terminar, deja en la sesión un resumen de tres líneas: qué modo se ejecutó, cuántas alertas nuevas y cerradas, y si el correo y el aviso de la oficina se enviaron. No hagas commit de nada.
