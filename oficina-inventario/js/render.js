@@ -251,6 +251,25 @@ export function renderTurnSummary({ current, next, warn }) {
     : `Siguiente: ${teamLabel(next.team)} · ${range}`;
 }
 
+export function renderMembers(teams) {
+  ref("members").replaceChildren(
+    ...teams.map((team) => {
+      const item = document.createElement("li");
+      item.className = `members__item ${teamColorClass(team.colorIndex)}`;
+      const swatch = document.createElement("span");
+      swatch.className = "swatch";
+      swatch.setAttribute("aria-hidden", "true");
+      const name = document.createElement("strong");
+      name.textContent = teamLabel(team.name);
+      const mails = document.createElement("span");
+      mails.className = "members__mails";
+      mails.textContent = team.members?.length ? team.members.join(" · ") : "Sin personas asignadas";
+      item.append(swatch, name, mails);
+      return item;
+    }),
+  );
+}
+
 export function renderCalendarHead() {
   const row = document.createElement("tr");
   WEEKDAYS.forEach(({ short, full }) => {

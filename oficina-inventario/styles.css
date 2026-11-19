@@ -837,6 +837,31 @@ thead .cell {
   color: var(--ink-2);
 }
 
+/* Team members */
+.members {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.8125rem;
+}
+
+.members__item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 8px;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-2);
+}
+
+.members__mails {
+  color: var(--ink-2);
+  overflow-wrap: anywhere;
+}
+
 /* Tab bar */
 .tabbar {
   position: fixed;

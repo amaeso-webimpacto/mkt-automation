@@ -44,6 +44,7 @@ import {
   renderFilters,
   renderInventoryTable,
   renderLegend,
+  renderMembers,
   renderOrderList,
   renderReview,
   renderRotation,
@@ -133,6 +134,7 @@ function renderTurns() {
   renderTurnSummary(buildTurnSummary({ periods, teams, todayIso: today() }));
   renderCalendar({ title: formatMonthTitle(state.calendar), grid });
   renderLegend(teams);
+  renderMembers(teams);
   renderRotation({ periods, teams, currentIndex: currentPeriodIndex() });
 }
 
