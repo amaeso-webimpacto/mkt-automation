@@ -103,7 +103,7 @@ export function renderFilters({ filters, items }) {
     categoryCounts[item.category] = (categoryCounts[item.category] ?? 0) + 1;
     statusCounts[item.status] = (statusCounts[item.status] ?? 0) + 1;
   });
-  categoryCounts[""] = items.length;
+  categoryCounts[""] = CATEGORIES.length;
   statusCounts[""] = items.length;
   updateFilterSelect(ref("filter-category"), CATEGORY_FILTER_OPTIONS, filters.category, categoryCounts);
   updateFilterSelect(ref("filter-status"), STATUS_FILTER_OPTIONS, filters.status, statusCounts);
