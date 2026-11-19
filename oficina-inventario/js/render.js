@@ -240,10 +240,10 @@ export function renderTurnSummary({ current, next, warn }) {
   notice.classList.toggle("notice--warn", warn);
   notice.hidden = !next;
   if (!next) return;
-  ref("turn-next-title").textContent = `${warn ? "Aviso: " : ""}Siguiente turno ${describeDays(next.days)}`;
-  ref("turn-next-text").textContent = `${teamLabel(next.team)} · ${formatShortDate(next.from)} al ${formatShortDate(next.to)}${
-    warn ? ". Dejad el inventario actualizado antes del cambio de turno." : ""
-  }`;
+  const range = `${formatShortDate(next.from)} al ${formatShortDate(next.to)}`;
+  notice.textContent = warn
+    ? `Aviso: el turno cambia ${describeDays(next.days)} · ${teamLabel(next.team)} (${range})`
+    : `Siguiente: ${teamLabel(next.team)} · ${range}`;
 }
 
 export function renderCalendarHead() {

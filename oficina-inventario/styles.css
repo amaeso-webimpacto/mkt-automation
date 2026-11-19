@@ -740,27 +740,19 @@ thead .cell {
 }
 
 .notice {
-  display: grid;
-  gap: var(--space-0);
-  padding: var(--space-2);
+  margin: 0;
+  padding: var(--space-1) 12px;
   border: 1px solid var(--line);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   background: var(--bg-2);
+  color: var(--ink-2);
+  font-size: 0.875rem;
 }
 
 .notice--warn {
-  border: 2px solid var(--warn);
-}
-
-.notice__title {
-  margin: 0;
-  font-family: var(--font-title);
-  font-weight: 600;
-}
-
-.notice__text {
-  margin: 0;
-  color: var(--ink-2);
+  border-color: var(--warn);
+  color: var(--ink);
+  font-weight: 500;
 }
 
 /* Calendar */
