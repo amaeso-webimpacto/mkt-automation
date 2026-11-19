@@ -121,7 +121,9 @@ Titular de una frase; alertas nuevas, cerradas y las que siguen abiertas (una l�
 
 ## 8. Aviso en la Oficina de agentes
 
-Este agente es Tony Stark en el artefacto «Oficina de agentes» (https://claude.ai/artifact/V1V3fcXrNsa6gXhnceG7Fp). Al terminar un informe semanal o mensual, también si ha fallado, escribe su estado con `ArtifactData`: `action: "set"`, `collection: "avisos"`, `doc_id: "tony"`. El documento ya existe: léelo antes y pasa `if_version`. Es la única escritura permitida en ese artefacto.
+Este agente es Tony Stark en el artefacto «Oficina de agentes» (https://claude.ai/artifact/V1V3fcXrNsa6gXhnceG7Fp). Al terminar cualquier ejecución (informe semanal o mensual, auditoría, revisión o petición puntual), también si ha fallado, escribe su estado con `ArtifactData`: `action: "set"`, `collection: "avisos"`, `doc_id: "tony"`. El documento ya existe: léelo antes y pasa `if_version`. Es la única escritura permitida en ese artefacto.
+
+En una petición puntual, `resumen` y `avisos` describen esa ejecución (por ejemplo «Auditoría de flujos: 3 hallazgos, 1 crítico»). Añade las alertas que sigan abiertas en la pestaña `Alertas` del histórico, para no ocultar las del último informe, y conserva el `proxima` del documento que has leído.
 
 Campos del documento:
 
