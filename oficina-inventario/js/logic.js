@@ -289,7 +289,3 @@ export function buildEmail({ items, notes, signature, todayIso }) {
   parts.push(`Gracias,\n${signature || "Equipo de revisión"}\n${OFFICE_LABEL[0].toUpperCase()}${OFFICE_LABEL.slice(1)}`);
   return { subject, body: parts.join("\n\n") };
 }
-
-export function buildMailtoUrl({ subject, body }) {
-  return `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-}

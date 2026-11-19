@@ -209,11 +209,9 @@ function buildOrderRow(item) {
   return row;
 }
 
-export function renderEmailPreview({ subject, body, mailtoUrl }) {
+export function renderEmailPreview({ subject, body }) {
   ref("email-subject").value = subject;
   ref("email-body").value = body;
-  const link = ref("mailto");
-  link.setAttribute("href", mailtoUrl);
   refs("email-action").forEach((control) => {
     control.disabled = !body;
   });

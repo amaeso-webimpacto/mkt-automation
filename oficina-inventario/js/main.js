@@ -12,7 +12,6 @@ import { fillSelect, ref, refs } from "./dom.js";
 import {
   addTeamToRotation,
   buildEmail,
-  buildMailtoUrl,
   buildMonthGrid,
   buildTurnSummary,
   changePeriodTeam,
@@ -123,7 +122,7 @@ function renderOrder() {
     signature: teamLabel(team),
     todayIso: today(),
   });
-  renderEmailPreview({ ...email, mailtoUrl: buildMailtoUrl(email) });
+  renderEmailPreview(email);
 }
 
 function renderTurns() {
