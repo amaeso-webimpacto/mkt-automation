@@ -406,7 +406,7 @@ body {
   font-weight: 600;
 }
 
-/* Search and chips */
+/* Search */
 .filters {
   display: grid;
   gap: var(--space-2);
@@ -451,76 +451,19 @@ body {
   cursor: pointer;
 }
 
-.chip-group {
+.filters__selects {
   display: grid;
-  gap: var(--space-1);
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
 }
 
-.chip-group__label {
+.label-caps {
   margin: 0;
   color: var(--ink-2);
   font-size: 0.8125rem;
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
-}
-
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-1);
-}
-
-.chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-height: 44px;
-  padding: 0 14px;
-  border: 2px solid var(--line);
-  border-radius: var(--radius-pill);
-  background: var(--card);
-  color: var(--ink);
-  font: inherit;
-  font-size: 0.9375rem;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.chip[aria-pressed="true"] {
-  border-color: var(--ink);
-  background: var(--ink);
-  color: var(--bg);
-}
-
-.chip__icon {
-  font-size: 1.125rem;
-  line-height: 1;
-}
-
-.chip__icon--dot {
-  width: 10px;
-  height: 10px;
-  border-radius: var(--radius-pill);
-  background: var(--ink-2);
-}
-
-.chip__icon--por-pedir { background: var(--bad); }
-.chip__icon--pedido { background: var(--warn); }
-.chip__icon--recibido { background: var(--ok); }
-.chip__icon--periodico { background: var(--info); }
-
-.chip__count {
-  padding: 0 6px;
-  border-radius: var(--radius-pill);
-  background: var(--bg-2);
-  color: var(--ink);
-  font-size: 0.8125rem;
-  font-variant-numeric: tabular-nums;
-}
-
-.chip[aria-pressed="true"] .chip__count {
-  background: var(--bg);
 }
 
 /* Inventory table: same columns as the original sheet */
@@ -765,6 +708,61 @@ thead .cell {
   font-variant-numeric: tabular-nums;
 }
 
+/* Current turn and next-turn notice */
+.turn-now {
+  display: grid;
+  gap: var(--space-0);
+  padding: var(--space-3) var(--space-2);
+  border-radius: var(--radius-md);
+  background: var(--team, var(--bg-2));
+  color: var(--team-text, var(--ink));
+}
+
+.turn-now__label {
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.turn-now__team {
+  margin: 0;
+  font-family: var(--font-title);
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.turn-now__dates {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.notice {
+  display: grid;
+  gap: var(--space-0);
+  padding: var(--space-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--bg-2);
+}
+
+.notice--warn {
+  border: 2px solid var(--warn);
+}
+
+.notice__title {
+  margin: 0;
+  font-family: var(--font-title);
+  font-weight: 600;
+}
+
+.notice__text {
+  margin: 0;
+  color: var(--ink-2);
+}
+
 /* Calendar */
 .calendar__nav {
   display: flex;
@@ -931,8 +929,7 @@ thead .cell {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .btn,
-  .chip {
+  .btn {
     transition: background-color 0.15s, color 0.15s;
   }
 }

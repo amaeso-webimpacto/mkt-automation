@@ -70,52 +70,42 @@ export function showToast(message) {
 
 /* Inventory: filters */
 
-function appendChip(container, attribute, value, { icon = "", label, iconClass = "" }) {
-  const chip = cloneTemplate("chip");
-  chip.setAttribute(attribute, value);
-  const iconElement = field(chip, "icon");
-  iconElement.textContent = icon;
-  if (iconClass) iconElement.classList.add("chip__icon--dot", iconClass);
-  iconElement.hidden = !icon && !iconClass;
-  field(chip, "label").textContent = label;
-  container.append(chip);
-}
+const CATEGORY_FILTER_OPTIONS = Object.freeze([
+  { value: "", label: "Todas" },
+  ...CATEGORIES.map(({ id, label, emoji }) => ({ value: id, label: `${emoji} ${label}` })),
+]);
 
-export function buildChips() {
-  const categoryBox = ref("chips-category");
-  appendChip(categoryBox, "data-js-chip-category", "", { label: "Todas" });
-  CATEGORIES.forEach(({ id, label, emoji }) => {
-    appendChip(categoryBox, "data-js-chip-category", id, { icon: emoji, label });
-  });
-  const statusBox = ref("chips-status");
-  appendChip(statusBox, "data-js-chip-status", "", { label: "Todos" });
-  Object.values(STATUS)
+const STATUS_FILTER_OPTIONS = Object.freeze([
+  { value: "", label: "Todos" },
+  ...Object.values(STATUS)
     .filter(Boolean)
-    .forEach((status) => {
-      appendChip(statusBox, "data-js-chip-status", status, {
-        label: STATUS_LABELS[status],
-        iconClass: `chip__icon--${status}`,
-      });
-    });
+    .map((status) => ({ value: status, label: STATUS_LABELS[status] })),
+]);
+
+export function buildFilterSelects() {
+  fillSelect(ref("filter-category"), CATEGORY_FILTER_OPTIONS);
+  fillSelect(ref("filter-status"), STATUS_FILTER_OPTIONS);
 }
 
-function updateChips(name, selected, counts) {
-  refs(`chip-${name}`).forEach((chip) => {
-    const value = chip.getAttribute(`data-js-chip-${name}`);
-    chip.setAttribute("aria-pressed", String(value === selected));
-    field(chip, "count").textContent = counts[value] ?? 0;
+function updateFilterSelect(select, options, selected, counts) {
+  [...select.options].forEach((option, index) => {
+    const { value, label } = options[index];
+    option.textContent = `${label} (${counts[value] ?? 0})`;
   });
+  select.value = selected;
 }
 
 export function renderFilters({ filters, items }) {
-  const categoryCounts = { "": items.length };
-  const statusCounts = { "": items.length };
+  const categoryCounts = {};
+  const statusCounts = {};
   items.forEach((item) => {
     categoryCounts[item.category] = (categoryCounts[item.category] ?? 0) + 1;
     statusCounts[item.status] = (statusCounts[item.status] ?? 0) + 1;
   });
-  updateChips("category", filters.category, categoryCounts);
-  updateChips("status", filters.status, statusCounts);
+  categoryCounts[""] = items.length;
+  statusCounts[""] = items.length;
+  updateFilterSelect(ref("filter-category"), CATEGORY_FILTER_OPTIONS, filters.category, categoryCounts);
+  updateFilterSelect(ref("filter-status"), STATUS_FILTER_OPTIONS, filters.status, statusCounts);
   ref("filter-clear").hidden = !filters.query;
 }
 
@@ -221,6 +211,40 @@ export function renderEmailPreview({ subject, body, mailtoUrl }) {
 }
 
 /* Rotation */
+
+function describeDays(days) {
+  if (days <= 0) return "hoy";
+  if (days === 1) return "mañana";
+  return `en ${days} días`;
+}
+
+function describeDaysLeft(days) {
+  if (days <= 0) return "hoy es el último día";
+  if (days === 1) return "queda 1 día";
+  return `quedan ${days} días`;
+}
+
+export function renderTurnSummary({ current, next, warn }) {
+  const card = ref("turn-now");
+  card.className = "turn-now";
+  if (current) {
+    if (current.colorIndex >= 0) card.classList.add(teamColorClass(current.colorIndex));
+    ref("turn-now-team").textContent = teamLabel(current.team);
+    ref("turn-now-dates").textContent = `${formatShortDate(current.from)} al ${formatShortDate(current.to)} · ${describeDaysLeft(current.days)}`;
+  } else {
+    ref("turn-now-team").textContent = "Sin turno asignado para hoy";
+    ref("turn-now-dates").textContent = "";
+  }
+
+  const notice = ref("turn-next");
+  notice.classList.toggle("notice--warn", warn);
+  notice.hidden = !next;
+  if (!next) return;
+  ref("turn-next-title").textContent = `${warn ? "Aviso: " : ""}Siguiente turno ${describeDays(next.days)}`;
+  ref("turn-next-text").textContent = `${teamLabel(next.team)} · ${formatShortDate(next.from)} al ${formatShortDate(next.to)}${
+    warn ? ". Dejad el inventario actualizado antes del cambio de turno." : ""
+  }`;
+}
 
 export function renderCalendarHead() {
   const row = document.createElement("tr");

@@ -38,13 +38,15 @@
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg>
           </button>
         </div>
-        <div class="chip-group">
-          <p class="chip-group__label" id="chips-category-label">Categoría</p>
-          <div class="chips" role="group" aria-labelledby="chips-category-label" data-js-chips-category></div>
-        </div>
-        <div class="chip-group">
-          <p class="chip-group__label" id="chips-status-label">Estado del pedido</p>
-          <div class="chips" role="group" aria-labelledby="chips-status-label" data-js-chips-status></div>
+        <div class="filters__selects">
+          <div class="field">
+            <label for="filter-category">Categoría</label>
+            <select id="filter-category" data-js-filter-category></select>
+          </div>
+          <div class="field">
+            <label for="filter-status">Estado del pedido</label>
+            <select id="filter-status" data-js-filter-status></select>
+          </div>
         </div>
       </div>
 
@@ -128,6 +130,17 @@
         <h2 class="section-head__title" id="title-turnos">Turnos de revisión</h2>
       </div>
 
+      <section class="turn-now" data-js-turn-now aria-labelledby="turn-now-label">
+        <p class="turn-now__label" id="turn-now-label">Turno actual</p>
+        <p class="turn-now__team" data-js-turn-now-team></p>
+        <p class="turn-now__dates" data-js-turn-now-dates></p>
+      </section>
+
+      <div class="notice" role="status" data-js-turn-next>
+        <p class="notice__title" data-js-turn-next-title></p>
+        <p class="notice__text" data-js-turn-next-text></p>
+      </div>
+
       <div class="card">
         <div class="calendar__nav">
           <button type="button" class="btn btn--secondary btn--icon" aria-label="Mes anterior" data-js-calendar-prev>
@@ -143,7 +156,7 @@
           <tbody data-js-calendar-body></tbody>
         </table>
         <div>
-          <p class="chip-group__label" id="legend-label">Orden de rotación</p>
+          <p class="label-caps" id="legend-label">Orden de rotación</p>
           <ol class="legend" aria-labelledby="legend-label" data-js-legend></ol>
         </div>
       </div>
@@ -173,9 +186,9 @@
   </main>
 
   <nav class="tabbar" aria-label="Secciones">
+    <a class="tabbar__link" href="#turnos" data-js-tab="turnos">Turnos</a>
     <a class="tabbar__link" href="#inventario" data-js-tab="inventario">Inventario</a>
     <a class="tabbar__link" href="#pedido" data-js-tab="pedido">Pedido</a>
-    <a class="tabbar__link" href="#turnos" data-js-tab="turnos">Turnos</a>
   </nav>
 
   <p class="toast" role="status" data-js-toast hidden></p>
@@ -242,14 +255,6 @@
     </div>
   </form>
 </dialog>
-
-<template data-js-template-chip>
-  <button type="button" class="chip" aria-pressed="false">
-    <span class="chip__icon" aria-hidden="true" data-js-field="icon"></span>
-    <span data-js-field="label"></span>
-    <span class="chip__count" data-js-field="count"></span>
-  </button>
-</template>
 
 <template data-js-template-category>
   <tbody class="group" data-js-category-group>

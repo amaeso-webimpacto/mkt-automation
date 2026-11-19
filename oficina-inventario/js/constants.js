@@ -15,12 +15,14 @@ export const MAX_TEAM_NAME_LENGTH = 40;
 export const TEAM_PREFIX = "Team";
 export const TEAM_PALETTE_SIZE = 8;
 export const TURN_LENGTH_DAYS = 14;
+export const MS_PER_DAY = 86400000;
 
 export const MAIL_RECIPIENTS = "Bruno y Blanca";
 export const OFFICE_LABEL = "oficina de Madrid";
 
-export const VIEWS = Object.freeze(["inventario", "pedido", "turnos"]);
-export const DEFAULT_VIEW = "inventario";
+export const VIEWS = Object.freeze(["turnos", "inventario", "pedido"]);
+export const DEFAULT_VIEW = "turnos";
+export const NEXT_TURN_WARNING_DAYS = 7;
 
 export const WEEKDAYS = Object.freeze([
   { short: "L", full: "lunes" },

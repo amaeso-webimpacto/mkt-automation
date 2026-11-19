@@ -5,6 +5,8 @@ import {
   MAX_NAME_LENGTH,
   MAX_TEAM_NAME_LENGTH,
   MAX_TEXT_LENGTH,
+  MS_PER_DAY,
+  NEXT_TURN_WARNING_DAYS,
   OFFICE_LABEL,
   STATUS,
   TEAM_PALETTE_SIZE,
@@ -188,6 +190,33 @@ export function addTeamToRotation({ teams, periods }, rawName, todayIso) {
     teams: [...teams, { name, colorIndex: pickColorIndex(teams) }],
     periods: [...periods, { from, to: addDays(from, TURN_LENGTH_DAYS - 1), team: name }],
   };
+}
+
+function daysBetween(fromIso, toIso) {
+  const toUtc = (iso) => {
+    const [year, month, day] = iso.split("-").map(Number);
+    return Date.UTC(year, month - 1, day);
+  };
+  return Math.round((toUtc(toIso) - toUtc(fromIso)) / MS_PER_DAY);
+}
+
+function describePeriod(period, teams, days) {
+  return {
+    team: period.team,
+    from: period.from,
+    to: period.to,
+    days,
+    colorIndex: teamColorIndex(teams, period.team),
+  };
+}
+
+export function buildTurnSummary({ periods, teams, todayIso }) {
+  const currentIndex = findPeriodIndex(periods, todayIso);
+  const nextPeriod =
+    currentIndex >= 0 ? periods[currentIndex + 1] : periods.find((period) => period.from > todayIso);
+  const current = currentIndex >= 0 ? describePeriod(periods[currentIndex], teams, daysBetween(todayIso, periods[currentIndex].to)) : null;
+  const next = nextPeriod ? describePeriod(nextPeriod, teams, daysBetween(todayIso, nextPeriod.from)) : null;
+  return { current, next, warn: Boolean(next) && next.days <= NEXT_TURN_WARNING_DAYS };
 }
 
 export function changePeriodTeam(periods, index, team) {

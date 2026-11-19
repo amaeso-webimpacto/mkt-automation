@@ -14,6 +14,7 @@ import {
   buildEmail,
   buildMailtoUrl,
   buildMonthGrid,
+  buildTurnSummary,
   changePeriodTeam,
   createItem,
   filterItems,
@@ -32,7 +33,7 @@ import {
   validateItemName,
 } from "./logic.js";
 import {
-  buildChips,
+  buildFilterSelects,
   renderBanner,
   renderCalendar,
   renderCalendarHead,
@@ -45,6 +46,7 @@ import {
   renderReview,
   renderRotation,
   renderTurn,
+  renderTurnSummary,
   renderView,
   showToast,
 } from "./render.js";
@@ -126,6 +128,7 @@ function renderOrder() {
 function renderTurns() {
   const { teams, periods } = state.rotation;
   const grid = buildMonthGrid(state.calendar, { periods, teams, todayIso: today() });
+  renderTurnSummary(buildTurnSummary({ periods, teams, todayIso: today() }));
   renderCalendar({ title: formatMonthTitle(state.calendar), grid });
   renderLegend(teams);
   renderRotation({ periods, teams, currentIndex: currentPeriodIndex() });
@@ -346,12 +349,13 @@ function bindFilters() {
     renderAll();
     query.focus();
   });
-  ref("filters").addEventListener("click", (event) => {
-    const category = event.target.closest("[data-js-chip-category]");
-    const status = event.target.closest("[data-js-chip-status]");
-    if (category) state.filters.category = category.getAttribute("data-js-chip-category");
-    if (status) state.filters.status = status.getAttribute("data-js-chip-status");
-    if (category || status) renderAll();
+  ref("filter-category").addEventListener("change", (event) => {
+    state.filters.category = event.target.value;
+    renderAll();
+  });
+  ref("filter-status").addEventListener("change", (event) => {
+    state.filters.status = event.target.value;
+    renderAll();
   });
 }
 
@@ -439,7 +443,7 @@ function bindGlobal() {
 }
 
 function prepareControls() {
-  buildChips();
+  buildFilterSelects();
   renderCalendarHead();
   const form = ref("item-form");
   fillSelect(form.elements.category, CATEGORIES.map(({ id, label, emoji }) => ({ value: id, label: `${emoji} ${label}` })));
