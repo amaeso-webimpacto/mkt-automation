@@ -1,5 +1,6 @@
 import {
   CATEGORIES,
+  DATE_STAMPED_FIELDS,
   LOCALE,
   MAIL_RECIPIENTS,
   MAX_NAME_LENGTH,
@@ -89,6 +90,12 @@ export function sanitizeItemPatch(patch) {
 
 export function createItem(fields, order) {
   return { ...EMPTY_ITEM, ...sanitizeItemPatch(fields), order };
+}
+
+export function withDateStamp(item, patch, todayIso) {
+  if ("orderDate" in patch) return patch;
+  const changed = DATE_STAMPED_FIELDS.some((key) => key in patch && patch[key] !== (item?.[key] ?? ""));
+  return changed ? { ...patch, orderDate: todayIso } : patch;
 }
 
 export function validateItemName(name) {

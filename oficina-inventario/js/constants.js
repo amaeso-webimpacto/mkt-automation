@@ -8,6 +8,8 @@ export const SNAPSHOT_TIMEOUT_MS = 10000;
 export const TOAST_DURATION_MS = 4000;
 export const WRITE_PERMISSION = "data.write";
 
+export const DATE_STAMPED_FIELDS = Object.freeze(["qty", "status"]);
+
 export const MAX_NAME_LENGTH = 80;
 export const MAX_TEXT_LENGTH = 160;
 export const MAX_TEAM_NAME_LENGTH = 40;

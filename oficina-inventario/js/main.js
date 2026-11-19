@@ -31,6 +31,7 @@ import {
   teamLabel,
   toIsoDate,
   validateItemName,
+  withDateStamp,
 } from "./logic.js";
 import {
   buildFilterSelects,
@@ -168,7 +169,7 @@ async function updateField(id, key, value) {
     return;
   }
   if (item[key] === patch[key]) return;
-  await run(() => store.updateItem(id, patch), SAVE_ERROR);
+  await run(() => store.updateItem(id, withDateStamp(item, patch, today())), SAVE_ERROR);
 }
 
 function openDialog(name) {
@@ -217,8 +218,11 @@ async function handleItemSubmit(event) {
   const saved = await run(
     () =>
       existing
-        ? store.updateItem(existing.id, patch)
-        : store.createItemDoc(store.newItemId(), createItem(fields, nextItemOrder(state.items))),
+        ? store.updateItem(existing.id, withDateStamp(existing, patch, today()))
+        : store.createItemDoc(
+            store.newItemId(),
+            createItem({ ...fields, orderDate: today() }, nextItemOrder(state.items)),
+          ),
     SAVE_ERROR,
   );
   if (!saved) return;
