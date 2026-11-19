@@ -10,7 +10,6 @@ import { cloneTemplate, field, fillSelect, ref, refs } from "./dom.js";
 import { describeStock, formatShortDate, formatSlashDate, teamLabel } from "./logic.js";
 
 const CONNECTION_MESSAGES = Object.freeze({
-  [CONNECTION.LOADING]: "Cargando el inventario compartido…",
   [CONNECTION.STALE]: "No se alcanzan los datos compartidos todavía. Lo que ves puede estar desactualizado.",
   [CONNECTION.UNAVAILABLE]:
     "No se puede conectar con los datos compartidos. Comprueba que has iniciado sesión y que tienes acceso a este artefacto.",
@@ -316,7 +315,7 @@ export function renderLegend(teams) {
   ref("legend").replaceChildren(
     ...teams.map((team) => {
       const item = cloneTemplate("legend");
-      item.classList.add(teamColorClass(team.colorIndex));
+      if (team.colorIndex >= 0) item.classList.add(teamColorClass(team.colorIndex));
       field(item, "label").textContent = teamLabel(team.name);
       return item;
     }),
@@ -328,7 +327,7 @@ export function renderRotation({ periods, teams, currentIndex }) {
     ...periods.map((period, index) => {
       const row = cloneTemplate("period");
       const colorIndex = teams.find((team) => team.name === period.team)?.colorIndex ?? -1;
-      row.classList.add(teamColorClass(colorIndex));
+      if (colorIndex >= 0) row.classList.add(teamColorClass(colorIndex));
       row.setAttribute("data-js-period-index", String(index));
       field(row, "team").textContent = teamLabel(period.team);
       field(row, "range").textContent = `${formatShortDate(period.from)} al ${formatShortDate(period.to)}`;
