@@ -10,7 +10,16 @@ Elaborado el 2026-11-16 a partir de 159 hilos de correo con personas de @tonipon
 - Otra agencia (Rocket) mantiene el tema de Shopify. Webimpacto no tiene acceso a su repositorio, ni al DNS, ni a Typeform, ni a la cuenta de Facebook del cliente.
 - Reunión mensual de resultados: segundo miércoles de mes a las 11:00 (acordada el 2026-10-28). Los datos de atribución no se asientan antes del día 5.
 - Informe al cliente: dashboard en Google Sites más PDF. Looker Studio no funcionó en 2025-09.
-- Objetivos: la propuesta 2026 se presentó el 2025-12-04. La pestaña OBJETIVOS 2026 del Excel de KPIs es propuesta de Webimpacto, no validada por el cliente.
+- Objetivos: la propuesta 2026 se presentó el 2025-12-04. La pestaña OBJETIVOS 2026 del Excel de KPIs es propuesta de Webimpacto, no validada por el cliente. A 2026-11-19 no hay objetivos 2026 acordados, así que los resultados se comparan con el año anterior y no con una meta.
+- Campañas comerciales: el cliente decide y prepara sus campañas y promociones (Black Friday incluido). Webimpacto no interviene en ellas: las analiza, no las planifica.
+
+## Dónde está la información
+
+- Carpeta de Drive del cliente: `1dmncKGV4ww2js0h7gqEwKKkdbz7V06k3`. Contiene el Excel de KPIs mensuales, el documento de reuniones, la estrategia de marketing automation (2026-02-26), el análisis del flujo de carrito abandonado (agosto a octubre de 2026), la auditoría de Shopify tags (2026-09-29), los resultados de flujos, el reporte de lead gen, los objetivos fijados por el cliente para 2025, el diseño de los flujos de wishlist y el histórico del agente.
+- Excel de KPIs mensuales: `1YEDgcSKenhOIjCr75SdozBg2JpnDACjvYhtT7UsTpt0`. Pestañas útiles: KPIs Klaviyo, Comparación 2025, TO DO's (flujos previstos con fase, prioridad, estado y estrategia), Suscritos growth, Listas Suscritos, NPS y una pestaña de flujos por mercado.
+- Artefacto «Dashboard Toni Pons» (https://claude.ai/artifact/DSCwxDkuchsVPc4uV5osqw): reporte mensual al cliente con las pestañas KPIs, NPS y Back in Stock. Sus límites de salud del canal son bounce por debajo de 1,00 %, spam por debajo de 0,01 % y bajas por debajo de 0,30 %.
+- Jira, proyecto `TP`: el trabajo de Webimpacto va en el componente «Mkt Automation» (tarea mensual «MKT Automation - AAAA»). Otros componentes: Consultoría & QA, Paid y Mantenimiento y soporte. Las incidencias de Shopify (formularios de leads, Back in Stock, wishlist) también se siguen ahí.
+- Migración de ERP del cliente prevista para enero de 2027 (épica de Jira de revisión de la tienda). No se ha verificado si afecta a eventos o datos de Klaviyo.
 
 ## Estructura de la cuenta
 
@@ -39,7 +48,7 @@ Elaborado el 2026-11-16 a partir de 159 hilos de correo con personas de @tonipon
 - Leads netos de tienda y de web: pestaña del dashboard mensual o growth de cada lista.
 - Contactos brutos: Metrics > Subscribed to List, un segmento o la diferencia mensual de All profiles.
 - El recuento de suscritos por consulta analítica (109.362 el 2026-11-16) no es la misma fuente que Subscriber Growth. La diferencia está por verificar.
-- Ventana de atribución: en 2025-04 la cuenta principal usaba 3 días tras apertura y clic en email, y la de USA, 5 días tras clic. El cliente propuso 5 días tras clic y 1 tras visualización. La configuración actual no está verificada.
+- Ventana de atribución: en 2025-04 la cuenta principal usaba 3 días tras apertura y clic en email, y la de USA, 5 días tras clic. El cliente propuso 5 días tras clic y 1 tras visualización. Según Webimpacto (2026-11-19), la atribución actual es de 5 días tras apertura o clic en el correo. No está comprobada en la configuración de Klaviyo.
 
 ## Entregabilidad y riesgo de cuenta
 
