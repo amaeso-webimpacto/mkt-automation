@@ -45,6 +45,24 @@ export function formatShortDate(iso) {
   return `${day}-${month}`;
 }
 
+export function formatSlashDate(iso) {
+  if (!iso) return "";
+  const [year, month, day] = iso.split("-");
+  return `${day}/${month}/${year}`;
+}
+
+export function parseSlashDate(value) {
+  const text = String(value ?? "").trim();
+  if (!text) return { iso: "" };
+  const match = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(text);
+  if (!match) return { error: "Escribe la fecha como DD/MM/AAAA." };
+  const [, day, month, year] = match.map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  const valid = date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day;
+  if (!valid) return { error: "Esa fecha no existe. Usa DD/MM/AAAA." };
+  return { iso: `${year}-${pad(month)}-${pad(day)}` };
+}
+
 export function formatLongDate(iso) {
   if (!iso) return "";
   const [year, month, day] = iso.split("-");

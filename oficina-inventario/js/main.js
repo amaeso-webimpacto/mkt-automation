@@ -20,6 +20,7 @@ import {
   findPeriodIndex,
   formatMonthTitle,
   formatShortDate,
+  formatSlashDate,
   getItemsToOrder,
   groupByCategory,
   monthOf,
@@ -29,6 +30,7 @@ import {
   shiftMonth,
   teamLabel,
   toIsoDate,
+  parseSlashDate,
   validateItemName,
   withDateStamp,
 } from "./logic.js";
@@ -157,9 +159,20 @@ function flushPendingRender() {
 
 /* Item actions */
 
-async function updateField(id, key, value) {
+async function updateField(id, key, rawValue) {
   const item = findItem(id);
   if (!item) return;
+  let value = rawValue;
+  if (key === "orderDate") {
+    const parsed = parseSlashDate(rawValue);
+    if (parsed.error) {
+      notify(parsed.error);
+      const input = document.querySelector(`[data-js-item-id="${id}"] [data-js-edit="orderDate"]`);
+      if (input) input.value = formatSlashDate(item.orderDate);
+      return;
+    }
+    value = parsed.iso;
+  }
   const patch = sanitizeItemPatch({ [key]: value });
   const nameError = key === "name" ? validateItemName(patch.name) : "";
   if (nameError) {

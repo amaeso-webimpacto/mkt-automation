@@ -7,7 +7,7 @@ import {
   WEEKDAYS,
 } from "./constants.js";
 import { cloneTemplate, field, fillSelect, ref, refs } from "./dom.js";
-import { describeStock, formatShortDate, teamLabel } from "./logic.js";
+import { describeStock, formatShortDate, formatSlashDate, teamLabel } from "./logic.js";
 
 const CONNECTION_MESSAGES = Object.freeze({
   [CONNECTION.LOADING]: "Cargando el inventario compartido…",
@@ -160,7 +160,7 @@ function buildMainRow(item) {
   qty.setAttribute("aria-label", `Cantidad disponible de ${item.name}`);
 
   const date = field(row, "orderDate");
-  date.value = item.orderDate ?? "";
+  date.value = formatSlashDate(item.orderDate);
   date.setAttribute("aria-label", `Fecha de pedido de ${item.name}`);
 
   const status = field(row, "status");
