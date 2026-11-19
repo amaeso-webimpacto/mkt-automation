@@ -4,7 +4,7 @@ const { decodificarQuotedPrintable } = require("./codificacion.js");
 const PALABRA_CODIFICADA = /=\?([^?\s]+)\?([bBqQ])\?([^?\s]*)\?=/g;
 const PALABRAS_CODIFICADAS_CONTIGUAS = /(\?=)\s+(=\?)/g;
 const CHARSET_POR_DEFECTO = "utf-8";
-const MARCAS_DE_TEST = /\b(test|prueba|vista previa|preview)\b/;
+const MARCAS_DE_TEST = /\b(test|prueba|vista previa|preview|marketing email preview send)\b/;
 
 function bytesDePalabra(codificacion, texto) {
   if (codificacion.toUpperCase() === "B") return Buffer.from(texto, "base64");

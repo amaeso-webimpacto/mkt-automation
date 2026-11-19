@@ -13,7 +13,7 @@ test("une las palabras codificadas contiguas sin espacio de más", () => {
 });
 
 test("detecta los asuntos de test aunque vengan codificados o con acentos", () => {
-  for (const asunto of ["Test send - New arrivals", "[Vista previa] Tu selección", "=?UTF-8?q?[Vista_previa]_=C3=9Altimo_d=C3=ADa?=", "Prueba de envío", "Bienvenida 1 PREVIEW", "TEST"]) {
+  for (const asunto of ["Test send - New arrivals", "[Vista previa] Tu selección", "=?UTF-8?q?[Vista_previa]_=C3=9Altimo_d=C3=ADa?=", "Prueba de envío", "Bienvenida 1 PREVIEW", "TEST", "Marketing Email Preview Send"]) {
     assert.ok(esAsuntoDeTest(asunto), asunto);
   }
 });

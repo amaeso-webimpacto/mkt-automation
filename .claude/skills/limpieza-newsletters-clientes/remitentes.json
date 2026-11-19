@@ -71,6 +71,16 @@
       "cliente": "REFRESH",
       "remitente": "news@mailingrefresh.com",
       "plataforma": "klaviyo"
+    },
+    {
+      "cliente": "Toni Pons",
+      "remitente": "info@tonipons.com",
+      "plataforma": "klaviyo"
+    },
+    {
+      "cliente": "BSoul Chile",
+      "remitente": "news@mail.bsoul.com",
+      "plataforma": "hubspot"
     }
   ],
   "plataforma_conocida_falta_direccion": [
@@ -101,7 +111,6 @@
   ],
   "sin_plataforma_ni_direccion": [
     "Polín et Moi",
-    "Toni Pons",
     "Endado",
     "Plátano Melón",
     "Munich",
