@@ -10,23 +10,37 @@ import {
 } from "./constants.js";
 import { fillSelect, ref, refs } from "./dom.js";
 import {
+  addTeamToRotation,
   buildEmail,
   buildMailtoUrl,
+  buildMonthGrid,
+  changePeriodTeam,
+  createItem,
   filterItems,
   findPeriodIndex,
+  formatMonthTitle,
+  formatShortDate,
   getItemsToOrder,
-  isValidEmail,
+  groupByCategory,
+  monthOf,
   nextItemOrder,
-  sanitizeItem,
+  readRotation,
+  sanitizeItemPatch,
+  shiftMonth,
+  teamLabel,
   toIsoDate,
-  validateItem,
+  validateItemName,
 } from "./logic.js";
 import {
+  buildChips,
   renderBanner,
-  renderConfigFields,
+  renderCalendar,
+  renderCalendarHead,
   renderCount,
   renderEmailPreview,
-  renderItemList,
+  renderFilters,
+  renderInventoryTable,
+  renderLegend,
   renderOrderList,
   renderReview,
   renderRotation,
@@ -36,16 +50,18 @@ import {
 } from "./render.js";
 import * as store from "./store.js";
 
+const SAVE_ERROR = "No se ha podido guardar. Inténtalo de nuevo.";
+
 const state = {
   items: [],
   config: { ...DEFAULT_CONFIG },
   review: null,
-  periods: [],
+  rotation: readRotation(null),
   connection: CONNECTION.LOADING,
   readOnly: false,
   filters: { query: "", category: "", status: "" },
   notes: "",
-  signature: store.readSignature(),
+  calendar: monthOf(toIsoDate()),
   editingItemId: null,
   editingPeriodIndex: null,
 };
@@ -53,66 +69,16 @@ const state = {
 let toastTimer = null;
 let renderPending = false;
 
-function today() {
-  return toIsoDate();
-}
-
-function currentPeriodIndex() {
-  return findPeriodIndex(state.periods, today());
-}
-
-function currentTeam() {
-  return state.periods[currentPeriodIndex()]?.team ?? "";
-}
-
-function findItem(id) {
-  return state.items.find((item) => item.id === id);
-}
+const today = () => toIsoDate();
+const findItem = (id) => state.items.find((item) => item.id === id);
+const currentPeriodIndex = () => findPeriodIndex(state.rotation.periods, today());
+const currentTeam = () => state.rotation.periods[currentPeriodIndex()]?.team ?? "";
+const itemIdFrom = (element) => element.closest("[data-js-item-id]")?.getAttribute("data-js-item-id") ?? "";
 
 function notify(message) {
   showToast(message);
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => showToast(""), TOAST_DURATION_MS);
-}
-
-function itemIdFrom(element) {
-  return element.closest("[data-js-item-id]")?.getAttribute("data-js-item-id") ?? "";
-}
-
-function renderOrderTab() {
-  const toOrder = getItemsToOrder(state.items);
-  renderOrderList({ items: toOrder });
-  renderEmailTab(toOrder);
-}
-
-function renderEmailTab(toOrder = getItemsToOrder(state.items)) {
-  const signature = state.signature || (currentTeam() ? `Equipo ${currentTeam()}` : "");
-  const email = buildEmail({
-    items: toOrder,
-    config: state.config,
-    notes: state.notes,
-    signature,
-    todayIso: today(),
-  });
-  renderEmailPreview({
-    ...email,
-    mailtoUrl: buildMailtoUrl({ to: state.config.hrEmail, ...email }),
-    config: state.config,
-  });
-}
-
-function renderAll() {
-  const visible = filterItems(state.items, state.filters);
-  const toOrderCount = getItemsToOrder(state.items).length;
-  renderTurn(state.periods, currentPeriodIndex());
-  renderReview(state);
-  renderCount(state.items.length, visible.length, toOrderCount);
-  renderItemList({ items: visible, total: state.items.length, connection: state.connection });
-  renderConfigFields(state.config);
-  renderRotation({ periods: state.periods, currentIndex: currentPeriodIndex() });
-  if (ref("order-list").contains(document.activeElement)) renderPending = true;
-  else renderOrderTab();
-  renderBanner(state);
 }
 
 async function run(action, failureMessage) {
@@ -123,6 +89,83 @@ async function run(action, failureMessage) {
     notify(failureMessage);
     return false;
   }
+}
+
+/* Rendering */
+
+function isEditingInPlace() {
+  const active = document.activeElement;
+  return ref("table").contains(active) || ref("order-list").contains(active);
+}
+
+function renderInventory() {
+  const visibleItems = filterItems(state.items, state.filters);
+  renderFilters({ filters: state.filters, items: state.items });
+  renderCount(state.items.length, visibleItems.length);
+  renderInventoryTable({
+    groups: groupByCategory(visibleItems),
+    total: state.items.length,
+    visible: visibleItems.length,
+    connection: state.connection,
+  });
+}
+
+function renderOrder() {
+  const toOrder = getItemsToOrder(state.items);
+  renderOrderList({ items: toOrder });
+  const team = currentTeam();
+  const email = buildEmail({
+    items: toOrder,
+    notes: state.notes,
+    signature: teamLabel(team),
+    todayIso: today(),
+  });
+  renderEmailPreview({ ...email, mailtoUrl: buildMailtoUrl(email) });
+}
+
+function renderTurns() {
+  const { teams, periods } = state.rotation;
+  const grid = buildMonthGrid(state.calendar, { periods, teams, todayIso: today() });
+  renderCalendar({ title: formatMonthTitle(state.calendar), grid });
+  renderLegend(teams);
+  renderRotation({ periods, teams, currentIndex: currentPeriodIndex() });
+}
+
+function renderAll() {
+  renderTurn(state.rotation.periods, currentPeriodIndex());
+  renderReview(state);
+  renderTurns();
+  if (isEditingInPlace()) {
+    renderPending = true;
+    renderFilters({ filters: state.filters, items: state.items });
+  } else {
+    renderInventory();
+    renderOrder();
+  }
+  renderBanner(state);
+}
+
+function flushPendingRender() {
+  if (renderPending && !isEditingInPlace()) {
+    renderPending = false;
+    renderAll();
+  }
+}
+
+/* Item actions */
+
+async function updateField(id, key, value) {
+  const item = findItem(id);
+  if (!item) return;
+  const patch = sanitizeItemPatch({ [key]: value });
+  const nameError = key === "name" ? validateItemName(patch.name) : "";
+  if (nameError) {
+    notify(nameError);
+    renderPending = true;
+    return;
+  }
+  if (item[key] === patch[key]) return;
+  await run(() => store.updateItem(id, patch), SAVE_ERROR);
 }
 
 function openDialog(name) {
@@ -136,6 +179,10 @@ function closeDialog(name) {
   if (dialog.open) dialog.close();
 }
 
+function toggleOrderQtyField() {
+  ref("order-qty-field").hidden = ref("item-form").elements.status.value !== STATUS.TO_ORDER;
+}
+
 function openItemDialog(item) {
   state.editingItemId = item?.id ?? null;
   const form = ref("item-form");
@@ -143,110 +190,69 @@ function openItemDialog(item) {
   ref("item-error").textContent = "";
   ref("item-delete-confirm").hidden = true;
   ref("item-delete").hidden = !item;
-  ref("item-dialog-title").textContent = item ? "Editar producto" : "Añadir producto";
-  const values = item ?? { status: STATUS.NONE, category: state.filters.category || CATEGORIES[0].id };
-  Object.entries({
-    name: values.name ?? "",
-    qty: values.qty ?? "",
-    status: values.status ?? STATUS.NONE,
-    orderQty: values.orderQty ?? "",
-    location: values.location ?? "",
-    spare: values.spare ?? "",
-    category: values.category ?? CATEGORIES[0].id,
-  }).forEach(([name, value]) => {
-    form.elements[name].value = value;
+  ref("item-dialog-title").textContent = item ? "Editar ubicación y detalles" : "Añadir producto";
+  const values = item ?? { category: state.filters.category || CATEGORIES[0].id };
+  ["name", "qty", "status", "orderQty", "location", "spare", "category"].forEach((key) => {
+    form.elements[key].value = values[key] ?? "";
   });
   toggleOrderQtyField();
   openDialog("item");
 }
 
-function toggleOrderQtyField() {
-  const form = ref("item-form");
-  ref("order-qty-field").hidden = form.elements.status.value !== STATUS.TO_ORDER;
-}
-
 async function handleItemSubmit(event) {
   event.preventDefault();
   const form = ref("item-form");
-  const existing = state.editingItemId ? findItem(state.editingItemId) : null;
   const fields = Object.fromEntries(new FormData(form));
-  const item = sanitizeItem(
-    { ...fields, orderDate: existing?.orderDate ?? "" },
-    existing?.order ?? nextItemOrder(state.items),
-  );
-  const error = validateItem(item);
+  const patch = sanitizeItemPatch(fields);
+  const error = validateItemName(patch.name);
   ref("item-error").textContent = error;
   if (error) {
     form.elements.name.focus();
     return;
   }
-  const id = existing?.id ?? store.newItemId();
-  const saved = await run(() => store.saveItem(id, item), "No se ha podido guardar. Inténtalo de nuevo.");
+  const existing = state.editingItemId ? findItem(state.editingItemId) : null;
+  const saved = await run(
+    () =>
+      existing
+        ? store.updateItem(existing.id, patch)
+        : store.createItemDoc(store.newItemId(), createItem(fields, nextItemOrder(state.items))),
+    SAVE_ERROR,
+  );
   if (!saved) return;
   closeDialog("item");
   notify(existing ? "Producto actualizado." : "Producto añadido.");
 }
 
 async function handleItemDelete() {
-  const id = state.editingItemId;
-  if (!id) return;
-  const deleted = await run(() => store.deleteItem(id), "No se ha podido eliminar. Inténtalo de nuevo.");
+  const deleted = await run(
+    () => store.deleteItem(state.editingItemId),
+    "No se ha podido eliminar. Inténtalo de nuevo.",
+  );
   if (!deleted) return;
   closeDialog("item");
   notify("Producto eliminado.");
 }
 
-async function toggleToOrder(id) {
-  const item = findItem(id);
-  if (!item) return;
-  const toOrder = item.status === STATUS.TO_ORDER;
-  const { id: _id, ...fields } = item;
-  const next = sanitizeItem(
-    { ...fields, status: toOrder ? STATUS.NONE : STATUS.TO_ORDER },
-    item.order,
-  );
-  await run(() => store.saveItem(id, next), "No se ha podido guardar. Inténtalo de nuevo.");
-}
-
-async function saveOrderQty(id, value) {
-  const item = findItem(id);
-  if (!item || (item.orderQty ?? "") === value.trim()) return;
-  const { id: _id, ...fields } = item;
-  const next = sanitizeItem({ ...fields, orderQty: value }, item.order);
-  await run(() => store.saveItem(id, next), "No se ha podido guardar la cantidad.");
-}
-
-async function removeFromOrder(id) {
-  const item = findItem(id);
-  if (!item) return;
-  const { id: _id, ...fields } = item;
-  await run(
-    () => store.saveItem(id, sanitizeItem({ ...fields, status: STATUS.NONE }, item.order)),
-    "No se ha podido guardar. Inténtalo de nuevo.",
-  );
-}
-
 async function markReviewDone() {
   const saved = await run(
-    () => store.saveReview({ date: today(), team: currentTeam() || "Sin turno" }),
+    () => store.saveReview({ date: today(), team: currentTeam() }),
     "No se ha podido registrar la revisión.",
   );
   if (saved) notify("Revisión registrada.");
 }
 
-async function saveHrField(key, value) {
-  const trimmed = value.trim();
-  const errorElement = ref("hr-email-error");
-  if (key === "hrEmail") {
-    const invalid = trimmed !== "" && !isValidEmail(trimmed);
-    errorElement.textContent = invalid ? "Escribe una dirección de correo válida." : "";
-    if (invalid) return;
+/* Order actions */
+
+async function copyField(name, successMessage) {
+  const element = ref(name);
+  try {
+    await navigator.clipboard.writeText(element.value);
+    notify(successMessage);
+  } catch {
+    element.focus();
+    element.select();
+    notify("Selecciona el texto y cópialo con tu teclado.");
   }
-  if (state.config[key] === trimmed) return;
-  await run(
-    () => store.saveConfig({ ...state.config, [key]: trimmed }),
-    "No se ha podido guardar el contacto.",
-  );
 }
 
 function openOrderConfirm() {
@@ -261,61 +267,66 @@ async function confirmOrdered() {
   const date = today();
   let done = 0;
   for (const item of items) {
-    const { id, ...fields } = item;
     const saved = await run(
-      () =>
-        store.saveItem(
-          id,
-          sanitizeItem({ ...fields, status: STATUS.ORDERED, orderDate: date, orderQty: "" }, item.order),
-        ),
+      () => store.updateItem(item.id, sanitizeItemPatch({ status: STATUS.ORDERED, orderDate: date })),
       "No se han podido marcar todos los productos. Revisa el inventario.",
     );
     if (!saved) break;
     done += 1;
   }
   if (done === items.length) {
-    await run(() => store.saveConfig({ ...state.config, lastOrder: date }), "No se ha podido guardar la fecha del pedido.");
+    await run(() => store.saveConfig({ lastOrder: date }), "No se ha podido guardar la fecha del pedido.");
     notify(`${done} productos marcados como Pedido.`);
   }
   ref("order-confirm").hidden = true;
 }
 
-async function copyField(name, successMessage) {
-  const element = ref(name);
-  try {
-    await navigator.clipboard.writeText(element.value);
-    notify(successMessage);
-  } catch {
-    element.focus();
-    element.select();
-    notify("Selecciona el texto y cópialo con tu teclado.");
-  }
-}
+/* Rotation actions */
 
 function openPeriodDialog(index) {
-  const period = state.periods[index];
+  const period = state.rotation.periods[index];
   if (!period) return;
   state.editingPeriodIndex = index;
-  ref("team-input").value = period.team;
-  ref("team-error").textContent = "";
+  const select = ref("team-select");
+  fillSelect(select, state.rotation.teams.map((team) => ({ value: team.name, label: teamLabel(team.name) })));
+  select.value = period.team;
+  ref("team-period").textContent = `Turno del ${formatShortDate(period.from)} al ${formatShortDate(period.to)}`;
   openDialog("team");
 }
 
-async function handleTeamSubmit(event) {
+async function handleTeamChange(event) {
   event.preventDefault();
-  const team = ref("team-input").value.trim().slice(0, 40);
-  if (!team) {
-    ref("team-error").textContent = "Escribe el nombre del equipo.";
-    return;
-  }
-  const periods = state.periods.map((period, index) =>
-    index === state.editingPeriodIndex ? { ...period, team } : period,
+  const periods = changePeriodTeam(state.rotation.periods, state.editingPeriodIndex, ref("team-select").value);
+  const saved = await run(
+    () => store.saveRotation({ teams: state.rotation.teams, periods }),
+    "No se ha podido guardar el turno.",
   );
-  const saved = await run(() => store.saveRotation(periods), "No se ha podido guardar el turno.");
   if (!saved) return;
   closeDialog("team");
   notify("Equipo actualizado.");
 }
+
+async function handleTeamAdd(event) {
+  event.preventDefault();
+  const input = ref("new-team");
+  const result = addTeamToRotation(state.rotation, input.value, today());
+  ref("new-team-error").textContent = result.error ?? "";
+  if (result.error) {
+    input.focus();
+    return;
+  }
+  const saved = await run(() => store.saveRotation(result), "No se ha podido añadir el equipo.");
+  if (!saved) return;
+  input.value = "";
+  notify("Equipo añadido al final de la rotación.");
+}
+
+function moveCalendar(delta) {
+  state.calendar = shiftMonth(state.calendar, delta);
+  renderTurns();
+}
+
+/* Wiring */
 
 function syncView() {
   const name = location.hash.slice(1);
@@ -325,32 +336,48 @@ function syncView() {
 
 function bindFilters() {
   const query = ref("filter-query");
-  const category = ref("filter-category");
-  const status = ref("filter-status");
   query.addEventListener("input", () => {
     state.filters.query = query.value;
     renderAll();
   });
-  category.addEventListener("change", () => {
-    state.filters.category = category.value;
+  ref("filter-clear").addEventListener("click", () => {
+    query.value = "";
+    state.filters.query = "";
     renderAll();
+    query.focus();
   });
-  status.addEventListener("change", () => {
-    state.filters.status = status.value;
-    renderAll();
+  ref("filters").addEventListener("click", (event) => {
+    const category = event.target.closest("[data-js-chip-category]");
+    const status = event.target.closest("[data-js-chip-status]");
+    if (category) state.filters.category = category.getAttribute("data-js-chip-category");
+    if (status) state.filters.status = status.getAttribute("data-js-chip-status");
+    if (category || status) renderAll();
   });
 }
 
-function bindInventory() {
-  ref("item-list").addEventListener("click", (event) => {
-    const id = itemIdFrom(event.target);
-    if (event.target.closest("[data-js-item-flag]")) toggleToOrder(id);
-    else if (event.target.closest("[data-js-item-edit]")) openItemDialog(findItem(id));
+function bindTable() {
+  const wrap = ref("table-wrap");
+  wrap.addEventListener("change", (event) => {
+    const input = event.target.closest("[data-js-edit]");
+    if (input) updateField(itemIdFrom(input), input.getAttribute("data-js-edit"), input.value);
+  });
+  wrap.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" && event.target.matches("textarea")) {
+      event.preventDefault();
+      event.target.blur();
+    }
+  });
+  wrap.addEventListener("click", (event) => {
+    if (event.target.closest("[data-js-item-details]")) openItemDialog(findItem(itemIdFrom(event.target)));
   });
   ref("item-add").addEventListener("click", () => openItemDialog(null));
   ref("review-done").addEventListener("click", markReviewDone);
-  ref("item-form").addEventListener("submit", handleItemSubmit);
-  ref("item-form").elements.status.addEventListener("change", toggleOrderQtyField);
+}
+
+function bindItemDialog() {
+  const form = ref("item-form");
+  form.addEventListener("submit", handleItemSubmit);
+  form.elements.status.addEventListener("change", toggleOrderQtyField);
   ref("item-cancel").addEventListener("click", () => closeDialog("item"));
   ref("item-delete").addEventListener("click", () => {
     ref("item-delete-confirm").hidden = false;
@@ -366,28 +393,17 @@ function bindOrder() {
   const list = ref("order-list");
   list.addEventListener("change", (event) => {
     if (event.target.matches("[data-js-field='qty-input']")) {
-      saveOrderQty(itemIdFrom(event.target), event.target.value);
+      updateField(itemIdFrom(event.target), "orderQty", event.target.value);
     }
   });
-  list.addEventListener("focusout", () => {
-    if (!renderPending) return;
-    renderPending = false;
-    requestAnimationFrame(renderAll);
-  });
   list.addEventListener("click", (event) => {
-    if (event.target.closest("[data-js-order-remove]")) removeFromOrder(itemIdFrom(event.target));
+    if (event.target.closest("[data-js-order-remove]")) {
+      updateField(itemIdFrom(event.target), "status", STATUS.NONE);
+    }
   });
-  ref("hr-name").addEventListener("change", (event) => saveHrField("hrName", event.target.value));
-  ref("hr-email").addEventListener("change", (event) => saveHrField("hrEmail", event.target.value));
   ref("email-notes").addEventListener("input", (event) => {
     state.notes = event.target.value;
-    renderEmailTab();
-  });
-  ref("email-signature").value = state.signature;
-  ref("email-signature").addEventListener("input", (event) => {
-    state.signature = event.target.value.trim();
-    store.writeSignature(state.signature);
-    renderEmailTab();
+    renderOrder();
   });
   ref("copy-subject").addEventListener("click", () => copyField("email-subject", "Asunto copiado."));
   ref("copy-body").addEventListener("click", () => copyField("email-body", "Mensaje copiado."));
@@ -399,17 +415,22 @@ function bindOrder() {
 }
 
 function bindRotation() {
+  ref("calendar-prev").addEventListener("click", () => moveCalendar(-1));
+  ref("calendar-next").addEventListener("click", () => moveCalendar(1));
   ref("rotation-list").addEventListener("click", (event) => {
     const row = event.target.closest("[data-js-period-index]");
     if (row && event.target.closest("[data-js-period-edit]")) {
       openPeriodDialog(Number(row.getAttribute("data-js-period-index")));
     }
   });
-  ref("team-form").addEventListener("submit", handleTeamSubmit);
+  ref("team-form").addEventListener("submit", handleTeamChange);
   ref("team-cancel").addEventListener("click", () => closeDialog("team"));
+  ref("team-add-form").addEventListener("submit", handleTeamAdd);
 }
 
-function bindDialogBackdrops() {
+function bindGlobal() {
+  window.addEventListener("hashchange", syncView);
+  document.addEventListener("focusout", () => requestAnimationFrame(flushPendingRender));
   refs("dialog").forEach((dialog) => {
     dialog.addEventListener("click", (event) => {
       if (event.target === dialog) dialog.close();
@@ -417,72 +438,46 @@ function bindDialogBackdrops() {
   });
 }
 
-function prepareSelects() {
-  const categoryOptions = CATEGORIES.map(({ id, label }) => ({ value: id, label }));
-  fillSelect(ref("filter-category"), [{ value: "", label: "Todas" }, ...categoryOptions]);
-  fillSelect(ref("filter-status"), [
-    { value: "", label: "Todos" },
-    ...Object.values(STATUS)
-      .filter(Boolean)
-      .map((value) => ({ value, label: STATUS_LABELS[value] })),
-  ]);
-  const itemForm = ref("item-form");
-  fillSelect(itemForm.elements.category, categoryOptions);
+function prepareControls() {
+  buildChips();
+  renderCalendarHead();
+  const form = ref("item-form");
+  fillSelect(form.elements.category, CATEGORIES.map(({ id, label, emoji }) => ({ value: id, label: `${emoji} ${label}` })));
   fillSelect(
-    itemForm.elements.status,
+    form.elements.status,
     Object.values(STATUS).map((value) => ({ value, label: STATUS_LABELS[value] })),
   );
 }
 
 function startStore() {
+  const update = (change) => {
+    change();
+    renderAll();
+  };
   store.connect({
-    onUnavailable() {
-      state.connection = CONNECTION.UNAVAILABLE;
-      renderAll();
-    },
-    onPermissions({ readOnly }) {
-      state.readOnly = readOnly;
-      renderAll();
-    },
-    onStale() {
-      if (state.connection === CONNECTION.LOADING) state.connection = CONNECTION.STALE;
-      renderAll();
-    },
-    onSynced() {
-      state.connection = CONNECTION.READY;
-      renderAll();
-    },
-    onError() {
-      state.connection = CONNECTION.STALE;
-      renderAll();
-    },
-    onItems(items) {
-      state.items = items;
-      renderAll();
-    },
-    onConfig(data) {
-      state.config = { ...DEFAULT_CONFIG, ...(data ?? {}) };
-      renderAll();
-    },
-    onReview(data) {
-      state.review = data;
-      renderAll();
-    },
-    onRotation(data) {
-      state.periods = data?.periods ?? [];
-      renderAll();
-    },
+    onUnavailable: () => update(() => (state.connection = CONNECTION.UNAVAILABLE)),
+    onPermissions: ({ readOnly }) => update(() => (state.readOnly = readOnly)),
+    onStale: () =>
+      update(() => {
+        if (state.connection === CONNECTION.LOADING) state.connection = CONNECTION.STALE;
+      }),
+    onSynced: () => update(() => (state.connection = CONNECTION.READY)),
+    onError: () => update(() => (state.connection = CONNECTION.STALE)),
+    onItems: (items) => update(() => (state.items = items)),
+    onConfig: (data) => update(() => (state.config = { ...DEFAULT_CONFIG, ...(data ?? {}) })),
+    onReview: (data) => update(() => (state.review = data)),
+    onRotation: (data) => update(() => (state.rotation = readRotation(data))),
   });
 }
 
 function init() {
-  prepareSelects();
+  prepareControls();
   bindFilters();
-  bindInventory();
+  bindTable();
+  bindItemDialog();
   bindOrder();
   bindRotation();
-  bindDialogBackdrops();
-  window.addEventListener("hashchange", syncView);
+  bindGlobal();
   syncView();
   renderAll();
   startStore();

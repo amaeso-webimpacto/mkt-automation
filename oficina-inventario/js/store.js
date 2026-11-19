@@ -3,7 +3,6 @@ import {
   DOC_CONFIG,
   DOC_REVIEW,
   DOC_ROTATION,
-  SIGNATURE_STORAGE_KEY,
   SNAPSHOT_TIMEOUT_MS,
   WRITE_PERMISSION,
 } from "./constants.js";
@@ -61,8 +60,12 @@ export function newItemId() {
   return database.collection(COLLECTION_ITEMS).doc().id;
 }
 
-export function saveItem(id, data) {
+export function createItemDoc(id, data) {
   return enqueue(() => database.collection(COLLECTION_ITEMS).doc(id).set(data));
+}
+
+export function updateItem(id, patch) {
+  return enqueue(() => database.collection(COLLECTION_ITEMS).doc(id).update(patch));
 }
 
 export function deleteItem(id) {
@@ -77,22 +80,6 @@ export function saveReview(review) {
   return enqueue(() => database.doc(DOC_REVIEW).set(review));
 }
 
-export function saveRotation(periods) {
-  return enqueue(() => database.doc(DOC_ROTATION).set({ periods }));
-}
-
-export function readSignature() {
-  try {
-    return localStorage.getItem(SIGNATURE_STORAGE_KEY) ?? "";
-  } catch {
-    return "";
-  }
-}
-
-export function writeSignature(value) {
-  try {
-    localStorage.setItem(SIGNATURE_STORAGE_KEY, value);
-  } catch {
-    /* the signature is a convenience; the page works without storage */
-  }
+export function saveRotation({ teams, periods }) {
+  return enqueue(() => database.doc(DOC_ROTATION).set({ teams, periods }));
 }

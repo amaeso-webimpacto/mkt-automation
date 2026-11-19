@@ -1,9 +1,13 @@
-import { CONNECTION, STATUS, STATUS_LABELS, VIEWS } from "./constants.js";
-import { cloneTemplate, field, ref, refs } from "./dom.js";
 import {
-  describeStock,
-  formatShortDate,
-} from "./logic.js";
+  CATEGORIES,
+  CONNECTION,
+  STATUS,
+  STATUS_LABELS,
+  VIEWS,
+  WEEKDAYS,
+} from "./constants.js";
+import { cloneTemplate, field, fillSelect, ref, refs } from "./dom.js";
+import { describeStock, formatShortDate, teamLabel } from "./logic.js";
 
 const CONNECTION_MESSAGES = Object.freeze({
   [CONNECTION.LOADING]: "Cargando el inventario compartido…",
@@ -12,6 +16,14 @@ const CONNECTION_MESSAGES = Object.freeze({
     "No se puede conectar con los datos compartidos. Comprueba que has iniciado sesión y que tienes acceso a este artefacto.",
 });
 const READ_ONLY_MESSAGE = "Tienes acceso de solo lectura. Puedes consultar el inventario pero no cambiarlo.";
+
+const STATUS_OPTIONS = Object.values(STATUS).map((value) => ({ value, label: STATUS_LABELS[value] }));
+
+function teamColorClass(colorIndex) {
+  return colorIndex >= 0 ? `team-color-${colorIndex}` : "";
+}
+
+/* Shell */
 
 export function renderBanner({ connection, readOnly }) {
   const banner = ref("banner");
@@ -37,32 +49,81 @@ export function renderView(viewName) {
 export function renderTurn(periods, currentIndex) {
   const period = periods[currentIndex];
   ref("turn").textContent = period
-    ? `Turno actual: ${period.team} · ${formatShortDate(period.from)} al ${formatShortDate(period.to)}`
+    ? `Turno actual: ${teamLabel(period.team)} · ${formatShortDate(period.from)} al ${formatShortDate(period.to)}`
     : "Sin turno asignado para hoy";
 }
 
 export function renderReview({ review, config }) {
   ref("review-text").textContent = review
-    ? `Última revisión: ${formatShortDate(review.date)} · ${review.team}`
+    ? `Última revisión: ${formatShortDate(review.date)} · ${teamLabel(review.team) || "Sin turno"}`
     : "Todavía no hay una revisión registrada.";
   ref("last-order-text").textContent = config.lastOrder
     ? `Último pedido: ${formatShortDate(config.lastOrder)}`
     : "Sin fecha de último pedido.";
 }
 
-export function renderCount(total, visible, toOrderCount) {
-  const label = total === visible ? `${total} productos` : `${visible} de ${total} productos`;
-  ref("count").textContent = `${label} · ${toOrderCount} por pedir`;
+export function showToast(message) {
+  const toast = ref("toast");
+  toast.textContent = message;
+  toast.hidden = !message;
 }
 
-export function renderItemList({ items, total, connection }) {
-  const list = ref("item-list");
-  const empty = ref("item-empty");
-  list.replaceChildren(...items.map(buildItemCard));
-  empty.hidden = items.length > 0;
-  if (items.length) return;
-  empty.textContent = emptyMessage(total, connection);
+/* Inventory: filters */
+
+function appendChip(container, attribute, value, { icon = "", label, iconClass = "" }) {
+  const chip = cloneTemplate("chip");
+  chip.setAttribute(attribute, value);
+  const iconElement = field(chip, "icon");
+  iconElement.textContent = icon;
+  if (iconClass) iconElement.classList.add("chip__icon--dot", iconClass);
+  iconElement.hidden = !icon && !iconClass;
+  field(chip, "label").textContent = label;
+  container.append(chip);
 }
+
+export function buildChips() {
+  const categoryBox = ref("chips-category");
+  appendChip(categoryBox, "data-js-chip-category", "", { label: "Todas" });
+  CATEGORIES.forEach(({ id, label, emoji }) => {
+    appendChip(categoryBox, "data-js-chip-category", id, { icon: emoji, label });
+  });
+  const statusBox = ref("chips-status");
+  appendChip(statusBox, "data-js-chip-status", "", { label: "Todos" });
+  Object.values(STATUS)
+    .filter(Boolean)
+    .forEach((status) => {
+      appendChip(statusBox, "data-js-chip-status", status, {
+        label: STATUS_LABELS[status],
+        iconClass: `chip__icon--${status}`,
+      });
+    });
+}
+
+function updateChips(name, selected, counts) {
+  refs(`chip-${name}`).forEach((chip) => {
+    const value = chip.getAttribute(`data-js-chip-${name}`);
+    chip.setAttribute("aria-pressed", String(value === selected));
+    field(chip, "count").textContent = counts[value] ?? 0;
+  });
+}
+
+export function renderFilters({ filters, items }) {
+  const categoryCounts = { "": items.length };
+  const statusCounts = { "": items.length };
+  items.forEach((item) => {
+    categoryCounts[item.category] = (categoryCounts[item.category] ?? 0) + 1;
+    statusCounts[item.status] = (statusCounts[item.status] ?? 0) + 1;
+  });
+  updateChips("category", filters.category, categoryCounts);
+  updateChips("status", filters.status, statusCounts);
+  ref("filter-clear").hidden = !filters.query;
+}
+
+export function renderCount(total, visible) {
+  ref("count").textContent = total === visible ? `${total} productos` : `${visible} de ${total} productos`;
+}
+
+/* Inventory: table */
 
 function emptyMessage(total, connection) {
   if (connection === CONNECTION.LOADING) return "Cargando productos…";
@@ -70,30 +131,66 @@ function emptyMessage(total, connection) {
   return "Ningún producto coincide con la búsqueda y los filtros.";
 }
 
-function buildItemCard(item) {
-  const card = cloneTemplate("item");
-  card.setAttribute("data-js-item-id", item.id);
-  field(card, "name").textContent = item.name;
-  field(card, "qty").textContent = describeStock(item);
-  field(card, "where").textContent = item.location ? `Dónde: ${item.location}` : "";
-
-  const pill = field(card, "status");
-  pill.hidden = !item.status;
-  pill.textContent = STATUS_LABELS[item.status] ?? "";
-  pill.classList.add(`pill--${item.status || "none"}`);
-
-  const toOrder = item.status === STATUS.TO_ORDER;
-  const flag = ref("item-flag", card);
-  flag.textContent = toOrder ? "Quitar" : "Pedir";
-  flag.setAttribute("aria-label", `${toOrder ? "Quitar de pedido" : "Pedir"}: ${item.name}`);
-  return card;
+export function renderInventoryTable({ groups, total, visible, connection }) {
+  const table = ref("table");
+  table.querySelectorAll("tbody").forEach((body) => body.remove());
+  groups.forEach((group) => table.append(buildGroup(group)));
+  const empty = ref("item-empty");
+  empty.hidden = visible > 0;
+  empty.textContent = visible > 0 ? "" : emptyMessage(total, connection);
+  ref("table-wrap").hidden = visible === 0;
 }
 
+function buildGroup({ category, items }) {
+  const group = cloneTemplate("category");
+  group.setAttribute("data-js-category-id", category.id);
+  field(group, "emoji").textContent = category.emoji;
+  field(group, "label").textContent = category.label;
+  const toOrder = items.filter((item) => item.status === STATUS.TO_ORDER).length;
+  field(group, "meta").textContent = `${items.length} ${items.length === 1 ? "producto" : "productos"} · ${toOrder} por pedir`;
+  group.append(...items.map(buildRow));
+  return group;
+}
+
+function buildRow(item) {
+  const row = cloneTemplate("row");
+  row.setAttribute("data-js-item-id", item.id);
+
+  const name = field(row, "name");
+  name.value = item.name;
+  name.setAttribute("aria-label", `Producto: ${item.name}`);
+
+  const qty = field(row, "qty");
+  qty.value = item.qty ?? "";
+  qty.setAttribute("aria-label", `Cantidad disponible de ${item.name}`);
+
+  const date = field(row, "orderDate");
+  date.value = item.orderDate ?? "";
+  date.setAttribute("aria-label", `Fecha de pedido de ${item.name}`);
+
+  const status = field(row, "status");
+  fillSelect(status, STATUS_OPTIONS);
+  status.value = item.status ?? STATUS.NONE;
+  status.setAttribute("aria-label", `Estado del pedido de ${item.name}`);
+  field(row, "statusBox").classList.add(`status-select--${item.status || "none"}`);
+
+  const where = field(row, "where");
+  const spare = field(row, "spare");
+  where.textContent = item.location ? `Dónde: ${item.location}` : "";
+  spare.textContent = item.spare ? `Repuestos: ${item.spare}` : "";
+  where.hidden = !item.location;
+  spare.hidden = !item.spare;
+  field(row, "empty").hidden = Boolean(item.location || item.spare);
+  ref("item-details", row).setAttribute("aria-label", `Editar ubicación y detalles de ${item.name}`);
+  return row;
+}
+
+/* Order */
+
 export function renderOrderList({ items }) {
-  const list = ref("order-list");
   ref("order-empty").hidden = items.length > 0;
   ref("order-panel").hidden = items.length === 0;
-  list.replaceChildren(...items.map(buildOrderRow));
+  ref("order-list").replaceChildren(...items.map(buildOrderRow));
   ref("order-count").textContent = items.length
     ? `${items.length} ${items.length === 1 ? "producto" : "productos"} por pedir`
     : "";
@@ -113,51 +210,90 @@ function buildOrderRow(item) {
   return row;
 }
 
-export function renderEmailPreview({ subject, body, mailtoUrl, config }) {
+export function renderEmailPreview({ subject, body, mailtoUrl }) {
   ref("email-subject").value = subject;
   ref("email-body").value = body;
-  ref("hr-address").textContent = config.hrEmail || "Sin dirección. Escríbela arriba.";
   const link = ref("mailto");
-  if (mailtoUrl) {
-    link.setAttribute("href", mailtoUrl);
-    link.removeAttribute("aria-disabled");
-  } else {
-    link.removeAttribute("href");
-    link.setAttribute("aria-disabled", "true");
-  }
+  link.setAttribute("href", mailtoUrl);
   refs("email-action").forEach((control) => {
     control.disabled = !body;
   });
 }
 
-export function renderConfigFields(config) {
-  const nameInput = ref("hr-name");
-  const emailInput = ref("hr-email");
-  if (document.activeElement !== nameInput) nameInput.value = config.hrName;
-  if (document.activeElement !== emailInput) emailInput.value = config.hrEmail;
+/* Rotation */
+
+export function renderCalendarHead() {
+  const row = document.createElement("tr");
+  WEEKDAYS.forEach(({ short, full }) => {
+    const cell = document.createElement("th");
+    cell.scope = "col";
+    const abbreviation = document.createElement("abbr");
+    abbreviation.title = full;
+    abbreviation.textContent = short;
+    cell.append(abbreviation);
+    row.append(cell);
+  });
+  ref("calendar-head").replaceChildren(row);
 }
 
-export function renderRotation({ periods, currentIndex }) {
-  const list = ref("rotation-list");
-  list.replaceChildren(
+function buildDay(cell) {
+  const day = cloneTemplate("day");
+  if (!cell) {
+    day.classList.add("day--empty");
+    day.replaceChildren();
+    return day;
+  }
+  field(day, "num").textContent = String(cell.day);
+  const description = [cell.team ? teamLabel(cell.team) : "sin turno", cell.isToday ? "hoy" : ""]
+    .filter(Boolean)
+    .join(", ");
+  field(day, "sr").textContent = `, ${description}`;
+  if (cell.colorIndex >= 0) day.classList.add(teamColorClass(cell.colorIndex));
+  if (cell.isToday) day.classList.add("day--today");
+  return day;
+}
+
+export function renderCalendar({ title, grid }) {
+  ref("calendar-title").textContent = title;
+  ref("calendar-body").replaceChildren(
+    ...grid.map((week) => {
+      const row = document.createElement("tr");
+      row.append(...week.map(buildDay));
+      return row;
+    }),
+  );
+}
+
+export function renderLegend(teams) {
+  ref("legend").replaceChildren(
+    ...teams.map((team) => {
+      const item = cloneTemplate("legend");
+      item.classList.add(teamColorClass(team.colorIndex));
+      field(item, "label").textContent = teamLabel(team.name);
+      return item;
+    }),
+  );
+}
+
+export function renderRotation({ periods, teams, currentIndex }) {
+  ref("rotation-list").replaceChildren(
     ...periods.map((period, index) => {
       const row = cloneTemplate("period");
+      const colorIndex = teams.find((team) => team.name === period.team)?.colorIndex ?? -1;
+      row.classList.add(teamColorClass(colorIndex));
       row.setAttribute("data-js-period-index", String(index));
+      field(row, "team").textContent = teamLabel(period.team);
       field(row, "range").textContent = `${formatShortDate(period.from)} al ${formatShortDate(period.to)}`;
-      field(row, "team").textContent = period.team;
       const badge = field(row, "badge");
       const label = index === currentIndex ? "Ahora" : index === currentIndex + 1 ? "Siguiente" : "";
       badge.hidden = !label;
       badge.textContent = label;
-      ref("period-edit", row).setAttribute("aria-label", `Cambiar equipo del periodo ${formatShortDate(period.from)} al ${formatShortDate(period.to)}`);
+      ref("period-edit", row).setAttribute(
+        "aria-label",
+        `Cambiar equipo del turno ${formatShortDate(period.from)} al ${formatShortDate(period.to)}`,
+      );
       return row;
     }),
   );
   ref("rotation-empty").hidden = periods.length > 0;
-}
-
-export function showToast(message) {
-  const toast = ref("toast");
-  toast.textContent = message;
-  toast.hidden = !message;
 }
