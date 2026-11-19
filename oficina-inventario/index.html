@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap">
 <link rel="stylesheet" href="styles.css">
 
-<div class="app">
+<div class="app" data-js-app>
   <header class="app-header">
     <div class="gradient-bar" aria-hidden="true"></div>
     <p class="app-header__kicker">Oficina Webimpacto</p>
@@ -130,11 +130,7 @@
         <h2 class="section-head__title" id="title-turnos">Turnos de revisión</h2>
       </div>
 
-      <section class="turn-now" data-js-turn-now aria-labelledby="turn-now-label">
-        <p class="turn-now__label" id="turn-now-label">Turno actual</p>
-        <p class="turn-now__team" data-js-turn-now-team></p>
-        <p class="turn-now__dates" data-js-turn-now-dates></p>
-      </section>
+      <p class="turn-now" data-js-turn-now></p>
 
       <p class="notice" role="status" data-js-turn-next></p>
 
@@ -268,14 +264,9 @@
 </template>
 
 <template data-js-template-row>
-  <tr data-js-item-id>
+  <tr class="row-main" data-js-item-id>
     <th scope="row" class="cell cell--product">
       <textarea class="cell-input cell-input--name" rows="2" maxlength="80" data-js-field="name" data-js-edit="name"></textarea>
-      <button type="button" class="details" data-js-item-details>
-        <span class="details__line" data-js-field="where"></span>
-        <span class="details__line" data-js-field="spare"></span>
-        <span class="details__line" data-js-field="empty">Añadir ubicación</span>
-      </button>
     </th>
     <td class="cell">
       <input class="cell-input" type="text" maxlength="160" autocomplete="off" data-js-field="qty" data-js-edit="qty">
@@ -287,6 +278,14 @@
       <div class="status-select" data-js-field="statusBox">
         <select class="cell-input" data-js-field="status" data-js-edit="status"></select>
       </div>
+    </td>
+  </tr>
+</template>
+
+<template data-js-template-details>
+  <tr class="row-details" data-js-item-id>
+    <td class="cell cell--details" colspan="4">
+      <button type="button" class="details" data-js-item-details data-js-field="text"></button>
     </td>
   </tr>
 </template>

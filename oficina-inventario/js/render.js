@@ -37,6 +37,7 @@ export function renderBanner({ connection, readOnly }) {
 
 export function renderView(viewName) {
   const current = VIEWS.includes(viewName) ? viewName : VIEWS[0];
+  ref("app").setAttribute("data-view", current);
   refs("view").forEach((view) => {
     view.hidden = view.getAttribute("data-js-view") !== current;
   });
@@ -138,11 +139,15 @@ function buildGroup({ category, items }) {
   field(group, "label").textContent = category.label;
   const toOrder = items.filter((item) => item.status === STATUS.TO_ORDER).length;
   field(group, "meta").textContent = `${items.length} ${items.length === 1 ? "producto" : "productos"} · ${toOrder} por pedir`;
-  group.append(...items.map(buildRow));
+  group.append(...items.flatMap(buildRows));
   return group;
 }
 
-function buildRow(item) {
+function buildRows(item) {
+  return [buildMainRow(item), buildDetailsRow(item)];
+}
+
+function buildMainRow(item) {
   const row = cloneTemplate("row");
   row.setAttribute("data-js-item-id", item.id);
 
@@ -163,15 +168,19 @@ function buildRow(item) {
   status.value = item.status ?? STATUS.NONE;
   status.setAttribute("aria-label", `Estado del pedido de ${item.name}`);
   field(row, "statusBox").classList.add(`status-select--${item.status || "none"}`);
+  return row;
+}
 
-  const where = field(row, "where");
-  const spare = field(row, "spare");
-  where.textContent = item.location ? `Dónde: ${item.location}` : "";
-  spare.textContent = item.spare ? `Repuestos: ${item.spare}` : "";
-  where.hidden = !item.location;
-  spare.hidden = !item.spare;
-  field(row, "empty").hidden = Boolean(item.location || item.spare);
-  ref("item-details", row).setAttribute("aria-label", `Editar ubicación y detalles de ${item.name}`);
+function buildDetailsRow(item) {
+  const row = cloneTemplate("details");
+  row.setAttribute("data-js-item-id", item.id);
+  const parts = [
+    item.location ? `Dónde: ${item.location}` : "",
+    item.spare ? `Repuestos: ${item.spare}` : "",
+  ].filter(Boolean);
+  const button = ref("item-details", row);
+  button.textContent = parts.length ? parts.join(" · ") : "Añadir ubicación";
+  button.setAttribute("aria-label", `Editar ubicación y detalles de ${item.name}`);
   return row;
 }
 
@@ -225,15 +234,13 @@ function describeDaysLeft(days) {
 }
 
 export function renderTurnSummary({ current, next, warn }) {
-  const card = ref("turn-now");
-  card.className = "turn-now";
+  const strip = ref("turn-now");
+  strip.className = "turn-now";
   if (current) {
-    if (current.colorIndex >= 0) card.classList.add(teamColorClass(current.colorIndex));
-    ref("turn-now-team").textContent = teamLabel(current.team);
-    ref("turn-now-dates").textContent = `${formatShortDate(current.from)} al ${formatShortDate(current.to)} · ${describeDaysLeft(current.days)}`;
+    if (current.colorIndex >= 0) strip.classList.add(teamColorClass(current.colorIndex));
+    strip.textContent = `Turno actual: ${teamLabel(current.team)} · ${formatShortDate(current.from)} al ${formatShortDate(current.to)} · ${describeDaysLeft(current.days)}`;
   } else {
-    ref("turn-now-team").textContent = "Sin turno asignado para hoy";
-    ref("turn-now-dates").textContent = "";
+    strip.textContent = "Sin turno asignado para hoy";
   }
 
   const notice = ref("turn-next");

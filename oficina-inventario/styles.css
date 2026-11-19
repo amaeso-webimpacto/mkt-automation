@@ -559,25 +559,45 @@ thead .cell {
 
 .cell-input--name {
   display: block;
-  min-height: 52px;
+  height: 3.25rem;
   font-family: var(--font-title);
   font-weight: 600;
   resize: none;
-  field-sizing: content;
+}
+
+@supports (field-sizing: content) {
+  .cell-input--name {
+    height: auto;
+    min-height: 44px;
+    field-sizing: content;
+  }
+}
+
+.row-main .cell {
+  padding-bottom: var(--space-0);
+  border-bottom: 0;
+}
+
+.row-details .cell {
+  padding-top: 0;
+}
+
+.cell--details {
+  position: relative;
 }
 
 .details {
-  display: grid;
-  gap: 2px;
-  width: 100%;
-  margin-top: var(--space-0);
+  position: sticky;
+  left: var(--space-1);
+  display: block;
+  width: max-content;
+  max-width: min(calc(100vw - 64px), 560px);
   padding: var(--space-0) 0;
   border: 0;
   background: transparent;
   color: var(--ink-2);
   font: inherit;
   font-size: 0.8125rem;
-  font-weight: 400;
   text-align: left;
   text-decoration: underline;
   text-underline-offset: 2px;
@@ -710,33 +730,18 @@ thead .cell {
 
 /* Current turn and next-turn notice */
 .turn-now {
-  display: grid;
-  gap: var(--space-0);
-  padding: var(--space-3) var(--space-2);
-  border-radius: var(--radius-md);
+  margin: 0;
+  padding: var(--space-1) 12px;
+  border-radius: var(--radius-sm);
   background: var(--team, var(--bg-2));
   color: var(--team-text, var(--ink));
-}
-
-.turn-now__label {
-  margin: 0;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-.turn-now__team {
-  margin: 0;
-  font-family: var(--font-title);
-  font-size: 1.75rem;
-  font-weight: 700;
-  line-height: 1.15;
-}
-
-.turn-now__dates {
-  margin: 0;
   font-variant-numeric: tabular-nums;
+}
+
+.app[data-view="turnos"] .app-header__turn {
+  display: none;
 }
 
 .notice {
