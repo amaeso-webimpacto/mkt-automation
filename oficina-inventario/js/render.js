@@ -7,7 +7,7 @@ import {
   WEEKDAYS,
 } from "./constants.js";
 import { cloneTemplate, field, fillSelect, ref, refs } from "./dom.js";
-import { describeStock, formatShortDate, formatSlashDate, teamLabel } from "./logic.js";
+import { describeStock, formatShortDate, formatSlashDate, isTeamActive, teamLabel } from "./logic.js";
 
 const CONNECTION_MESSAGES = Object.freeze({
   [CONNECTION.STALE]: "No se alcanzan los datos compartidos todavía. Lo que ves puede estar desactualizado.",
@@ -326,15 +326,24 @@ export function renderRotation({ periods, teams, currentIndex }) {
   ref("rotation-list").replaceChildren(
     ...periods.map((period, index) => {
       const row = cloneTemplate("period");
-      const colorIndex = teams.find((team) => team.name === period.team)?.colorIndex ?? -1;
+      const team = teams.find((entry) => entry.name === period.team);
+      const colorIndex = team?.colorIndex ?? -1;
+      const isRetired = Boolean(team) && !isTeamActive(team);
       if (colorIndex >= 0) row.classList.add(teamColorClass(colorIndex));
       row.setAttribute("data-js-period-index", String(index));
       field(row, "team").textContent = teamLabel(period.team);
       field(row, "range").textContent = `${formatShortDate(period.from)} al ${formatShortDate(period.to)}`;
       const badge = field(row, "badge");
-      const label = index === currentIndex ? "Ahora" : index === currentIndex + 1 ? "Siguiente" : "";
+      const label = isRetired
+        ? "Ya no vigente"
+        : index === currentIndex
+          ? "Ahora"
+          : index === currentIndex + 1
+            ? "Siguiente"
+            : "";
       badge.hidden = !label;
       badge.textContent = label;
+      badge.classList.toggle("pill--retired", isRetired);
       ref("period-edit", row).setAttribute(
         "aria-label",
         `Cambiar equipo del turno ${formatShortDate(period.from)} al ${formatShortDate(period.to)}`,

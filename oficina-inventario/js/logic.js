@@ -199,6 +199,14 @@ function pickColorIndex(teams) {
   return teams.length % TEAM_PALETTE_SIZE;
 }
 
+export function isTeamActive(team) {
+  return team?.active !== false;
+}
+
+export function activeTeams(teams) {
+  return teams.filter(isTeamActive);
+}
+
 export function teamColorIndex(teams, name) {
   return teams.find((team) => team.name === name)?.colorIndex ?? -1;
 }

@@ -10,6 +10,7 @@ import {
 } from "./constants.js";
 import { fillSelect, ref, refs } from "./dom.js";
 import {
+  activeTeams,
   addTeamToRotation,
   buildEmail,
   buildMonthGrid,
@@ -133,8 +134,8 @@ function renderTurns() {
   const grid = buildMonthGrid(state.calendar, { periods, teams, todayIso: today() });
   renderTurnSummary(buildTurnSummary({ periods, teams, todayIso: today() }));
   renderCalendar({ title: formatMonthTitle(state.calendar), grid });
-  renderLegend(teams);
-  renderMembers(teams);
+  renderLegend(activeTeams(teams));
+  renderMembers(activeTeams(teams));
   renderRotation({ periods, teams, currentIndex: currentPeriodIndex() });
 }
 
@@ -309,7 +310,11 @@ function openPeriodDialog(index) {
   if (!period) return;
   state.editingPeriodIndex = index;
   const select = ref("team-select");
-  fillSelect(select, state.rotation.teams.map((team) => ({ value: team.name, label: teamLabel(team.name) })));
+  const options = activeTeams(state.rotation.teams).map((team) => ({ value: team.name, label: teamLabel(team.name) }));
+  if (!options.some((option) => option.value === period.team)) {
+    options.unshift({ value: period.team, label: `${teamLabel(period.team)} (ya no vigente)` });
+  }
+  fillSelect(select, options);
   select.value = period.team;
   ref("team-period").textContent = `Turno del ${formatShortDate(period.from)} al ${formatShortDate(period.to)}`;
   openDialog("team");

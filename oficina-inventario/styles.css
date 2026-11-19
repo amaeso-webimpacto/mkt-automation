@@ -691,6 +691,10 @@ thead .cell {
   background: var(--info);
 }
 
+.pill--retired::before {
+  background: var(--ink-2);
+}
+
 .swatch {
   flex: none;
   width: 16px;
