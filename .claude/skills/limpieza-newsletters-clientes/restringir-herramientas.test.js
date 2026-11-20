@@ -19,6 +19,18 @@ test("bloquea enviar, responder, reenviar, borradores, spam y etiquetas", () => 
   }
 });
 
+test("permite solo leer las tareas programadas", () => {
+  for (const herramienta of ["list_triggers", "get_trigger"]) {
+    assert.strictEqual(motivoDeBloqueo(`mcp__claude-code-remote__${herramienta}`), null, herramienta);
+  }
+});
+
+test("bloquea crear, cambiar, borrar o lanzar tareas programadas y el resto de herramientas de sesiones", () => {
+  for (const herramienta of ["create_trigger", "update_trigger", "delete_trigger", "fire_trigger", "send_later", "add_repo", "create_session", "send_message"]) {
+    assert.ok(motivoDeBloqueo(`mcp__claude-code-remote__${herramienta}`), herramienta);
+  }
+});
+
 test("bloquea cualquier otro conector MCP", () => {
   assert.ok(motivoDeBloqueo("mcp__Klaviyo-TucTuc-todo__send_campaign"));
   assert.ok(motivoDeBloqueo("mcp__Shopify__graphql_mutation"));

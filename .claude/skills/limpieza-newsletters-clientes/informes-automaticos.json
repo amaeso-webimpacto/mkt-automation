@@ -1,0 +1,22 @@
+{
+  "descripcion": "Informes que las tareas programadas se envían a la propia persona y que se pueden mandar a la papelera. Solo entra un hilo de un único mensaje, enviado y recibido por el propietario, cuyo asunto empiece exactamente por uno de estos prefijos y que tenga al menos la antigüedad mínima.",
+  "propietario": "amaeso@webimpacto.es",
+  "antiguedad_minima": "2d",
+  "tope_hilos_por_ejecucion": 100,
+  "longitud_minima_de_prefijo_detectado": 20,
+  "prefijos": [
+    "Tuc Tuc · ejecución copies CRM",
+    "Azarey · ejecución copies CRM",
+    "Azarey · corrección ejecución copies CRM",
+    "Calendario comunicaciones D2Ce ·",
+    "Calendario BSoul Chile ·",
+    "Resumen Jira + Asana + agenda ·",
+    "Vigía ·"
+  ],
+  "no_entran": [
+    "Panel Email",
+    "Azarey Welcome Series - resultado",
+    "Azarey Suscritos sin compra - resultado",
+    "[PRUEBA]"
+  ]
+}
