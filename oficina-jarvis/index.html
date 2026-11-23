@@ -14,6 +14,7 @@
     <ul class="estado" aria-label="Estado del agente">
       <li class="chip"><span class="chip__punto chip__punto--ok" aria-hidden="true"></span>Newsletters: modo real</li>
       <li class="chip"><span class="chip__punto chip__punto--ok" aria-hidden="true"></span>Informes de tareas: modo real</li>
+      <li class="chip"><span class="chip__punto chip__punto--ok" aria-hidden="true"></span>Competencia: directa a la papelera</li>
       <li class="chip"><span class="chip__punto chip__punto--ok" aria-hidden="true"></span>Cada día a las 19:36</li>
       <li class="chip"><span class="chip__punto chip__punto--ok" aria-hidden="true"></span>Papelera, nunca borrado definitivo</li>
       <li class="chip"><span class="chip__punto chip__punto--ok" aria-hidden="true"></span>Nunca envía correos</li>
@@ -256,7 +257,7 @@
         },
         {
           "etiqueta": "Remitentes confirmados",
-          "valor": "15"
+          "valor": "16 direcciones de 15 clientes"
         },
         {
           "etiqueta": "Tope por ejecución",
@@ -267,7 +268,7 @@
           "valor": "se dejan sin tocar"
         }
       ],
-      "fuente": "Estimación de Gmail sobre la bandeja de entrada, 19/11/2026. Skill limpieza-newsletters-clientes 1.6.0: SKILL.md."
+      "fuente": "Estimación de Gmail sobre la bandeja de entrada, 19/11/2026. Skill limpieza-newsletters-clientes 1.6.1: SKILL.md."
     },
     "mesa": {
       "nombre": "Mesa de clics",
@@ -296,7 +297,7 @@
           "valor": "nunca"
         }
       ],
-      "fuente": "Skill limpieza-newsletters-clientes 1.6.0: SKILL.md y clic-newsletter.js."
+      "fuente": "Skill limpieza-newsletters-clientes 1.6.1: SKILL.md y clic-newsletter.js."
     },
     "papelera": {
       "nombre": "Papelera",
@@ -317,7 +318,7 @@
           "valor": "12 hilos y 40 mensajes"
         }
       ],
-      "fuente": "Skill limpieza-newsletters-clientes 1.6.0: SKILL.md. Las rondas del 19/11 y del 23/11 son ejecuciones manuales."
+      "fuente": "Skill limpieza-newsletters-clientes 1.6.1: SKILL.md. Las rondas del 19/11 y del 23/11 son ejecuciones manuales."
     },
     "informes": {
       "nombre": "Informes de tareas",
@@ -371,13 +372,13 @@
           ]
         }
       ],
-      "fuente": "Skill limpieza-newsletters-clientes 1.6.0: informes-automaticos.json y SKILL.md. Primera limpieza real, a mano, el 23/11/2026."
+      "fuente": "Skill limpieza-newsletters-clientes 1.6.1: informes-automaticos.json y SKILL.md. Primera limpieza real, a mano, el 23/11/2026."
     },
     "archivo": {
       "nombre": "Archivo de remitentes",
       "burbuja": "Faltan 11 fichas",
       "dice": "Solo toco lo que está en la lista. Si no me das la dirección exacta, no adivino.",
-      "resumen": "La lista de remitentes autorizados es la única fuente de verdad de qué se toca. Además, las cabeceras de cada correo deben demostrar que lo envía Klaviyo, iCommkt, Connectif o HubSpot. Los correos de personas no se tocan. Los clientes pendientes necesitan que se confirme su dirección exacta antes de entrar.",
+      "resumen": "La lista de remitentes autorizados es la única fuente de verdad de qué se toca. Además, las cabeceras de cada correo deben demostrar que lo envía Klaviyo, iCommkt, Connectif o HubSpot. Los correos de personas no se tocan. Los remitentes de la competencia no se abren: van directos a la papelera, sin descargar el correo ni hacer clic. Los clientes pendientes necesitan que se confirme su dirección exacta antes de entrar.",
       "datos": [
         {
           "etiqueta": "Plataformas verificadas",
@@ -436,6 +437,11 @@
           ]
         },
         {
+          "grupo": "Competencia: directa a la papelera",
+          "estado": "atencion",
+          "items": ["Mascaró"]
+        },
+        {
           "grupo": "Excluidos por la plataforma",
           "estado": "atencion",
           "items": [
@@ -443,13 +449,13 @@
           ]
         }
       ],
-      "fuente": "Skill limpieza-newsletters-clientes 1.6.0: remitentes.json."
+      "fuente": "Skill limpieza-newsletters-clientes 1.6.1: remitentes.json y competencia.json."
     },
     "reloj": {
       "nombre": "Reloj",
       "burbuja": "Cada día, 19:36",
       "dice": "A las 19:36 hago mis dos rondas: primero las newsletters y luego los informes.",
-      "resumen": "La rutina corre todos los días a las 19:36, hora de Madrid. Las newsletters van en modo real. La limpieza de informes también va en modo real.",
+      "resumen": "La rutina corre todos los días a las 19:36, hora de Madrid. Las newsletters van en modo real. La limpieza de informes y la de la competencia también van en modo real.",
       "datos": [
         {
           "etiqueta": "Hora",
