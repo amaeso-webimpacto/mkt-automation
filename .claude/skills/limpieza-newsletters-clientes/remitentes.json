@@ -86,15 +86,21 @@
       "cliente": "BSoul Chile",
       "remitente": "news@mail.bsoul.com",
       "plataforma": "hubspot"
+    },
+    {
+      "cliente": "Porronet",
+      "remitente": "list@porronet.es",
+      "plataforma": "klaviyo"
+    },
+    {
+      "cliente": "Incapto",
+      "remitente": "hello@incapto.com",
+      "plataforma": "hubspot"
     }
   ],
   "plataforma_conocida_falta_direccion": [
     {
       "cliente": "Palomitas",
-      "plataforma": "klaviyo"
-    },
-    {
-      "cliente": "Porronet",
       "plataforma": "klaviyo"
     },
     {
