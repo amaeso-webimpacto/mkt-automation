@@ -1,0 +1,8 @@
+{
+  "descripcion": "Remitentes de la competencia. Sus correos se mandan a la papelera sin abrirlos: no se descargan en bruto, no se hace clic y no se registra nada de su contenido.",
+  "tope_hilos_por_ejecucion": 100,
+  "remitentes": [
+    { "nombre": "Mascaró", "remitente": "info@mascaro.com" },
+    { "nombre": "Mascaró", "remitente": "noreply@mascaro.com" }
+  ]
+}
