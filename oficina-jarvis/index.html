@@ -13,7 +13,7 @@
     <p class="entradilla">JARVIS abre las newsletters de los clientes, hace clic en un enlace de contenido y las manda a la papelera. También limpia los informes que las tareas programadas te envían. Pulsa un puesto para ver qué hace cada uno.</p>
     <ul class="estado" aria-label="Estado del agente">
       <li class="chip"><span class="chip__punto chip__punto--ok" aria-hidden="true"></span>Newsletters: modo real</li>
-      <li class="chip"><span class="chip__punto chip__punto--atencion" aria-hidden="true"></span>Informes de tareas: modo prueba</li>
+      <li class="chip"><span class="chip__punto chip__punto--ok" aria-hidden="true"></span>Informes de tareas: modo real</li>
       <li class="chip"><span class="chip__punto chip__punto--ok" aria-hidden="true"></span>Cada día a las 19:36</li>
       <li class="chip"><span class="chip__punto chip__punto--ok" aria-hidden="true"></span>Papelera, nunca borrado definitivo</li>
       <li class="chip"><span class="chip__punto chip__punto--ok" aria-hidden="true"></span>Nunca envía correos</li>
@@ -233,7 +233,7 @@
 
 <script type="application/json" id="datos-oficina">
 {
-  "fecha": "20/11/2026",
+  "fecha": "23/11/2026",
   "orden": [
     "buzon",
     "mesa",
@@ -309,25 +309,25 @@
           "valor": "30 días"
         },
         {
-          "etiqueta": "Primera ronda real",
-          "valor": "7 hilos, 14 mensajes (19/11/2026)"
+          "etiqueta": "Newsletters movidas",
+          "valor": "7 hilos el 19/11 y 5 el 23/11"
         },
         {
           "etiqueta": "Tope por ejecución",
           "valor": "12 hilos y 40 mensajes"
         }
       ],
-      "fuente": "Skill limpieza-newsletters-clientes 1.6.0: SKILL.md. La primera ronda real es la ejecución manual del 19/11/2026."
+      "fuente": "Skill limpieza-newsletters-clientes 1.6.0: SKILL.md. Las rondas del 19/11 y del 23/11 son ejecuciones manuales."
     },
     "informes": {
       "nombre": "Informes de tareas",
       "burbuja": "Limpio informes",
       "dice": "Los informes que tus tareas se envían a ti se acumulan. Los recojo con una lista cerrada y dejo un día de margen.",
-      "resumen": "JARVIS manda a la papelera los informes que las tareas programadas te envían a ti misma. Solo entran hilos de un mensaje, enviados y recibidos por ti, con un asunto de la lista cerrada y de al menos 2 días de antigüedad. Cada día revisa las tareas programadas por si hay una nueva que envíe informes. Por ahora solo cuenta lo que movería.",
+      "resumen": "JARVIS manda a la papelera los informes que las tareas programadas te envían a ti misma. Solo entran hilos de un mensaje, enviados y recibidos por ti, con un asunto de la lista cerrada y de al menos 2 días de antigüedad. Cada día busca asuntos nuevos entre tus correos por si hay una familia que añadir a la lista. La primera limpieza real fue el 23/11/2026, con 78 hilos.",
       "datos": [
         {
           "etiqueta": "Modo",
-          "valor": "Prueba: solo cuenta"
+          "valor": "Real: mueve a la papelera"
         },
         {
           "etiqueta": "Asuntos en la lista",
@@ -371,7 +371,7 @@
           ]
         }
       ],
-      "fuente": "Skill limpieza-newsletters-clientes 1.6.0: informes-automaticos.json y SKILL.md. Sin ejecutar todavía en la rutina."
+      "fuente": "Skill limpieza-newsletters-clientes 1.6.0: informes-automaticos.json y SKILL.md. Primera limpieza real, a mano, el 23/11/2026."
     },
     "archivo": {
       "nombre": "Archivo de remitentes",
@@ -389,7 +389,7 @@
         },
         {
           "etiqueta": "Sin probar con un correo real",
-          "valor": "Toni Pons, BSoul Chile, Bliet"
+          "valor": "BSoul Chile y Bliet"
         },
         {
           "etiqueta": "Correos de personas",
@@ -449,7 +449,7 @@
       "nombre": "Reloj",
       "burbuja": "Cada día, 19:36",
       "dice": "A las 19:36 hago mis dos rondas: primero las newsletters y luego los informes.",
-      "resumen": "La rutina corre todos los días a las 19:36, hora de Madrid. Las newsletters van en modo real. La limpieza de informes empieza en modo prueba y pasa a real cuando lo confirmes.",
+      "resumen": "La rutina corre todos los días a las 19:36, hora de Madrid. Las newsletters van en modo real. La limpieza de informes también va en modo real.",
       "datos": [
         {
           "etiqueta": "Hora",
@@ -461,14 +461,14 @@
         },
         {
           "etiqueta": "Informes de tareas",
-          "valor": "Modo prueba"
+          "valor": "Modo real"
         },
         {
           "etiqueta": "Modelo",
           "valor": "Haiku"
         }
       ],
-      "fuente": "Rutina «JARVIS limpieza diaria», configuración del 20/11/2026."
+      "fuente": "Rutina «JARVIS limpieza diaria», configuración del 23/11/2026."
     }
   },
   "pasos": [
