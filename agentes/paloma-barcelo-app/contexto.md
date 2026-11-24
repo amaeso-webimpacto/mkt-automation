@@ -107,5 +107,5 @@ Deducido de los push enviados y las notificaciones automáticas:
 3. Franja horaria habitual del push (el calendario no la recoge).
 4. Código de bienvenida vigente y fecha del cambio de APP15 a APP5.
 5. Vigencia del código FW26-20 y si debe darse de alta en `Configuración cupones`.
-6. Si el aviso de push debe dejarse también en la Oficina de agentes o solo en el chat.
+6. Resuelta (2026-11-24): el aviso de push se deja también en la Oficina de agentes, en el documento `avisos/kevin`.
 7. Ruta correcta de la tienda EU para los enlaces de los push en inglés.
