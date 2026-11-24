@@ -231,6 +231,7 @@ body {
 .health__metrics { display: flex; flex-wrap: wrap; gap: var(--space-2); font-size: 12px; color: var(--apagado); }
 .health__metrics b { display: block; font-size: 14px; color: var(--texto); font-variant-numeric: tabular-nums; }
 .health__diag { margin: 0; color: var(--texto-2); font-size: 13px; }
+.health__why { margin: 0; padding: 6px 10px; border-left: 3px solid var(--azul); background: var(--fondo-2); border-radius: 0 var(--radius-sm, 6px) var(--radius-sm, 6px) 0; color: var(--texto); font-size: 13px; }
 .badge { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 999px; text-transform: uppercase; letter-spacing: .04em; }
 .badge--good { color: var(--verde); background: var(--verde-fondo); }
 .badge--ok { color: var(--azul); background: var(--fondo-2); }

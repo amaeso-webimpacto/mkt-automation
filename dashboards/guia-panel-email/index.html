@@ -12,8 +12,28 @@
     <h1>Cómo funcionan los paneles de email de cliente</h1>
     <div class="cabecera__barra" aria-hidden="true"></div>
     <p class="cabecera__entradilla">Cada cliente tiene un panel con sus campañas, flujos, base de datos y ventas del canal email. Claude lo crea y lo actualiza cada mes con la skill <strong>panel-email-cliente</strong>; el equipo revisa, mete los datos manuales y escribe el contexto. El hub <strong>Paneles Email</strong> reúne todos los paneles en una sola página.</p>
-    <p class="cabecera__meta">Skill panel-email-cliente v1.3.0 y programar-panel-email v1.0.0 · Guía de noviembre de 2026</p>
+    <p class="cabecera__meta">Skill panel-email-cliente v1.8.1 y programar-panel-email v1.1.0 · Guía de noviembre de 2026, actualizada el 12/11</p>
   </header>
+
+  <section class="seccion" aria-labelledby="novedades">
+    <h2 id="novedades">Novedades de la skill 1.8 en la práctica</h2>
+    <p class="seccion__sub">Lo que cambia al actualizar un panel, desde la versión 1.3.0 hasta la 1.8.1 (12/11/2026).</p>
+    <div class="tabla-wrap">
+      <table>
+        <caption>Cambios recientes y qué significan para el equipo</caption>
+        <thead><tr><th scope="col">Cambio</th><th scope="col">Qué significa en la práctica</th><th scope="col">Afecta a</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Shopify obligatorio en iCommkt</th><td>Antes de cargar nada, Claude comprueba que el conector de Shopify es el de la tienda del cliente. Si falta o es de otra tienda, avisa y <strong>para sin escribir el mes</strong>: reconecta Shopify y repite la petición. La venta neta sigue siendo dato manual.</td><td>Clientes iCommkt</td></tr>
+          <tr><th scope="row">Export de iCommkt desde Drive</th><td>Si pegas el enlace del export en la petición, Claude lo usa para las campañas del mes. Si no, lo busca en la carpeta de exports del cliente, donde se suben el día 5, y si tampoco está usa el conector y lo dice. Está pendiente de comprobar con un export real.</td><td>Clientes iCommkt</td></tr>
+          <tr><th scope="row">Exclusiones por defecto</th><td>La configuración de un cliente puede llevar una lista de textos (por ejemplo un remitente ajeno). Esas campañas se cargan fuera de los cálculos, como las B2B, y se recuperan en «Editar datos» con «Incluir».</td><td>Quien lo necesite</td></tr>
+          <tr><th scope="row">Paneles con skill propia</th><td>En el hub no tienen botón «Petición de actualización»: muestran el nombre de su skill. El listado va agrupado por plataforma.</td><td>Hub</td></tr>
+          <tr><th scope="row">Pestañas más completas</th><td>Estado de cada flujo y nota «Por qué», día y hora de envío, desglose por marca y por mercado (si el cliente los tiene), facturación del plan en Klaviyo y gráficos mensuales con todo el histórico. Los chips de variación comparan con el año anterior o, si no hay, con el mes o periodo anterior.</td><td>Todos los paneles</td></tr>
+          <tr><th scope="row">Tarea programada</th><td>En iCommkt necesita los conectores de Shopify y de Google Drive. Si falta Shopify, se para y el correo llega con asunto «con incidencias».</td><td>Clientes iCommkt</td></tr>
+          <tr><th scope="row">Republicar los paneles</th><td>Un panel ya creado no estrena lo nuevo hasta que se republica con la plantilla vigente (apartado 09). Es lo que arregla la pestaña Campañas en paneles iCommkt sin revenue. Los datos no se tocan.</td><td>Quien mantiene los paneles</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 
   <nav class="seccion indice" aria-labelledby="indiceTitulo">
     <h2 id="indiceTitulo">Contenido</h2>
@@ -73,12 +93,12 @@
       <article class="pieza">
         <span class="pieza__tipo">Forma 2 · Automática</span>
         <h3>Tarea programada</h3>
-        <p>Pide «programa la actualización mensual del panel de Cliente Ejemplo» (skill <strong>programar-panel-email</strong>). Se crea una tarea por cliente a tu nombre: por defecto el día 7 a las 19:xx, hora de Madrid, actualiza el mes anterior y envía un correo con el resumen y el enlace a la versión HTML. Funciona con Klaviyo e iCommkt; HubSpot y Connectif todavía no.</p>
+        <p>Pide «programa la actualización mensual del panel de Cliente Ejemplo» (skill <strong>programar-panel-email</strong>). Se crea una tarea por cliente a tu nombre: por defecto el día 7 a las 19:xx, hora de Madrid, actualiza el mes anterior y envía un correo con el resumen y el enlace a la versión HTML. Funciona con Klaviyo e iCommkt; HubSpot y Connectif todavía no. En iCommkt necesita además los conectores de Shopify (de la tienda del cliente) y de Google Drive; si falta Shopify, la tarea se para y el correo lo avisa.</p>
       </article>
       <article class="pieza">
         <span class="pieza__tipo">Forma 3 · Guiada</span>
         <h3>Paso a paso desde el hub</h3>
-        <p>El hub genera la petición ya redactada con el panel y el mes. Es la forma 1 con el texto preparado, y la más segura porque lleva el enlace del panel y deja el resultado en el hub.</p>
+        <p>El hub genera la petición ya redactada con el panel y el mes. Es la forma 1 con el texto preparado, y la más segura porque lleva el enlace del panel y deja el resultado en el hub. Los paneles con skill propia no tienen este botón: se actualizan con su propia skill.</p>
       </article>
     </div>
     <p>Con cualquiera de las tres, los datos manuales (venta neta y lo pendiente) siguen siendo del equipo. El paso a paso de la forma 3 es este:</p>
@@ -115,10 +135,10 @@
         <caption>Secciones del hub y para qué sirve cada una</caption>
         <thead><tr><th scope="col">Sección</th><th scope="col">Para qué sirve</th></tr></thead>
         <tbody>
-          <tr><th scope="row">01 · Paneles</th><td>Un cliente por fila: enlace al panel, plataforma, última actualización y botón «Petición de actualización». «Quitar» lo saca del listado, pero no borra el panel.</td></tr>
+          <tr><th scope="row">01 · Paneles</th><td>Un cliente por fila, agrupados por plataforma: enlace al panel, última actualización y botón «Petición de actualización». Los paneles con skill propia no llevan botón: muestran una nota con el nombre de su skill. «Quitar» lo saca del listado, pero no borra el panel.</td></tr>
           <tr><th scope="row">02 · Datos para meter a mano</th><td>Lo que cada panel necesita del equipo. Cuando lo hayas metido en el panel, pulsa «Hecho». La siguiente actualización lo vuelve a comprobar.</td></tr>
           <tr><th scope="row">03 · Crear panel nuevo</th><td>Rellenas cliente, plataforma, sociedad que factura, conector, desde qué mes cargar y, si existe, el histórico anterior. Te da la petición de creación para Claude.</td></tr>
-          <tr><th scope="row">04 · Añadir panel existente</th><td>Para registrar un panel que ya está publicado pegando su enlace.</td></tr>
+          <tr><th scope="row">04 · Añadir panel existente</th><td>Para registrar un panel que ya está publicado pegando su enlace, que se limpia solo (parámetros, «www.», caracteres invisibles). En «Cómo se actualiza» eliges la skill estándar o una skill propia del cliente y, si es propia, escribes su nombre.</td></tr>
         </tbody>
       </table>
     </div>
@@ -140,15 +160,15 @@
   <!-- 04 -->
   <section class="seccion" id="panel" aria-labelledby="t4">
     <h2 id="t4"><span class="chip-num">04</span>El panel de cada cliente</h2>
-    <p class="seccion__sub">Se llama siempre «Panel Email &lt;Cliente&gt;» y es igual para todos los clientes; solo cambian los datos y la plataforma que aparece en los títulos. Arriba hay un filtro de periodo (último mes, 3, 6, 12 meses o todo) y otro de flujos.</p>
+    <p class="seccion__sub">Se llama siempre «Panel Email &lt;Cliente&gt;» y es igual para todos los clientes; solo cambian los datos y la plataforma que aparece en los títulos. Arriba hay un filtro de periodo (último mes, 3, 6, 12 meses o todo) y otro de flujos. Los chips de variación comparan con el año anterior y, si no hay datos, con el mes o el periodo anterior. Los gráficos de evolución mensual muestran siempre todo el histórico y atenúan los meses fuera del periodo.</p>
     <div class="tabla-wrap">
       <table>
         <caption>Pestañas del panel</caption>
         <thead><tr><th scope="col">Pestaña</th><th scope="col">Qué enseña</th></tr></thead>
         <tbody>
-          <tr><th scope="row">General</th><td>Ingresos del canal email frente a venta neta y su peso, evolución de la BBDD, KPIs del periodo e histórico mensual completo.</td></tr>
-          <tr><th scope="row">Campañas</th><td>Campañas B2C del periodo, las mejores (con su asunto y segmento de envío), gráficos de apertura, CTR y revenue, y detalle por campaña.</td></tr>
-          <tr><th scope="row">Flujos</th><td>Revenue por flujo y por destinatario, salud de cada flujo (puntuación de 0 a 100) y oportunidades.</td></tr>
+          <tr><th scope="row">General</th><td>Ingresos del canal email frente a venta neta y su peso, evolución de la BBDD, KPIs del periodo e histórico mensual completo. Solo en clientes Klaviyo, la facturación del plan (perfiles activos y emails enviados).</td></tr>
+          <tr><th scope="row">Campañas</th><td>Campañas B2C del periodo, las mejores (con su asunto y segmento de envío), gráficos de apertura, CTR y revenue, y detalle por campaña. También el análisis por día y hora de envío y, en los clientes que lo tienen configurado, el desglose por marca y el rendimiento por mercado.</td></tr>
+          <tr><th scope="row">Flujos</th><td>Revenue por flujo y por destinatario, estado de cada flujo (con aviso si uno con ingresos pasa a borrador), salud de 0 a 100 con la nota «Por qué» del equipo, y oportunidades, incluidas las acciones manuales.</td></tr>
           <tr><th scope="row">Vs año anterior</th><td>El periodo elegido frente al mismo periodo del año anterior, y las mejores campañas de cada uno. Si no hay datos del año anterior, compara con el periodo anterior.</td></tr>
           <tr><th scope="row">Análisis y contexto</th><td>Solo lectura: contexto, resumen, qué funcionó, qué corregir, acciones y propuestas del mes, recomendaciones calculadas y marco estratégico permanente del cliente.</td></tr>
           <tr><th scope="row">Editar datos</th><td>El único sitio donde se edita. Por mes: contexto, análisis, Shopify, BBDD, fuentes, campañas (con asunto y casilla «Incluir») y flujos; se guarda con «Guardar mes». Aparte, el marco estratégico, con «Guardar marco». Lo que se guarda aquí lo respeta Claude en la siguiente actualización.</td></tr>
@@ -170,9 +190,9 @@
         <caption>Datos manuales por plataforma</caption>
         <thead><tr><th scope="col">Plataforma</th><th scope="col">Estado de la skill</th><th scope="col">Qué falta meter a mano</th></tr></thead>
         <tbody>
-          <tr><th scope="row">Todas</th><td>—</td><td><strong>Venta neta del mes</strong>, que facilita el cliente. Y los ingresos de Shopify si el conector de Shopify no es el de la tienda del cliente.</td></tr>
+          <tr><th scope="row">Todas</th><td>—</td><td><strong>Venta neta del mes</strong>, que facilita el cliente. En Klaviyo, además, los ingresos de Shopify si el conector no es el de la tienda del cliente. En iCommkt Shopify es obligatorio: sin él, la actualización se para.</td></tr>
           <tr><th scope="row">Klaviyo</th><td><span class="estado estado--ok">Verificada</span></td><td>Nada más.</td></tr>
-          <tr><th scope="row">iCommkt</th><td><span class="estado estado--warn">Verificada en parte</span></td><td>Suscritos (segmento Masterdata_total o la suma de los de cada idioma) y los flujos, que salen de Shopify y de iCommkt: pon en el nombre de cada flujo de qué herramienta sale. iCommkt no da revenue: los ingresos salen solo de Shopify.</td></tr>
+          <tr><th scope="row">iCommkt</th><td><span class="estado estado--warn">Verificada en parte</span></td><td>Suscritos (segmento Masterdata_total o la suma de los de cada idioma) y los flujos, que salen de Shopify y de iCommkt: pon en el nombre de cada flujo de qué herramienta sale. iCommkt no da revenue: los ingresos salen solo de Shopify, con el conector de la tienda del cliente obligatorio. Las campañas pueden salir del export de Drive (enlace pegado o carpeta del cliente).</td></tr>
           <tr><th scope="row">Connectif y HubSpot</th><td><span class="estado estado--bad">Sin conector</span></td><td>Todo el mes: campañas, flujos y BBDD, desde la exportación que pase el equipo.</td></tr>
         </tbody>
       </table>
@@ -188,13 +208,14 @@
         <caption>Criterios comunes</caption>
         <thead><tr><th scope="col">Dato</th><th scope="col">Cómo se calcula</th></tr></thead>
         <tbody>
-          <tr><th scope="row">Campañas B2B y mayoristas</th><td>Fuera de todos los cálculos. Se detectan por el nombre (B2B, BSB, MAYORISTA, [Seguimiento]) o por una audiencia con «MAYORISTA» o «B2B».</td></tr>
-          <tr><th scope="row">Ingresos canal email</th><td>Shopify, atribución de <strong>último clic no directo</strong>. El revenue de la plataforma de email se enseña aparte y con su nombre.</td></tr>
+          <tr><th scope="row">Campañas B2B y mayoristas</th><td>Fuera de todos los cálculos. Se detectan por el nombre (B2B, BSB, MAYORISTA, [Seguimiento]) o por una audiencia con «MAYORISTA» o «B2B». Si el cliente tiene exclusiones propias en su configuración (por ejemplo un remitente ajeno), esas campañas también se cargan fuera de los cálculos y se recuperan con «Incluir».</td></tr>
+          <tr><th scope="row">Ingresos canal email</th><td>Shopify, atribución de <strong>último clic no directo</strong>. En iCommkt es obligatorio tener conectado Shopify con la tienda del cliente. El revenue de la plataforma de email se enseña aparte y con su nombre.</td></tr>
           <tr><th scope="row">Venta neta</th><td>Siempre dato manual del cliente.</td></tr>
           <tr><th scope="row">BBDD enviamos</th><td>Destinatarios de la última campaña B2C del mes. Si sale por idiomas o segmentos, la suma de todas sus versiones.</td></tr>
           <tr><th scope="row">BBDD total, suscritos y activos</th><td>Foto del día de la actualización, no un cierre de mes.</td></tr>
           <tr><th scope="row">Reparto Shopify campañas y flujos</th><td>Si Shopify no da el reparto real, el panel lo estima en proporción a lo que atribuye la plataforma y lo marca como estimado. Ejemplo: plataforma 10.000 € (2.000 campañas, 8.000 flujos) y Shopify 5.000 € dan 1.000 € a campañas y 4.000 € a flujos.</td></tr>
           <tr><th scope="row">Segmento de envío y asunto</th><td>Audiencias incluidas y excluidas de cada campaña, y su asunto.</td></tr>
+          <tr><th scope="row">Export de iCommkt</th><td>Si hay export, es la fuente de las métricas de campañas del mes y no se mezcla con el conector. Se busca por este orden: enlace pegado en la petición, carpeta de exports del cliente y, si no hay archivo, el conector.</td></tr>
           <tr><th scope="row">Porcentajes</th><td>Se guardan como fracción (0,35 es 35 %). Un dato que no existe es vacío, nunca 0.</td></tr>
         </tbody>
       </table>
@@ -222,7 +243,7 @@
         <h3>Qué hace Claude al actualizar</h3>
         <ul class="lista">
           <li>Lee primero lo que hay y respeta lo que ha escrito el equipo: contexto, venta neta y valores corregidos.</li>
-          <li>Comprueba que los conectores (plataforma y Shopify) son del cliente antes de leer nada.</li>
+          <li>Comprueba que los conectores (plataforma y Shopify) son del cliente antes de leer nada. En iCommkt, si falta Shopify, para y avisa.</li>
           <li>Marca las campañas B2B mirando nombre y audiencias.</li>
           <li>Escribe el análisis en voz D2C: titulares que afirman, cifras con periodo, sin emojis.</li>
           <li>Te devuelve un resumen con lo cargado, lo que falta y las anomalías.</li>
@@ -232,6 +253,7 @@
         <h3>Qué no hace</h3>
         <ul class="lista">
           <li>No cierra un mes antes del día 5.</li>
+          <li>No escribe el mes de un cliente iCommkt si falta el conector de Shopify de su tienda.</li>
           <li>No inventa causas: si un dato no se explica, lo dice.</li>
           <li>No mezcla datos de dos clientes ni usa otro cliente como ejemplo o referencia.</li>
           <li>No usa herramientas que escriben en la plataforma de email: solo lee.</li>
@@ -273,7 +295,7 @@
     <dl class="arbol">
       <div><dt>SKILL.md</dt><dd>Proceso común, criterios, modos A a D, voz del análisis y versión.</dd></div>
       <div><dt>plataformas/klaviyo.md</dt><dd>De dónde sale cada dato en Klaviyo. Verificado.</dd></div>
-      <div><dt>plataformas/icommkt.md</dt><dd>Lo mismo para iCommkt. Verificado en parte.</dd></div>
+      <div><dt>plataformas/icommkt.md</dt><dd>Lo mismo para iCommkt, incluida la lectura del export de Drive. Verificado en parte.</dd></div>
       <div><dt>plantilla/index.html</dt><dd>La estructura del panel con <code>{{CLIENTE}}</code> en lugar del nombre.</dd></div>
       <div><dt>plantilla/panel.css</dt><dd>Estilos con la línea gráfica de D2C eCommerce.</dd></div>
       <div><dt>plantilla/panel.js</dt><dd>Lee la base de datos, calcula KPIs, pinta gráficos y tablas y guarda lo editado.</dd></div>
@@ -281,7 +303,7 @@
       <div><dt>plantilla/build-static.js</dt><dd>Junta HTML, CSS, JS, logo y datos en el fichero para Google Sites.</dd></div>
     </dl>
     <h3>Cómo se guardan los datos</h3>
-    <p>Cada panel tiene su propia base de datos con dos tipos de documento. <code>config/cliente</code> guarda lo que no cambia cada mes: plataforma, conector, flujos, flujos por crear, marco estratégico y el texto de fuentes del pie. <code>months/AAAA-MM</code> guarda cada mes: Shopify, BBDD, campañas, flujos, contexto, análisis, fuentes y cuándo se actualizó.</p>
+    <p>Cada panel tiene su propia base de datos con dos tipos de documento. <code>config/cliente</code> guarda lo que no cambia cada mes: plataforma, conector, flujos, flujos por crear, marco estratégico, el texto de fuentes del pie y, si procede, <code>carpetaExports</code> (enlace de la carpeta de exports, solo iCommkt) y <code>exclusiones</code>. <code>months/AAAA-MM</code> guarda cada mes: Shopify, BBDD, campañas, flujos, contexto, análisis, fuentes y cuándo se actualizó.</p>
     <pre><code>months/2026-10
   shopify   { rev, ventaNeta, revCampanas, revFlujos }
   bbdd      { total, activos, suscritos, enviamos }
@@ -329,6 +351,26 @@ node plantilla/build-static.js "Cliente Ejemplo" carpeta-datos Panel-Email-Clien
         <p>Todavía no hay plantilla para esas sociedades. El hub no deja preparar la petición y Claude no crea el panel hasta que exista.</p>
       </details>
       <details>
+        <summary>La actualización de un cliente iCommkt se ha parado por Shopify.</summary>
+        <p>Es lo previsto: sin el conector de Shopify de la tienda del cliente, Claude no escribe el mes. Reconecta Shopify con esa tienda y repite la petición. En una tarea programada, el correo llega con asunto «con incidencias».</p>
+      </details>
+      <details>
+        <summary>¿Dónde dejo el export de iCommkt?</summary>
+        <p>En la carpeta de exports de ese cliente en Drive (se sube el día 5 de cada mes). El panel guarda su enlace en <code>carpetaExports</code>. Si pegas el enlace del archivo en la petición, ese tiene prioridad.</p>
+      </details>
+      <details>
+        <summary>Quiero que un cliente excluya siempre los envíos de un remitente.</summary>
+        <p>Pídeselo a Claude: añade el texto a las exclusiones de la configuración del panel. Esas campañas se cargan fuera de los cálculos y, si alguna sobra, se recupera con «Incluir» en «Editar datos».</p>
+      </details>
+      <details>
+        <summary>Un cliente tiene skill propia y no veo el botón de actualizar.</summary>
+        <p>Es lo previsto: se actualiza con su skill, no con la petición del hub. Para pasarlo a la skill común, habla con quien mantiene la skill.</p>
+      </details>
+      <details>
+        <summary>La pestaña Campañas de un panel iCommkt antiguo da error.</summary>
+        <p>Republica el panel con la plantilla vigente (modo A con <code>--force</code>): la versión 1.8.1 arregla «€ por destinatario» en campañas sin revenue.</p>
+      </details>
+      <details>
         <summary>El panel dice «Solo lectura».</summary>
         <p>Tu acceso al artefacto no permite guardar. Pide acceso de edición a quien lo compartió.</p>
       </details>
@@ -336,7 +378,7 @@ node plantilla/build-static.js "Cliente Ejemplo" carpeta-datos Panel-Email-Clien
   </section>
 
   <footer class="pie">
-    <p>Fuentes: panel-email-cliente/SKILL.md v1.3.0, plataformas/*.md, programar-panel-email/SKILL.md v1.0.0, plantilla del panel y dashboards/hub del repositorio mkt-automation (rama icommkt, 09/11/2026).</p>
+    <p>Fuentes: panel-email-cliente/SKILL.md v1.8.1, plataformas/*.md, programar-panel-email/SKILL.md v1.1.0, plantilla del panel y dashboards/hub del repositorio mkt-automation (rama icommkt, 12/11/2026).</p>
     <p>Mantenimiento de la skill: Ana I. Maeso · amaeso@webimpacto.es</p>
   </footer>
 

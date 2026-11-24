@@ -11,6 +11,9 @@
   const CLIENTE_RE = /^[\p{L}\p{N}][\p{L}\p{N} .&'-]{0,59}$/u;
   const CONECTOR_RE = /^[\p{L}\p{N}][\p{L}\p{N} _.-]{1,59}$/u;
   const MONTH_RE = /^\d{4}-(0[1-9]|1[0-2])$/;
+  const SKILL_RE = /^[a-z0-9][a-z0-9-]{1,63}$/;
+  /** Cómo se actualiza cada panel: con la skill común o con una skill propia del cliente. */
+  const GESTIONES = { estandar: "Skill panel-email-cliente", propia: "Skill propia del cliente" };
 
   /** Datos que la skill marca como manuales, por plataforma (SKILL.md y plataformas/*.md). */
   const MANUAL_COMUN = [{ dato: "Venta neta del mes", detalle: "La facilita el cliente." }];
@@ -44,6 +47,13 @@
     return slugify(a || "") === slugify(b || "");
   }
 
+  /** Enlace de artefacto canónico a partir de lo pegado: quita caracteres invisibles, «@», «www.», parámetros y anclas. */
+  function normalizeArtifactUrl(value) {
+    const clean = String(value || "").replace(/[\s ​-‍⁠﻿]/g, "");
+    const m = /^[@<"']*https?:\/\/(?:www\.)?claude\.ai\/(code\/)?artifact\/([A-Za-z0-9-]{8,64})(?=$|[/?#])/i.exec(clean);
+    return m ? `https://claude.ai/${m[1] ? "code/" : ""}artifact/${m[2]}` : "";
+  }
+
   function validateCliente(value) {
     const name = (value || "").trim();
     return CLIENTE_RE.test(name) ? name : null;
@@ -52,20 +62,26 @@
   /** Alta de un panel que ya existe: nombre, enlace del artefacto y plataforma. */
   function validatePanel(fields, paneles) {
     const cliente = validateCliente(fields.cliente);
-    const url = (fields.url || "").trim();
+    const url = normalizeArtifactUrl(fields.url);
     const match = ARTIFACT_URL_RE.exec(url);
     if (!cliente) return { error: "Revisa el nombre del cliente: solo letras, números, espacios y . - & '." };
     if (!match) return { error: "El enlace tiene que ser de un artefacto de claude.ai (https://claude.ai/artifact/…)." };
     if (!PLATAFORMAS.includes(fields.plataforma)) return { error: "Elige una plataforma de la lista." };
     if (paneles.some((p) => p.url === url || p.id === match[1])) return { error: "Ese panel ya está en el listado." };
-    return { id: match[1], data: { cliente, url, plataforma: fields.plataforma } };
+    const gestion = fields.gestion === "propia" ? "propia" : "estandar";
+    const skill = (fields.skill || "").trim();
+    if (gestion === "propia" && !SKILL_RE.test(skill)) return { error: "Indica el nombre de la skill propia (minúsculas, números y guiones; por ejemplo reporte-icomm-cliente)." };
+    const data = { cliente, url, plataforma: fields.plataforma, gestion };
+    if (gestion === "propia") data.skill = skill;
+    return { id: match[1], data };
   }
 
   /** Petición de un panel nuevo: los datos que el modo A de la skill necesita. */
   function validateNuevoPanel(fields, paneles, today) {
     const cliente = validateCliente(fields.cliente);
     const conector = (fields.conector || "").trim();
-    const fuente = (fields.fuente || "").trim();
+    const fuenteRaw = (fields.fuente || "").trim();
+    const fuente = normalizeArtifactUrl(fuenteRaw) || fuenteRaw;
     if (!cliente) return { error: "Revisa el nombre del cliente: solo letras, números, espacios y . - & '." };
     if (paneles.some((p) => sameName(p.cliente, cliente))) return { error: `Ya hay un panel para ${cliente} en el listado.` };
     if (!PLATAFORMAS.includes(fields.plataforma)) return { error: "Elige una plataforma de la lista." };
@@ -127,7 +143,7 @@
 
   window.PanelesEmail = Object.freeze({
     peticiones: Object.freeze({
-      COLLECTION, PLATAFORMAS, SOCIEDADES, SOCIEDAD_CON_PLANTILLA, ARTIFACT_URL_RE, MONTH_RE,
+      COLLECTION, PLATAFORMAS, SOCIEDADES, SOCIEDAD_CON_PLANTILLA, ARTIFACT_URL_RE, MONTH_RE, GESTIONES,
       monthKey, previousMonth, isValidMonth, validatePanel, validateNuevoPanel, expectedManual,
       buildUpdatePrompt, buildCreatePrompt,
     }),

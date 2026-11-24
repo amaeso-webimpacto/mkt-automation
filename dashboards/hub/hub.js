@@ -32,6 +32,7 @@
     rows: $("rows"),
     empty: $("empty"),
     rowTemplate: $("row-template"),
+    groupTemplate: $("group-template"),
     avisosSection: $("avisos-section"),
     avisos: $("avisos"),
     avisoTemplate: $("aviso-template"),
@@ -42,6 +43,9 @@
     addSection: $("add-section"),
     addForm: $("add-form"),
     addMsg: $("add-msg"),
+    addGestion: $("add-gestion"),
+    addSkillWrap: $("add-skill-wrap"),
+    addSkill: $("add-skill"),
     dialog: $("prompt-dialog"),
     promptTitle: $("prompt-title"),
     prompt: $("prompt-text"),
@@ -66,16 +70,29 @@
     return `${item.dato || ""}|${item.mes || ""}`;
   }
 
+  function isPropio(panel) {
+    return panel.gestion === "propia";
+  }
+
   function avisoFor(panel) {
     if (Array.isArray(panel.pendientesManual)) {
       const items = panel.pendientesManual.filter((i) => i && typeof i.dato === "string");
       return items.length ? { items, reported: true } : null;
     }
+    // Un panel con skill propia no sigue la lista prevista por plataforma: solo se avisa de lo que informe su skill.
+    if (isPropio(panel)) return null;
     return { items: P.expectedManual(panel.plataforma), reported: false };
   }
 
+  function platformOrder(plataforma) {
+    const i = P.PLATAFORMAS.indexOf(plataforma);
+    return i === -1 ? P.PLATAFORMAS.length : i;
+  }
+
   function sortPaneles(list) {
-    return [...list].sort((a, b) => String(a.cliente).localeCompare(String(b.cliente), "es"));
+    return [...list].sort((a, b) =>
+      platformOrder(a.plataforma) - platformOrder(b.plataforma)
+      || String(a.cliente).localeCompare(String(b.cliente), "es"));
   }
 
   function readForm(form) {
@@ -117,6 +134,11 @@
     const updateBtn = row.querySelector('[data-action="update"]');
     updateBtn.dataset.id = panel.id;
     updateBtn.setAttribute("aria-label", `Petición de actualización de ${panel.cliente}`);
+    const propio = isPropio(panel);
+    updateBtn.hidden = propio;
+    const gestion = slot("gestion");
+    gestion.hidden = !propio;
+    gestion.textContent = propio ? `Se actualiza con su skill propia${panel.skill ? ` (${panel.skill})` : ""}, no con la petición de este listado.` : "";
     const removeBtn = row.querySelector('[data-action="remove"]');
     removeBtn.dataset.id = panel.id;
     removeBtn.hidden = !state.canWrite;
@@ -156,13 +178,24 @@
     el.avisosSection.hidden = cards.length === 0;
   }
 
+  function buildGroupRow(plataforma, count) {
+    const row = el.groupTemplate.content.firstElementChild.cloneNode(true);
+    row.querySelector('[data-slot="grupo"]').textContent = `${plataforma || "Sin plataforma"} · ${count} ${count === 1 ? "panel" : "paneles"}`;
+    return row;
+  }
+
   function render() {
     const list = sortPaneles(state.paneles.filter((p) => P.ARTIFACT_URL_RE.test(p.url || "")));
-    el.rows.replaceChildren(...list.map((panel) => {
+    const rows = [];
+    list.forEach((panel, i) => {
+      if (i === 0 || list[i - 1].plataforma !== panel.plataforma) {
+        rows.push(buildGroupRow(panel.plataforma, list.filter((p) => p.plataforma === panel.plataforma).length));
+      }
       const row = el.rowTemplate.content.firstElementChild.cloneNode(true);
       fillRow(row, panel);
-      return row;
-    }));
+      rows.push(row);
+    });
+    el.rows.replaceChildren(...rows);
     renderAvisos(list);
     el.empty.hidden = list.length > 0;
     el.count.textContent = `${list.length} ${list.length === 1 ? "panel" : "paneles"}`;
@@ -173,10 +206,20 @@
   }
 
   function fillSelects() {
-    const sources = { plataformas: P.PLATAFORMAS, sociedades: P.SOCIEDADES };
+    const sources = {
+      plataformas: P.PLATAFORMAS.map((v) => [v, v]),
+      sociedades: P.SOCIEDADES.map((v) => [v, v]),
+      gestiones: Object.entries(P.GESTIONES).map(([v, t]) => [t, v]),
+    };
     document.querySelectorAll("select[data-options]").forEach((select) => {
-      select.replaceChildren(...sources[select.dataset.options].map((v) => new Option(v, v)));
+      select.replaceChildren(...sources[select.dataset.options].map(([t, v]) => new Option(t, v)));
     });
+  }
+
+  function syncSkillField() {
+    const propia = el.addGestion.value === "propia";
+    el.addSkillWrap.hidden = !propia;
+    el.addSkill.required = propia;
   }
 
   function openPromptDialog(title, prompt) {
@@ -222,6 +265,7 @@
 
   // Manejadores
   function handleUpdateClick(panel) {
+    if (isPropio(panel)) return;
     const month = el.month.value;
     if (!P.isValidMonth(month, new Date())) {
       setStatus("Elige un mes válido que no sea futuro en «Mes a actualizar».");
@@ -246,6 +290,7 @@
     try {
       await state.db.doc(`${P.COLLECTION}/${id}`).set({ ...data, alta: { fecha: new Date().toISOString(), por: state.userId } });
       el.addForm.reset();
+      syncSkillField();
       setMsg(el.addMsg, `${data.cliente} añadido.`, "ok");
     } catch (err) {
       setMsg(el.addMsg, `No se ha podido guardar (${err.code}).`, "error");
@@ -286,6 +331,7 @@
     el.avisos.addEventListener("click", handleActionClick);
     el.createForm.addEventListener("submit", handleCreate);
     el.addForm.addEventListener("submit", handleAdd);
+    el.addGestion.addEventListener("change", syncSkillField);
     el.promptCopy.addEventListener("click", copyPrompt);
   }
 
@@ -295,6 +341,7 @@
     el.month.max = P.monthKey(today);
     el.createForm.querySelector('[data-field="desde"]').max = P.monthKey(today);
     fillSelects();
+    syncSkillField();
     bindEvents();
     render();
 

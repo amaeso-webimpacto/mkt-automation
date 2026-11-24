@@ -29,7 +29,7 @@
         <input id="updateMonth" class="input" type="month" data-js="update-month" required>
       </div>
     </div>
-    <p class="section__sub">Para actualizar un panel, copia su petición y pégala en una conversación nueva de Claude, con la skill panel-email-cliente. Una conversación por cliente. Al terminar, Claude deja aquí el resultado y los datos que faltan por meter a mano.</p>
+    <p class="section__sub">Para actualizar un panel, copia su petición y pégala en una conversación nueva de Claude, con la skill panel-email-cliente. Una conversación por cliente. Al terminar, Claude deja aquí el resultado y los datos que faltan por meter a mano. Los paneles con skill propia no tienen petición: se actualizan con su propia skill o tarea programada, que también deja aquí su resultado.</p>
     <div class="card">
       <div class="table-wrap">
         <table class="table hub-table">
@@ -107,6 +107,14 @@
           <label class="label" for="fPlataforma">Plataforma</label>
           <select id="fPlataforma" class="input" required data-field="plataforma" data-options="plataformas"></select>
         </div>
+        <div>
+          <label class="label" for="fGestion">Cómo se actualiza</label>
+          <select id="fGestion" class="input" data-js="add-gestion" data-field="gestion" data-options="gestiones"></select>
+        </div>
+        <div data-js="add-skill-wrap" hidden>
+          <label class="label" for="fSkill">Skill propia</label>
+          <input id="fSkill" class="input" type="text" maxlength="64" autocomplete="off" placeholder="reporte-icomm-cliente" data-js="add-skill" data-field="skill">
+        </div>
       </div>
       <div class="form__actions">
         <button class="btn btn--ghost" type="submit">Añadir panel</button>
@@ -126,10 +134,15 @@
     <td data-slot="plataforma"></td>
     <td><span class="badge" data-slot="upd-badge"></span> <span data-slot="upd-text"></span><span class="hub-note" data-slot="upd-note"></span></td>
     <td class="hub-actions">
+      <span class="hub-note hub-gestion" data-slot="gestion" hidden></span>
       <button class="btn btn--ghost" type="button" data-action="update">Petición de actualización</button>
       <button class="link" type="button" data-action="remove">Quitar</button>
     </td>
   </tr>
+</template>
+
+<template data-js="group-template">
+  <tr class="hub-group"><th scope="colgroup" colspan="4" data-slot="grupo"></th></tr>
 </template>
 
 <template data-js="aviso-template">
