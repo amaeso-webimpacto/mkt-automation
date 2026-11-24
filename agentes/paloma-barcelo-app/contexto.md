@@ -16,6 +16,16 @@ Elaborado el 2026-11-24 leyendo el Excel «Dashboard_APP_Paloma Barceló» y las
 - Calendario de comunicaciones: Google Sheet `14GhrMSsZPbS_fa9zmvr0WNnieY7NhDhCQJH30weXmzk`. Pestañas útiles: `LEEME`, `Paloma Barceló EU` (gid 14), `Paloma Barceló USA` (gid 15).
 - Las pestañas del Dashboard tienen una fila por cliente y mes. Los meses futuros están creados y vacíos (estado «pendiente») hasta ene-2027.
 
+## Informe mensual (artefacto)
+
+Artefacto «Informe APP Paloma Barceló»: https://claude.ai/artifact/4ReYC3tHELK1FUgM5rcX8p. Línea gráfica D2C eCommerce. Pestañas: KPIs Mensuales, Notificaciones Automáticas, Notificaciones Regulares, Comparación LY y Próximos pasos. Los datos viven en su base de datos (verificado el 2026-11-24 leyendo los documentos de septiembre y octubre de 2026):
+
+- `config/main`: cliente, tienda, sociedad, `cuponBienvenida` (APP5), `excelId`, `excelNombre`, `flujos` (ids `bienvenida`, `recordatorio_1`, `recordatorio_2`, `carrito_1`, `carrito_2`) y `cupones` (APP5, APP15, EXCLUSIVE10, COMEBACK5).
+- `meses/AAAA-MM`: `estado`, `kpis` (`dTot` descargas, `xTot` desinstalaciones, `ped`, `fact`, `vn`, `pn`, `vNuevos`, `ph`, `vHab`, `tr`, `ta`, `cw`), `auto.<flujo>` (`env`, `ap`, `ped`, `imp`, `acumEnv`, `acumAp`) y `cupones.<código>` (`p` pedidos, `v` ventas). Significado exacto de `tr`, `ta` y `cw` sin verificar: se deduce de las columnas del Excel (tráfico total, tráfico APP y conversión web).
+- `regulares/<id>`: un push regular por documento.
+- `textos/AAAA-MM`: los comentarios del informe de ese mes de cierre, con cuatro campos: `conclusiones` (HTML por flujo), `ly` (HTML por mes, acumula los últimos cuatro meses comparables con el año anterior), `mejoras` (lista de `{tag, html}`) y `proximos` (lista de `{t, d, estado}`, que redacta el equipo). El HTML solo admite `b`, `strong`, `i`, `em` y `br`; cualquier otra etiqueta se muestra como texto.
+- El botón «Pasar datos al Excel» del artefacto genera un prompt que pasa los datos al Excel y redacta los comentarios. La parte de comentarios es el modo comentarios de este agente; el paso de datos al Excel queda fuera (el agente no escribe en Sheets).
+
 ## Cómo está construido el Dashboard
 
 Verificado recalculando con las cifras de oct-2026 y sep-2026:
