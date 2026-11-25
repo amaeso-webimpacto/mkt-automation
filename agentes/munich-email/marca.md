@@ -1,6 +1,6 @@
 # Marca: voz de Munich
 
-Fuente: documento de voz de marca generado el 2026-11-25 a partir de 10 textos de referencia (5 posts de redes sociales y 5 newsletters). Certeza: deducida.
+Fuente: documento de voz de marca generado el 2026-11-25 a partir de 10 textos de referencia (5 posts de redes sociales y 5 newsletters), que coinciden con los del documento «2026_09_10_Munich_Tono marca» de la carpeta de Drive del cliente. Certeza: deducida.
 
 - **Tono:** cercano, dinámico y con actitud. Espíritu deportivo (pista, cancha, rendimiento) con estética urbana. Más corto y aspiracional en redes, más informativo y orientado a beneficios en newsletters.
 - **Voz:** tutea al lector y usa a veces el «nosotros» de marca. Compañero de equipo, no voz institucional.

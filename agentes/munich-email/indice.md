@@ -22,6 +22,7 @@ Marcas de fiabilidad: «confirmado» lo dijo el equipo, «deducido» sale de un 
 
 - Datos de 2025: no disponibles por ahora.
 - Fecha de la migración a Shopify: sin confirmar.
+- Si el email pasa de Connectif a Klaviyo: los apuntes de septiembre lo mencionan y no está confirmado.
 - Escenario de atribución de Connectif para los ingresos del canal: sin identificar.
 
 ## Dónde está la información
@@ -29,3 +30,4 @@ Marcas de fiabilidad: «confirmado» lo dijo el equipo, «deducido» sale de un 
 - Carpeta de Drive del cliente: https://drive.google.com/drive/folders/1SJyPrPjmM7M7ecL40750AXMqrzRwdcDk. Contiene la hoja de KPIs, el calendario de newsletters de Black Friday, la presentación de Black Friday, un documento de tono de marca, los apuntes de reuniones y el copy de la campaña a no suscritos.
 - Voz de marca completa: `voz-de-marca.md`.
 - Los datos de cada análisis los aporta el equipo en CSV. Connectif no tiene conector con Claude.
+- Agente de análisis: `.claude/agents/munich-email.md`, con su método en `instrucciones.md` y el resumidor de CSV en `scripts/resumir_csv.py`.

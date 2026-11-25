@@ -15,3 +15,11 @@ Plan de acción: bloque «Próximos pasos» del dashboard (datos hasta octubre d
 ## Hechos
 
 Flow de suscritos sin compra (estructura, copys, diseño y maquetación), carrito abandonado (nodos y traducción a EN, CAT e IT), iconos de RRSS en el footer, imágenes del flow de feedback, campaña a no suscritos, flow producto visto (ES) maquetado y activo, segmentos de abridores para Black Friday.
+
+## Abiertos que vienen de las reuniones de septiembre (estado sin confirmar)
+
+- Identificar sexo y género de forma fiable en Connectif y no modificar LogiCommerce al captarlo.
+- Fecha de nacimiento 1920 en unos 20.000 contactos: comprobar si es un valor por defecto y corregir el origen.
+- Convertir en suscritos a los contactos con email que no lo están.
+- Dashboard: dato de BBDD de agosto, campañas de agosto que faltaban y carruseles.
+- Si el cambio de Connectif a Klaviyo sigue previsto, definir quién traslada el estado de cada usuario en los flows, sobre todo el de cumpleaños.
