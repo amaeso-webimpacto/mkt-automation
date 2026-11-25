@@ -1,0 +1,151 @@
+<title>Company Brain Munich</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Poppins:wght@600;700&display=swap">
+<link rel="stylesheet" href="brain.css">
+<script type="module" src="brain.js"></script>
+
+<a class="saltar" href="#tablero">Saltar al checklist</a>
+
+<main class="brain" lang="es">
+  <header class="cabecera">
+    <p class="cabecera__eyebrow">Webimpacto · Email marketing · Company brain</p>
+    <h1>Company brain de Munich</h1>
+    <div class="cabecera__barra" aria-hidden="true"></div>
+    <p class="cabecera__entradilla">Checklist de montaje del brain. Cada punto lleva estado, certeza, respuesta y fuente. Las respuestas se guardan en la base de datos del artefacto. No escribas valores de claves, contraseñas ni datos personales: solo dónde está cada cosa.</p>
+    <p class="cabecera__meta" data-js="meta"></p>
+  </header>
+
+  <p class="conexion" data-js="conexion" role="status"></p>
+
+  <section class="tarjeta" aria-labelledby="t-progreso">
+    <h2 id="t-progreso">Progreso</h2>
+    <div class="progreso">
+      <label class="progreso__texto" for="barra-progreso" data-js="progreso-texto">Cargando checklist</label>
+      <progress id="barra-progreso" class="progreso__barra" data-js="progreso-barra" max="100" value="0"></progress>
+    </div>
+    <ul class="conteo" data-js="conteo" aria-label="Puntos por estado"></ul>
+  </section>
+
+  <section class="tarjeta" aria-labelledby="t-bloqueo">
+    <h2 id="t-bloqueo">Puntos que bloquean el arranque</h2>
+    <p class="vacio" data-js="bloqueantes-vacio" hidden>Ningún punto bloquea el arranque ahora mismo.</p>
+    <ul class="bloqueantes" data-js="bloqueantes"></ul>
+  </section>
+
+  <section class="tarjeta" aria-labelledby="t-filtros">
+    <h2 id="t-filtros">Filtros</h2>
+    <form class="filtros" data-js="filtros" novalidate>
+      <div class="campo">
+        <label for="filtro-texto">Buscar</label>
+        <input id="filtro-texto" type="search" name="texto" autocomplete="off">
+      </div>
+      <div class="campo">
+        <label for="filtro-fase">Fase</label>
+        <select id="filtro-fase" name="fase" data-js="filtro-fase"></select>
+      </div>
+      <div class="campo">
+        <label for="filtro-estado">Estado</label>
+        <select id="filtro-estado" name="estado" data-js="filtro-estado"></select>
+      </div>
+      <div class="campo">
+        <label for="filtro-certeza">Certeza</label>
+        <select id="filtro-certeza" name="certeza" data-js="filtro-certeza"></select>
+      </div>
+      <div class="campo">
+        <label for="filtro-plataforma">Plataforma</label>
+        <select id="filtro-plataforma" name="plataforma" data-js="filtro-plataforma"></select>
+      </div>
+      <div class="campo campo--check">
+        <input id="filtro-bloqueantes" type="checkbox" name="soloBloqueantes">
+        <label for="filtro-bloqueantes">Solo los que bloquean</label>
+      </div>
+      <div class="campo campo--accion">
+        <button type="reset" class="boton boton--sec">Quitar filtros</button>
+      </div>
+    </form>
+    <p class="vacio" data-js="sin-resultados" role="status" hidden>Ningún punto coincide con los filtros.</p>
+  </section>
+
+  <section class="tarjeta" aria-labelledby="t-md">
+    <h2 id="t-md">Resumen en Markdown</h2>
+    <p>Reúne lo respondido y validado, por fase, con su certeza y su fuente.</p>
+    <div class="acciones">
+      <button type="button" class="boton" data-js="generar-md">Generar resumen en Markdown</button>
+    </div>
+    <div class="md" data-js="md-panel" hidden>
+      <label for="md-texto">Resumen generado</label>
+      <textarea id="md-texto" class="md__texto" rows="14" readonly data-js="md-texto"></textarea>
+      <div class="acciones">
+        <button type="button" class="boton boton--sec" data-js="copiar-md">Copiar</button>
+        <button type="button" class="boton boton--sec" data-js="descargar-md" hidden>Descargar .md</button>
+        <span class="mensaje" data-js="md-mensaje" role="status"></span>
+      </div>
+    </div>
+  </section>
+
+  <div id="tablero" class="tablero" data-js="tablero" tabindex="-1"></div>
+</main>
+
+<template data-js="plantilla-fase">
+  <section class="fase tarjeta" data-js="fase">
+    <h2 class="fase__titulo"><span class="chip-num" data-js="fase-num"></span><span data-js="fase-titulo"></span></h2>
+    <p class="fase__nota" data-js="fase-nota" hidden></p>
+    <p class="vacio" data-js="fase-vacia" hidden>Esta fase aún no tiene puntos. Se añaden al checklist cuando los dictes.</p>
+    <div class="puntos" data-js="fase-puntos"></div>
+  </section>
+</template>
+
+<template data-js="plantilla-punto">
+  <article class="punto" data-js="punto">
+    <details class="punto__detalle" data-js="detalle">
+      <summary class="punto__resumen" data-js="resumen">
+        <span class="punto__cabeza">
+          <h3 class="punto__titulo" data-js="titulo"></h3>
+          <span class="pildoras">
+            <span class="pildora" data-js="pildora-estado"></span>
+            <span class="pildora pildora--certeza" data-js="pildora-certeza"></span>
+            <span class="pildora pildora--plataforma" data-js="pildora-plataforma"></span>
+            <span class="pildora pildora--bloqueo" data-js="pildora-bloqueo" hidden>Bloquea el arranque</span>
+          </span>
+        </span>
+        <span class="punto__vista" data-js="vista-previa"></span>
+      </summary>
+      <form class="punto__form" data-js="form" novalidate>
+        <div class="campo">
+          <label data-js="label-estado">Estado</label>
+          <select name="estado" data-js="campo-estado"></select>
+        </div>
+        <div class="campo">
+          <label data-js="label-certeza">Certeza</label>
+          <select name="certeza" data-js="campo-certeza"></select>
+        </div>
+        <div class="campo">
+          <label data-js="label-plataforma">Plataforma</label>
+          <select name="plataforma" data-js="campo-plataforma"></select>
+        </div>
+        <div class="campo campo--ancho">
+          <label data-js="label-respuesta">Respuesta</label>
+          <textarea name="respuesta" rows="5" maxlength="4000" data-js="campo-respuesta"></textarea>
+        </div>
+        <div class="campo campo--ancho">
+          <label data-js="label-fuente">Fuente</label>
+          <input type="text" name="fuente" maxlength="500" data-js="campo-fuente">
+        </div>
+        <div class="acciones campo--ancho">
+          <button type="submit" class="boton" data-js="guardar">Guardar punto</button>
+          <span class="mensaje" data-js="mensaje" role="status"></span>
+          <span class="actualizado" data-js="actualizado"></span>
+        </div>
+      </form>
+    </details>
+  </article>
+</template>
+
+<template data-js="plantilla-bloqueante">
+  <li class="bloqueante">
+    <span class="bloqueante__texto"><strong data-js="bloqueante-titulo"></strong> <span class="pildora" data-js="bloqueante-estado"></span></span>
+    <button type="button" class="boton boton--sec" data-js="ir-punto">Ir al punto</button>
+  </li>
+</template>

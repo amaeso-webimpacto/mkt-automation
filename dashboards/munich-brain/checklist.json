@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "cliente": "Munich",
+  "estados": [
+    { "id": "pendiente", "label": "Pendiente" },
+    { "id": "en-curso", "label": "En curso" },
+    { "id": "respondido", "label": "Respondido" },
+    { "id": "validado", "label": "Validado" },
+    { "id": "bloqueado", "label": "Bloqueado" }
+  ],
+  "certezas": [
+    { "id": "confirmado", "label": "Confirmado" },
+    { "id": "deducido", "label": "Deducido" },
+    { "id": "por-validar", "label": "Por validar" }
+  ],
+  "plataformas": [
+    { "id": "sin-asignar", "label": "Sin asignar" },
+    { "id": "actual", "label": "Actual (LogiCommerce)" },
+    { "id": "shopify", "label": "Tras la migración (Shopify)" },
+    { "id": "ambas", "label": "Ambas fases" }
+  ],
+  "defecto": { "estado": "pendiente", "certeza": "por-validar", "plataforma": "sin-asignar" },
+  "estadosResueltos": ["respondido", "validado"],
+  "fases": [
+    { "id": 0, "titulo": "Decisiones y alcance" },
+    { "id": 1, "titulo": "Accesos y seguridad", "nota": "Solo la ubicación de cada acceso, nunca el valor." },
+    { "id": 2, "titulo": "Inventario de fuentes" },
+    { "id": 3, "titulo": "Repositorio y andamiaje" },
+    { "id": 4, "titulo": "Contenido" },
+    { "id": 5, "titulo": "Capa operativa (agentes, skills y hooks)" },
+    { "id": 6, "titulo": "Integración con chats" },
+    { "id": 7, "titulo": "Validación" },
+    { "id": 8, "titulo": "Mantenimiento" },
+    { "id": 9, "titulo": "Definición de hecho" }
+  ],
+  "puntos": [
+    { "id": "f0-servicio", "fase": 0, "titulo": "Servicio de Webimpacto", "bloquea": false },
+    { "id": "f0-plataforma", "fase": 0, "titulo": "Plataforma de ecommerce y migración", "bloquea": false },
+    { "id": "f0-sociedad", "fase": 0, "titulo": "Sociedad que factura y línea gráfica", "bloquea": false },
+    { "id": "f0-consumidores", "fase": 0, "titulo": "Consumidores del brain", "bloquea": false },
+    { "id": "f4-indice", "fase": 4, "titulo": "Índice", "bloquea": false },
+    { "id": "f4-cliente", "fase": 4, "titulo": "Cliente", "bloquea": false },
+    { "id": "f4-marca", "fase": 4, "titulo": "Marca", "bloquea": false },
+    { "id": "f4-producto", "fase": 4, "titulo": "Producto", "bloquea": false },
+    { "id": "f4-plataformas", "fase": 4, "titulo": "Plataformas", "bloquea": false },
+    { "id": "f4-estrategia-email", "fase": 4, "titulo": "Estrategia de email", "bloquea": false },
+    { "id": "f4-reglas-limites", "fase": 4, "titulo": "Reglas y límites", "bloquea": false },
+    { "id": "f4-metricas", "fase": 4, "titulo": "Métricas", "bloquea": false },
+    { "id": "f4-historial", "fase": 4, "titulo": "Historial", "bloquea": false },
+    { "id": "f4-procesos", "fase": 4, "titulo": "Procesos", "bloquea": false },
+    { "id": "f4-pendientes", "fase": 4, "titulo": "Pendientes", "bloquea": false }
+  ]
+}
