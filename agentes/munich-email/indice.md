@@ -23,3 +23,9 @@ Marcas de fiabilidad: «confirmado» lo dijo el equipo, «deducido» sale de un 
 - Datos de 2025: no disponibles por ahora.
 - Fecha de la migración a Shopify: sin confirmar.
 - Escenario de atribución de Connectif para los ingresos del canal: sin identificar.
+
+## Dónde está la información
+
+- Carpeta de Drive del cliente: https://drive.google.com/drive/folders/1SJyPrPjmM7M7ecL40750AXMqrzRwdcDk. Contiene la hoja de KPIs, el calendario de newsletters de Black Friday, la presentación de Black Friday, un documento de tono de marca, los apuntes de reuniones y el copy de la campaña a no suscritos.
+- Voz de marca completa: `voz-de-marca.md`.
+- Los datos de cada análisis los aporta el equipo en CSV. Connectif no tiene conector con Claude.

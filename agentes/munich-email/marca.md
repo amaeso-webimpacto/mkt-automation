@@ -11,4 +11,4 @@ Fuente: documento de voz de marca generado el 2026-11-25 a partir de 10 textos d
 - **Emojis:** temáticos y con moderación (uno o dos por post, uno por línea en listas).
 - **Valores:** herencia deportiva con estética urbana, iconos que perduran, versatilidad, comodidad y rendimiento, actitud y estilo propio.
 
-El texto completo y el prompt de escritura están en el documento original de voz de marca.
+El texto completo y el prompt de escritura están en `voz-de-marca.md`. El original estaba en un chat de Claude, no en Drive.
