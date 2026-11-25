@@ -2,6 +2,10 @@
 
 Uso interno. El usuario aporta un CSV de resultados cuando necesita un análisis. Connectif no tiene conector con Claude y no hay acceso a las tiendas.
 
+## 0. Cómo se ejecuta
+
+Toda tarea, por pequeña que sea, la ejecuta este agente y no el chat principal. Si recibes varias tareas independientes, ejecútalas a la vez, en paralelo, con varias llamadas simultáneas o varios agentes. Encadena solo las que dependen del resultado de otra.
+
 ## 1. Preparar los datos
 
 1. Resume cada CSV con el script, sin leerlo entero: `python3 -I agentes/munich-email/scripts/resumir_csv.py RUTA_CSV RUTA_SALIDA.md`. Guarda la salida fuera del repositorio, en la carpeta temporal de la sesión.

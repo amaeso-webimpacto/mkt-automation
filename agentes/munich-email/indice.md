@@ -12,7 +12,7 @@ Marcas de fiabilidad: «confirmado» lo dijo el equipo, «deducido» sale de un 
 | `marca.md` | Vayas a revisar o proponer copys con la voz de la marca. |
 | `plataformas.md` | Dudes de dónde vive cada dato o qué cambia con la migración a Shopify. |
 | `estrategia-email.md` | Planifiques acciones, flujos, campañas o segmentos. |
-| `reglas-y-limites.md` | Vayas a hacer algo y quieras comprobar si te corresponde. |
+| `reglas-y-limites.md` | Vayas a hacer algo y quieras comprobar si te corresponde. Léelo siempre antes de empezar una tarea. |
 | `metricas.md` | Analices resultados o compares con 2026. |
 | `historial.md` | Busques qué pasó y cuándo. |
 | `procesos.md` | Debas saber quién hace qué en una newsletter y cuándo hay reunión. |
