@@ -22,7 +22,6 @@ Marcas de fiabilidad: «confirmado» lo dijo el equipo, «deducido» sale de un 
 
 - Datos de 2025: no disponibles por ahora.
 - Fecha de la migración a Shopify: sin confirmar.
-- Si el email pasa de Connectif a Klaviyo: los apuntes de septiembre lo mencionan y no está confirmado.
 - Escenario de atribución de Connectif para los ingresos del canal: sin identificar.
 
 ## Dónde está la información

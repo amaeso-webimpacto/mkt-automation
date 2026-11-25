@@ -29,4 +29,5 @@ Total de ingresos del canal de enero a noviembre: 524.443,37 € (campañas 352.
 - «Venta total» está vacía y «Peso de venta» da `#DIV/0!`.
 - La fila TOTAL del CSV suma stocks de BBDD: no usarla para la base.
 - Escenario de atribución de Connectif para los ingresos del canal: sin identificar. El dashboard muestra los escenarios 2 (apertura + clic), 3 (clic en enlace) y 4 (apertura).
+- Tamaño de la base: Connectif cuenta también visitantes anónimos (1,8 millones en septiembre). Las cifras de BBDD del CSV se entienden como contactos identificados (deducido). No compares una con la otra.
 - Datos de 2025: no disponibles por ahora.

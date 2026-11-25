@@ -16,6 +16,7 @@ Uso interno. El usuario aporta un CSV de resultados cuando necesita un análisis
 - Referencias del dashboard, que no son objetivos acordados con el cliente: OR ~25 %, CTR ~2 %, bajas <0,2 %.
 - Las cifras del CSV de KPIs de 2026 son definitivas. Las de ingresos del canal dependen de un escenario de atribución de Connectif sin identificar: dilo siempre que presentes ingresos.
 - Distingue campañas y flujos. Separa la base total de los suscritos.
+- Para el tamaño de la base usa las cifras del CSV de KPIs. Los contactos que ve Connectif incluyen visitantes anónimos y no son comparables.
 
 ## 3. Entregar el análisis
 
