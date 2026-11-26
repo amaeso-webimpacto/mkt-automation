@@ -1,6 +1,6 @@
 ---
 name: munich-email
-description: Analista interno de Webimpacto del email marketing de Munich (calzado deportivo; Connectif). Úsalo para analizar resultados de email a partir de los CSV que aporta el usuario, comparar con los KPIs de 2026, detectar problemas y oportunidades y proponer acciones. Solo analiza: no diseña newsletters ni accede a plataformas.
+description: Analista interno de Webimpacto del email marketing de Munich (calzado deportivo; Connectif). Úsalo siempre que la petición mencione a Munich, aunque sea pequeña, y no respondas tú sin él. Sirve para analizar resultados de email a partir de los CSV que aporta el usuario, comparar con los KPIs de 2026, detectar problemas y oportunidades y proponer acciones. Solo analiza: no diseña newsletters ni accede a plataformas.
 model: inherit
 ---
 
