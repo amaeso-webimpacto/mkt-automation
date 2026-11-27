@@ -234,7 +234,7 @@
 
 <script type="application/json" id="datos-oficina">
 {
-  "fecha": "23/11/2026",
+  "fecha": "27/11/2026",
   "orden": [
     "buzon",
     "mesa",
@@ -257,18 +257,18 @@
         },
         {
           "etiqueta": "Remitentes confirmados",
-          "valor": "16 direcciones de 15 clientes"
+          "valor": "18 direcciones de 17 clientes"
         },
         {
           "etiqueta": "Tope por ejecución",
-          "valor": "12 hilos y 40 mensajes"
+          "valor": "sin tope, por tandas de 12 hilos"
         },
         {
           "etiqueta": "Hilos con más de 6 mensajes",
           "valor": "se dejan sin tocar"
         }
       ],
-      "fuente": "Estimación de Gmail sobre la bandeja de entrada, 19/11/2026. Skill limpieza-newsletters-clientes 1.6.1: SKILL.md."
+      "fuente": "Estimación de Gmail sobre la bandeja de entrada, 19/11/2026. Skill limpieza-newsletters-clientes 1.6.3: SKILL.md."
     },
     "mesa": {
       "nombre": "Mesa de clics",
@@ -297,7 +297,7 @@
           "valor": "nunca"
         }
       ],
-      "fuente": "Skill limpieza-newsletters-clientes 1.6.1: SKILL.md y clic-newsletter.js."
+      "fuente": "Skill limpieza-newsletters-clientes 1.6.3: SKILL.md y clic-newsletter.js."
     },
     "papelera": {
       "nombre": "Papelera",
@@ -311,14 +311,14 @@
         },
         {
           "etiqueta": "Newsletters movidas",
-          "valor": "7 hilos el 19/11 y 5 el 23/11"
+          "valor": "7 el 19/11, 5 el 23/11 y 12 el 26/11"
         },
         {
           "etiqueta": "Tope por ejecución",
-          "valor": "12 hilos y 40 mensajes"
+          "valor": "sin tope, por tandas de 12 hilos"
         }
       ],
-      "fuente": "Skill limpieza-newsletters-clientes 1.6.1: SKILL.md. Las rondas del 19/11 y del 23/11 son ejecuciones manuales."
+      "fuente": "Skill limpieza-newsletters-clientes 1.6.3: SKILL.md. Las rondas del 19/11 y del 23/11 fueron manuales; la del 26/11, de la rutina."
     },
     "informes": {
       "nombre": "Informes de tareas",
@@ -372,11 +372,11 @@
           ]
         }
       ],
-      "fuente": "Skill limpieza-newsletters-clientes 1.6.1: informes-automaticos.json y SKILL.md. Primera limpieza real, a mano, el 23/11/2026."
+      "fuente": "Skill limpieza-newsletters-clientes 1.6.3: informes-automaticos.json y SKILL.md. Primera limpieza real, a mano, el 23/11/2026."
     },
     "archivo": {
       "nombre": "Archivo de remitentes",
-      "burbuja": "Faltan 11 fichas",
+      "burbuja": "Faltan 10 fichas",
       "dice": "Solo toco lo que está en la lista. Si no me das la dirección exacta, no adivino.",
       "resumen": "La lista de remitentes autorizados es la única fuente de verdad de qué se toca. Además, las cabeceras de cada correo deben demostrar que lo envía Klaviyo, iCommkt, Connectif o HubSpot. Los correos de personas no se tocan. Los remitentes de la competencia no se abren: van directos a la papelera, sin descargar el correo ni hacer clic. Los clientes pendientes necesitan que se confirme su dirección exacta antes de entrar.",
       "datos": [
@@ -416,7 +416,9 @@
             "XTI",
             "Bliet",
             "REFRESH",
-            "Toni Pons"
+            "Toni Pons",
+            "Porronet",
+            "Incapto"
           ]
         },
         {
@@ -424,7 +426,6 @@
           "estado": "atencion",
           "items": [
             "Palomitas",
-            "Porronet",
             "Mumit",
             "BSoul (resto de países)",
             "Genuins",
@@ -449,12 +450,12 @@
           ]
         }
       ],
-      "fuente": "Skill limpieza-newsletters-clientes 1.6.1: remitentes.json y competencia.json."
+      "fuente": "Skill limpieza-newsletters-clientes 1.6.3: remitentes.json y competencia.json."
     },
     "reloj": {
       "nombre": "Reloj",
       "burbuja": "Cada día, 19:36",
-      "dice": "A las 19:36 hago mis dos rondas: primero las newsletters y luego los informes.",
+      "dice": "A las 19:36 hago mis tres rondas: newsletters, informes y competencia.",
       "resumen": "La rutina corre todos los días a las 19:36, hora de Madrid. Las newsletters van en modo real. La limpieza de informes y la de la competencia también van en modo real.",
       "datos": [
         {
@@ -474,7 +475,7 @@
           "valor": "Haiku"
         }
       ],
-      "fuente": "Rutina «JARVIS limpieza diaria», configuración del 23/11/2026."
+      "fuente": "Rutina «JARVIS limpieza diaria», configuración del 27/11/2026."
     }
   },
   "pasos": [
