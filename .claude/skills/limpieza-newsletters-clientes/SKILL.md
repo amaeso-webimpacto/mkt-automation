@@ -13,7 +13,7 @@ hooks:
 
 | Versión | Fecha | Creadora | Contacto |
 |---|---|---|---|
-| 1.6.2 | 23/11/2026 | Ana I. Maeso | amaeso@webimpacto.es |
+| 1.6.3 | 27/11/2026 | Ana I. Maeso | amaeso@webimpacto.es |
 
 La bandeja recibe cada día las campañas de todos los clientes, y cada una llega varias veces porque la cuenta está suscrita con distintos alias. El agente abre cada correo, hace un clic y lo manda a la **papelera** de Gmail (recuperable 30 días). Nunca borra de forma definitiva.
 
@@ -63,12 +63,12 @@ Cada parte de la skill (newsletters, informes de tareas programadas y competenci
 
 ## Proceso
 
-1. Leer `remitentes.json` (solo `confirmados`). Buscar con `search_threads`: `in:inbox from:(<remitente1> OR <remitente2> ...)`, `view: THREAD_VIEW_METADATA_ONLY` y `pageSize` de **12 hilos en real y 5 en prueba**.
+1. Leer `remitentes.json` (solo `confirmados`). Buscar con `search_threads`: `in:inbox from:(<remitente1> OR <remitente2> ...)`, `view: THREAD_VIEW_METADATA_ONLY` y `pageSize` de **12 hilos por tanda en real y 5 en prueba**.
    **Los envíos de prueba se excluyen en la propia búsqueda**: añadir `-subject:"vista previa" -subject:test -subject:prueba -subject:preview` a la consulta. Sin eso, los mismos envíos de prueba (por ejemplo los «[Vista previa]» de Klaviyo) ocupan siempre los primeros resultados y las newsletters reales no se alcanzan nunca.
-   **Los hilos rechazados no cuentan para el tope.** Si los primeros hilos se rechazan (asunto de prueba, conversación, remitentes distintos), se pide la página siguiente con `pageToken`, hasta un máximo de 3 páginas, para reunir los 12 hilos válidos. **Si la búsqueda no devuelve `nextPageToken`, se repite por grupos de remitentes** (una consulta por cada 3 o 4 remitentes de la lista) para que ningún cliente quede sin mirar: se han visto ejecuciones en las que XTI, Abbacino, HeyDude y Siux Pádel no aparecían en los 12 primeros resultados.
+   **Los hilos rechazados no cuentan para completar una tanda.** Si los primeros hilos se rechazan (asunto de prueba, conversación, remitentes distintos), se pide la página siguiente con `pageToken`, hasta un máximo de 3 páginas, para reunir los 12 hilos válidos. **Si la búsqueda no devuelve `nextPageToken`, se repite por grupos de remitentes** (una consulta por cada 3 o 4 remitentes de la lista) para que ningún cliente quede sin mirar: se han visto ejecuciones en las que XTI, Abbacino, HeyDude y Siux Pádel no aparecían en los 12 primeros resultados.
    **Hilo con una campaña real y un envío de prueba**: Gmail agrupa a veces el envío de prueba de una campaña con la campaña real. El hilo se deja entero en la bandeja, porque el envío de prueba no se toca, y se cuenta en el resumen como `hilo-con-envio-de-prueba`.
 2. **El resultado de la búsqueda no es fiable para decidir.** Puede venir con pocos datos (sin etiquetas ni fechas) y con un `messageCount` que no coincide con el hilo real (se han visto hilos «de 1 mensaje» que tenían 4, y un hilo con un mensaje enviado por la propia persona). Por eso **todo hilo candidato se pide con `get_thread` y `messageFormat: METADATA_ONLY`** (sin cuerpos, unos 1 KB por mensaje) y se comprueban todos sus mensajes. **Un hilo con más de 6 mensajes se deja sin leer ni tocar.** El límite cubre el caso normal: la cuenta está suscrita con varios alias y cada campaña llega una vez por alias. El hilo solo sigue si **todos** sus mensajes tienen el mismo remitente exacto, ese remitente está en la lista y ninguno lleva la etiqueta `SENT`. Si hay remitentes distintos, aunque estén en la lista, o cualquier mensaje tuyo, el hilo se deja sin tocar. Cada mensaje recibe su propio clic.
-   **Tope de mensajes por ejecución: 40 en real y 15 en prueba.** Los hilos se van añadiendo en orden hasta llegar al tope. Un hilo nunca se procesa a medias: si no cabe entero, se deja para la siguiente ejecución, salvo que sea el primero, que se procesa siempre.
+   **Sin tope por ejecución en modo real.** Como no caben todos los correos de una vez, se trabaja por tandas: al terminar los pasos 1 a 5 con una tanda, se repiten con la siguiente hasta que no queden hilos candidatos o la ejecución no pueda continuar. Un hilo nunca se procesa a medias: o se validan todos sus mensajes y se mueve entero, o se queda entero. En modo prueba solo se hace una tanda, de 5 hilos y 15 mensajes como máximo.
 3. Descargar en una sola tanda, en paralelo, todos los mensajes de los hilos elegidos con `get_message` y `messageFormat: RAW`. La respuesta es muy grande y Gmail la guarda en un fichero: anotar solo su ruta. Si una respuesta llegara en línea, no tocar ese hilo.
 4. **Primero validar sin hacer clic**: lanzar **una sola orden** con todas las rutas, `node procesar-correo.js --solo-validar <ruta1> <ruta2> ...`. Devuelve una línea JSON por mensaje con `ok`, `hilo`, `cliente`, `plataforma` y, si falla, `motivo`. No muestra enlaces, solo el texto del botón y el host. Agrupar el resultado por hilo. **Solo en los hilos con todos los mensajes `ok: true`**, y en modo real, repetir la orden sin `--solo-validar` con las rutas de esos hilos para hacer los clics. Nunca se hace clic en un mensaje de un hilo que luego no se va a mover.
 5. **Papelera solo si todos los mensajes del hilo salieron `ok: true`**, y los ids devueltos coinciden con todos los mensajes del hilo, sin que falte ninguno. Si falta o falla alguno, el hilo se queda y se anota el motivo. Usar `trash_thread`. En modo prueba no se llama.
@@ -120,7 +120,7 @@ Resumen final, corto, sin asuntos completos ni direcciones de destinatarios:
 - Hilos procesados y mandados a la papelera, por cliente y plataforma.
 - Hilos que se quedan en la bandeja y motivo (`plataforma-no-reconocida`, `forma-parte-de-una-conversacion`, `sin-enlace-de-contenido`, `error-de-red`...).
 - Remitentes nuevos sin clasificar.
-- Hilos que quedan para otra ejecución por el tope de mensajes.
+- Hilos candidatos que no se llegaron a procesar porque la ejecución no pudo continuar, si los hay.
 - Hilos con más de 6 mensajes, con remitentes distintos o con mensajes tuyos, que se dejan sin tocar (solo contar cuántos son).
 
 ## Reglas
